@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:id="@+id/v_top"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:background="@color/light_gray"
+        android:visibility="gone" />
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_face"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_margin="15dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/me_default_icon"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="true"
+        fresco:roundingBorderColor="@android:color/transparent"
+        fresco:roundingBorderWidth="1dp" />
+
+    <TextView
+        android:id="@+id/tv_nick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@id/sdv_face"
+        android:gravity="center_vertical"
+        android:textColor="@color/front_hot_font"
+        android:textSize="14sp"
+        tools:text="不止步的风" />
+
+    <TextView
+        android:id="@+id/tv_create_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick"
+        android:layout_below="@id/tv_nick"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/front_more_font"
+        android:textSize="12sp"
+        tools:text="2016-07-23 23:30" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick"
+        android:layout_below="@id/tv_create_time"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp"
+        tools:text="「上个个是畏黑执事玥；酊恩哇心理疾病死历史课的 v 西畴县；奇思妙想联系肯定不 v 的」" />
+
+    <TextView
+        android:id="@+id/tv_reply_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick"
+        android:layout_below="@id/tv_content"
+        android:layout_marginBottom="5dp"
+        android:layout_marginRight="5dp"
+        android:background="@color/litter_gray_bg_border"
+        android:gravity="center_vertical"
+        android:padding="2dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+</RelativeLayout>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_book_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="20dp"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:textColor="@color/tabar_font_checked"
+        android:textSize="14sp"
+        tools:text="轻量级Java EE企业应用实战" />
+
+    <TextView
+        android:id="@+id/tv_book_state"
+        android:layout_width="90dp"
+        android:layout_height="wrap_content"
+        android:drawablePadding="5dp"
+        android:drawableRight="@mipmap/recognized_icon"
+        android:gravity="center"
+        android:textColor="@color/tabar_font_checked"
+        android:textSize="14sp"
+        tools:text="已在书架" />
+</LinearLayout>

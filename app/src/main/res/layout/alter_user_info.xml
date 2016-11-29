@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<EditText xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/et_alter_user_info"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/round_border_bg"
+    android:inputType="text"
+    android:maxLength="95"
+    android:minLines="1"
+    android:padding="12dp"
+    android:textColor="@color/title_font_default"
+    android:textSize="@dimen/content_font_default" />

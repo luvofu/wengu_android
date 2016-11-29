@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_gray"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_change_img"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/setting_item_first_bg_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="更换笔记插图"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp" />
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_margin="5dp"
+            fresco:actualImageScaleType="centerInside"
+            fresco:placeholderImage="@mipmap/pic_add"
+            fresco:placeholderImageScaleType="centerInside" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="25dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/right_arrow" />
+    </LinearLayout>
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_note_content"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        app:desc="slk 格列卫不要轻易说爱"
+        app:desc_color="@color/light_font_black"
+        app:desc_size="12sp"
+        app:has_icon="false"
+        app:name="笔记"
+        app:name_color="@color/title_font_default"
+        app:name_size="14sp"
+        app:show_desc="true" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_note_chapter"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/setting_item_first_bg_selector"
+        app:has_icon="false"
+        app:info="平川大辅"
+        app:info_color="@color/light_font_black"
+        app:info_size="12sp"
+        app:name="章节"
+        app:name_color="@color/title_font_default"
+        app:name_size="14sp" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_note_pages"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/setting_item_center_bg_selector"
+        app:has_icon="false"
+        app:info="23"
+        app:info_color="@color/light_font_black"
+        app:info_size="12sp"
+        app:name="页码"
+        app:name_color="@color/title_font_default"
+        app:name_size="14sp" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_note_other"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:background="@drawable/setting_item_last_bg_selector"
+        app:has_icon="false"
+        app:info="slk 格列卫不要轻易说爱"
+        app:info_color="@color/light_font_black"
+        app:info_size="12sp"
+        app:name="其他"
+        app:name_color="@color/title_font_default"
+        app:name_size="14sp" />
+
+
+</LinearLayout>

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_book_cover"
+        android:layout_width="56dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/light_font_black"
+        android:textSize="12sp"
+        tools:text="已存在" />
+
+    <TextView
+        android:id="@+id/tv_book_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@id/tv_state"
+        android:layout_toRightOf="@id/sdv_book_cover"
+        android:padding="5dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp"
+        tools:text="恰如其分的软件架构" />
+
+    <TextView
+        android:id="@+id/tv_publisher_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_book_name"
+        android:layout_alignRight="@id/tv_book_name"
+        android:layout_below="@id/tv_book_name"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:textColor="@color/light_font_black"
+        android:textSize="12sp"
+        tools:text="George Fairbanks 著 / 张逸 译 / 华中科技大学出版社" />
+
+
+</RelativeLayout>

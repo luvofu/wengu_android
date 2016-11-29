@@ -1,0 +1,66 @@
+package com.culturebud.model;
+
+import android.text.TextUtils;
+
+import com.culturebud.ApiErrorCode;
+import com.culturebud.bean.ApiResultBean;
+import com.culturebud.bean.UserMessage;
+import com.culturebud.contract.MyMsgsContract;
+import com.culturebud.net.ApiMeInterface;
+import com.culturebud.util.ApiException;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
+import java.util.Map;
+
+import rx.Observable;
+import rx.Subscriber;
+
+/**
+ * Created by XieWei on 2016/11/16.
+ */
+
+public class MyMsgsModel extends MyMsgsContract.Model {
+    @Override
+    public Observable<List<UserMessage>> getInviteMsgs(String token, int page) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("page", page);
+            initRetrofit().create(ApiMeInterface.class).inviteMsgs(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                JsonObject jobj = bean.getData();
+                                if (jobj.has("userMessageList")) {
+                                    JsonArray jarr = jobj.getAsJsonArray("userMessageList");
+                                    Gson gson = new Gson();
+                                    List<UserMessage> msgs = gson.fromJson(jarr, new TypeToken<List<UserMessage>>() {
+                                    }.getType());
+                                    subscriber.onNext(msgs);
+                                }
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+}

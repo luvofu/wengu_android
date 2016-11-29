@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingRight="15dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_notebook_cover"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_margin="15dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_notebook_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@id/sdv_notebook_cover"
+        android:clickable="true"
+        android:drawablePadding="3dp"
+        android:drawableRight="@mipmap/right_arrow"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="1"
+        android:textColor="@color/tabar_font_checked"
+        android:textSize="16sp"
+        tools:text="Android编程权威指南" />
+
+    <TextView
+        android:id="@+id/tv_note_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_notebook_name"
+        android:layout_below="@id/tv_notebook_name"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp"
+        tools:text="2" />
+
+    <TextView
+        android:id="@+id/tv_create_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_notebook_name"
+        android:layout_below="@id/tv_note_num"
+        android:layout_marginTop="5dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp"
+        tools:text="2016-11-23 23:32" />
+
+    <TextView
+        android:id="@+id/tv_edit_permission"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_notebook_name"
+        android:layout_below="@id/tv_create_time"
+        android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:drawablePadding="5dp"
+        android:drawableRight="@mipmap/solid_arrow_down"
+        android:gravity="center_vertical|right"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp"
+        tools:text="谁可以看：公开" />
+
+</RelativeLayout>

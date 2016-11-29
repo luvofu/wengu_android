@@ -1,0 +1,312 @@
+{
+  "code": 200,
+  "data": {
+    "bookList": [
+      {
+        "author": "邢涛",
+        "bookId": 584517,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584517_300x441.jpg",
+        "pubDate": "2008-1",
+        "publisher": "华夏",
+        "rating": 0,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "地理|世界地理|人文|国家地理",
+        "title": "典藏中国国家地理",
+        "translator": "",
+        "updatedTime": 1477292400000
+      },
+      {
+        "author": "斯蒂芬·哈钦森博士|等",
+        "bookId": 584516,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584516_315x423.jpg",
+        "pubDate": "2015-5-1",
+        "publisher": "中信出版社",
+        "rating": 0,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "海洋|百科|《中国国家地理》图书系列|给孩子看的书|科学|少儿科普|科普|自然",
+        "title": "中国国家地理少儿百科：海洋",
+        "translator": "江文胜|王辉|李旭奎",
+        "updatedTime": 1477292400000
+      },
+      {
+        "author": "[澳]罗伯特·克兰西等/著",
+        "bookId": 584515,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584515_315x423.jpg",
+        "pubDate": "2015-5",
+        "publisher": "中信出版社",
+        "rating": 0,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "科普|给孩子看的书|科学|历险|中国国家地理图书|《中国国家地理》图书系列|少儿大百科|C",
+        "title": "中国国家地理少儿百科：探险",
+        "translator": "朱靖江",
+        "updatedTime": 1477292400000
+      },
+      {
+        "author": "《中国国家地理地图》编委会",
+        "bookId": 584514,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584514_303x438.jpg",
+        "pubDate": "2010-4",
+        "publisher": "中国大百科",
+        "rating": 7.7,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "地图|旅行|北斗|地理|中国|历史|粗糙",
+        "title": "中国国家地理地图",
+        "translator": "",
+        "updatedTime": 1477292399000
+      },
+      {
+        "author": "陆大道",
+        "bookId": 584513,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584513_387x345.jpg",
+        "pubDate": "2005-8",
+        "publisher": "北方妇女儿童出版社",
+        "rating": 0,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "地理|《中国国家地理》图书系列|实体书|百科",
+        "title": "中国国家地理百科全书",
+        "translator": "",
+        "updatedTime": 1477292399000
+      },
+      {
+        "author": "[意]保拉•奥古斯汀",
+        "bookId": 584512,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584512_318x417.jpg",
+        "pubDate": "2015-5-1",
+        "publisher": "中信出版社",
+        "rating": 7.8,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "恐龙|科普|《中国国家地理》图书系列|生物|少儿|科学|百科|古生物",
+        "title": "中国国家地理恐龙百科",
+        "translator": "孙阳雨|文玉婷|彭倩",
+        "updatedTime": 1477292399000
+      },
+      {
+        "author": "《世界国家地理地图》编委会",
+        "bookId": 584511,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584511_312x426.jpg",
+        "pubDate": "2011-1",
+        "publisher": "中国大百科",
+        "rating": 7.7,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "工具书|地理图册|地理|dili|参考书|备用|旅游|驴行天下",
+        "title": "中国国家地理地图",
+        "translator": "",
+        "updatedTime": 1477292399000
+      },
+      {
+        "author": "关越",
+        "bookId": 584510,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584510_143x150.jpg",
+        "pubDate": "2005-1",
+        "publisher": "大象出版社",
+        "rating": 7.2,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "摄影|地理|旅行|中国|地理摄影|照片|风光摄影",
+        "title": "中国国家地理精华",
+        "translator": "",
+        "updatedTime": 1477292399000
+      },
+      {
+        "author": "迈克尔·阿勒比",
+        "bookId": 584509,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584509_318x417.jpg",
+        "pubDate": "2013-10-1",
+        "publisher": "中国大百科全书出版社",
+        "rating": 9.1,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "科普|中国国家地理|地理|《中国国家地理》图书系列|地球|自然、科普|中国国家地理图书|地球科学",
+        "title": "中国国家地理自然百科系列：地球",
+        "translator": "赖凡",
+        "updatedTime": 1477292399000
+      },
+      {
+        "author": "《中国国家地理地图》编委会 编",
+        "bookId": 584508,
+        "cover": "http://www.mywengu.com/img/book/cover/lpic/58/584508_312x426.jpg",
+        "pubDate": "1970-1",
+        "publisher": "中国大百科",
+        "rating": 7.9,
+        "remarkNum": 0,
+        "subTitle": "",
+        "tag": "地图|地理|工具书|中国|中国国家地理地图|呵呵|地理与旅游|摄影",
+        "title": "中国国家地理地图",
+        "translator": "",
+        "updatedTime": 1477292399000
+      }
+    ],
+    "bookSheetList": [
+      {
+        "collectionNum": 9,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/22_1476517353353_300x300.jpg",
+        "name": "跟习总学读书",
+        "nickname": "不止步的风",
+        "sheetId": 22
+      },
+      {
+        "collectionNum": 3,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/16_1474819379007_300x300.jpg",
+        "name": "男人的世界",
+        "nickname": "不止步的风",
+        "sheetId": 16
+      },
+      {
+        "collectionNum": 4,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/21_1477299541282_600x600.jpg",
+        "name": "男人应多看的书",
+        "nickname": "不止步的风",
+        "sheetId": 21
+      },
+      {
+        "collectionNum": 2,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/11_1474182277401_300x300.jpg",
+        "name": "中国历史研究",
+        "nickname": "玉温心",
+        "sheetId": 11
+      },
+      {
+        "collectionNum": 1,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/default/default.jpg",
+        "name": "一起来",
+        "nickname": "坏猫",
+        "sheetId": 23
+      },
+      {
+        "collectionNum": 0,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/default/default.jpg",
+        "name": "我的生活",
+        "nickname": "wzhonggo",
+        "sheetId": 20
+      },
+      {
+        "collectionNum": 0,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/26_1477277983651_600x600.jpg",
+        "name": "天文推荐读本",
+        "nickname": "笑春风",
+        "sheetId": 26
+      },
+      {
+        "collectionNum": 0,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/27_1477361495658_600x600.jpg",
+        "name": "测试",
+        "nickname": "不止步的风",
+        "sheetId": 27
+      },
+      {
+        "collectionNum": 1,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/28_1477291454360_600x600.jpg",
+        "name": "艺术初略",
+        "nickname": "玉温心",
+        "sheetId": 28
+      },
+      {
+        "collectionNum": 1,
+        "cover": "http://www.mywengu.com/img/booksheet/cover/lpic/0/29_1477292494773_600x600.jpg",
+        "name": "地理初识",
+        "nickname": "玉温心",
+        "sheetId": 29
+      }
+    ],
+    "commentList": [
+      {
+        "author": "刘瑞琳",
+        "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100004_1477299480707_400x400.jpg",
+        "commentId": 2,
+        "communityId": 314013,
+        "content": "温故而知新，可以为师矣！",
+        "createdTime": 1475075882000,
+        "good": false,
+        "goodNum": 4,
+        "nickname": "不止步的风",
+        "replyNum": 15,
+        "subTitle": "",
+        "title": "温故",
+        "userId": 100004
+      },
+      {
+        "author": "[英]克莱儿·麦克福尔",
+        "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100004_1477299480707_400x400.jpg",
+        "commentId": 8,
+        "communityId": 211057,
+        "content": "如果命运是一条孤独的河流，谁会是你的灵魂摆渡人？",
+        "createdTime": 1477152945000,
+        "good": false,
+        "goodNum": 3,
+        "nickname": "不止步的风",
+        "replyNum": 2,
+        "subTitle": "",
+        "title": "摆渡人",
+        "userId": 100004
+      },
+      {
+        "author": "伏尼契(爱尔兰)",
+        "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100003_1474817176258_100x100.jpg",
+        "commentId": 7,
+        "communityId": 228078,
+        "content": "当纯真的世界被谎言与欺骗打碎时，一个初级的生命便消亡，涅槃重生之后的必是战斗的、极富耐力的、更为绽放火红的生命",
+        "createdTime": 1475632559000,
+        "good": false,
+        "goodNum": 4,
+        "nickname": "玉温心",
+        "replyNum": 1,
+        "subTitle": "",
+        "title": "牛虻",
+        "userId": 100003
+      },
+      {
+        "author": "路遥",
+        "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100003_1474817176258_100x100.jpg",
+        "commentId": 1,
+        "communityId": 207013,
+        "content": "努力生活品质保证金交易所的话。",
+        "createdTime": 1475073675000,
+        "good": false,
+        "goodNum": 5,
+        "nickname": "玉温心",
+        "replyNum": 0,
+        "subTitle": "",
+        "title": "平凡的世界",
+        "userId": 100003
+      },
+      {
+        "author": "刘瑞琳",
+        "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100006_1475155963772_100x100.jpg",
+        "commentId": 6,
+        "communityId": 314013,
+        "content": "在家待人要",
+        "createdTime": 1475155704000,
+        "good": false,
+        "goodNum": 3,
+        "nickname": "wzhonggo",
+        "replyNum": 0,
+        "subTitle": "",
+        "title": "温故",
+        "userId": 100006
+      },
+      {
+        "author": "[英]克莱儿·麦克福尔",
+        "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100004_1477299480707_400x400.jpg",
+        "commentId": 9,
+        "communityId": 211057,
+        "content": "每个人都有自己的荒原，在这里了解真相，认识自己，接受自己！",
+        "createdTime": 1477238277000,
+        "good": false,
+        "goodNum": 1,
+        "nickname": "不止步的风",
+        "replyNum": 0,
+        "subTitle": "",
+        "title": "摆渡人",
+        "userId": 100004
+      }
+    ]
+  },
+  "msg": ""
+}

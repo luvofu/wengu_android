@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:padding="2dp">
+
+        <RadioGroup
+            android:id="@+id/rg_sort_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_score"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="18dp"
+                android:background="@android:color/white"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="评分"
+                android:textColor="@drawable/tabar_font_selector"
+                android:textSize="14sp" />
+
+            <RadioButton
+                android:id="@+id/rb_collect_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/rb_score"
+                android:background="@android:color/white"
+                android:button="@null"
+                android:gravity="center"
+                android:padding="15dp"
+                android:text="藏书量"
+                android:textColor="@drawable/tabar_font_selector"
+                android:textSize="14sp" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_filter"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right"
+            android:layout_marginRight="25dp"
+            android:background="@android:color/white"
+            android:gravity="center"
+            android:padding="15dp"
+            android:text="筛选"
+            android:textColor="@drawable/tabar_font_selector"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_books"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+</LinearLayout>

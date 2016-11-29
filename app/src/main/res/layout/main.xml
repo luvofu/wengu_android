@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RadioGroup
+        android:id="@+id/rg_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/tab_bar_height"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tabar_bg"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
+
+        <RadioButton
+            android:id="@+id/rb_front_page"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="-2dp"
+            android:drawableTop="@drawable/tabar_front_page_selector"
+            android:gravity="center"
+            android:text="@string/tab_front_page"
+            android:textColor="@drawable/tabar_font_selector"
+            android:textSize="@dimen/tab_bar_font_size" />
+
+        <RadioButton
+            android:id="@+id/rb_community"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="-2dp"
+            android:drawableTop="@drawable/tabar_community_selector"
+            android:gravity="center"
+            android:text="@string/tab_community"
+            android:textColor="@drawable/tabar_font_selector"
+            android:textSize="12sp" />
+
+        <RadioButton
+            android:id="@+id/rb_book_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="-2dp"
+            android:drawableTop="@drawable/tabar_book_home_selector"
+            android:gravity="center"
+            android:text="@string/tab_book_home"
+            android:textColor="@drawable/tabar_font_selector"
+            android:textSize="@dimen/tab_bar_font_size" />
+
+        <RadioButton
+            android:id="@+id/rb_book_circle"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="-2dp"
+            android:drawableTop="@drawable/tabar_book_circle_selector"
+            android:gravity="center"
+            android:text="@string/tab_book_circle"
+            android:textColor="@drawable/tabar_font_selector"
+            android:textSize="@dimen/tab_bar_font_size"
+            android:visibility="gone" />
+
+
+        <RadioButton
+            android:id="@+id/rb_me"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:button="@null"
+            android:drawablePadding="-2dp"
+            android:drawableTop="@drawable/tabar_me_selector"
+            android:gravity="center"
+            android:text="@string/tab_me"
+            android:textColor="@drawable/tabar_font_selector"
+            android:textSize="@dimen/tab_bar_font_size" />
+    </RadioGroup>
+
+    <FrameLayout
+        android:id="@+id/fl_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/rg_tabs" />
+
+</RelativeLayout>

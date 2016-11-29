@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_version"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:drawablePadding="10dp"
+        android:drawableTop="@mipmap/ic_launcher"
+        android:gravity="center"
+        android:text="@string/version"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_send_weibo"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/setting_item_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick"
+        app:has_icon="false"
+        app:name="@string/send_weibo" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_send_email"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick"
+        app:has_icon="false"
+        app:name="@string/send_email" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_grade"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick"
+        app:has_icon="false"
+        app:name="@string/grade_app" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_user_agreement"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick"
+        app:has_icon="false"
+        app:name="@string/user_agreement" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:gravity="center"
+        android:text="@string/motto"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+</merge>

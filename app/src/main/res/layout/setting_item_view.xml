@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="horizontal"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
+
+    <ImageView
+        android:id="@+id/iv_icon"
+        android:layout_width="@dimen/setting_icon_default_small"
+        android:layout_height="@dimen/setting_icon_default_small"
+        android:layout_margin="@dimen/setting_icon_default_margin"
+        android:scaleType="centerInside"
+        android:src="@mipmap/setting_icon" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawablePadding="5dp"
+            android:textColor="@color/title_font_default"
+            android:textSize="@dimen/setting_item_name_font"
+            tools:text="设置" />
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/title_font_default"
+            android:textSize="@dimen/setting_item_desc_font"
+            tools:text="请看详细操作" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:drawablePadding="10dp"
+        android:drawableRight="@mipmap/right_arrow"
+        android:gravity="center"
+        android:scaleType="centerInside"
+        android:textColor="@color/gray_bg_border"
+        android:textSize="14sp"
+        tools:text="未填写" />
+
+</merge>

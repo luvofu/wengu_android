@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@color/light_gray">
+
+        <EditText
+            android:id="@+id/et_note_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/translucent"
+            android:gravity="left|top"
+            android:maxLines="5"
+            android:padding="20dp"
+            android:textColor="@color/title_font_default"
+            android:textColorHint="@color/front_more_font"
+            android:textSize="14sp" />
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|left"
+            android:layout_margin="15dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_add_img"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_margin="15dp"
+                android:clickable="true"
+                android:onClick="onClick"
+                fresco:actualImageScaleType="focusCrop"
+                fresco:placeholderImage="@mipmap/pic_add"
+                fresco:placeholderImageScaleType="fitCenter" />
+
+            <ImageView
+                android:id="@+id/iv_del_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|right"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:padding="10dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/common_icon_delete" />
+        </FrameLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_first_bg_selector"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="章节"
+            android:textColor="@color/light_font_black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_chapter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/translucent"
+            android:ellipsize="end"
+            android:hint="例：第二章 初出茅庐"
+            android:maxLines="1"
+            android:textColor="@color/light_font_black"
+            android:textColorHint="@color/front_more_font"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_center_bg_selector"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="页码"
+            android:textColor="@color/light_font_black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_page"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/translucent"
+            android:ellipsize="end"
+            android:hint="例：23"
+            android:inputType="number"
+            android:maxLines="1"
+            android:textColor="@color/light_font_black"
+            android:textColorHint="@color/front_more_font"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_last_bg_selector"
+        android:orientation="horizontal"
+        android:padding="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="25dp"
+            android:text="其他"
+            android:textColor="@color/light_font_black"
+            android:textSize="14sp" />
+
+        <EditText
+            android:id="@+id/et_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/translucent"
+            android:ellipsize="end"
+            android:hint="例：人不抱期望是很傻的"
+            android:maxLines="1"
+            android:textColor="@color/light_font_black"
+            android:textColorHint="@color/front_more_font"
+            android:textSize="14sp" />
+    </LinearLayout>
+</LinearLayout>

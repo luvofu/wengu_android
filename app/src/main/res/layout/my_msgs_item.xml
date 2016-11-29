@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_face"
+        android:layout_width="@dimen/setting_icon_default_middle"
+        android:layout_height="@dimen/setting_icon_default_middle"
+        android:layout_centerVertical="true"
+        android:layout_margin="10dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/me_default_icon"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="true"
+        fresco:roundedCornerRadius="1dp" />
+
+    <Button
+        android:id="@+id/btn_agree"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_margin="8dp"
+        android:gravity="center"
+        android:padding="10dp"
+        android:text="同意"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_nick"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@id/btn_agree"
+        android:layout_toRightOf="@id/sdv_face"
+        android:gravity="center_vertical"
+        android:textColor="@color/title_font_default"
+        android:textSize="@dimen/titlebar_font_size"
+        tools:text="不止步的风" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick"
+        android:layout_alignRight="@id/tv_nick"
+        android:layout_below="@id/tv_nick"
+        android:layout_marginTop="6dp"
+        android:layout_toLeftOf="@id/btn_agree"
+        android:layout_toRightOf="@id/sdv_face"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:maxLines="2"
+        android:textColor="@color/front_more_font"
+        android:textSize="@dimen/front_item_name_font"
+        tools:text="请求添加你到书桌：《说幽默话做幽默人大全》读书莱克斯顿该考试了" />
+
+</RelativeLayout>

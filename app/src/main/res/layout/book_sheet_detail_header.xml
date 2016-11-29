@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/light_gray"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/litter_gray_bg_border">
+
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_book_cover"
+            android:layout_width="110dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="20dp"
+            fresco:actualImageScaleType="fitXY"
+            fresco:placeholderImage="@mipmap/img_placeholder"
+            fresco:placeholderImageScaleType="fitXY" />
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_toRightOf="@id/sdv_book_cover"
+            android:gravity="center_vertical"
+            android:textColor="@color/title_font_default"
+            android:textSize="16sp"
+            tools:text="跟习总学读书" />
+
+        <TextView
+            android:id="@+id/tv_nick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_book_name"
+            android:layout_below="@id/tv_book_name"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp"
+            tools:text="不止步的风" />
+
+        <TextView
+            android:id="@+id/tv_create_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_book_name"
+            android:layout_below="@id/tv_nick"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp"
+            tools:text="2016.10.15" />
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/tv_create_time"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/share_icon" />
+
+        <TextView
+            android:id="@+id/tv_collect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/iv_share"
+            android:layout_toLeftOf="@id/iv_share"
+            android:drawableLeft="@mipmap/collect_icon_default"
+            android:drawablePadding="5dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="3dp"
+            android:textColor="@color/title_font_default"
+            android:textSize="12sp"
+            tools:text="15" />
+    </RelativeLayout>
+
+    <com.culturebud.widget.TagFlowLayout
+        android:id="@+id/fl_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/litter_gray_bg_border"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/litter_gray_bg_border"
+        android:gravity="center_vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:paddingTop="2dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="12sp"
+        tools:text="连枝带叶且西畴县色两个 i 哦楝色公里相爱不容易饿哦 i 根深蒂固老色鬼 i 额收到了背井离乡善良的空管局 iiu 基本后日记本欧文日不落" />
+
+    <TextView
+        android:id="@+id/tv_book_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/white"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp"
+        tools:text="共21本" />
+</LinearLayout>

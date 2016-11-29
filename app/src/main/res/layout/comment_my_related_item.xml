@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="10dp"
+    android:paddingRight="15dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_face"
+        android:layout_width="@dimen/setting_icon_default_middle"
+        android:layout_height="@dimen/setting_icon_default_middle"
+        android:layout_margin="12dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="true"
+        fresco:roundingBorderColor="@android:color/transparent"
+        fresco:roundingBorderWidth="1dp" />
+
+    <TextView
+        android:id="@+id/tv_nick_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:layout_toRightOf="@id/sdv_face"
+        android:textColor="@color/title_font_default"
+        android:textSize="@dimen/front_item_name_font"
+        tools:text="小忠子" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick_name"
+        android:layout_below="@id/tv_nick_name"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:textColor="#777777"
+        android:textSize="@dimen/front_item_name_font"
+        tools:text="搞完这一行代码就回家睡觉去哦" />
+
+    <RelativeLayout
+        android:id="@+id/rl_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick_name"
+        android:layout_below="@id/tv_content"
+        android:layout_marginTop="8dp"
+        android:background="#DDDDDD"
+        android:paddingBottom="2dp"
+        android:paddingTop="2dp">
+
+        <TextView
+            android:id="@+id/tv_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="SD 过来看"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_comment_content"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/comment_icon" />
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_comment_content"
+            android:layout_toRightOf="@id/iv_icon"
+            android:textColor="#1ba6de"
+            android:textSize="@dimen/front_item_small_font"
+            tools:text="平凡的世界" />
+
+        <TextView
+            android:id="@+id/tv_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_title"
+            android:layout_below="@id/tv_title"
+            android:textColor="#777777"
+            android:textSize="@dimen/front_item_small_font"
+            tools:text="平凡的世界" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_opreas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick_name"
+        android:layout_below="@id/rl_info"
+        android:orientation="horizontal"
+        android:paddingRight="15dp">
+
+        <TextView
+            android:id="@+id/tv_create_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textColor="#777777"
+            android:textSize="@dimen/front_item_small_font"
+            tools:text="10-05 09:45" />
+
+
+        <TextView
+            android:id="@+id/tv_reply_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/reply_icon"
+            android:drawablePadding="3dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:textColor="#777777"
+            android:textSize="@dimen/front_item_small_font"
+            tools:text="10-05 09:45" />
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_replies"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_nick_name"
+        android:layout_below="@id/ll_opreas"
+        android:background="@color/litter_gray_bg_border" />
+</RelativeLayout>

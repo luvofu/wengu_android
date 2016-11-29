@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:columnCount="2"
+    android:orientation="horizontal">
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="书名"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_book_name"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="作者"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_author"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="译者"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_translator"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="ISBN"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_isbn"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="定价"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_price"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="出版社"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_publisher"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="出版日期"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_pub_date"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="装帧"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_binding"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:layout_column="0"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:text="页数"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_pages"
+        android:layout_column="1"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="8dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+</GridLayout>

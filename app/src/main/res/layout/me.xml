@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/srl_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EEEEEE">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:id="@+id/rl_me"
+                android:layout_width="match_parent"
+                android:layout_height="110dp"
+                android:background="@mipmap/me_default_bg">
+
+                <ImageView
+                    android:id="@+id/iv_arrow"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="8dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/right_arrow" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_face"
+                    android:layout_width="76dp"
+                    android:layout_height="76dp"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="25dp"
+                    android:layout_marginRight="5dp"
+                    fresco:actualImageScaleType="fitXY"
+                    fresco:placeholderImageScaleType="fitXY"
+                    fresco:placeholderImage="@mipmap/me_default_icon"
+                    fresco:roundAsCircle="true"
+                    fresco:roundingBorderColor="@android:color/transparent"
+                    fresco:roundingBorderWidth="1dp" />
+
+                <Button
+                    android:id="@+id/btn_login"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/sdv_face"
+                    android:paddingBottom="1dp"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:paddingTop="1dp"
+                    android:text="@string/login"
+                    android:textColor="@color/me_login_font"
+                    android:textSize="16sp"
+                    android:visibility="visible" />
+
+                <LinearLayout
+                    android:id="@+id/ll_user_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:layout_toLeftOf="@id/iv_arrow"
+                    android:layout_toRightOf="@id/sdv_face"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:id="@+id/tv_nick"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="3dp"
+                        android:drawableRight="@mipmap/setting_me_male_icon"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp"
+                        tools:text="坏猫" />
+
+                    <TextView
+                        android:id="@+id/tv_desc"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp"
+                        tools:text="这就是这么一个故事" />
+
+                </LinearLayout>
+
+
+            </RelativeLayout>
+
+            <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_me"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:background="@mipmap/me_default_bg"
+                android:clickable="true"
+                android:visibility="gone"
+                app:desc="吾心如江雪"
+                app:desc_color="@android:color/white"
+                app:icon="@mipmap/me_default_icon"
+                app:icon_height="64dp"
+                app:icon_width="64dp"
+                app:name="坏猫"
+                app:name_color="@android:color/white"
+                app:show_desc="true"
+                app:small_icon="@mipmap/setting_me_male_icon" />
+
+            <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_my_friends"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/setting_item_first_bg_selector"
+                android:clickable="true"
+                app:icon="@mipmap/setting_item_icon_my_friends"
+                app:name="@string/my_friends"
+                app:name_color="@color/title_font_default" />
+
+            <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_my_favorite"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/setting_item_only_last_bg_selector"
+                android:clickable="true"
+                app:icon="@mipmap/setting_item_icon_my_favorite"
+                app:name="@string/my_favorite"
+                app:name_color="@color/title_font_default"
+                app:name_size="14sp" />
+
+            <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_my_msg"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/setting_item_first_bg_selector"
+                android:clickable="true"
+                app:icon="@mipmap/setting_item_icon_msg"
+                app:name="@string/my_msg"
+                app:name_color="@color/title_font_default" />
+
+            <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_feelback"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/setting_item_center_bg_selector"
+                android:clickable="true"
+                app:icon="@mipmap/setting_item_icon_feelback"
+                app:name="@string/feedback"
+                app:name_color="@color/title_font_default" />
+
+            <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_about"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginBottom="10dp"
+                app:background="@drawable/setting_item_last_bg_selector"
+                android:clickable="true"
+                app:icon="@mipmap/setting_item_icon_about"
+                app:name="@string/about"
+                app:name_color="@color/title_font_default" />
+
+            <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_settings"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/setting_item_bg_selector"
+                android:clickable="true"
+                app:icon="@mipmap/setting_icon"
+                app:name="@string/settings"
+                app:name_color="@color/title_font_default" />
+
+        </LinearLayout>
+    </ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>

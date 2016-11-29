@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="SettingItemView">
+        <attr name="icon" format="reference" />
+        <attr name="name" format="reference|string" />
+        <attr name="desc" format="reference|string" />
+        <attr name="arrow" format="reference" />
+        <attr name="name_color" format="reference|color" />
+        <attr name="desc_color" format="reference|color" />
+        <attr name="small_icon" format="reference" />
+        <attr name="name_size" format="reference|dimension" />
+        <attr name="desc_size" format="reference|dimension" />
+        <attr name="show_desc" format="boolean" />
+        <attr name="icon_width" format="reference|dimension" />
+        <attr name="icon_height" format="reference|dimension" />
+        <attr name="has_icon" format="boolean" />
+        <attr name="info" format="reference|string" />
+        <attr name="info_size" format="reference|dimension" />
+        <attr name="info_color" format="reference|color" />
+        <attr name="has_arrow" format="boolean" />
+        <attr name="background" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="StepperView">
+        <attr name="show_number" format="boolean" />
+        <attr name="step_value" format="integer" />
+    </declare-styleable>
+
+    <declare-styleable name="TagFlowLayout">
+        <attr name="auto_select_effect" format="boolean"></attr>
+        <attr name="max_select" format="integer"></attr>
+        <attr name="gravity">
+            <enum name="left" value="-1" />
+            <enum name="center" value="0" />
+            <enum name="right" value="1" />
+        </attr>
+    </declare-styleable>
+
+</resources>
