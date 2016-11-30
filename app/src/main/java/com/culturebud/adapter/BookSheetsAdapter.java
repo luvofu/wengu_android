@@ -51,6 +51,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
     @Override
     public void onBindViewHolder(BookSheetsViewHolder holder, int position) {
         BookSheet item = data.get(position);
+        holder.position = position;
         holder.setCover(item.getCover());
         holder.setTitle(item.getName());
         holder.setNick(item.getNickname());
@@ -62,9 +63,10 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         return data.size();
     }
 
-    class BookSheetsViewHolder extends RecyclerView.ViewHolder {
+    class BookSheetsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvCount, tvNick;
+        private int position;
 
         public BookSheetsViewHolder(View itemView) {
             super(itemView);
@@ -72,6 +74,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             tvTitle = (TextView) itemView.findViewById(R.id.tv_bs_title);
             tvCount = (TextView) itemView.findViewById(R.id.tv_book_volumes);
             tvNick = (TextView) itemView.findViewById(R.id.tv_nick);
+            itemView.setOnClickListener(this);
         }
 
         public void setCover(String url) {
@@ -101,5 +104,22 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             }
             tvNick.setText(nick);
         }
+
+        @Override
+        public void onClick(View view) {
+            if (view == itemView && onItemClickListener != null) {
+                onItemClickListener.onItemClick(view, position, data.get(position));
+            }
+        }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int position, BookSheet bookSheet);
     }
 }

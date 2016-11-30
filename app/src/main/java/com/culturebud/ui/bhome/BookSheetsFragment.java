@@ -1,5 +1,6 @@
 package com.culturebud.ui.bhome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import com.culturebud.bean.Book;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.contract.MyFavoritesContract;
 import com.culturebud.presenter.MyFavoritesPresenter;
+import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -25,7 +27,7 @@ import java.util.List;
  */
 
 @PresenterInject(MyFavoritesPresenter.class)
-public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Presenter> implements MyFavoritesContract.View {
+public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Presenter> implements MyFavoritesContract.View, BookSheetsAdapter.OnItemClickListener {
     private static final String TAG = BookSheetsFragment.class.getSimpleName();
     private RecyclerView rvBookSheets;
     private int currentPage;
@@ -45,7 +47,9 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
         rvBookSheets.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL);
         rvBookSheets.addItemDecoration(divider);
-        rvBookSheets.setAdapter(new BookSheetsAdapter());
+        BookSheetsAdapter adapter = new BookSheetsAdapter();
+        adapter.setOnItemClickListener(this);
+        rvBookSheets.setAdapter(adapter);
         return view;
     }
 
@@ -66,5 +70,12 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
             ((BookSheetsAdapter) rvBookSheets.getAdapter()).clearData();
         }
         ((BookSheetsAdapter) rvBookSheets.getAdapter()).addItems(bookSheets);
+    }
+
+    @Override
+    public void onItemClick(View v, int position, BookSheet bookSheet) {
+        Intent intent = new Intent(getActivity(), BookSheetDetailActivity.class);
+        intent.putExtra("sheetId", bookSheet.getSheetId());
+        startActivity(intent);
     }
 }
