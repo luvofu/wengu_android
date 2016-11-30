@@ -17,10 +17,12 @@ import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+
+import static com.culturebud.adapter.BookSheetDetailAdapter.OnItemListener.OPERA_TYPE_ADD;
+import static com.culturebud.adapter.BookSheetDetailAdapter.OnItemListener.OPERA_TYPE_ITEM;
 
 /**
  * Created by XieWei on 2016/11/8.
@@ -80,6 +82,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             SheetBook item = data.getSheetBookList().get(position - 1);
             SheetBooksViewHolder sbHolder = (SheetBooksViewHolder) holder;
+            sbHolder.position = position;
             sbHolder.setCover(item.getCover());
             sbHolder.setBookName(item.getTitle());
             sbHolder.setAuthor(item.getAuthor());
@@ -222,10 +225,11 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         void onHeaderClick(View v, int type, BookSheetDetail detail);
     }
 
-    class SheetBooksViewHolder extends RecyclerView.ViewHolder {
+    class SheetBooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvAuthor;
         private ImageView ivAdd;
+        private int position;
 
         public SheetBooksViewHolder(View itemView) {
             super(itemView);
@@ -233,6 +237,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             tvTitle = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
             ivAdd = (ImageView) itemView.findViewById(R.id.iv_add);
+            ivAdd.setOnClickListener(this);
+            itemView.setOnClickListener(this);
         }
 
         public void setCover(String url) {
@@ -255,5 +261,30 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             }
             tvAuthor.setText(author);
         }
+
+        @Override
+        public void onClick(View view) {
+            if (onItemListener != null) {
+                if (view == itemView) {
+                    onItemListener.onItemOpera(view, position, OPERA_TYPE_ITEM,
+                            data.getSheetBookList().get(position - 1));
+                } else if (view == ivAdd) {
+                    onItemListener.onItemOpera(view, position, OPERA_TYPE_ADD,
+                            data.getSheetBookList().get(position - 1));
+                }
+            }
+        }
+    }
+
+    private OnItemListener onItemListener;
+
+    public void setOnItemListener(OnItemListener onItemListener) {
+        this.onItemListener = onItemListener;
+    }
+
+    public interface OnItemListener {
+        public static final int OPERA_TYPE_ITEM = 0;
+        public static final int OPERA_TYPE_ADD = 1;
+        void onItemOpera(View v, int position, int operaType, SheetBook sheetBook);
     }
 }

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/litter_gray_bg_border"
+        android:paddingBottom="5dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="5dp"
+        android:text="收藏书籍到书单"
+        android:textColor="@color/light_font_black"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_add_book_sheet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_line_bg"
+        android:clickable="true"
+        android:drawableLeft="@mipmap/pic_add"
+        android:drawablePadding="10dp"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="8dp"
+        android:text="新增书单"
+        android:textColor="@color/title_font_default"
+        android:textSize="16sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_book_sheets"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>
