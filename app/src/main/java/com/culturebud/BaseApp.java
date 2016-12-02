@@ -29,7 +29,7 @@ public class BaseApp extends Application {
     private static BaseApp app;
     private DataHelper dataHelper;
     private User user;
-    private int currTabIndex;
+    private static int currTabIndex;
 
     public void setCurrTabIndex(int index) {
         currTabIndex = index;
