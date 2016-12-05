@@ -29,6 +29,7 @@ import com.culturebud.bean.Comment;
 import com.culturebud.bean.CommentReply;
 import com.culturebud.contract.CommentDetailContract;
 import com.culturebud.presenter.CommentDetailPresenter;
+import com.culturebud.util.ShareHelper;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -209,19 +210,7 @@ public class CommentDetailActivity extends BaseActivity<CommentDetailContract.Pr
                 etReplyInput.setHint("客官，说点什么吧...");
                 break;
             case CommentOperaType.TYPE_SHARE://分享
-                OnekeyShare oks = new OnekeyShare();
-                //关闭sso授权
-                oks.disableSSOWhenAuthorize();
-
-                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-                oks.setTitle(comment.getTitle());
-                // text是分享文本，所有平台都需要这个字段
-                oks.setText(comment.getTitle());
-                // url仅在微信（包括好友和朋友圈）中使用
-                oks.setUrl("http://sharesdk.cn");
-
-                // 启动分享GUI
-                oks.show(this);
+                ShareHelper.share(this, comment.getTitle(), comment.getTitle(), null);
                 break;
             case CommentOperaType.TYPE_DELETE://删除（仅限 userId 是自己）
                 presenter.delReply(DeleteType.TYPE_COMMENT, comment.getCommentId());

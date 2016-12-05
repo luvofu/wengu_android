@@ -1,13 +1,17 @@
 package com.culturebud.presenter;
 
 import com.culturebud.BaseApp;
+import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.User;
 import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.model.BookSheetDetailModel;
+import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+
+import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -116,5 +120,34 @@ public class BookSheetDetailPresenter extends BookSheetDetailContract.Presenter 
                         view.onCollect(res);
                     }
                 });
+    }
+
+    @Override
+    public void getMySheets() {
+        if (!validateToken()) {
+            return;
+        }
+        User user = BaseApp.getInstance().getUser();
+        model.getMySheets(user.getToken(), user.getUserId())
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<List<BookSheet>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(List<BookSheet> bookSheets) {
+                view.onMySheets(bookSheets);
+            }
+        });
     }
 }

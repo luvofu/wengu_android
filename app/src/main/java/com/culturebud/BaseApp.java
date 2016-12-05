@@ -96,17 +96,6 @@ public class BaseApp extends Application {
 
         try {
 
-            //wifi mac地址
-            WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-            WifiInfo info = wifi.getConnectionInfo();
-            String wifiMac = info.getMacAddress();
-            if (!isEmpty(wifiMac)) {
-                deviceId.append("wifi");
-                deviceId.append(wifiMac);
-                Log.e("getDeviceId : ", deviceId.toString());
-                return deviceId.toString();
-            }
-
             //IMEI（imei）
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             String imei = tm.getDeviceId();
@@ -122,6 +111,17 @@ public class BaseApp extends Application {
             if (!isEmpty(sn)) {
                 deviceId.append("sn");
                 deviceId.append(sn);
+                Log.e("getDeviceId : ", deviceId.toString());
+                return deviceId.toString();
+            }
+
+            //wifi mac地址
+            WifiManager wifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+            WifiInfo info = wifi.getConnectionInfo();
+            String wifiMac = info.getMacAddress();
+            if (!isEmpty(wifiMac)) {
+                deviceId.append("wifi");
+                deviceId.append(wifiMac);
                 Log.e("getDeviceId : ", deviceId.toString());
                 return deviceId.toString();
             }

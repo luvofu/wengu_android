@@ -22,6 +22,7 @@ import com.culturebud.bean.Comment;
 import com.culturebud.contract.BookCommunityContract;
 import com.culturebud.presenter.BookCommunityPresenter;
 import com.culturebud.util.ImgUtil;
+import com.culturebud.util.ShareHelper;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
@@ -178,17 +179,7 @@ public class BookCommunityActivity extends BaseActivity<BookCommunityContract.Pr
                 startActivity(intent);
                 break;
             case CommentOperaType.TYPE_SHARE:
-                OnekeyShare oks = new OnekeyShare();
-                //关闭sso授权
-                oks.disableSSOWhenAuthorize();
-                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-                oks.setTitle(comment.getTitle());
-                // text是分享文本，所有平台都需要这个字段
-                oks.setText(comment.getTitle());
-                // url仅在微信（包括好友和朋友圈）中使用
-                oks.setUrl("http://sharesdk.cn");
-                // 启动分享GUI
-                oks.show(this);
+                ShareHelper.share(this, comment.getTitle(), comment.getTitle(), null);
                 break;
         }
     }

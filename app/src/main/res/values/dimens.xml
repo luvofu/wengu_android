@@ -35,5 +35,6 @@
     <dimen name="dialog_opera_font_size">18sp</dimen>
 
     <dimen name="item_popup_menu_height">60dp</dimen>
+    <dimen name="my_sheet_max_height">240dp</dimen>
 
 </resources>

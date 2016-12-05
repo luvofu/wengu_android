@@ -1,8 +1,11 @@
 package com.culturebud.contract;
 
+import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.model.BookBaseModel;
 import com.google.gson.JsonObject;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -13,6 +16,8 @@ import rx.Observable;
 public interface BookSheetDetailContract {
     abstract class Model extends BookBaseModel {
         public abstract Observable<JsonObject> getBookSheetDetail(String token, long sheetId);
+
+        public abstract Observable<List<BookSheet>> getMySheets(String token, long userId);
     }
 
     interface View extends BaseView {
@@ -21,6 +26,8 @@ public interface BookSheetDetailContract {
         void onRelationType(int type);
 
         void onCollect(boolean isCollected);
+
+        void onMySheets(List<BookSheet> bookSheets);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -29,5 +36,7 @@ public interface BookSheetDetailContract {
         public abstract void collectAdd(long sheetId);
 
         public abstract void collectDel(long sheetId);
+
+        public abstract void getMySheets();
     }
 }

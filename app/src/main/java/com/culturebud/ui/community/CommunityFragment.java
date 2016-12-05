@@ -22,6 +22,7 @@ import com.culturebud.contract.CommunityContract;
 import com.culturebud.presenter.CommunityPresenter;
 import com.culturebud.ui.MainActivity;
 import com.culturebud.ui.search.SearchBookCommunityActivity;
+import com.culturebud.util.ShareHelper;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
@@ -231,18 +232,6 @@ public class CommunityFragment extends BaseFragment<CommunityContract.Presenter>
 
     @Override
     public void onShare(View v, int position, Comment comment) {
-        OnekeyShare oks = new OnekeyShare();
-        //关闭sso授权
-        oks.disableSSOWhenAuthorize();
-
-        // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(comment.getTitle());
-        // text是分享文本，所有平台都需要这个字段
-        oks.setText(comment.getTitle());
-        // url仅在微信（包括好友和朋友圈）中使用
-        oks.setUrl("http://sharesdk.cn");
-
-        // 启动分享GUI
-        oks.show(getActivity());
+        ShareHelper.share(getActivity(), comment.getTitle(), comment.getTitle(), null);
     }
 }

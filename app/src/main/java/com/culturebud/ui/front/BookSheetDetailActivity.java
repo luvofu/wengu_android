@@ -8,18 +8,24 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
 import com.culturebud.adapter.BookSheetDetailAdapter;
+import com.culturebud.adapter.MyBookSheetAdapter;
 import com.culturebud.annotation.PresenterInject;
+import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.SheetBook;
 import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.presenter.BookSheetDetailPresenter;
+import com.culturebud.util.ShareHelper;
 import com.culturebud.widget.RecyclerViewDivider;
+
+import java.util.List;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
@@ -34,6 +40,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     private int relationType;
     private PopupWindow pwItemMenu;
     private BottomSheetDialog bsdDailog;
+    private RecyclerView rvBookSheets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +92,12 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         if (bsdDailog == null) {
             bsdDailog = new BottomSheetDialog(this);
             bsdDailog.setContentView(R.layout.add_to_book_sheet);
+            rvBookSheets = (RecyclerView) bsdDailog.getWindow().findViewById(R.id.rv_book_sheets);
+            LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            rvBookSheets.setLayoutManager(llm);
+            RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
+            rvBookSheets.addItemDecoration(divider);
+            rvBookSheets.setAdapter(new MyBookSheetAdapter());
             bsdDailog.setCancelable(true);
         }
     }
@@ -101,6 +114,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 if (!bsdDailog.isShowing()) {
                     bsdDailog.show();
                 }
+                presenter.getMySheets();
                 break;
             }
         }
@@ -131,6 +145,19 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         rvDetail.getAdapter().notifyItemChanged(0);
     }
 
+    @Override
+    public void onMySheets(List<BookSheet> bookSheets) {
+        if (rvBookSheets != null) {
+            ((MyBookSheetAdapter) rvBookSheets.getAdapter()).clearData();
+            if (bookSheets.size() > 3) {
+                ViewGroup.LayoutParams params = rvBookSheets.getLayoutParams();
+                params.height = getResources().getDimensionPixelSize(R.dimen.my_sheet_max_height);
+                rvBookSheets.setLayoutParams(params);
+            }
+            ((MyBookSheetAdapter) rvBookSheets.getAdapter()).addItems(bookSheets);
+        }
+    }
+
     private BookSheetDetail bookSheetDetail;
 
     @Override
@@ -144,17 +171,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 }
                 break;
             case 1://分享
-                OnekeyShare oks = new OnekeyShare();
-                //关闭sso授权
-                oks.disableSSOWhenAuthorize();
-                // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-                oks.setTitle(detail.getName());
-                // text是分享文本，所有平台都需要这个字段
-                oks.setText(detail.getName());
-                // url仅在微信（包括好友和朋友圈）中使用
-                oks.setUrl("http://sharesdk.cn");
-                // 启动分享GUI
-                oks.show(this);
+                ShareHelper.share(this, detail.getName(), detail.getName(), null);
                 break;
         }
     }

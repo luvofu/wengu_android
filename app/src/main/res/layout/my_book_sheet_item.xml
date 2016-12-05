@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_sheet_cover"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_sheet_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/sdv_sheet_cover"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_book_num"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_sheet_name"
+        android:layout_below="@id/tv_sheet_name"
+        android:gravity="center_vertical"
+        android:padding="5dp"
+        android:textColor="@color/light_font_black"
+        android:textSize="12sp" />
+
+</RelativeLayout>
