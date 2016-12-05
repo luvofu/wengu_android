@@ -32,6 +32,8 @@ public final class CommonConst {
 
     public static final String PATH_USER_EDIT_PROFILE = "api/user/editProfile";
 
+    public static final String PATH_MY_FRIENDS = "api/user/myFriends";
+
     public static final String PATH_AUTO_LOGIN = "api/user/autoLogin";
 
     public static final String PATH_CHANGE_PASSWORD = "api/user/resetpsw";

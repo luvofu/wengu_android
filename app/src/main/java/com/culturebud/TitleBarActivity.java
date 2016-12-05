@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
@@ -129,6 +130,16 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
 
     public void setTitle(CharSequence title) {
         tvTitle.setText(title);
+    }
+
+    @Override
+    public void setTitle(@StringRes int titleId) {
+        tvTitle.setText(titleId);
+    }
+
+    @Override
+    public void setTitleColor(@ColorRes int colorResId) {
+        tvTitle.setTextColor(getResources().getColor(colorResId));
     }
 
     @Override

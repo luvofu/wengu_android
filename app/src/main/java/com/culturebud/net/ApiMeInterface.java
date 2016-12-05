@@ -4,6 +4,7 @@ import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.User;
 import com.culturebud.CommonConst;
 import com.culturebud.bean.UserMessage;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
@@ -135,4 +136,9 @@ public interface ApiMeInterface {
     @POST(CommonConst.PATH_MSG_INVITE)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> inviteMsgs(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_MY_FRIENDS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonArray>> myFriends(@FieldMap Map<String, Object> params);
+
 }

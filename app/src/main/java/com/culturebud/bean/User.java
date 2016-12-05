@@ -78,6 +78,16 @@ public class User {
     @DatabaseField(columnName = "token")
     private String token;//令牌
 
+    private String spellFirst;
+
+    public String getSpellFirst() {
+        return spellFirst;
+    }
+
+    public void setSpellFirst(String spellFirst) {
+        this.spellFirst = spellFirst;
+    }
+
     public long getUserId() {
         return userId;
     }

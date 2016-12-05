@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import net.sourceforge.pinyin4j.PinyinHelper;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -532,7 +534,22 @@ public class ExampleInstrumentedTest {
 //        Log.e("xwlljj", new Gson().toJson(bd));
     }
 
-
+    @Test
+    public void testPinyin4j() {
+        char[] tmp = {'w', '谢', '&'};
+        Log.d(TAG, "a = " + ((int) 'a'));
+        Log.d(TAG, "z = " + ((int) 'z'));
+        Log.d(TAG, "A = " + ((int) 'A'));
+        Log.d(TAG, "Z = " + ((int) 'Z'));
+        for (char c : tmp) {
+            String[] arr = PinyinHelper.toHanyuPinyinStringArray(c);
+            if (arr != null && arr.length > 0) {
+                Log.d(TAG, arr[0]);
+            } else {
+                Log.d(TAG, "*******");
+            }
+        }
+    }
 
 
 

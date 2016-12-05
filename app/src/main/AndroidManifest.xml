@@ -90,6 +90,9 @@
         <activity android:name=".ui.bhome.EditNoteActivity" />
         <activity android:name=".ui.bhome.BookScanActivity" />
         <activity android:name=".ui.bhome.BookScanResultActivity" />
+        <activity
+            android:name=".ui.me.MyFriendsActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <activity
             android:name="com.mob.tools.MobUIShell"

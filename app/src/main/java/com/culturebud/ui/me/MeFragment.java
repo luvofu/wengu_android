@@ -126,6 +126,10 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
             case R.id.btn_login:
                 presenter.login();
                 break;
+            case R.id.siv_my_friends: {
+                startActivity(new Intent(getActivity(), MyFriendsActivity.class));
+                break;
+            }
             case R.id.siv_my_favorite: {
                 startActivity(new Intent(getActivity(), MyFavoritesActivity.class));
                 break;

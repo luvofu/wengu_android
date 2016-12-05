@@ -36,5 +36,6 @@
 
     <dimen name="item_popup_menu_height">60dp</dimen>
     <dimen name="my_sheet_max_height">240dp</dimen>
+    <dimen name="my_friend_alph_item_padding">10dp</dimen>
 
 </resources>
