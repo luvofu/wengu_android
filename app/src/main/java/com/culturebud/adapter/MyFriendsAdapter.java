@@ -28,15 +28,24 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
     private static final int ITEM_TYPE_ALPH = 1;
     private static final int ITEM_TYPE_FRIEND = 2;
     private List<Object> data;
+    private List<String> indexs;
 
     public MyFriendsAdapter() {
         data = new ArrayList<>();
+        indexs = new ArrayList<>();
     }
 
     public void clearData() {
         if (!data.isEmpty()) {
             data.clear();
         }
+        if (!indexs.isEmpty()) {
+            indexs.clear();
+        }
+    }
+
+    public List<String> getIndexs() {
+        return indexs;
     }
 
     public void addItems(List<User> items) {
@@ -49,6 +58,7 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
                     List<User> tmp = new LinkedList<>();
                     tmp.add(user);
                     map.put(user.getSpellFirst(), tmp);
+                    indexs.add(user.getSpellFirst());
                 }
             }
             data.add(0);

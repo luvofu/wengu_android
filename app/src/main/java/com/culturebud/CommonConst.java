@@ -18,6 +18,8 @@ public final class CommonConst {
 
     public static final String USER_AVATAR_DEFAULT_URL = "http://www.mywengu.com/img/user/avatar/lpic/default/default.jpg";
 
+//    public static final String API_HOST = "http://192.168.1.26:8080/";
+
     public static final String API_HOST = "http://mywengu.com:80/";
 
     public static final String PATH_HOME = "api/common/home";

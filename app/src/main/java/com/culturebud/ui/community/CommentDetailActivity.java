@@ -93,19 +93,21 @@ public class CommentDetailActivity extends BaseActivity<CommentDetailContract.Pr
     }
 
     private void initPopupWindow() {
-        pwReply = new PopupWindow(this, null, R.style.PopupWindow);
-        View view = getLayoutInflater().inflate(R.layout.reply_input_pop, null);
-        etReplyInput = obtainViewById(view, R.id.et_reply_input);
-        tvSend = obtainViewById(view, R.id.tv_send);
-        pwReply.setContentView(view);
-        pwReply.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
-        pwReply.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
-        pwReply.setOutsideTouchable(true);
-        pwReply.setFocusable(true);
-        pwReply.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
-        pwReply.setSoftInputMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
-        pwReply.setBackgroundDrawable(new BitmapDrawable());
-        etReplyInput.setOnFocusChangeListener(this);
+        if (pwReply == null) {
+            pwReply = new PopupWindow(this, null, R.style.PopupWindow);
+            View view = getLayoutInflater().inflate(R.layout.reply_input_pop, null);
+            etReplyInput = obtainViewById(view, R.id.et_reply_input);
+            tvSend = obtainViewById(view, R.id.tv_send);
+            pwReply.setContentView(view);
+            pwReply.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+            pwReply.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+            pwReply.setOutsideTouchable(true);
+            pwReply.setFocusable(true);
+            pwReply.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
+            pwReply.setSoftInputMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
+            pwReply.setBackgroundDrawable(new BitmapDrawable());
+            etReplyInput.setOnFocusChangeListener(this);
+        }
     }
 
     private void initDelDialog() {

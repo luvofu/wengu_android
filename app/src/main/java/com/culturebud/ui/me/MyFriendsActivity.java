@@ -12,6 +12,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.MyFriendsContract;
 import com.culturebud.presenter.MyFriendsPresenter;
+import com.culturebud.widget.IndexsView;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.List;
 @PresenterInject(MyFriendsPresenter.class)
 public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View {
     private RecyclerView rvFriends;
+    private IndexsView ivIndexs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,7 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
         setOperasDrawable(R.drawable.btn_add_friend_selector);
 
         rvFriends = obtainViewById(R.id.rv_friends);
+        ivIndexs = obtainViewById(R.id.iv_indexs);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvFriends.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
@@ -56,6 +59,8 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
 
     @Override
     public void onFriends(List<User> friends) {
-        ((MyFriendsAdapter)rvFriends.getAdapter()).addItems(friends);
+        ((MyFriendsAdapter) rvFriends.getAdapter()).addItems(friends);
+        List<String> indexs = ((MyFriendsAdapter) rvFriends.getAdapter()).getIndexs();
+        ivIndexs.setIndexs(indexs);
     }
 }

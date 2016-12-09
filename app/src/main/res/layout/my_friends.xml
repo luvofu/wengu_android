@@ -11,9 +11,10 @@
         android:layout_height="match_parent"
         android:background="@android:color/white" />
 
-    <View
+    <com.culturebud.widget.IndexsView
+        android:id="@+id/iv_indexs"
         android:layout_width="30dp"
         android:layout_height="match_parent"
-        android:layout_gravity="right" />
+        android:layout_gravity="right|center_vertical" />
 
 </FrameLayout>

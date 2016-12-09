@@ -97,8 +97,11 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                 break;
             case R.id.tv_search:
                 break;
-            case R.id.tv_manual:
+            case R.id.tv_manual: {
+                Intent intent = new Intent(this, ManualAddBookActivity.class);
+                startActivity(intent);
                 break;
+            }
             case R.id.tv_confirm: {
                 Intent intent = new Intent(this, BookScanResultActivity.class);
                 intent.putExtra("books", new Gson().toJson(adapter.getData()));
