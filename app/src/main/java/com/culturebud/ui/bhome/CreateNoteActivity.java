@@ -47,7 +47,7 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
         setTitle("写笔记");
         showOperas();
         setOperasText("确定");
-        setOperasTextColor(getResources().getColor(R.color.tabar_font_checked));
+        setOperasTextColor(getResources().getColor(R.color.title_font_white));
         etNoteContent = obtainViewById(R.id.et_note_content);
         etChapter = obtainViewById(R.id.et_chapter);
         etPage = obtainViewById(R.id.et_page);

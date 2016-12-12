@@ -56,14 +56,6 @@ public class NoteModel extends NoteContract.Model {
             String imgCachePath = BaseApp.getInstance().getCacheDir() + "/" + UUID.randomUUID().toString() + ".jpg";
             if (imgUri != null) {
                 try {
-//                    String[] cols = {MediaStore.Images.Media.MIME_TYPE};
-//                    Cursor imgCur = BaseApp.getInstance().getContentResolver().query(imgUri, cols, null, null, null);
-//                    boolean isJPEG = true;
-//                    if (imgCur != null && imgCur.getCount() > 0) {
-//                        int idx = imgCur.getColumnIndex(MediaStore.Images.Media.MIME_TYPE);
-//                        String mimeType = imgCur.getString(idx);
-//
-//                    }
                     InputStream is = BaseApp.getInstance().getContentResolver().openInputStream(imgUri);
                     Bitmap bitmap = BitmapFactory.decodeStream(is);
                     FileOutputStream fos = new FileOutputStream(imgCachePath);

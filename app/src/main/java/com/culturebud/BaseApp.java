@@ -2,8 +2,10 @@ package com.culturebud;
 
 import android.app.Application;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -11,8 +13,14 @@ import android.util.Log;
 import com.culturebud.bean.User;
 import com.culturebud.db.DataHelper;
 import com.culturebud.util.CrashHandler;
+import com.facebook.cache.disk.DiskCacheConfig;
+import com.facebook.common.disk.NoOpDiskTrimmableRegistry;
 import com.facebook.common.logging.FLog;
+import com.facebook.common.memory.NoOpMemoryTrimmableRegistry;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.facebook.imagepipeline.core.DiskStorageCacheFactory;
+import com.facebook.imagepipeline.core.FileCacheFactory;
+import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import java.util.UUID;
 
@@ -82,6 +90,23 @@ public class BaseApp extends Application {
                 .setDefaultFontPath("fonts/FangZhengLanTingZhunHei_GBK.TTF")
                 .setFontAttrId(R.attr.fontPath).build());
         Fresco.initialize(this);
+//        DiskCacheConfig main = DiskCacheConfig.newBuilder(this)
+//                .setBaseDirectoryPath(Environment
+//                        .getExternalStorageDirectory()
+//                        .getAbsoluteFile())
+//                .setBaseDirectoryName("wenya")
+//                .setMaxCacheSize(1024 * 1024 * 1024 * 1)
+//                .setMaxCacheSizeOnLowDiskSpace(1024 * 1024 * 1024 * 1)
+//                .setDiskTrimmableRegistry(NoOpDiskTrimmableRegistry.getInstance())
+//                .build();
+//        ImagePipelineConfig imgPipelineCfg = ImagePipelineConfig.newBuilder(this)
+//                .setBitmapsConfig(Bitmap.Config.ARGB_8888)
+//                .setMainDiskCacheConfig(main)
+//                .setMemoryTrimmableRegistry(NoOpMemoryTrimmableRegistry.getInstance())
+//                .setResizeAndRotateEnabledForNetwork(true)
+//                .build();
+
+//        Fresco.initialize(this, imgPipelineCfg);
         FLog.setMinimumLoggingLevel(FLog.VERBOSE);
         CrashHandler.getInstance().init(this);
         dataHelper = getDataHelper();//初始化数据库

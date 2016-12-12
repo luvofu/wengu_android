@@ -47,8 +47,8 @@ public class PublishShortCommentActivity extends BaseActivity<PublishShortCommen
         setTitle("发布短评");
         setBackText("取消");
         setOperasText("发布");
-        setBackTextColor(getResources().getColor(R.color.front_hot_font));
-        setOperasTextColor(getResources().getColor(R.color.front_hot_font));
+        setBackTextColor(getResources().getColor(R.color.title_font_white));
+        setOperasTextColor(getResources().getColor(R.color.title_font_white));
         etInputComment = obtainViewById(R.id.et_comment_content);
         flCenter = obtainViewById(R.id.fl_center);
         tvSelectCommunity = obtainViewById(R.id.tv_select_community);

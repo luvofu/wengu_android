@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.culturebud.BaseApp;
 import com.culturebud.bean.User;
 import com.culturebud.contract.PublishShortCommentContract;
+import com.culturebud.util.ApiException;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -43,6 +44,9 @@ public class PublishShortCommentPresenter extends PublishShortCommentContract.Pr
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
                     }
 
                     @Override

@@ -257,6 +257,10 @@ public class SettingItemView extends LinearLayout {
         tvArrow.setTextSize(size);
     }
 
+    public String getInfo() {
+        return tvArrow.getText().toString();
+    }
+
     public void setSettingName(CharSequence name) {
         tvName.setText(name);
     }
@@ -265,12 +269,20 @@ public class SettingItemView extends LinearLayout {
         tvName.setText(resId);
     }
 
+    public String getName() {
+        return tvName.getText().toString();
+    }
+
     public void setDesc(@StringRes int resId) {
         tvDesc.setText(resId);
     }
 
     public void setDesc(CharSequence desc) {
         tvDesc.setText(desc);
+    }
+
+    public String getDesc() {
+        return tvDesc.getText().toString();
     }
 
     public void setNameColor(@ColorInt int color) {

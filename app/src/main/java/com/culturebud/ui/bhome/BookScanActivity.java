@@ -30,6 +30,7 @@ import java.util.Locale;
 
 @PresenterInject(ScanBookPresenter.class)
 public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> implements ScanBookContract.View {
+    private static final int REQUEST_CODE_ADD_MANUAL = 1007;
     private CaptureFragment captureFragment;
     private RecyclerView rvScanResults;
     private TextView tvScanCount, tvConfirm;
@@ -99,7 +100,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                 break;
             case R.id.tv_manual: {
                 Intent intent = new Intent(this, ManualAddBookActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_ADD_MANUAL);
                 break;
             }
             case R.id.tv_confirm: {
@@ -164,5 +165,18 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
         toast = Toast.makeText(this, "扫描失败", Toast.LENGTH_SHORT);
         toast.show();
         captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 3000);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_ADD_MANUAL:
+                if (resultCode == RESULT_OK) {
+                    startActivity(new Intent(this, CollectedBooksActivity.class));
+                    finish();
+                }
+                break;
+        }
     }
 }

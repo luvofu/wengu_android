@@ -13,7 +13,7 @@
         android:layout_height="@dimen/setting_icon_default_middle"
         android:layout_margin="12dp"
         fresco:actualImageScaleType="fitXY"
-        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImage="@mipmap/me_default_icon"
         fresco:placeholderImageScaleType="fitXY"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@android:color/transparent"
