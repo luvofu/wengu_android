@@ -37,7 +37,8 @@ import java.util.UUID;
  */
 
 @PresenterInject(ManualAddBookPresenter.class)
-public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Presenter> implements ManualAddBookContract.View, OptionsPickerView.OnOptionsSelectListener, DatePicker.OnDateChangedListener {
+public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Presenter>
+        implements ManualAddBookContract.View, OptionsPickerView.OnOptionsSelectListener {
     private LinearLayout llParent;
     private LinearLayout llAddCover;
     private SimpleDraweeView sdvBookCover;
@@ -156,9 +157,9 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
             pubDateDlg.setCancelable(true);
             DatePicker dpPubDate = (DatePicker) pubDateDlg.getWindow().findViewById(R.id.dp_pub_date);
             Calendar calendar = Calendar.getInstance();
-            dpPubDate.init(calendar.get(Calendar.YEAR),
+            dpPubDate.updateDate(calendar.get(Calendar.YEAR),
                     calendar.get(Calendar.MONTH),
-                    calendar.get(Calendar.DAY_OF_MONTH), this);
+                    calendar.get(Calendar.DAY_OF_MONTH));
             pubDateDlg.getWindow().findViewById(R.id.tv_cancel)
                     .setOnClickListener(view -> {
                         if (pubDateDlg.isShowing()) {
@@ -170,6 +171,7 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
                         if (pubDateDlg.isShowing()) {
                             pubDateDlg.dismiss();
                         }
+                        pubDate = dpPubDate.getYear() + "." + (dpPubDate.getMonth() + 1);
                         sivPubDate.setRightInfo(pubDate);
                     });
         }
@@ -325,8 +327,4 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
 
     private String pubDate = "";
 
-    @Override
-    public void onDateChanged(DatePicker datePicker, int year, int month, int dayOfMonth) {
-        pubDate = year + "." + (month + 1);
-    }
 }
