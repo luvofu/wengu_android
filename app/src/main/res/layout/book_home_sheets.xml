@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_my_created"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray"
+        android:clickable="true"
+        android:drawableRight="@mipmap/arrow_down"
+        android:gravity="center_vertical"
+        android:onClick="onClick"
+        android:padding="15dp"
+        android:tag="1"
+        android:text="@string/sheets_my_created"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_sheets_created"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tv_my_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_gray"
+        android:clickable="true"
+        android:drawableRight="@mipmap/arrow_down"
+        android:gravity="center_vertical"
+        android:onClick="onClick"
+        android:padding="15dp"
+        android:tag="1"
+        android:text="@string/sheets_my_favorite"
+        android:textColor="@color/front_more_font"
+        android:textSize="14sp" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_sheets_favorite"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

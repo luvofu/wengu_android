@@ -38,6 +38,6 @@ public interface ApiCollectedInterface {
      */
     @POST(CommonConst.PATH_COLLECTED_BOOK_SHEETS)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonObject>> getBookSheets(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<JsonObject>> getMyFavoriteBookSheets(@FieldMap Map<String, Object> params);
 
 }

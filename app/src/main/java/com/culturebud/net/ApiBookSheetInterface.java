@@ -44,5 +44,5 @@ public interface ApiBookSheetInterface {
 
     @POST(CommonConst.PATH_USER_BOOK_SHEETS)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonObject>> getCollectedBookSheets(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<JsonObject>> getMyCreatedBookSheets(@FieldMap Map<String, Object> params);
 }

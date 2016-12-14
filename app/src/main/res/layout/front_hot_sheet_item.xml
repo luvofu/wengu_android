@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             fresco:placeholderImage="@mipmap/img_placeholder"
-            fresco:placeholderImageScaleType="fitCenter" />
+            fresco:placeholderImageScaleType="fitXY" />
 
         <TextView
             android:id="@+id/tv_col_num"

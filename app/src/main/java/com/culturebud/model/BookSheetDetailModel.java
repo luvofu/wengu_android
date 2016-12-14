@@ -65,7 +65,7 @@ public class BookSheetDetailModel extends BookSheetDetailContract.Model {
                 params.put(TOKEN_KEY, token);
             }
             params.put("userId", userId);
-            initRetrofit().create(ApiBookSheetInterface.class).getCollectedBookSheets(params)
+            initRetrofit().create(ApiBookSheetInterface.class).getMyCreatedBookSheets(params)
                     .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                         @Override
                         public void onCompleted() {

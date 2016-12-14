@@ -4,9 +4,8 @@ import android.text.TextUtils;
 
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
-import com.culturebud.bean.Book;
 import com.culturebud.bean.BookSheet;
-import com.culturebud.contract.MyFavoritesContract;
+import com.culturebud.contract.BookSheetsContract;
 import com.culturebud.net.ApiCollectedInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
@@ -22,49 +21,10 @@ import rx.Observable;
 import rx.Subscriber;
 
 /**
- * Created by XieWei on 2016/11/17.
+ * Created by XieWei on 2016/12/13.
  */
 
-public class MyFavoritesModel extends MyFavoritesContract.Model {
-    @Override
-    public Observable<List<Book>> getMyFavoriteBooks(String token, int page) {
-        return Observable.create(subscriber -> {
-            Map<String, Object> params = getCommonParams();
-            if (!TextUtils.isEmpty(token)) {
-                params.put(TOKEN_KEY, token);
-            }
-            params.put("page", page);
-            initRetrofit().create(ApiCollectedInterface.class).getBooks(params)
-                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                        @Override
-                        public void onCompleted() {
-                            subscriber.onCompleted();
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            subscriber.onError(e);
-                        }
-
-                        @Override
-                        public void onNext(ApiResultBean<JsonObject> bean) {
-                            int code = bean.getCode();
-                            if (code == ApiErrorCode.CODE_SUCCESS) {
-                                JsonObject jobj = bean.getData();
-                                if (jobj.has("bookList")) {
-                                    JsonArray jarr = jobj.getAsJsonArray("bookList");
-                                    List<Book> books = new Gson().fromJson(jarr, new TypeToken<List<Book>>() {
-                                    }.getType());
-                                    subscriber.onNext(books);
-                                }
-                            } else {
-                                subscriber.onError(new ApiException(code, bean.getMsg()));
-                            }
-                        }
-                    });
-        });
-    }
-
+public class BookSheetsModel extends BookSheetsContract.Model {
     @Override
     public Observable<Map<Integer, List<BookSheet>>> getMyFavoriteBookSheets(String token, int page, long userId) {
         return Observable.create(subscriber -> {

@@ -3,7 +3,10 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="15dp">
+    android:paddingBottom="5dp"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    android:paddingTop="5dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_bs_cover"
@@ -20,7 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/sdv_bs_cover"
+        android:ellipsize="end"
         android:gravity="center_vertical"
+        android:maxLines="1"
         android:text="小伙伴们一起来看书"
         android:textColor="@color/title_font_default"
         android:textSize="16sp" />

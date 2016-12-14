@@ -56,6 +56,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         holder.setTitle(item.getName());
         holder.setNick(item.getNickname());
         holder.setVolumes(item.getBookNum() + "册");
+        holder.showNick(item.getCreatedTime());
     }
 
     @Override
@@ -75,6 +76,14 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             tvCount = (TextView) itemView.findViewById(R.id.tv_book_volumes);
             tvNick = (TextView) itemView.findViewById(R.id.tv_nick);
             itemView.setOnClickListener(this);
+        }
+
+        public void showNick(long createTime) {
+            if (createTime <= 0) {
+                tvNick.setVisibility(View.GONE);
+            } else {
+                tvNick.setVisibility(View.VISIBLE);
+            }
         }
 
         public void setCover(String url) {

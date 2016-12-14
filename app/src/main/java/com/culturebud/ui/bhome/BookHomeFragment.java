@@ -89,11 +89,15 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                     rlPop.setVisibility(View.GONE);
                 }
                 break;
-            case R.id.tv_book_name:
+            case R.id.tv_book_name: {
 
                 break;
+            }
             case R.id.tv_collect:
                 startActivity(new Intent(getActivity(), CollectedBooksActivity.class));
+                break;
+            case R.id.tv_sheet:
+                startActivity(new Intent(getActivity(), BookSheetsActivity.class));
                 break;
             case R.id.tv_date_book:
                 startActivity(new Intent(getActivity(), BookCircleActivity.class));
