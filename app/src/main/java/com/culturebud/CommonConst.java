@@ -118,6 +118,8 @@ public final class CommonConst {
 
     public static final String PATH_MANUAL_BOOK_ENTRY = "api/bookCheck/entry";
 
+    public static final String PATH_BOOK_SHEET_CREATE = "/api/bookSheet/add_v101";
+
     public final class LinkType {
         public static final int TYPE_DELETED = 255;//内容已被删除
         public static final int TYPE_COMMON = 0;

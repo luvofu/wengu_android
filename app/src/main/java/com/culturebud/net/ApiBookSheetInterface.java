@@ -6,9 +6,14 @@ import com.google.gson.JsonObject;
 
 import java.util.Map;
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
+import retrofit2.http.PartMap;
 import retrofit2.http.QueryMap;
 import rx.Observable;
 
@@ -45,4 +50,17 @@ public interface ApiBookSheetInterface {
     @POST(CommonConst.PATH_USER_BOOK_SHEETS)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> getMyCreatedBookSheets(@FieldMap Map<String, Object> params);
+
+    /**
+     * name	必填	string	书单名
+     * description	可选	string	书单描述
+     * imageFile	必填	MultipartFile	书单封面图片
+     *
+     * @param params
+     * @param imgFile
+     * @return
+     */
+    @POST(CommonConst.PATH_BOOK_SHEET_CREATE)
+    @Multipart
+    Observable<ApiResultBean<JsonObject>> createBookSheet(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part imgFile);
 }
