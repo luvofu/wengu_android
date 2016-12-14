@@ -28,7 +28,8 @@ import java.util.Locale;
 @PresenterInject(BookSheetsPresenter.class)
 public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presenter>
         implements BookSheetsContract.View, BookSheetsAdapter.OnItemClickListener {
-    private static final int REQUEST_CODE_BOOK_SHEET_DETAIL = 1001;
+    private static final int REQUEST_CODE_BOOK_SHEET_DETAIL = 1008;
+    private static final int REQUEST_CODE_BOOK_SHEET_CREATE = 1009;
     private TextView tvCreated, tvFavorite;
     private RecyclerView rvCreated, rvFavorite;
 
@@ -121,7 +122,8 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
     @Override
     protected void onOptions(View view) {
         super.onOptions(view);
-
+        Intent intent = new Intent(this, CreateBookSheetActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_BOOK_SHEET_CREATE);
     }
 
     @Override

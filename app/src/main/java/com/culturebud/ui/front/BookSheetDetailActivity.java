@@ -13,6 +13,7 @@ import android.view.WindowManager;
 import android.widget.PopupWindow;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.adapter.BookSheetDetailAdapter;
 import com.culturebud.adapter.MyBookSheetAdapter;
@@ -48,6 +49,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         setContentView(R.layout.book_sheet_detail);
         presenter.setView(this);
         showTitlebar();
+        setOperasDrawable(R.drawable.titlebar_edit_selector);
         rvDetail = obtainViewById(R.id.rv_sheet_detail);
 
         initList();
@@ -121,6 +123,12 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     }
 
     @Override
+    protected void onOptions(View view) {
+        super.onOptions(view);
+
+    }
+
+    @Override
     protected void onBack() {
         super.onBack();
         finish();
@@ -129,7 +137,11 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     @Override
     public void onBookSheetDetail(BookSheetDetail detail) {
         bookSheetDetail = detail;
-
+        if (bookSheetDetail.getUserId() == BaseApp.getInstance().getUser().getUserId()) {
+            showOperas();
+        } else {
+            hideOpears();
+        }
         ((BookSheetDetailAdapter) rvDetail.getAdapter()).setData(detail);
 
     }
