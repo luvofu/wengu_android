@@ -16,8 +16,10 @@ public class CreateBookSheetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_book_sheet);
         showTitlebar();
-        showBack();
         setTitle("新建书单");
+        showBack();
+        showOperas();
+        setOperasText("确定");
     }
 
     @Override
