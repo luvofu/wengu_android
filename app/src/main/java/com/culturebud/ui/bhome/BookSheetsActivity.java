@@ -1,5 +1,6 @@
 package com.culturebud.ui.bhome;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.contract.BookSheetsContract;
 import com.culturebud.presenter.BookSheetsPresenter;
+import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -25,7 +27,8 @@ import java.util.Locale;
 
 @PresenterInject(BookSheetsPresenter.class)
 public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presenter>
-        implements BookSheetsContract.View {
+        implements BookSheetsContract.View, BookSheetsAdapter.OnItemClickListener {
+    private static final int REQUEST_CODE_BOOK_SHEET_DETAIL = 1001;
     private TextView tvCreated, tvFavorite;
     private RecyclerView rvCreated, rvFavorite;
 
@@ -60,8 +63,12 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         rvCreated.addItemDecoration(divider);
         rvFavorite.addItemDecoration(divider);
 
-        rvCreated.setAdapter(new BookSheetsAdapter());
-        rvFavorite.setAdapter(new BookSheetsAdapter());
+        BookSheetsAdapter createdAdapter = new BookSheetsAdapter();
+        createdAdapter.setOnItemClickListener(this);
+        rvCreated.setAdapter(createdAdapter);
+        BookSheetsAdapter favoriteAdapter = new BookSheetsAdapter();
+        favoriteAdapter.setOnItemClickListener(this);
+        rvFavorite.setAdapter(favoriteAdapter);
         presenter.getMyCreatedSheets();
         presenter.getMyFavoriteSheets();
     }
@@ -129,5 +136,18 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         ((BookSheetsAdapter) rvFavorite.getAdapter()).clearData();
         ((BookSheetsAdapter) rvFavorite.getAdapter()).addItems(sheets);
         tvFavorite.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_favorite), sheets.size()));
+    }
+
+    @Override
+    public void onItemClick(View v, int position, BookSheet bookSheet) {
+        Intent intent = new Intent(this, BookSheetDetailActivity.class);
+        intent.putExtra("sheetId", bookSheet.getSheetId());
+        startActivityForResult(intent, REQUEST_CODE_BOOK_SHEET_DETAIL);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }
