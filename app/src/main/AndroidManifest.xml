@@ -102,6 +102,9 @@
         <activity
             android:name=".ui.bhome.CreateBookSheetActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+        <activity
+            android:name=".ui.bhome.EditBookSheetActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <activity
             android:name="com.mob.tools.MobUIShell"

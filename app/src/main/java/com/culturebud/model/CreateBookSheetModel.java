@@ -12,6 +12,7 @@ import com.culturebud.bean.ApiResultBean;
 import com.culturebud.contract.CreateBookSheetContract;
 import com.culturebud.net.ApiBookSheetInterface;
 import com.culturebud.util.ApiException;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.io.File;
@@ -36,7 +37,7 @@ public class CreateBookSheetModel extends CreateBookSheetContract.Model {
     private static final String TAG = CreateBookSheetModel.class.getSimpleName();
 
     @Override
-    public Observable<Boolean> createBookSheet(String token, String bookSheetName, String bookSheetDesc, Uri imgUri) {
+    public Observable<Integer> createBookSheet(String token, String bookSheetName, String bookSheetDesc, Uri imgUri) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             if (!TextUtils.isEmpty(token)) {
@@ -96,8 +97,9 @@ public class CreateBookSheetModel extends CreateBookSheetContract.Model {
                     Log.d(TAG, bean.toString());
                     int code = bean.getCode();
                     if (code == ApiErrorCode.CODE_SUCCESS) {
-
-                        //subscriber.onNext(bean.getData());
+                        if (bean.getData().has("sheetId")) {
+                            subscriber.onNext(new Gson().fromJson(bean.getData().get("sheetId"), int.class));
+                        }
                     } else {
                         subscriber.onError(new ApiException(code, bean.getMsg()));
                     }

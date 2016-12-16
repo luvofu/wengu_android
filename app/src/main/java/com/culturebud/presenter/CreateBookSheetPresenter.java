@@ -33,8 +33,8 @@ public class CreateBookSheetPresenter extends CreateBookSheetContract.Presenter 
         }
         view.showProDialog();
         model.createBookSheet(BaseApp.getInstance().getUser().getToken(), bookSheetName, bookSheetDesc, imgUri)
-        .observeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Boolean>() {
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Integer>() {
             @Override
             public void onCompleted() {
                 view.hideProDialog();
@@ -50,7 +50,7 @@ public class CreateBookSheetPresenter extends CreateBookSheetContract.Presenter 
             }
 
             @Override
-            public void onNext(Boolean res) {
+            public void onNext(Integer res) {
 
             }
         });

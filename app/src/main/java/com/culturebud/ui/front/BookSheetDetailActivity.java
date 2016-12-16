@@ -23,8 +23,10 @@ import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.SheetBook;
 import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.presenter.BookSheetDetailPresenter;
+import com.culturebud.ui.bhome.EditBookSheetActivity;
 import com.culturebud.util.ShareHelper;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -37,6 +39,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 @PresenterInject(BookSheetDetailPresenter.class)
 public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContract.Presenter>
         implements BookSheetDetailContract.View, BookSheetDetailAdapter.OnHeaderClickListener, BookSheetDetailAdapter.OnItemListener {
+    private static final int REQUEST_CODE_BOOK_SHEET_EDIT = 1010;
     private RecyclerView rvDetail;
     private int relationType;
     private PopupWindow pwItemMenu;
@@ -125,7 +128,9 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     @Override
     protected void onOptions(View view) {
         super.onOptions(view);
-
+        Intent intent = new Intent(this, EditBookSheetActivity.class);
+        intent.putExtra("bookSheet", new Gson().toJson(bookSheetDetail));
+        startActivityForResult(intent, REQUEST_CODE_BOOK_SHEET_EDIT);
     }
 
     @Override
@@ -208,6 +213,18 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 pwItemMenu.showAtLocation(v, Gravity.NO_GRAVITY, locs[0], y);
                 break;
             }
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_BOOK_SHEET_EDIT:
+                if (resultCode == RESULT_OK) {
+
+                }
+                break;
         }
     }
 }

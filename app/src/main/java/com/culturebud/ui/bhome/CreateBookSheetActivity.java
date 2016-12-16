@@ -2,6 +2,7 @@ package com.culturebud.ui.bhome;
 
 import android.content.ContentValues;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,10 +14,12 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.CreateBookSheetContract;
 import com.culturebud.presenter.CreateBookSheetPresenter;
+import com.culturebud.util.ImgUtil;
 import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -73,9 +76,19 @@ public class CreateBookSheetActivity extends BaseActivity<CreateBookSheetContrac
                 break;
             case R.id.tv_opera_content://相册
             {
-                Intent intent = new Intent(Intent.ACTION_PICK);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.putExtra("crop", "true");
+                intent.putExtra("aspectX", 4);
+                intent.putExtra("aspectY", 4);
+                intent.putExtra("outputX", 300);
+                intent.putExtra("outputY", 300);
+                intent.putExtra("scale", true);
+                intent.putExtra("return-data", false);
+                photoUri = Uri.parse(CommonConst.CAPTURE_IMG_PATH);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
+                intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+                intent.putExtra("noFaceDetection", true); // no face detection
                 startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
                 editImgDialog.dismiss();
                 break;
@@ -130,15 +143,28 @@ public class CreateBookSheetActivity extends BaseActivity<CreateBookSheetContrac
         switch (requestCode) {
             case REQUEST_CODE_SELECT_IMAGE:
                 if (resultCode == RESULT_OK) {
-                    photoUri = data.getData();
+                    //photoUri = data.getData();
                     sdvBookSheetCover.setImageURI(photoUri);
                 }
                 break;
             case REQUEST_CODE_TAKE_PHOTO:
-                if (requestCode == RESULT_OK) {
+                if (resultCode == RESULT_OK) {
+                    ImgUtil.cropImageUri(this, photoUri, 300, 300, 1011);
+                }
+                break;
+            case 1011:
+                if (resultCode == RESULT_OK) {
                     sdvBookSheetCover.setImageURI(photoUri);
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onCreateSuccess(int sheetId) {
+        Intent data = new Intent();
+        data.putExtra("sheetId", sheetId);
+        setResult(RESULT_OK, data);
+        finish();
     }
 }

@@ -10,11 +10,11 @@ import rx.Observable;
 
 public interface CreateBookSheetContract {
     abstract class Model extends BaseModel {
-        public abstract Observable<Boolean> createBookSheet(String token, String bookSheetName, String bookSheetDesc, Uri imgUri);
+        public abstract Observable<Integer> createBookSheet(String token, String bookSheetName, String bookSheetDesc, Uri imgUri);
     }
 
     interface View extends BaseView {
-
+        void onCreateSuccess(int sheetId);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
