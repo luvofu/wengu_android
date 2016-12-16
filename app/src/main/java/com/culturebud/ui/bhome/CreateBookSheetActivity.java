@@ -149,10 +149,10 @@ public class CreateBookSheetActivity extends BaseActivity<CreateBookSheetContrac
                 break;
             case REQUEST_CODE_TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    ImgUtil.cropImageUri(this, photoUri, 300, 300, 1011);
+                    ImgUtil.cropImageUri(this, photoUri, 300, 300, REQUEST_CODE_PHOTO_CROP);
                 }
                 break;
-            case 1011:
+            case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvBookSheetCover.setImageURI(photoUri);
                 }

@@ -32,6 +32,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     protected static final int REQUEST_CODE_TAKE_PHOTO = 1004;
     protected static final int REQUEST_CODE_REGIST = 1005;
     protected static final int REQUEST_CODE_RETRIEVE_PASSWORD = 1006;
+    protected static final int REQUEST_CODE_PHOTO_CROP = 1011;
     protected P presenter;
     private ProgressDialog progressDialog;
 
