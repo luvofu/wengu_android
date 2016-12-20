@@ -54,13 +54,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         for (BaseFragment page : pages) {
             ft.add(R.id.fl_container, page, "main");
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
         fragmentManager.beginTransaction()
                 .hide(pages[0])
                 .hide(pages[1])
                 .hide(pages[2])
                 .hide(pages[3])
-                .commit();
+                .commitAllowingStateLoss();
         rgTabs.check(PAGE_INDEX[BaseApp.getInstance().getCurrTabIndex()]);
     }
 
@@ -106,7 +106,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 ft.hide(page);
             }
         }
-        ft.commit();
+        ft.commitAllowingStateLoss();
     }
 
     @Override
