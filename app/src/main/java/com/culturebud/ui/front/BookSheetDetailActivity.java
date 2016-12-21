@@ -21,6 +21,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.SheetBook;
+import com.culturebud.bean.User;
 import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.presenter.BookSheetDetailPresenter;
 import com.culturebud.ui.bhome.EditBookSheetActivity;
@@ -142,7 +143,8 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     @Override
     public void onBookSheetDetail(BookSheetDetail detail) {
         bookSheetDetail = detail;
-        if (bookSheetDetail.getUserId() == BaseApp.getInstance().getUser().getUserId()) {
+        User user =  BaseApp.getInstance().getUser();
+        if (user != null && bookSheetDetail.getUserId() == user.getUserId()) {
             showOperas();
         } else {
             hideOpears();
