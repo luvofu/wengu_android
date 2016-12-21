@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.adapter.BookSheetsAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -150,6 +151,24 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_LOGIN:
+                hasToLogin = false;
+                if (resultCode == RESULT_OK) {
+                    presenter.getMyCreatedSheets();
+                    presenter.getMyFavoriteSheets();
+                }
+                break;
+        }
+    }
 
+    private boolean hasToLogin;
+    @Override
+    public void onToLogin() {
+        if (hasToLogin) {
+            return;
+        }
+        hasToLogin = true;
+        super.onToLogin();
     }
 }
