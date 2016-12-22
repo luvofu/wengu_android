@@ -142,8 +142,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         if (!TextUtils.isEmpty(tip)) {
             if (toast != null) {
                 toast.cancel();
+                toast.setText(tip);
+            } else {
+                toast = Toast.makeText(this, tip, Toast.LENGTH_SHORT);
             }
-            toast = Toast.makeText(this, tip, Toast.LENGTH_SHORT);
             toast.show();
         }
     }
