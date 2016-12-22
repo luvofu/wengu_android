@@ -64,18 +64,15 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
             data.add(0);
             List<String> keys = new ArrayList<>();
             keys.addAll(map.keySet());
-            Collections.sort(keys, new Comparator<String>() {
-                @Override
-                public int compare(String s, String t1) {
-                    char s0 = s.charAt(0);
-                    char s1 = t1.charAt(0);
-                    if (s0 > s1) {
-                        return 1;
-                    } else if (s0 < s1) {
-                        return -1;
-                    }
-                    return 0;
+            Collections.sort(keys, (key01, key02) -> {
+                char s0 = key01.charAt(0);
+                char s1 = key02.charAt(0);
+                if (s0 > s1) {
+                    return 1;
+                } else if (s0 < s1) {
+                    return -1;
                 }
+                return 0;
             });
             for (String key : keys) {
                 data.add(key);

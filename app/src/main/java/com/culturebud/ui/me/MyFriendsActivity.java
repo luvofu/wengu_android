@@ -22,7 +22,7 @@ import java.util.List;
  */
 
 @PresenterInject(MyFriendsPresenter.class)
-public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View {
+public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View, IndexsView.OnIndexChangedListener {
     private RecyclerView rvFriends;
     private IndexsView ivIndexs;
 
@@ -43,6 +43,8 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
         rvFriends.addItemDecoration(divider);
         rvFriends.setAdapter(new MyFriendsAdapter());
 
+        ivIndexs.setOnIndexChangedListener(this);
+
         presenter.myFriends();
     }
 
@@ -62,5 +64,10 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
         ((MyFriendsAdapter) rvFriends.getAdapter()).addItems(friends);
         List<String> indexs = ((MyFriendsAdapter) rvFriends.getAdapter()).getIndexs();
         ivIndexs.setIndexs(indexs);
+    }
+
+    @Override
+    public void onIndexChanged(int index, String content) {
+        onErrorTip("index = " + index + ", char is " + content);
     }
 }
