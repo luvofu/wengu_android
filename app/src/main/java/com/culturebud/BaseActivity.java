@@ -102,25 +102,22 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         wm.getDefaultDisplay().getMetrics(dm);
         screenHeight = dm.heightPixels;
         mIsSoftKeyboardShowing = false;
-        mKeyboardStateListeners = new ArrayList<OnSoftKeyboardStateChangedListener>();
-        mLayoutChangeListener = new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                //判断窗口可见区域大小
-                Rect r = new Rect();
-                getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
-                //如果屏幕高度和Window可见区域高度差值大于整个屏幕高度的1/3，则表示软键盘显示中，否则软键盘为隐藏状态。
+        mKeyboardStateListeners = new ArrayList<>();
+        mLayoutChangeListener = () -> {
+            //判断窗口可见区域大小
+            Rect r = new Rect();
+            getWindow().getDecorView().getWindowVisibleDisplayFrame(r);
+            //如果屏幕高度和Window可见区域高度差值大于整个屏幕高度的1/3，则表示软键盘显示中，否则软键盘为隐藏状态。
 //                int heightDifference = screenHeight - (r.bottom - r.top);
-                int heightDifference = screenHeight - r.bottom;//沉浸式 activity 不需要减去 top
-                boolean isKeyboardShowing = heightDifference > screenHeight / 3;
+            int heightDifference = screenHeight - r.bottom;//沉浸式 activity 不需要减去 top
+            boolean isKeyboardShowing = heightDifference > screenHeight / 3;
 
-                //如果之前软键盘状态为显示，现在为关闭，或者之前为关闭，现在为显示，则表示软键盘的状态发生了改变
-                if ((mIsSoftKeyboardShowing && !isKeyboardShowing) || (!mIsSoftKeyboardShowing && isKeyboardShowing)) {
-                    mIsSoftKeyboardShowing = isKeyboardShowing;
-                    for (int i = 0; i < mKeyboardStateListeners.size(); i++) {
-                        OnSoftKeyboardStateChangedListener listener = mKeyboardStateListeners.get(i);
-                        listener.OnSoftKeyboardStateChanged(mIsSoftKeyboardShowing, heightDifference);
-                    }
+            //如果之前软键盘状态为显示，现在为关闭，或者之前为关闭，现在为显示，则表示软键盘的状态发生了改变
+            if ((mIsSoftKeyboardShowing && !isKeyboardShowing) || (!mIsSoftKeyboardShowing && isKeyboardShowing)) {
+                mIsSoftKeyboardShowing = isKeyboardShowing;
+                for (int i = 0; i < mKeyboardStateListeners.size(); i++) {
+                    OnSoftKeyboardStateChangedListener listener = mKeyboardStateListeners.get(i);
+                    listener.OnSoftKeyboardStateChanged(mIsSoftKeyboardShowing, heightDifference);
                 }
             }
         };
@@ -129,7 +126,6 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     }
 
     private void initPresenter() {
-//        presenter = ClassUtil.getClassInstance(this, 0);
         presenter = ClassUtil.getPresenter(this);
     }
 
