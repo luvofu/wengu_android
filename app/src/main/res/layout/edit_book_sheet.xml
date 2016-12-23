@@ -51,15 +51,58 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:onClick="onClick"
         app:background="@drawable/setting_item_bg_selector"
         app:has_icon="false"
         app:name="@string/book_sheet_name" />
+
+    <RelativeLayout
+        android:id="@+id/rl_tags"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@drawable/setting_item_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:paddingLeft="15dp"
+        android:paddingRight="10dp"
+        android:paddingTop="15dp">
+
+        <ImageView
+            android:id="@+id/iv_tags"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/right_arrow" />
+
+        <TextView
+            android:id="@+id/tv_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/iv_tags"
+            android:gravity="center_vertical"
+            android:text="标签"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp" />
+
+        <com.culturebud.widget.TagFlowLayout
+            android:id="@+id/tfl_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_tags"
+            android:layout_toLeftOf="@id/iv_tags" />
+
+    </RelativeLayout>
 
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_bs_desc"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_marginTop="5dp"
+        android:clickable="true"
+        android:onClick="onClick"
         app:background="@drawable/setting_item_bg_selector"
         app:has_icon="false"
         app:name="@string/book_sheet_desc" />

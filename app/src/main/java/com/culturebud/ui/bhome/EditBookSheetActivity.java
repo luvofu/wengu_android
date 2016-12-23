@@ -3,11 +3,14 @@ package com.culturebud.ui.bhome;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
+import com.culturebud.adapter.BookSheetTagsAdapter;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.widget.SettingItemView;
+import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
@@ -19,6 +22,8 @@ public class EditBookSheetActivity extends BaseActivity {
     private SimpleDraweeView sdvBookSheetCover;
     private SettingItemView sivBookSheetName;
     private SettingItemView sivBookSheetDesc;
+    private RelativeLayout rlTags;
+    private TagFlowLayout tflTags;
     private BookSheetDetail bookSheetDetail;
 
     @Override
@@ -32,6 +37,8 @@ public class EditBookSheetActivity extends BaseActivity {
         sdvBookSheetCover = obtainViewById(R.id.sdv_bs_cover);
         sivBookSheetName = obtainViewById(R.id.siv_bs_name);
         sivBookSheetDesc = obtainViewById(R.id.siv_bs_desc);
+        rlTags = obtainViewById(R.id.rl_tags);
+        tflTags = obtainViewById(R.id.tfl_tags);
 
         initData();
     }
@@ -46,6 +53,12 @@ public class EditBookSheetActivity extends BaseActivity {
         sdvBookSheetCover.setImageURI(bookSheetDetail.getCover());
         sivBookSheetName.setRightInfo(bookSheetDetail.getName());
         sivBookSheetDesc.setRightInfo(bookSheetDetail.getDescription());
+        String tagStr = bookSheetDetail.getTag();
+        if (!TextUtils.isEmpty(tagStr)) {
+            String[] tags = tagStr.split("\\|");
+            BookSheetTagsAdapter bstAdapter = new BookSheetTagsAdapter(tags);
+            tflTags.setAdapter(bstAdapter);
+        }
     }
 
     @Override

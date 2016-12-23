@@ -82,7 +82,7 @@
     <string name="sheets_my_created">我创建的书单（%1$d）</string>
     <string name="sheets_my_favorite">我收藏的书单（%1$d）</string>
     <string name="hint_book_sheet_desc">书单描述（不超过500字）</string>
-    <string name="book_sheet_desc">书单描述</string>
+    <string name="book_sheet_desc">书单介绍</string>
     <string name="hint_book_sheet_name">必填（不超过15字）</string>
     <string name="book_sheet_name">书单名</string>
     <string name="book_sheet_cover">书单封面</string>
