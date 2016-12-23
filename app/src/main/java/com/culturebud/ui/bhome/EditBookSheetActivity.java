@@ -1,5 +1,6 @@
 package com.culturebud.ui.bhome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -64,11 +65,42 @@ public class EditBookSheetActivity extends BaseActivity {
     @Override
     public void onClick(View v) {
         super.onClick(v);
+        switch (v.getId()) {
+            case R.id.ll_add_cover:
+                showPhotoDialog();
+                break;
+            case R.id.siv_bs_name:
+
+                break;
+            case R.id.siv_bs_desc:
+
+                break;
+            case R.id.rl_tags:
+
+                break;
+        }
     }
 
     @Override
     protected void onBack() {
         super.onBack();
         finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_SELECT_IMAGE:
+                if (resultCode == RESULT_OK) {
+                    sdvBookSheetCover.setImageURI(photoUri);
+                }
+                break;
+            case REQUEST_CODE_PHOTO_CROP:
+                if (resultCode == RESULT_OK) {
+                    sdvBookSheetCover.setImageURI(photoUri);
+                }
+                break;
+        }
     }
 }

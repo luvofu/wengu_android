@@ -1,12 +1,14 @@
 package com.culturebud;
 
 import android.os.Environment;
+import android.util.Log;
 
 /**
  * Created by XieWei on 2016/10/20.
  */
 
 public final class CommonConst {
+    private static final String TAG = CommonConst.class.getSimpleName();
 
     public static final String TOKEN_KEY = "token";
 
@@ -180,6 +182,15 @@ public final class CommonConst {
         public static final String PER_DES_PERSONAL = "私密";
     }
 
-    public static final String CAPTURE_IMG_PATH = "file://" + Environment.getExternalStorageDirectory().getPath() + "/capture.jpg";
+    public static String getRootPath() {
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+            Log.d(TAG, "扩展存储可用，状态为" + Environment.getExternalStorageState());
+            return Environment.getExternalStorageDirectory().getPath();
+        } else {
+            Log.d(TAG, "扩展存储没法儿用，状态为" + Environment.getExternalStorageState());
+            return BaseApp.getInstance().getCacheDir().getPath();
+        }
+    }
 
+    public static final String CAPTURE_PATH = "file://" + Environment.getExternalStorageDirectory().getPath() + "/culture/capture";
 }

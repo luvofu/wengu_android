@@ -42,9 +42,6 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
     private SimpleDraweeView sdvFace;
     private LinearLayout llFace;
     private SettingItemView sivNick, sivCulturebudName, sivSex, sivEmail, sivRegion, sivProfile;
-    private BottomSheetDialog editImgDialog;
-    private TextView tvAlbum, tvPhoto, tvCancel;
-    private Uri imgUri;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,29 +61,6 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         setListeners();
 
         initData();
-    }
-
-    private void initEditImgDialog() {
-        if (editImgDialog == null) {
-            editImgDialog = new BottomSheetDialog(this);
-            editImgDialog.setContentView(R.layout.bottom_sheet_dialog);
-            editImgDialog.setCancelable(true);
-            editImgDialog.getWindow().findViewById(android.support.design.R.id.design_bottom_sheet)
-                    .setBackgroundResource(android.R.color.transparent);
-            tvAlbum = (TextView) editImgDialog.getWindow().findViewById(R.id.tv_opera_content);
-            tvPhoto = (TextView) editImgDialog.getWindow().findViewById(R.id.tv_del);
-            tvCancel = (TextView) editImgDialog.getWindow().findViewById(R.id.tv_cancel);
-            tvAlbum.setText("相册");
-            tvPhoto.setText("相机");
-            tvAlbum.setGravity(Gravity.CENTER);
-            WidgetUtil.setRawTextSize(tvAlbum, getResources().getDimensionPixelSize(R.dimen.dialog_opera_font_size));
-            tvAlbum.setTextColor(Color.BLUE);
-            tvPhoto.setTextColor(Color.BLUE);
-            tvCancel.setTextColor(Color.BLUE);
-            tvAlbum.setOnClickListener(this);
-            tvPhoto.setOnClickListener(this);
-            tvCancel.setOnClickListener(this);
-        }
     }
 
     private void setListeners() {
@@ -150,35 +124,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ll_face:
-                initEditImgDialog();
-                editImgDialog.show();
-                break;
-            case R.id.tv_opera_content://相册
-            {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
-                editImgDialog.dismiss();
-                break;
-            }
-            case R.id.tv_del://拍照
-            {
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                    ContentValues contentValues = new ContentValues(2);
-                    //如果想拍完存在系统相机的默认目录,改为
-                    contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, UUID.randomUUID().toString() + ".jpg");
-                    contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                    imgUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-                    startActivityForResult(cameraIntent, REQUEST_CODE_TAKE_PHOTO);
-                }
-                editImgDialog.dismiss();
-                break;
-            }
-            case R.id.tv_cancel://取消
-                editImgDialog.dismiss();
+                showPhotoDialog();
                 break;
             case R.id.siv_nick://修改昵称
             {
@@ -223,18 +169,15 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         switch (requestCode) {
             case REQUEST_CODE_SELECT_IMAGE:
                 if (resultCode == RESULT_OK) {
-                    imgUri = data.getData();
-                    Log.d(TAG, "image url is : " + imgUri.toString());
-                    Log.d(TAG, "image url is : " + (imgUri.getHost() + imgUri.getPath()));
-                    sdvFace.setImageURI(imgUri);
+                    sdvFace.setImageURI(photoUri);
                     User user = BaseApp.getInstance().getUser();
-                    presenter.editAvatar(user.getUserId(), imgUri, false);
+                    presenter.editAvatar(user.getUserId(), photoUri, false);
                 }
                 break;
-            case REQUEST_CODE_TAKE_PHOTO:
+            case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     User user = BaseApp.getInstance().getUser();
-                    presenter.editAvatar(user.getUserId(), imgUri, true);
+                    presenter.editAvatar(user.getUserId(), photoUri, true);
                 }
                 break;
             case REQUEST_CODE_ALTER_NICK: {

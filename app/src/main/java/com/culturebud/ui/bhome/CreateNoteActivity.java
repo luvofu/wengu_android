@@ -35,9 +35,6 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
     private SimpleDraweeView sdvAddImg;
     private ImageView ivDelImg;
 
-    private BottomSheetDialog editImgDialog;
-    private TextView tvAlbum, tvPhoto, tvCancel;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,31 +61,6 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
         }
     }
 
-    private void initEditImgDialog() {
-        if (editImgDialog == null) {
-            editImgDialog = new BottomSheetDialog(this);
-            editImgDialog.setContentView(R.layout.bottom_sheet_dialog);
-            editImgDialog.setCancelable(true);
-            editImgDialog.getWindow().findViewById(android.support.design.R.id.design_bottom_sheet)
-                    .setBackgroundResource(android.R.color.transparent);
-            tvAlbum = (TextView) editImgDialog.getWindow().findViewById(R.id.tv_opera_content);
-            tvPhoto = (TextView) editImgDialog.getWindow().findViewById(R.id.tv_del);
-            tvCancel = (TextView) editImgDialog.getWindow().findViewById(R.id.tv_cancel);
-            tvAlbum.setText("相册");
-            tvPhoto.setText("相机");
-            tvAlbum.setGravity(Gravity.CENTER);
-            WidgetUtil.setRawTextSize(tvAlbum, getResources().getDimensionPixelSize(R.dimen.dialog_opera_font_size));
-            tvAlbum.setTextColor(Color.BLUE);
-            tvPhoto.setTextColor(Color.BLUE);
-            tvCancel.setTextColor(Color.BLUE);
-            tvAlbum.setOnClickListener(this);
-            tvPhoto.setOnClickListener(this);
-            tvCancel.setOnClickListener(this);
-        }
-    }
-
-    private Uri photoUri;
-
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -99,39 +71,11 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
                         etOther.getText().toString(), photoUri);
                 break;
             case R.id.sdv_add_img:
-                initEditImgDialog();
-                editImgDialog.show();
+                showPhotoDialog();
                 break;
             case R.id.iv_del_img:
                 photoUri = null;
                 sdvAddImg.setImageURI(photoUri);
-                break;
-            case R.id.tv_opera_content://相册
-            {
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
-                editImgDialog.dismiss();
-                break;
-            }
-            case R.id.tv_del://拍照
-            {
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                    ContentValues contentValues = new ContentValues(2);
-                    //如果想拍完存在系统相机的默认目录,改为
-                    contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, UUID.randomUUID().toString() + ".jpg");
-                    contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                    photoUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
-                    startActivityForResult(cameraIntent, REQUEST_CODE_TAKE_PHOTO);
-                }
-                editImgDialog.dismiss();
-                break;
-            }
-            case R.id.tv_cancel://取消
-                editImgDialog.dismiss();
                 break;
         }
     }
@@ -157,11 +101,10 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
         switch (requestCode) {
             case REQUEST_CODE_SELECT_IMAGE:
                 if (resultCode == RESULT_OK) {
-                    photoUri = data.getData();
                     sdvAddImg.setImageURI(photoUri);
                 }
                 break;
-            case REQUEST_CODE_TAKE_PHOTO:
+            case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvAddImg.setImageURI(photoUri);
                 }

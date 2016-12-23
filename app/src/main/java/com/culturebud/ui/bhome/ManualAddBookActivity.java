@@ -55,10 +55,6 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
     private SettingItemView sivPubDate, sivBinding;
     private EditText etContentSummary, etAuthorSummary;
 
-    private BottomSheetDialog addBookCoverDlg;
-    private TextView tvAlbum, tvPhoto, tvCancel;
-    private Uri imgUri;
-
     private BottomSheetDialog pubDateDlg;
     private OptionsPickerView<String> bindingDlg;
 
@@ -107,29 +103,6 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
         ivAddTranslator.setOnClickListener(this);
         sivBinding.setOnClickListener(this);
         sivPubDate.setOnClickListener(this);
-    }
-
-    private void initEditImgDialog() {
-        if (addBookCoverDlg == null) {
-            addBookCoverDlg = new BottomSheetDialog(this);
-            addBookCoverDlg.setContentView(R.layout.bottom_sheet_dialog);
-            addBookCoverDlg.setCancelable(true);
-            addBookCoverDlg.getWindow().findViewById(android.support.design.R.id.design_bottom_sheet)
-                    .setBackgroundResource(android.R.color.transparent);
-            tvAlbum = (TextView) addBookCoverDlg.getWindow().findViewById(R.id.tv_opera_content);
-            tvPhoto = (TextView) addBookCoverDlg.getWindow().findViewById(R.id.tv_del);
-            tvCancel = (TextView) addBookCoverDlg.getWindow().findViewById(R.id.tv_cancel);
-            tvAlbum.setText("相册");
-            tvPhoto.setText("相机");
-            tvAlbum.setGravity(Gravity.CENTER);
-            WidgetUtil.setRawTextSize(tvAlbum, getResources().getDimensionPixelSize(R.dimen.dialog_opera_font_size));
-            tvAlbum.setTextColor(Color.BLUE);
-            tvPhoto.setTextColor(Color.BLUE);
-            tvCancel.setTextColor(Color.BLUE);
-            tvAlbum.setOnClickListener(this);
-            tvPhoto.setOnClickListener(this);
-            tvCancel.setOnClickListener(this);
-        }
     }
 
     private ArrayList<String> items = new ArrayList<>();
@@ -193,7 +166,7 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
                 translators.add(et.getText().toString());
             }
         }
-        presenter.submitBook(imgUri, etBookName.getText().toString(), etNameOrign.getText().toString(),
+        presenter.submitBook(photoUri, etBookName.getText().toString(), etNameOrign.getText().toString(),
                 etSubtitle.getText().toString(), etIsbn.getText().toString(), authors, translators,
                 etPrice.getText().toString(), etPublisher.getText().toString(), sivPubDate.getInfo(),
                 sivBinding.getInfo(), etPages.getText().toString(), etContentSummary.getText().toString(),
@@ -205,39 +178,7 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ll_book_cover:
-                initEditImgDialog();
-                addBookCoverDlg.show();
-                break;
-            case R.id.tv_opera_content: {
-                if (addBookCoverDlg.isShowing()) {
-                    addBookCoverDlg.dismiss();
-                }
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
-                break;
-            }
-            case R.id.tv_del: {
-                if (addBookCoverDlg.isShowing()) {
-                    addBookCoverDlg.dismiss();
-                }
-                Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (cameraIntent.resolveActivity(getPackageManager()) != null) {
-                    ContentValues contentValues = new ContentValues(2);
-                    //如果想拍完存在系统相机的默认目录,改为
-                    contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, UUID.randomUUID().toString() + ".jpg");
-                    contentValues.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-                    imgUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, contentValues);
-                    cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imgUri);
-                    startActivityForResult(cameraIntent, REQUEST_CODE_TAKE_PHOTO);
-                }
-                break;
-            }
-            case R.id.tv_cancel:
-                if (addBookCoverDlg.isShowing()) {
-                    addBookCoverDlg.dismiss();
-                }
+                showPhotoDialog();
                 break;
             case R.id.iv_add_author: {
                 View view = getLayoutInflater().inflate(R.layout.add_author, null);
@@ -292,14 +233,12 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
         switch (requestCode) {
             case REQUEST_CODE_SELECT_IMAGE:
                 if (resultCode == RESULT_OK) {
-                    imgUri = data.getData();
-                    sdvBookCover.setImageURI(imgUri);
+                    sdvBookCover.setImageURI(photoUri);
                 }
                 break;
-            case REQUEST_CODE_TAKE_PHOTO:
+            case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
-                    imgUri = data.getData();
-                    sdvBookCover.setImageURI(imgUri);
+                    sdvBookCover.setImageURI(photoUri);
 
                 }
                 break;
