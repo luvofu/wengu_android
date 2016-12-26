@@ -7,6 +7,7 @@ import com.culturebud.bean.UserMessage;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -140,5 +141,16 @@ public interface ApiMeInterface {
     @POST(CommonConst.PATH_MY_FRIENDS)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonArray>> myFriends(@FieldMap Map<String, Object> params);
+
+    /**
+     * int page;页
+     * String keyword;关键字
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_USER_SEARCH)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> searchUser(@FieldMap Map<String, Object> params);
 
 }

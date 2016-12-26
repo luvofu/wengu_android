@@ -37,18 +37,25 @@
             android:drawablePadding="3dp"
             android:gravity="center"
             android:minWidth="48dp"
+            android:padding="6dp"
             android:textColor="@color/title_font_white"
             android:textSize="16sp"
             tools:text="返回" />
 
-        <TextView
-            android:id="@+id/tv_title"
+        <EditText
+            android:id="@+id/et_title"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center"
+            android:background="@android:color/transparent"
+            android:drawablePadding="5dp"
+            android:enabled="false"
+            android:focusable="false"
             android:gravity="center"
+            android:inputType="text"
             android:maxWidth="120dp"
             android:textColor="@color/title_font_white"
+            android:textColorHint="@color/tabar_font_normal"
             android:textSize="16sp"
             tools:text="标题" />
 
@@ -60,7 +67,9 @@
             android:clickable="true"
             android:gravity="center"
             android:minWidth="48dp"
+            android:paddingBottom="6dp"
             android:paddingRight="8dp"
+            android:paddingTop="6dp"
             android:textColor="@color/title_font_white"
             android:textSize="16sp"
             android:visibility="visible" />

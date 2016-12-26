@@ -65,7 +65,7 @@ public class BookCommunityAdapter extends RecyclerView.Adapter<BookCommunityAdap
 
         public BookCommunityViewHolder(View itemView) {
             super(itemView);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvTitle = (TextView) itemView.findViewById(R.id.et_title);
             tvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
             tvNum = (TextView) itemView.findViewById(R.id.tv_comment_num);
             itemView.setOnClickListener(this);

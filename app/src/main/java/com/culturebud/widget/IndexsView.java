@@ -47,7 +47,7 @@ public class IndexsView extends View {
     private void init() {
         indexs = new ArrayList<>();
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL);
         paint.setDither(true);
         paint.setStrokeWidth(2);
         paint.setColor(getResources().getColor(R.color.title_font_default));
@@ -110,7 +110,7 @@ public class IndexsView extends View {
         if (indexs.size() <= 0) {
             return;
         }
-        canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
+        //canvas.drawRect(0, 0, getWidth(), getHeight(), paint);
         float lineHeight = (getHeight() / indexs.size());
 
         float y = lineHeight / 2;
@@ -120,8 +120,8 @@ public class IndexsView extends View {
             paint.getTextBounds(s, 0, s.length(), txtRect);
             canvas.drawText(s, getWidth() / 2, y + txtRect.height() / 2, paint);
             y += lineHeight;
-            canvas.drawLine(0, lineY, getWidth(), lineY, paint);
-            lineY += lineHeight;
+            //canvas.drawLine(0, lineY, getWidth(), lineY, paint);
+            //lineY += lineHeight;
         }
     }
 

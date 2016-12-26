@@ -1,5 +1,6 @@
 package com.culturebud;
 
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
@@ -9,9 +10,13 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 /**
@@ -21,7 +26,7 @@ import android.widget.TextView;
 public abstract class TitleBarActivity extends MyAppCompatActivity implements View.OnClickListener {
     private Toolbar toolbar;
     private TextView tvBack;
-    private TextView tvTitle;
+    private EditText etTitle;
     private TextView tvOperas;
     private ViewGroup vgContent;
 
@@ -38,7 +43,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
             toolbar.setMinimumHeight(getResources().getDimensionPixelSize(R.dimen.titlebar_height_large));
         }
         tvBack = obtainViewById(R.id.tv_back);
-        tvTitle = obtainViewById(R.id.tv_title);
+        etTitle = obtainViewById(R.id.et_title);
         tvOperas = obtainViewById(R.id.tv_operas);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -75,6 +80,56 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         toolbar.setVisibility(View.GONE);
     }
 
+    public void enableSearch() {
+        etTitle.setEnabled(true);
+        etTitle.setFocusable(true);
+        etTitle.setFocusableInTouchMode(true);
+        etTitle.requestFocus();
+        etTitle.findFocus();
+        etTitle.setMaxWidth(getResources().getDimensionPixelSize(R.dimen.max_search_width));
+        etTitle.setMinWidth(getResources().getDimensionPixelSize(R.dimen.min_search_width));
+        etTitle.setMinHeight(getResources().getDimensionPixelSize(R.dimen.min_search_height));
+        etTitle.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        etTitle.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+        etTitle.setBackgroundResource(R.drawable.white_circle_bg);
+        etTitle.setTextColor(getResources().getColor(R.color.title_font_default));
+        Drawable left = getResources().getDrawable(R.mipmap.search_icon);
+        left.setBounds(0, 0, left.getIntrinsicWidth(), left.getIntrinsicHeight());
+        etTitle.setCompoundDrawables(left, null, null, null);
+        int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_small);
+        etTitle.setPadding(padding, padding, padding, padding);
+    }
+
+    public void setSearchHint(CharSequence hint) {
+        if (!TextUtils.isEmpty(hint)) {
+            etTitle.setHint(hint);
+        }
+    }
+
+    public void setOnTitleWatcher(TextWatcher textWatcher) {
+        etTitle.addTextChangedListener(textWatcher);
+    }
+
+    public CharSequence getInputContent() {
+        return etTitle.getText();
+    }
+
+    public void setOnTitleEditorActionListener(TextView.OnEditorActionListener onEditorActionListener) {
+        etTitle.setOnEditorActionListener(onEditorActionListener);
+    }
+
+    public void setSearchHint(@StringRes int resId) {
+        etTitle.setHint(resId);
+    }
+
+    public void disableSearch() {
+        etTitle.setEnabled(false);
+        etTitle.clearFocus();
+        etTitle.setFocusable(false);
+        etTitle.setTextColor(Color.WHITE);
+        etTitle.setBackgroundResource(android.R.color.transparent);
+    }
+
     public void setBackText(CharSequence backText) {
         if (TextUtils.isEmpty(backText)) {
             tvBack.setText("");
@@ -97,6 +152,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         } else {
             tvOperas.setText(operasText);
         }
+    }
+
+    public void setOperasText(@StringRes int resId) {
+        tvOperas.setText(resId);
     }
 
     public void setBackDrawable(@DrawableRes int resId) {
@@ -129,17 +188,17 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     }
 
     public void setTitle(CharSequence title) {
-        tvTitle.setText(title);
+        etTitle.setText(title);
     }
 
     @Override
     public void setTitle(@StringRes int titleId) {
-        tvTitle.setText(titleId);
+        etTitle.setText(titleId);
     }
 
     @Override
     public void setTitleColor(@ColorRes int colorResId) {
-        tvTitle.setTextColor(getResources().getColor(colorResId));
+        etTitle.setTextColor(getResources().getColor(colorResId));
     }
 
     @Override

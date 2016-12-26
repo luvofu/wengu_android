@@ -102,7 +102,7 @@ public class CommentMyRelatedAdapter extends RecyclerView.Adapter<MyRelatedViewH
 
             tvCommentContent = (TextView) itemView.findViewById(R.id.tv_comment_content);
 
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvTitle = (TextView) itemView.findViewById(R.id.et_title);
             tvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
 
             rvReplies = (RecyclerView) itemView.findViewById(R.id.rv_replies);

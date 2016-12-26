@@ -28,8 +28,6 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-import cn.sharesdk.onekeyshare.OnekeyShare;
-
 /**
  * Created by XieWei on 2016/10/20.
  */
@@ -180,7 +178,7 @@ public class CommunityFragment extends BaseFragment<CommunityContract.Presenter>
             case R.id.iv_back:
                 getActivity().finish();
                 break;
-            case R.id.tv_title: {
+            case R.id.et_title: {
                 Intent intent = new Intent(getActivity(), SearchBookCommunityActivity.class);
                 startActivity(intent);
                 break;

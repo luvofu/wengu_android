@@ -209,7 +209,7 @@ public class CommentDetailAdapter extends RecyclerView.Adapter<RecyclerView.View
 
             tvNick = (TextView) itemView.findViewById(R.id.tv_nick_name);
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvTitle = (TextView) itemView.findViewById(R.id.et_title);
             tvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
             tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
             tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);

@@ -136,7 +136,7 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.CommentV
             vsOpera = (ViewStub) itemView.findViewById(R.id.vs_delete);
             tvNick = (TextView) itemView.findViewById(R.id.tv_nick_name);
             tvContent = (TextView) itemView.findViewById(R.id.tv_content);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_title);
+            tvTitle = (TextView) itemView.findViewById(R.id.et_title);
             tvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
             tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
             tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);

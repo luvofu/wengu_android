@@ -38,4 +38,11 @@
     <dimen name="my_sheet_max_height">240dp</dimen>
     <dimen name="my_friend_alph_item_padding">10dp</dimen>
 
+    <dimen name="common_padding_middle">15dp</dimen>
+    <dimen name="common_padding_small">6dp</dimen>
+    <dimen name="max_search_width">800dp</dimen>
+    <dimen name="min_search_width">260dp</dimen>
+    <dimen name="min_search_height">36dp</dimen>
+
+
 </resources>

@@ -35,8 +35,9 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
         if (!validateToken()) {
             return;
         }
-//        view.showProDialog();
+        view.showProDialog();
         model.myFriends(BaseApp.getInstance().getUser().getToken())
+                .subscribeOn(Schedulers.io())
                 .filter(users -> {
                     for (User user : users) {
                         Log.d(TAG, user.getNickname().charAt(0) + "");
@@ -46,24 +47,25 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
                         if (pinyin != null && pinyin.length > 0) {
                             user.setSpellFirst(pinyin[0].substring(0, 1).toUpperCase());
                         } else if ((nick >= 65 && nick <= 90)
-                                || (nick >= 97 && nick <= 122)){
+                                || (nick >= 97 && nick <= 122)) {
                             user.setSpellFirst((nick + "").toUpperCase());
-                        }  else {
+                        } else {
                             user.setSpellFirst("#");
                         }
                     }
                     return true;
                 })
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<User>>() {
                     @Override
                     public void onCompleted() {
-
+                        view.hideProDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
+                        view.hideProDialog();
                     }
 
                     @Override

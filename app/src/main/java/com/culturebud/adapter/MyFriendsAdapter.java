@@ -44,6 +44,10 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
         }
     }
 
+    public int indexAlph(String key) {
+        return indexs.indexOf(key);
+    }
+
     public List<String> getIndexs() {
         return indexs;
     }
@@ -62,19 +66,18 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
                 }
             }
             data.add(0);
-            List<String> keys = new ArrayList<>();
-            keys.addAll(map.keySet());
-            Collections.sort(keys, (key01, key02) -> {
-                char s0 = key01.charAt(0);
-                char s1 = key02.charAt(0);
-                if (s0 > s1) {
-                    return 1;
-                } else if (s0 < s1) {
+            Collections.sort(indexs, (o1, o2) -> {
+                char c1 = o1.charAt(0);
+                char c2 = o2.charAt(0);
+                if (c1 == c2) {
+                    return 0;
+                } else if (c1 < c2) {
                     return -1;
+                } else {
+                    return 1;
                 }
-                return 0;
             });
-            for (String key : keys) {
+            for (String key : indexs) {
                 data.add(key);
                 data.addAll(map.get(key));
             }
@@ -124,13 +127,18 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Object item = data.get(position);
         if (item instanceof String) {
-            IndexViewHolder iholder = (IndexViewHolder) holder;
-            iholder.setAlph(item.toString());
+            IndexViewHolder ivHolder = (IndexViewHolder) holder;
+            ivHolder.position = position;
+            ivHolder.setAlph(item.toString());
         } else if (item instanceof User) {
-            FriendViewHolder fholder = (FriendViewHolder) holder;
+            FriendViewHolder fvHolder = (FriendViewHolder) holder;
+            fvHolder.position = position;
             User friend = (User) item;
-            fholder.setFriendFace(friend.getAvatar());
-            fholder.setNick(friend.getNickname());
+            fvHolder.setFriendFace(friend.getAvatar());
+            fvHolder.setNick(friend.getNickname());
+        } else if (item instanceof Integer) {
+            SearchViewHolder svHolder = (SearchViewHolder) holder;
+            svHolder.position = position;
         }
     }
 
@@ -139,19 +147,32 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
         return data.size();
     }
 
-    class SearchViewHolder extends RecyclerView.ViewHolder {
+    class SearchViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private int position;
 
         public SearchViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position, v, data.get(position));
+                }
+            }
         }
     }
 
-    class IndexViewHolder extends RecyclerView.ViewHolder {
+    class IndexViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvAlph;
+        private int position;
 
         public IndexViewHolder(View itemView) {
             super(itemView);
             tvAlph = (TextView) itemView;
+            itemView.setOnClickListener(this);
         }
 
         public void setAlph(String spell) {
@@ -160,16 +181,27 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
             }
             tvAlph.setText(spell);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position, v, data.get(position));
+                }
+            }
+        }
     }
 
-    class FriendViewHolder extends RecyclerView.ViewHolder {
+    class FriendViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvFriendFace;
         private TextView tvNick;
+        private int position;
 
         public FriendViewHolder(View itemView) {
             super(itemView);
             sdvFriendFace = (SimpleDraweeView) itemView.findViewById(R.id.sdv_friend_face);
             tvNick = (TextView) itemView.findViewById(R.id.tv_friend_nick);
+            itemView.setOnClickListener(this);
         }
 
         public void setFriendFace(String url) {
@@ -185,5 +217,28 @@ public class MyFriendsAdapter extends RecyclerView.Adapter {
             }
             tvNick.setText(nick);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(position, v, data.get(position));
+                }
+            }
+        }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, View v, Object item);
     }
 }

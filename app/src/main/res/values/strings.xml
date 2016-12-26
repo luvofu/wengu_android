@@ -86,4 +86,6 @@
     <string name="hint_book_sheet_name">必填（不超过15字）</string>
     <string name="book_sheet_name">书单名</string>
     <string name="book_sheet_cover">书单封面</string>
+    <string name="search_user_hint">昵称/手机号</string>
+
 </resources>

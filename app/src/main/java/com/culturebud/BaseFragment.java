@@ -40,7 +40,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.abs_title_page, container, false);
         vsContainer = (ViewStub) view.findViewById(R.id.vs_container);
-        tvTitle = (TextView) view.findViewById(R.id.tv_title);
+        tvTitle = (TextView) view.findViewById(R.id.et_title);
         vsTitleLeft = (ViewStub) view.findViewById(R.id.vs_title_left);
         vsTitleRight = (ViewStub) view.findViewById(R.id.vs_title_right);
         return view;
