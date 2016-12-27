@@ -186,6 +186,12 @@ public final class CommonConst {
         public static final String PER_DES_PERSONAL = "私密";
     }
 
+    public final class RelationType {
+        public static final int STRANGER = 0;
+        public static final int FRIEND = 1;
+        public static final int PERSONAL = 2;
+    }
+
     public static String getRootPath() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             Log.d(TAG, "扩展存储可用，状态为" + Environment.getExternalStorageState());

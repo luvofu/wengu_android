@@ -83,6 +83,7 @@
                 android:id="@+id/fiv_sex"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/setting_item_center_bg_selector"
                 android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
@@ -104,11 +105,35 @@
                 android:id="@+id/fiv_sign"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/setting_item_center_bg_selector"
                 android:paddingBottom="8dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
                 android:paddingTop="8dp"
                 app:label="个性签名" />
+
+            <Button
+                android:id="@+id/btn_enter_book_home"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="25dp"
+                android:background="@drawable/login_btn_selector"
+                android:gravity="center"
+                android:text="进书房"
+                android:textColor="@android:color/white"
+                android:textSize="@dimen/content_font_default" />
+
+            <Button
+                android:id="@+id/btn_add_friend"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:background="@drawable/login_btn_selector"
+                android:gravity="center"
+                android:text="加好友"
+                android:textColor="@color/title_font_default"
+                android:textSize="@dimen/content_font_default" />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

@@ -3,10 +3,12 @@ package com.culturebud.ui.me;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
@@ -25,6 +27,7 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
     private SimpleDraweeView sdvBg, sdvFace;
     private TextView tvNick;
     private FormItemView fivSex, fivRegion, fivSign;
+    private Button btnEnterBookHome, btnAddFriend;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,8 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
         fivSex = obtainViewById(R.id.fiv_sex);
         fivRegion = obtainViewById(R.id.fiv_region);
         fivSign = obtainViewById(R.id.fiv_sign);
+        btnEnterBookHome = obtainViewById(R.id.btn_enter_book_home);
+        btnAddFriend = obtainViewById(R.id.btn_add_friend);
         ivBack.setOnClickListener(this);
 
         initData();
@@ -70,7 +75,14 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
             tvNick.setText(user.getNickname());
         }
         fivSex.setContent(user.getSex() == 0 ? "男" : "女");
-        fivRegion.setContent(user.getProvince() + " " + user.getCity());
+        String province = TextUtils.isEmpty(user.getProvince()) ? "" : user.getProvince();
+        String city = TextUtils.isEmpty(user.getCity()) ? "" : user.getCity();
+        fivRegion.setContent(province + " " + city);
         fivSign.setContent(user.getTag());
+        if (user.getRelationType() == CommonConst.RelationType.STRANGER) {
+            btnAddFriend.setVisibility(View.VISIBLE);
+        } else {
+            btnAddFriend.setVisibility(View.GONE);
+        }
     }
 }
