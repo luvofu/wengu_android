@@ -49,9 +49,9 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     @Override
     public void onBindViewHolder(UsersViewHolder holder, int position) {
         User item = data.get(position);
+        holder.user = item;
         holder.setFace(item.getAvatar());
         holder.setNick(item.getNickname());
-        holder.userId = item.getUserId();
     }
 
     @Override
@@ -62,7 +62,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
     class UsersViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvFace;
         private TextView tvNick;
-        private long userId;
+        private User user;
 
         public UsersViewHolder(View itemView) {
             super(itemView);
@@ -85,7 +85,25 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UsersViewHol
 
         @Override
         public void onClick(View v) {
-
+            if (v == itemView) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, user);
+                }
+            }
         }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, User user);
     }
 }

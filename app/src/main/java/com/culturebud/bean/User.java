@@ -78,6 +78,10 @@ public class User {
     @DatabaseField(columnName = "token")
     private String token;//令牌
 
+    @SerializedName("relationType")
+    @DatabaseField(columnName = "relation_type")
+    private int relationType;//关系类型：陌生人Stranger(0),好友Friend(1),个人Personal(2);
+
     private String spellFirst;
 
     public String getSpellFirst() {
@@ -224,6 +228,14 @@ public class User {
         this.token = token;
     }
 
+    public int getRelationType() {
+        return relationType;
+    }
+
+    public void setRelationType(int relationType) {
+        this.relationType = relationType;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -301,6 +313,8 @@ public class User {
                 ", weixinId='" + weixinId + '\'' +
                 ", weiboId='" + weiboId + '\'' +
                 ", token='" + token + '\'' +
+                ", relationType=" + relationType +
+                ", spellFirst='" + spellFirst + '\'' +
                 '}';
     }
 
@@ -324,6 +338,8 @@ public class User {
         user.setWeixinId(weixinId);
         user.setWeiboId(weiboId);
         user.setToken(token);
+        user.setSpellFirst(spellFirst);
+        user.setRelationType(relationType);
         return user;
     }
 

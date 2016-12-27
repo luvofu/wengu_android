@@ -88,6 +88,12 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
 
     @Override
     public void onItemClick(int position, View v, Object item) {
+        if (item instanceof User) {
+            User user = (User) item;
+            Intent intent = new Intent(this, FriendDetailActivity.class);
+            intent.putExtra("user_id", user.getUserId());
+            startActivityForResult(intent, REQUEST_CODE_USER_PROFILE);
+        }
     }
 
     @Override

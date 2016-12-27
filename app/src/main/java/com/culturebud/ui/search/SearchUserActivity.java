@@ -1,5 +1,6 @@
 package com.culturebud.ui.search;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserSearchContract;
 import com.culturebud.presenter.UserSearchPresenter;
+import com.culturebud.ui.me.FriendDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -24,7 +26,7 @@ import java.util.List;
 
 @PresenterInject(UserSearchPresenter.class)
 public class SearchUserActivity extends BaseActivity<UserSearchContract.Presenter>
-        implements UserSearchContract.View, TextView.OnEditorActionListener {
+        implements UserSearchContract.View, TextView.OnEditorActionListener, UsersAdapter.OnItemClickListener {
     private RecyclerView rvUsers;
 
     @Override
@@ -45,7 +47,9 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
 
         int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_middle);
         rvUsers.setPadding(padding, padding, padding, padding);
-        rvUsers.setAdapter(new UsersAdapter());
+        UsersAdapter adapter = new UsersAdapter();
+        rvUsers.setAdapter(adapter);
+        adapter.setOnItemClickListener(this);
 
         enableSearch();
         setOnTitleEditorActionListener(this);
@@ -75,5 +79,12 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
         inputContent = getInputContent().toString();
         presenter.search(inputContent, 0);
         return true;
+    }
+
+    @Override
+    public void onItemClick(View v, User user) {
+        Intent intent = new Intent(this, FriendDetailActivity.class);
+        intent.putExtra("user_id", user.getUserId());
+        startActivityForResult(intent, REQUEST_CODE_USER_PROFILE);
     }
 }

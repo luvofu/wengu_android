@@ -153,4 +153,14 @@ public interface ApiMeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> searchUser(@FieldMap Map<String, Object> params);
 
+    /**
+     * String token;令牌
+     * long userId;用户id（返回信息所属用户id）
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_USER_PROFILE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> getUserProfile(@FieldMap Map<String, Object> params);
 }
