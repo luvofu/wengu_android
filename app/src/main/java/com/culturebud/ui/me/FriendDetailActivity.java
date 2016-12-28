@@ -77,8 +77,9 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
         fivSex.setContent(user.getSex() == 0 ? "男" : "女");
         String province = TextUtils.isEmpty(user.getProvince()) ? "" : user.getProvince();
         String city = TextUtils.isEmpty(user.getCity()) ? "" : user.getCity();
-        fivRegion.setContent(province + " " + city);
-        fivSign.setContent(user.getTag());
+        String county = TextUtils.isEmpty(user.getCounty()) ? "" : user.getCounty();
+        fivRegion.setContent(province + " " + city + " " + county);
+        fivSign.setContent(user.getAutograph());
         if (user.getRelationType() == CommonConst.RelationType.STRANGER) {
             btnAddFriend.setVisibility(View.VISIBLE);
         } else {

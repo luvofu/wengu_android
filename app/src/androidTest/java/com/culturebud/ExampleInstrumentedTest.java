@@ -148,7 +148,7 @@ public class ExampleInstrumentedTest {
         String content = "platform=" + URLEncoder.encode("Android", "UTF-8");
         content += "&deviceToken=" + URLEncoder.encode(BaseApp.getInstance().getDeviceId(), "UTF-8");
         content += "&userName=" + URLEncoder.encode("15071031800", "UTF-8");
-        content += "&password=" + URLEncoder.encode(DigestUtil.md5("xiewei123"), "UTF-8");
+        content += "&password=" + URLEncoder.encode(DigestUtil.md5("xw123456"), "UTF-8");
         // DataOutputStream.writeBytes将字符串中的16位的unicode字符以8位的字符形式写到流里面
         out.writeBytes(content);
 

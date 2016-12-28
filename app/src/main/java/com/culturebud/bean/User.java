@@ -50,6 +50,10 @@ public class User {
     @DatabaseField(columnName = "city")
     private String city;//市
 
+    @SerializedName("county")
+    @DatabaseField(columnName = "county")
+    private String county;//县
+
     @SerializedName("birthday")
     @DatabaseField(columnName = "birthday")
     private String birthday;//生日
@@ -172,6 +176,14 @@ public class User {
         this.city = city;
     }
 
+    public String getCounty() {
+        return county;
+    }
+
+    public void setCounty(String county) {
+        this.county = county;
+    }
+
     public String getBirthday() {
         return birthday;
     }
@@ -257,6 +269,7 @@ public class User {
         if (province != null ? !province.equals(user.province) : user.province != null)
             return false;
         if (city != null ? !city.equals(user.city) : user.city != null) return false;
+        if (county != null ? !county.equals(user.county) : user.county != null) return false;
         if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null)
             return false;
         if (tag != null ? !tag.equals(user.tag) : user.tag != null) return false;
@@ -283,6 +296,7 @@ public class User {
         result = 31 * result + (country != null ? country.hashCode() : 0);
         result = 31 * result + (province != null ? province.hashCode() : 0);
         result = 31 * result + (city != null ? city.hashCode() : 0);
+        result = 31 * result + (county != null ? county.hashCode() : 0);
         result = 31 * result + (birthday != null ? birthday.hashCode() : 0);
         result = 31 * result + (tag != null ? tag.hashCode() : 0);
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
@@ -306,6 +320,7 @@ public class User {
                 ", country='" + country + '\'' +
                 ", province='" + province + '\'' +
                 ", city='" + city + '\'' +
+                ", county='" + county + '\'' +
                 ", birthday='" + birthday + '\'' +
                 ", tag='" + tag + '\'' +
                 ", userName='" + userName + '\'' +
@@ -331,6 +346,7 @@ public class User {
         user.setCountry(country);
         user.setProvince(province);
         user.setCity(city);
+        user.setCounty(county);
         user.setBirthday(birthday);
         user.setTag(tag);
         user.setUserName(userName);
