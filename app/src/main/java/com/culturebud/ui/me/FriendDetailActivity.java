@@ -1,5 +1,6 @@
 package com.culturebud.ui.me;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,11 +24,13 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 @PresenterInject(FriendDetailPresenter.class)
 public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Presenter> implements FriendDetailContract.View {
+    private static final int REQUEST_CODE_ADD_FRIEND = 1014;
     private ImageView ivBack;
     private SimpleDraweeView sdvBg, sdvFace;
     private TextView tvNick;
     private FormItemView fivSex, fivRegion, fivSign;
     private Button btnEnterBookHome, btnAddFriend;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +63,25 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.btn_add_friend: {
+                if (user == null) {
+                    return;
+                }
+                Intent intent = new Intent(this, InviteFriendActivity.class);
+                intent.putExtra("user_id", user.getUserId());
+                startActivityForResult(intent, REQUEST_CODE_ADD_FRIEND);
+                break;
+            }
+            case R.id.btn_enter_book_home: {
+
+                break;
+            }
         }
     }
 
     @Override
     public void onFriend(User user) {
+        this.user = user;
         if (!TextUtils.isEmpty(user.getBackground())) {
             sdvBg.setImageURI(user.getBackground());
         }

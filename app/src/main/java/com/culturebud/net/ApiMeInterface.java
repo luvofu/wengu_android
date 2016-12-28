@@ -3,21 +3,14 @@ package com.culturebud.net;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.User;
 import com.culturebud.CommonConst;
-import com.culturebud.bean.UserMessage;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.List;
 import java.util.Map;
 
-import retrofit2.Call;
-import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
-import retrofit2.http.OPTIONS;
-import retrofit2.http.PATCH;
 import retrofit2.http.POST;
-import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -163,4 +156,8 @@ public interface ApiMeInterface {
     @POST(CommonConst.PATH_USER_PROFILE)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> getUserProfile(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_USER_MSG_INVITE_FRIEND)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> inviteFriend(@FieldMap Map<String, Object> params);
 }

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/litter_gray_bg_border"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="对方需要你填写验证信息"
+        android:textColor="@color/title_font_default"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/et_validate_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/title_font_white"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:hint="写下您的验证信息，让他（她）知道你..."
+        android:maxLines="1"
+        android:padding="10dp"
+        android:textColor="@color/title_font_default"
+        android:textColorHint="@color/front_more_font"
+        android:textSize="14sp" />
+
+</LinearLayout>
