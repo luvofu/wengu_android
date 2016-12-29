@@ -15,6 +15,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.FriendDetailContract;
 import com.culturebud.presenter.FriendDetailPresenter;
+import com.culturebud.ui.bhome.UserBookHomeActivity;
 import com.culturebud.widget.FormItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -73,7 +74,12 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
                 break;
             }
             case R.id.btn_enter_book_home: {
-
+                if (user == null) {
+                    return;
+                }
+                Intent intent = new Intent(this, UserBookHomeActivity.class);
+                intent.putExtra("user_id", user.getUserId());
+                startActivity(intent);
                 break;
             }
         }

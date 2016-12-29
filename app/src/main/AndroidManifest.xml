@@ -117,6 +117,8 @@
             android:name=".ui.me.InviteFriendActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible" />
 
+        <activity android:name=".ui.bhome.UserBookHomeActivity" />
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
