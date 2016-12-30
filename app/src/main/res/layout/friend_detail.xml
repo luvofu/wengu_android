@@ -30,7 +30,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fresco:actualImageScaleType="fitXY"
-                    fresco:placeholderImage="@mipmap/img_placeholder"
+                    fresco:placeholderImage="@mipmap/book_circle_top_bg"
                     fresco:placeholderImageScaleType="fitXY" />
 
                 <ImageView
@@ -59,8 +59,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="8dp"
                     android:gravity="center"
-
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/title_font_white_dark"
                     android:textSize="@dimen/titlebar_font_size"
                     tools:text="坏猫" />
 

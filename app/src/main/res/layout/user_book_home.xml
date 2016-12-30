@@ -1,11 +1,145 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="256dp"
+        android:fitsSystemWindows="true">
 
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:expandedTitleMarginStart="38dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-</android.support.v4.widget.NestedScrollView>
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_bg"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    fresco:actualImageScaleType="fitXY"
+                    fresco:placeholderImage="@mipmap/book_circle_top_bg"
+                    fresco:placeholderImageScaleType="fitXY" />
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_margin="@dimen/common_padding_middle"
+                    android:clickable="true"
+                    android:onClick="onClick"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/titlebar_back_selector" />
+
+                <com.facebook.drawee.view.SimpleDraweeView
+                    android:id="@+id/sdv_face"
+                    android:layout_width="@dimen/setting_icon_default_big"
+                    android:layout_height="@dimen/setting_icon_default_big"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="35dp"
+                    fresco:actualImageScaleType="fitXY"
+                    fresco:placeholderImage="@mipmap/me_default_icon"
+                    fresco:placeholderImageScaleType="fitXY"
+                    fresco:roundAsCircle="true" />
+
+                <TextView
+                    android:id="@+id/tv_nick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/sdv_face"
+                    android:gravity="center"
+                    android:textColor="@color/title_font_white_dark"
+                    android:textSize="@dimen/titlebar_font_size"
+                    tools:text="坏猫" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:background="#55333333"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_book_shelf"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:onClick="onClick"
+                        android:padding="6dp"
+                        android:text="@string/book_shelf"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_note"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:onClick="onClick"
+                        android:padding="6dp"
+                        android:text="@string/notebooks"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+
+                    <View
+                        android:layout_width="1dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="3dp"
+                        android:layout_marginTop="3dp"
+                        android:background="@android:color/white" />
+
+                    <TextView
+                        android:id="@+id/tv_book_sheet"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:clickable="true"
+                        android:gravity="center"
+                        android:onClick="onClick"
+                        android:padding="6dp"
+                        android:text="@string/book_sheet"
+                        android:textColor="@android:color/white"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+            </RelativeLayout>
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_dynamics"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
