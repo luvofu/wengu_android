@@ -24,12 +24,19 @@ import com.culturebud.R;
 import com.culturebud.adapter.BookCircleDynamicAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.contract.BookCircleContract;
 import com.culturebud.presenter.BookCirclePresenter;
+import com.culturebud.ui.bhome.DynamicDetailActivity;
+import com.culturebud.ui.community.CommentDetailActivity;
 import com.culturebud.ui.community.CommunityActivity;
+import com.culturebud.ui.front.BookDetailActivity;
+import com.culturebud.ui.front.BookSheetDetailActivity;
+import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -38,7 +45,8 @@ import java.util.List;
  */
 
 @PresenterInject(BookCirclePresenter.class)
-public class BookCircleFragment extends BaseFragment<BookCircleContract.Presenter> implements BookCircleContract.View, SwipeRefreshLayout.OnRefreshListener, View.OnClickListener {
+public class BookCircleFragment extends BaseFragment<BookCircleContract.Presenter> implements BookCircleContract.View,
+        SwipeRefreshLayout.OnRefreshListener, View.OnClickListener, BookCircleDynamicAdapter.OnItemClickListener {
     private SwipeRefreshLayout srlRefresh;
     private RecyclerView rvDynamics;
     private SimpleDraweeView sdvFace;
@@ -78,7 +86,9 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
         RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL);
         divider.setDividerHeight(10);
         rvDynamics.addItemDecoration(divider);
-        rvDynamics.setAdapter(new BookCircleDynamicAdapter());
+        BookCircleDynamicAdapter adapter = new BookCircleDynamicAdapter();
+        adapter.setOnItemClickListener(this);
+        rvDynamics.setAdapter(adapter);
         setListeners();
         return view;
     }
@@ -186,6 +196,44 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
             }
             case R.id.iv_back:
                 getActivity().finish();
+                break;
+        }
+    }
+
+    @Override
+    public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dy) {
+        switch (type) {
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC: {
+                Intent intent = new Intent(getActivity(), DynamicDetailActivity.class);
+                intent.putExtra("dynamic", new Gson().toJson(bcd));
+                startActivity(intent);
+                break;
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_BOOK: {
+                Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+                intent.putExtra("bookId", bcd.getLinkId());
+                startActivity(intent);
+                break;
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_BOOK_SHEET: {
+                Intent intent = new Intent(getActivity(), BookSheetDetailActivity.class);
+                intent.putExtra("sheetId", bcd.getLinkId());
+                startActivity(intent);
+                break;
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_SHORT_COMMENT: {
+                Intent intent = new Intent(getActivity(), CommentDetailActivity.class);
+                intent.putExtra("commentId", bcd.getLinkId());
+
+                break;
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_IMG: {
+                Intent intent = new Intent(getActivity(), PreviewBigImgActivity.class);
+                intent.putExtra("img_url", bcd.getImage());
+                startActivity(intent);
+                break;
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY:
                 break;
         }
     }
