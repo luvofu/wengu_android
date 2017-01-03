@@ -92,7 +92,7 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:id="@+id/ll_opreas"
+        android:id="@+id/ll_operas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_nick_name"
@@ -132,6 +132,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_nick_name"
-        android:layout_below="@id/ll_opreas"
+        android:layout_below="@id/ll_operas"
         android:background="@color/litter_gray_bg_border" />
 </RelativeLayout>

@@ -123,6 +123,8 @@
             android:name=".ui.image.PreviewBigImgActivity"
             android:theme="@style/Welcome" />
 
+        <activity android:name=".ui.bhome.DynamicDetailActivity" />
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

@@ -6,7 +6,6 @@
     android:layout_height="wrap_content"
     android:paddingBottom="15dp"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp"
     android:paddingTop="15dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
@@ -107,14 +106,18 @@
             android:textColor="#777777"
             android:textSize="@dimen/front_item_small_font"
             tools:text="15" />
-
     </LinearLayout>
 
-    <ViewStub
-        android:id="@+id/vs_comments"
+    <View
+        android:id="@+id/v_line"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_nick_name"
+        android:layout_height="0.5dp"
         android:layout_below="@id/ll_operas"
-        android:background="@color/litter_gray_bg_border" />
+        android:background="@color/light_font_black" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_replies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/v_line" />
 </RelativeLayout>

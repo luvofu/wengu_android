@@ -22,6 +22,7 @@ import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
 
 import java.util.List;
 
@@ -110,8 +111,12 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
     @Override
     public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dy) {
         switch (type) {
-            case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC:
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC: {
+                Intent intent = new Intent(this, DynamicDetailActivity.class);
+                intent.putExtra("dynamic", new Gson().toJson(bcd));
+                startActivity(intent);
                 break;
+            }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_BOOK: {
                 Intent intent = new Intent(this, BookDetailActivity.class);
                 intent.putExtra("bookId", bcd.getLinkId());
@@ -127,6 +132,7 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
             case BookCircleDynamicAdapter.ONCLICK_TYPE_SHORT_COMMENT: {
                 Intent intent = new Intent(this, CommentDetailActivity.class);
                 intent.putExtra("commentId", bcd.getLinkId());
+
                 break;
             }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_IMG: {

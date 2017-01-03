@@ -25,7 +25,7 @@ public class PreviewBigImgActivity extends BaseActivity {
         setContentView(R.layout.preview_big_img);
         zdvImg = obtainViewById(R.id.zdv_img);
         zdvImg.setImageURI(url);
-        zdvImg.setOnClickListener(()-> {
+        zdvImg.setOnClickListener(() -> {
             finish();
         });
     }
