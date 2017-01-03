@@ -2,14 +2,23 @@ package com.culturebud.ui.bhome;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
+import com.culturebud.CommonConst.LinkType;
 import com.culturebud.R;
+import com.culturebud.adapter.DynamicCommentAdapter;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
@@ -28,6 +37,15 @@ public class DynamicDetailActivity extends BaseActivity {
     private ViewStub vsImg, vsLinkedType;
     private SimpleDraweeView sdvImg;
     private TextView tvCreateTime, tvThumbNum, tvReplyNum;
+    private RecyclerView rvReplies;
+
+    private SimpleDraweeView sdvBookCover;
+    private TextView tvBookTitle;
+
+    private SimpleDraweeView sdvSheetCover;
+    private TextView tvSheet;
+
+    private TextView tvCommentContent, tvCommunityTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +60,14 @@ public class DynamicDetailActivity extends BaseActivity {
 
         vsImg = obtainViewById(R.id.vs_image);
         vsLinkedType = obtainViewById(R.id.vs_type_holder);
+
+        rvReplies = obtainViewById(R.id.rv_replies);
+        LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        rvReplies.setLayoutManager(llm);
+        RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
+        rvReplies.addItemDecoration(divider);
+//        DynamicCommentAdapter adapter = new DynamicCommentAdapter();
+//        rvReplies.setAdapter(adapter);
 
         showTitlebar();
         showBack();
@@ -84,7 +110,83 @@ public class DynamicDetailActivity extends BaseActivity {
                 }
                 sdvImg.setImageURI(bcd.getImage());
             }
+            switch (bcd.getLinkType()) {
+                case LinkType.TYPE_COMMON:
+                    break;
+                case LinkType.TYPE_BOOK:
+                    infalteBookView();
+                    if (!TextUtils.isEmpty(bcd.getBookCover())) {
+                        sdvBookCover.setImageURI(bcd.getBookCover());
+                    }
+                    if (!TextUtils.isEmpty(bcd.getTitle())) {
+                        tvBookTitle.setText(bcd.getTitle());
+                    }
+                    break;
+                case LinkType.TYPE_BOOK_SHEET:
+                    infalteBookSheetView();
+                    if (!TextUtils.isEmpty(bcd.getBookSheetCover())) {
+                        sdvSheetCover.setImageURI(bcd.getBookSheetCover());
+                    }
+                    if (!TextUtils.isEmpty(bcd.getName())) {
+                        tvSheet.setText(bcd.getName());
+                    }
+                    break;
+                case LinkType.TYPE_COMMENT:
+                    infalteCommentView();
+                    String cnick = bcd.getCommentNickname();
+                    if (TextUtils.isEmpty(cnick)) {
+                        cnick = "";
+                    }
+                    String cconten = bcd.getCommentContent();
+                    if (TextUtils.isEmpty(cconten)) {
+                        cconten = "";
+                    }
+                    setCommentNickAndContent(cnick, cconten);
+                    if (!TextUtils.isEmpty(bcd.getCommunityTitle())) {
+                        tvCommunityTitle.setText(bcd.getCommunityTitle());
+                    }
+                    break;
+                case LinkType.TYPE_DELETED:
+                    inflateDeletedView();
+                    break;
+            }
+//            ((DynamicCommentAdapter) rvReplies.getAdapter()).clearData();
+//            ((DynamicCommentAdapter) rvReplies.getAdapter()).addItems(bcd.getDynamicReplyList());
         }
+    }
+
+    public void setCommentNickAndContent(CharSequence nick, CharSequence content) {
+        SpannableString ss = new SpannableString(nick + "：" + content);
+        ss.setSpan(new ForegroundColorSpan(BaseApp.getInstance()
+                        .getResources().getColor(R.color.front_hot_font)),
+                0, nick.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        tvCommentContent.setText(ss);
+    }
+
+    public void inflateDeletedView() {
+        vsLinkedType.setLayoutResource(R.layout.book_circle_item_deleted);
+        View view = vsLinkedType.inflate();
+    }
+
+    public void infalteCommentView() {
+        vsLinkedType.setLayoutResource(R.layout.book_circle_item_comment);
+        View view = vsLinkedType.inflate();
+        tvCommentContent = (TextView) view.findViewById(R.id.tv_comment);
+        tvCommunityTitle = (TextView) view.findViewById(R.id.tv_community_title);
+    }
+
+    public void infalteBookView() {
+        vsLinkedType.setLayoutResource(R.layout.book_circle_item_book);
+        View view = vsLinkedType.inflate();
+        sdvBookCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_cover);
+        tvBookTitle = (TextView) view.findViewById(R.id.tv_type_book);
+    }
+
+    public void infalteBookSheetView() {
+        vsLinkedType.setLayoutResource(R.layout.book_circle_item_sheet);
+        View view = vsLinkedType.inflate();
+        sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_sheet_cover);
+        tvSheet = (TextView) view.findViewById(R.id.tv_type_sheet);
     }
 
     @Override
