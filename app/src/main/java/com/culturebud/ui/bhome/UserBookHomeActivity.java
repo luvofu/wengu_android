@@ -19,6 +19,7 @@ import com.culturebud.presenter.UserBookHomePresenter;
 import com.culturebud.ui.community.CommentDetailActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
+import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -123,12 +124,17 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
                 startActivity(intent);
                 break;
             }
-            case BookCircleDynamicAdapter.ONCLICK_TYPE_SHORT_COMMENT:
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_SHORT_COMMENT: {
                 Intent intent = new Intent(this, CommentDetailActivity.class);
                 intent.putExtra("commentId", bcd.getLinkId());
                 break;
-            case BookCircleDynamicAdapter.ONCLICK_TYPE_IMG:
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_IMG: {
+                Intent intent = new Intent(this, PreviewBigImgActivity.class);
+                intent.putExtra("img_url", bcd.getImage());
+                startActivity(intent);
                 break;
+            }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY:
                 break;
         }

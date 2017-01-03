@@ -120,6 +120,10 @@
         <activity android:name=".ui.bhome.UserBookHomeActivity" />
 
         <activity
+            android:name=".ui.image.PreviewBigImgActivity"
+            android:theme="@style/Welcome" />
+
+        <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"
