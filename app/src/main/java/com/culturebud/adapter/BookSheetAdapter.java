@@ -1,6 +1,5 @@
 package com.culturebud.adapter;
 
-import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 
 import com.culturebud.R;
 import com.culturebud.bean.BookSheet;
-import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -73,7 +71,7 @@ public class BookSheetAdapter extends RecyclerView.Adapter<BookSheetAdapter.HotS
             tvColNum = (TextView) itemView.findViewById(R.id.tv_col_num);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvNickName = (TextView) itemView.findViewById(R.id.tv_nick_name);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             itemView.setOnClickListener(this);
         }
 

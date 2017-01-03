@@ -8,7 +8,7 @@
     android:orientation="horizontal">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_book_cover"
+        android:id="@+id/sdv_book_sheet_cover"
         android:layout_width="32dp"
         android:layout_height="48dp"
         android:layout_margin="8dp"

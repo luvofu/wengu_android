@@ -7,7 +7,7 @@
     android:padding="15dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_book_cover"
+        android:id="@+id/sdv_book_sheet_cover"
         android:layout_width="50dp"
         android:layout_height="70dp"
         fresco:actualImageScaleType="fitXY"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
         android:layout_toLeftOf="@id/iv_add"
-        android:layout_toRightOf="@id/sdv_book_cover"
+        android:layout_toRightOf="@id/sdv_book_sheet_cover"
         android:gravity="center_vertical"
         android:text="这是一本书"
         android:textColor="@color/title_font_default"

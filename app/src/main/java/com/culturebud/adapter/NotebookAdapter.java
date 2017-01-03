@@ -75,7 +75,7 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         public NotebookViewHolder(View itemView) {
             super(itemView);
             itemView.setOnClickListener(this);
-            sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvNoteNum = (TextView) itemView.findViewById(R.id.tv_note_num);
             tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);

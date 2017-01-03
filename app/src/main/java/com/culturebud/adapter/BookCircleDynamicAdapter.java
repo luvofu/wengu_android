@@ -129,6 +129,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
     @Override
     public void onBindViewHolder(DynamicViewHolder holder, int position) {
         BookCircleDynamic bcd = data.get(position);
+        holder.bcd = bcd;
         holder.setFace(bcd.getAvatar());
         holder.setNick(bcd.getNickname());
         holder.setContent(bcd.getContent());
@@ -150,7 +151,8 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             case CommonConst.LinkType.TYPE_COMMON:
                 break;
             case CommonConst.LinkType.TYPE_BOOK:
-
+                holder.setBookCover(bcd.getBookCover());
+                holder.setBookTitle(bcd.getTitle());
                 break;
             case CommonConst.LinkType.TYPE_BOOK_SHEET:
                 holder.setSheetCover(bcd.getBookSheetCover());
@@ -181,7 +183,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         return data.size();
     }
 
-    class DynamicViewHolder extends RecyclerView.ViewHolder {
+    class DynamicViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, DynamicCommentAdapter.OnItemClickListener {
         private ViewStub vsImage, vsLinkTypeItem, vsComments;
 
         private SimpleDraweeView sdvFace;
@@ -196,11 +198,17 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         //linkType = 2
         private TextView tvCommentContent, tvCommunityTitle;
 
+        //linkType = 1
+        private TextView tvBookTitle;
+        private SimpleDraweeView sdvBookCover;
+
         //linkType = 0
         private SimpleDraweeView sdvImg;
 
         //hasComments;
         private RecyclerView rvComments;
+
+        private BookCircleDynamic bcd;
 
         public DynamicViewHolder(View itemView) {
             super(itemView);
@@ -215,7 +223,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
             tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);
             tvReplyNum = (TextView) itemView.findViewById(R.id.tv_reply_num);
-
+            itemView.setOnClickListener(this);
         }
 
         public void setFace(String url) {
@@ -272,6 +280,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             View view = vsLinkTypeItem.inflate();
             tvCommentContent = (TextView) view.findViewById(R.id.tv_comment);
             tvCommunityTitle = (TextView) view.findViewById(R.id.tv_community_title);
+            view.setOnClickListener(this);
         }
 
         public void setCommentNickAndContent(CharSequence nick, CharSequence content) {
@@ -288,14 +297,30 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
 
         public void infalteBookView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_book);
-            vsLinkTypeItem.inflate();
+            View view = vsLinkTypeItem.inflate();
+            sdvBookCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_cover);
+            tvBookTitle = (TextView) view.findViewById(R.id.tv_type_book);
+            view.setOnClickListener(this);
+        }
+
+        public void setBookCover(String url) {
+            if (!TextUtils.isEmpty(url)) {
+                sdvBookCover.setImageURI(url);
+            }
+        }
+
+        public void setBookTitle(String title) {
+            if (!TextUtils.isEmpty(title)) {
+                tvBookTitle.setText(title);
+            }
         }
 
         public void infalteBookSheetView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_sheet);
             View view = vsLinkTypeItem.inflate();
-            sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_cover);
+            sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_sheet_cover);
             tvSheet = (TextView) view.findViewById(R.id.tv_type_sheet);
+            view.setOnClickListener(this);
         }
 
         public void setSheetCover(String url) {
@@ -319,12 +344,15 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             RecyclerViewDivider divider = new RecyclerViewDivider(rvComments.getContext(), LinearLayoutManager.HORIZONTAL);
             divider.setDividerColor(rvComments.getResources().getColor(android.R.color.transparent));
             rvComments.addItemDecoration(divider);
-            rvComments.setAdapter(new DynamicCommentAdapter());
+            DynamicCommentAdapter adapter = new DynamicCommentAdapter();
+            adapter.setOnItemClickListener(this);
+            rvComments.setAdapter(adapter);
         }
 
         public void setCommentReplies(List<DynamicReply> replies) {
             ((DynamicCommentAdapter) rvComments.getAdapter()).clearData();
             ((DynamicCommentAdapter) rvComments.getAdapter()).addItems(replies);
+            ((DynamicCommentAdapter) rvComments.getAdapter()).setBcd(bcd);
         }
 
 
@@ -332,6 +360,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             vsImage.setLayoutResource(R.layout.book_circle_item_img);
             View view = vsImage.inflate();
             sdvImg = (SimpleDraweeView) view.findViewById(R.id.sdv_img);
+            sdvImg.setOnClickListener(this);
         }
 
         public void setImage(String url) {
@@ -342,5 +371,65 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             sdvImg.setImageURI(uri);
         }
 
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, ONCLICK_TYPE_DYNAMIC, bcd, null);
+                }
+                return;
+            }
+            switch (v.getId()) {
+                case R.id.ll_book:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_BOOK, bcd, null);
+                    }
+                    break;
+                case R.id.ll_book_sheet:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_BOOK_SHEET, bcd, null);
+                    }
+                    break;
+                case R.id.ll_type_comment:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_SHORT_COMMENT, bcd, null);
+                    }
+                    break;
+                case R.id.sdv_img:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_IMG, bcd, null);
+                    }
+                    break;
+            }
+        }
+
+        @Override
+        public void onItemClick(View v, BookCircleDynamic bcd, DynamicReply dr) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, ONCLICK_TYPE_REPLY, bcd, dr);
+            }
+        }
     }
+
+    private OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dy);
+    }
+
+    public static final int ONCLICK_TYPE_DYNAMIC = 0;
+    public static final int ONCLICK_TYPE_SHORT_COMMENT = 1;
+    public static final int ONCLICK_TYPE_BOOK = 2;
+    public static final int ONCLICK_TYPE_BOOK_SHEET = 3;
+    public static final int ONCLICK_TYPE_IMG = 4;
+    public static final int ONCLICK_TYPE_REPLY = 5;
+
 }

@@ -33,7 +33,7 @@
                 android:textSize="14sp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_book_cover"
+                android:id="@+id/sdv_book_sheet_cover"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="5dp"

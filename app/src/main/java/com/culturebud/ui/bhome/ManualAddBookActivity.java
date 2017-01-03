@@ -1,15 +1,9 @@
 package com.culturebud.ui.bhome;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -23,14 +17,12 @@ import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.ManualAddBookContract;
 import com.culturebud.presenter.ManualAddBookPresenter;
-import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Created by XieWei on 2016/12/9.
@@ -75,7 +67,7 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
 
         llParent = obtainViewById(R.id.ll_parent);
         llAddCover = obtainViewById(R.id.ll_book_cover);
-        sdvBookCover = obtainViewById(R.id.sdv_book_cover);
+        sdvBookCover = obtainViewById(R.id.sdv_book_sheet_cover);
         etBookName = obtainViewById(R.id.et_book_name);
         etNameOrign = obtainViewById(R.id.et_name_orgin);
         etSubtitle = obtainViewById(R.id.et_subtitle);

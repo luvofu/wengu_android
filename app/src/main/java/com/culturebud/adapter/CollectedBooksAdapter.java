@@ -73,7 +73,7 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
 
         public CollectedBooksViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             ivEdit = (ImageView) itemView.findViewById(R.id.iv_edit);
 //            sdvCover.setOnClickListener(this);
             ivEdit.setOnClickListener(this);
@@ -94,7 +94,7 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
                 return;
             }
             switch (v.getId()) {
-                case R.id.sdv_book_cover:
+                case R.id.sdv_book_sheet_cover:
                     break;
                 case R.id.iv_edit:
                     break;

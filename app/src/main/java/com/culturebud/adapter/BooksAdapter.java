@@ -3,7 +3,6 @@ package com.culturebud.adapter;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
-import android.support.v7.appcompat.BuildConfig;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -77,7 +76,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
 
         public BooksViewHolder(View itemView) {
             super(itemView);
-            sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvPublisherInfo = (TextView) itemView.findViewById(R.id.tv_publisher_info);
             rbGoodRating = (RatingBar) itemView.findViewById(R.id.rb_good_rating);

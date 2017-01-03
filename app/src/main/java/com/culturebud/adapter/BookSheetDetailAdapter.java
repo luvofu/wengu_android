@@ -120,7 +120,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public BookSheetDetailViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvNick = (TextView) itemView.findViewById(R.id.tv_nick);
             tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
@@ -233,7 +233,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
         public SheetBooksViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvTitle = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
             ivAdd = (ImageView) itemView.findViewById(R.id.iv_add);

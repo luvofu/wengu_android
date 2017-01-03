@@ -21,7 +21,7 @@
             android:padding="10dp">
 
             <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_book_cover"
+                android:id="@+id/sdv_book_sheet_cover"
                 android:layout_width="80dp"
                 android:layout_height="100dp"
                 android:layout_marginLeft="20dp"
@@ -34,7 +34,7 @@
                 android:id="@+id/tv_book_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/sdv_book_cover"
+                android:layout_toRightOf="@id/sdv_book_sheet_cover"
                 android:gravity="center_vertical"
                 android:textColor="@color/title_font_default"
                 android:textSize="14sp"

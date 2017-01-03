@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.culturebud.BaseApp;
 import com.culturebud.R;
+import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
 
 import java.util.LinkedList;
@@ -22,9 +23,18 @@ import java.util.List;
 
 public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAdapter.DynamicCommentViewHolder> {
     private List<DynamicReply> data;
+    private BookCircleDynamic bcd;
 
     public DynamicCommentAdapter() {
         data = new LinkedList<>();
+    }
+
+    public BookCircleDynamic getBcd() {
+        return bcd;
+    }
+
+    public void setBcd(BookCircleDynamic bcd) {
+        this.bcd = bcd;
     }
 
     public void clearData() {
@@ -58,6 +68,7 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
     @Override
     public void onBindViewHolder(DynamicCommentViewHolder holder, int position) {
         DynamicReply item = data.get(position);
+        holder.dr = item;
         int replyType = item.getReplyType();
         switch (replyType) {
             case 0:
@@ -74,12 +85,14 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
         return data.size();
     }
 
-    class DynamicCommentViewHolder extends RecyclerView.ViewHolder {
+    class DynamicCommentViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private DynamicReply dr;
         private TextView tv;
 
         public DynamicCommentViewHolder(View itemView) {
             super(itemView);
             tv = (TextView) itemView;
+            itemView.setOnClickListener(this);
         }
 
         public void setComment(CharSequence nick, CharSequence content) {
@@ -102,5 +115,26 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
                     start, start + replyNick.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             tv.setText(ss);
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView && onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, bcd, dr);
+            }
+        }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, BookCircleDynamic bcd, DynamicReply dr);
     }
 }

@@ -67,7 +67,7 @@ public class CollectedBooksVerticalAdapter extends Adapter<CollectedBooksVertica
 
         public CBVerticalViewHolder(View itemView) {
             super(itemView);
-            sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
             itemView.setOnClickListener(this);
         }

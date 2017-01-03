@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_book_cover"
+        android:id="@+id/sdv_book_sheet_cover"
         android:layout_width="56dp"
         android:layout_height="80dp"
         android:layout_margin="10dp"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:layout_toLeftOf="@id/tv_state"
-        android:layout_toRightOf="@id/sdv_book_cover"
+        android:layout_toRightOf="@id/sdv_book_sheet_cover"
         android:padding="5dp"
         android:textColor="@color/title_font_default"
         android:textSize="14sp"

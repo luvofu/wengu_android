@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_book_sheet"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/litter_gray_bg_border"
@@ -11,7 +12,7 @@
     android:padding="5dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_book_cover"
+        android:id="@+id/sdv_book_sheet_cover"
         android:layout_width="52dp"
         android:layout_height="52dp"
         fresco:actualImageScaleType="centerInside"

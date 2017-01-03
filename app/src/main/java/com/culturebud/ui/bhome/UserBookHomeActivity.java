@@ -1,5 +1,6 @@
 package com.culturebud.ui.bhome;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,9 +12,13 @@ import com.culturebud.R;
 import com.culturebud.adapter.BookCircleDynamicAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserBookHomeContract;
 import com.culturebud.presenter.UserBookHomePresenter;
+import com.culturebud.ui.community.CommentDetailActivity;
+import com.culturebud.ui.front.BookDetailActivity;
+import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -24,7 +29,7 @@ import java.util.List;
  */
 
 @PresenterInject(UserBookHomePresenter.class)
-public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Presenter> implements UserBookHomeContract.View {
+public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Presenter> implements UserBookHomeContract.View, BookCircleDynamicAdapter.OnItemClickListener {
     private static final String TAG = UserBookHomeActivity.class.getSimpleName();
     private SimpleDraweeView sdvBg, sdvFace;
     private TextView tvNick;
@@ -46,7 +51,9 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
         rvDynamics.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
         rvDynamics.addItemDecoration(divider);
-        rvDynamics.setAdapter(new BookCircleDynamicAdapter());
+        BookCircleDynamicAdapter adapter = new BookCircleDynamicAdapter();
+        adapter.setOnItemClickListener(this);
+        rvDynamics.setAdapter(adapter);
         initData();
     }
 
@@ -96,6 +103,34 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
         }
         if (dynamics != null && !dynamics.isEmpty()) {
             ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).addItems(dynamics);
+        }
+    }
+
+    @Override
+    public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dy) {
+        switch (type) {
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC:
+                break;
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_BOOK: {
+                Intent intent = new Intent(this, BookDetailActivity.class);
+                intent.putExtra("bookId", bcd.getLinkId());
+                startActivity(intent);
+                break;
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_BOOK_SHEET: {
+                Intent intent = new Intent(this, BookSheetDetailActivity.class);
+                intent.putExtra("sheetId", bcd.getLinkId());
+                startActivity(intent);
+                break;
+            }
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_SHORT_COMMENT:
+                Intent intent = new Intent(this, CommentDetailActivity.class);
+                intent.putExtra("commentId", bcd.getLinkId());
+                break;
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_IMG:
+                break;
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY:
+                break;
         }
     }
 }

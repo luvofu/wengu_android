@@ -41,7 +41,7 @@ public class CreateNotebookActivity extends BaseActivity<CreateNotebookContract.
         setOperasTextColor(getResources().getColor(R.color.title_font_white));
         etContent = obtainViewById(R.id.et_notebook_name);
         tvSelectBook = obtainViewById(R.id.tv_select_book);
-        sdvBookCover = obtainViewById(R.id.sdv_book_cover);
+        sdvBookCover = obtainViewById(R.id.sdv_book_sheet_cover);
         tvSelectBook.setOnClickListener(this);
     }
 

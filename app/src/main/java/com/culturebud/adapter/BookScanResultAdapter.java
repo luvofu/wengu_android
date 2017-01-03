@@ -4,7 +4,6 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView.Adapter;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
-import android.util.SparseArray;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -96,7 +95,7 @@ public class BookScanResultAdapter extends Adapter<BookScanResultAdapter.BookSca
 
         public BookScanResultViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvPubInfo = (TextView) itemView.findViewById(R.id.tv_publisher_info);
             tvState = (TextView) itemView.findViewById(R.id.tv_state);

@@ -55,7 +55,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
     }
 
     private void initView() {
-        sdvCover = obtainViewById(R.id.sdv_book_cover);
+        sdvCover = obtainViewById(R.id.sdv_book_sheet_cover);
         rlDetailTop = obtainViewById(R.id.rl_book_detail_top);
         tvBookName = obtainViewById(R.id.tv_book_name);
         tvRating = obtainViewById(R.id.tv_rating_num);

@@ -76,7 +76,7 @@ public class HotBookAdapter extends RecyclerView.Adapter<HotBookAdapter.HotBookV
         public HotBookViewHolder(View itemView) {
             super(itemView);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_cover);
+            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             rbRating = (RatingBar) itemView.findViewById(R.id.rb_rating);
             rbRating.setNumStars(5);
             rbRating.setMax(10);
