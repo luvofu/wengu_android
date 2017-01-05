@@ -3,6 +3,7 @@ package com.culturebud.net;
 import com.culturebud.CommonConst;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.Book;
+import com.culturebud.bean.BookCircleDynamic;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
@@ -34,6 +35,17 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_BOOK_CIRCLE_DYNAMIC)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> dynamic(@FieldMap Map<String, Object> params);
+
+    /**
+     * String token;令牌
+     * long dynamicId ;动态id
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_BOOK_CIRCLE_DYNAMIC_DETAIL)
+    @FormUrlEncoded
+    Observable<ApiResultBean<BookCircleDynamic>> dynamicDetail(@FieldMap Map<String, Object> params);
 
     @POST(CommonConst.PATH_USER_NOTEBOOKS)
     @FormUrlEncoded

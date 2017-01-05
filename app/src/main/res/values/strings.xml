@@ -88,5 +88,6 @@
     <string name="book_sheet_name">书单名</string>
     <string name="book_sheet_cover">书单封面</string>
     <string name="search_user_hint">昵称/手机号</string>
+    <string name="reply">回复</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.culturebud.util;
 
+import android.support.annotation.IdRes;
 import android.support.v7.widget.AppCompatTextView;
+import android.view.View;
 import android.widget.TextView;
 
 import java.lang.reflect.Method;
@@ -23,6 +25,10 @@ public class WidgetUtil {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static <T> T obtainViewById(View view, @IdRes int resId) {
+        return (T) view.findViewById(resId);
     }
 
 }

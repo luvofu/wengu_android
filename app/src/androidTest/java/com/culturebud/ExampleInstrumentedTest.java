@@ -10,10 +10,12 @@ import android.util.Log;
 
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.Book;
+import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.BookCommunityDetail;
 import com.culturebud.bean.BookDetail;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.CommentReply;
+import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.net.ApiBookInterface;
 import com.culturebud.net.ApiBookSheetInterface;
 import com.culturebud.net.ApiCommunityInterface;
@@ -551,7 +553,30 @@ public class ExampleInstrumentedTest {
         }
     }
 
+    @Test
+    public void testCommon() {
+        //af8f9f1a-ee36-4a99-9407-8315dd306f7c
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", "af8f9f1a-ee36-4a99-9407-8315dd306f7c");
+        params.put("dynamicId", 84);
+        initRetrofit(null).create(ApiBookHomeInterface.class).dynamicDetail(params)
+        .subscribe(new Subscriber<ApiResultBean<BookCircleDynamic>>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(ApiResultBean<BookCircleDynamic> bean) {
+                Log.d(TAG, bean.toString());
+            }
+        });
+    }
 
 
 

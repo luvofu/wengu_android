@@ -1,0 +1,176 @@
+{
+  "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100005_1481383882472_640x640.png",
+  "commentId": 0,
+  "commentUserId": 0,
+  "communityId": 0,
+  "content": "Dhjjjkkhhjk",
+  "createdTime": 1479742354000,
+  "dynamicId": 84,
+  "dynamicReplyList": [
+    {
+      "replyType": 0,
+      "replyId": 125,
+      "nickname": "孤魂",
+      "createdTime": 1479742521000,
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "这么样都城"
+    },
+    {
+      "replyType": 0,
+      "replyId": 126,
+      "nickname": "孤魂",
+      "createdTime": 1479744403000,
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "点了"
+    },
+    {
+      "replyType": 0,
+      "replyId": 127,
+      "nickname": "孤魂",
+      "createdTime": 1479744411000,
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "取消了又点的"
+    },
+    {
+      "replyType": 0,
+      "replyId": 128,
+      "nickname": "孤魂",
+      "createdTime": 1479744421000,
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "能有红点么"
+    },
+    {
+      "replyType": 1,
+      "replyId": 129,
+      "nickname": "小书生",
+      "createdTime": 1479744441000,
+      "replyObj": {
+        "replyId": 128,
+        "nickname": "孤魂",
+        "userId": 100014,
+        "content": "能有红点么"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100005_1481383882472_640x640.png",
+      "userId": 100005,
+      "content": "有"
+    },
+    {
+      "replyType": 1,
+      "replyId": 130,
+      "nickname": "孤魂",
+      "createdTime": 1479744501000,
+      "replyObj": {
+        "replyId": 129,
+        "nickname": "小书生",
+        "userId": 100005,
+        "content": "有"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "Ok，明天再测吧，你快点睡吧"
+    },
+    {
+      "replyType": 1,
+      "replyId": 131,
+      "nickname": "小书生",
+      "createdTime": 1479744509000,
+      "replyObj": {
+        "replyId": 128,
+        "nickname": "孤魂",
+        "userId": 100014,
+        "content": "能有红点么"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100005_1481383882472_640x640.png",
+      "userId": 100005,
+      "content": "书圈赞的消息类型还没加入到查询列表"
+    },
+    {
+      "replyType": 1,
+      "replyId": 132,
+      "nickname": "孤魂",
+      "createdTime": 1479744541000,
+      "replyObj": {
+        "replyId": 131,
+        "nickname": "小书生",
+        "userId": 100005,
+        "content": "书圈赞的消息类型还没加入到查询列表"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "我这边也没关点赞"
+    },
+    {
+      "replyType": 0,
+      "replyId": 133,
+      "nickname": "孤魂",
+      "createdTime": 1479744553000,
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "明天加上"
+    },
+    {
+      "replyType": 1,
+      "replyId": 134,
+      "nickname": "小书生",
+      "createdTime": 1479744603000,
+      "replyObj": {
+        "replyId": 132,
+        "nickname": "孤魂",
+        "userId": 100014,
+        "content": "我这边也没关点赞"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100005_1481383882472_640x640.png",
+      "userId": 100005,
+      "content": "你不用管 我把点赞类型加入list就可以了"
+    },
+    {
+      "replyType": 1,
+      "replyId": 135,
+      "nickname": "小书生",
+      "createdTime": 1479744623000,
+      "replyObj": {
+        "replyId": 133,
+        "nickname": "孤魂",
+        "userId": 100014,
+        "content": "明天加上"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100005_1481383882472_640x640.png",
+      "userId": 100005,
+      "content": "OK"
+    },
+    {
+      "replyType": 1,
+      "replyId": 136,
+      "nickname": "孤魂",
+      "createdTime": 1479744648000,
+      "replyObj": {
+        "replyId": 134,
+        "nickname": "小书生",
+        "userId": 100005,
+        "content": "你不用管 我把点赞类型加入list就可以了"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100014_1479479867409_300x300.jpg",
+      "userId": 100014,
+      "content": "我这边不加洛里，没用的，拿到了也会被忽略"
+    },
+    {
+      "replyType": 1,
+      "replyId": 137,
+      "nickname": "小书生",
+      "createdTime": 1479744693000,
+      "replyObj": {
+        "replyId": 136,
+        "nickname": "孤魂",
+        "userId": 100014,
+        "content": "我这边不加洛里，没用的，拿到了也会被忽略"
+      },
+      "avatar": "http://www.mywengu.com/img/user/avatar/lpic/10/100005_1481383882472_640x640.png",
+      "userId": 100005,
+      "content": "对，你要加入到提醒"
+    }
+  ]
+}

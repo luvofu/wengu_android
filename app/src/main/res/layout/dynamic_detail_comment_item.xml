@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="8dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_face"
+        android:layout_width="@dimen/setting_icon_default_middle"
+        android:layout_height="@dimen/setting_icon_default_middle"
+        android:layout_margin="8dp"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/me_default_icon"
+        fresco:placeholderImageScaleType="fitXY"
+        fresco:roundAsCircle="true" />
+
+    <TextView
+        android:id="@+id/tv_reply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/reply"
+        android:textColor="@color/light_font_black"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/tv_reply"
+        android:layout_toRightOf="@id/sdv_face"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_nick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/front_hot_font"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_created_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/light_font_black"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/tv_reply_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp" />
+
+        <ViewStub
+            android:id="@+id/vs_replies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/litter_gray_bg_border" />
+
+    </LinearLayout>
+
+</RelativeLayout>

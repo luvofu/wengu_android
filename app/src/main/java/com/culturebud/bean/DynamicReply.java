@@ -2,6 +2,8 @@ package com.culturebud.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 /**
  * Created by XieWei on 2016/10/28.
  */
@@ -31,6 +33,8 @@ public class DynamicReply {
 
     @SerializedName("replyObj")
     private DynamicReplyObj replyObj;//回复对象
+
+    private List<DynamicReply> replies;
 
     public long getReplyId() {
         return replyId;
@@ -94,6 +98,14 @@ public class DynamicReply {
 
     public void setReplyObj(DynamicReplyObj replyObj) {
         this.replyObj = replyObj;
+    }
+
+    public List<DynamicReply> getReplies() {
+        return replies;
+    }
+
+    public void setReplies(List<DynamicReply> replies) {
+        this.replies = replies;
     }
 
     @Override

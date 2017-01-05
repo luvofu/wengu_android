@@ -70,7 +70,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             hasImg = 1;
         }
         int hasComments = 0; //0：没有评论， 1：有评论
-        List<DynamicReply> rs = bcd.getDynamicReplyList();
+        List<DynamicReply> rs = bcd.getDynamicReplies();
         if (rs != null && rs.size() > 0) {
             hasComments = 1;
         }
@@ -139,6 +139,9 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         holder.setGoodOfMe(bcd.isGood());
         holder.setReplyNum(bcd.getReplyNum());
 
+        if (bcd.getReplyNum() == 18)
+        Log.d("xwlljj", "dynamic id is " + bcd.getDynamicId());
+
         if (!TextUtils.isEmpty(bcd.getImage())) {
             holder.setImage(bcd.getImage());
         }
@@ -172,9 +175,9 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
                 break;
         }
 
-        if (bcd.getDynamicReplyList() != null
-                && bcd.getDynamicReplyList().size() > 0) {
-            holder.setCommentReplies(bcd.getDynamicReplyList());
+        if (bcd.getDynamicReplies() != null
+                && bcd.getDynamicReplies().size() > 0) {
+            holder.setCommentReplies(bcd.getDynamicReplies());
         }
     }
 

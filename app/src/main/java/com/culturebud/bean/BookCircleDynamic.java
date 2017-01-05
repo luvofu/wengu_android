@@ -102,7 +102,8 @@ public class BookCircleDynamic {
     @SerializedName("good")
     private boolean good ;//用户点赞状态
 
-    List<DynamicReply> dynamicReplyList;//回复列表
+    @SerializedName("dynamicReplyList")
+    List<DynamicReply> dynamicReplies;//回复列表
 
     public long getDynamicId() {
         return dynamicId;
@@ -336,12 +337,12 @@ public class BookCircleDynamic {
         this.good = good;
     }
 
-    public List<DynamicReply> getDynamicReplyList() {
-        return dynamicReplyList;
+    public List<DynamicReply> getDynamicReplies() {
+        return dynamicReplies;
     }
 
-    public void setDynamicReplyList(List<DynamicReply> dynamicReplyList) {
-        this.dynamicReplyList = dynamicReplyList;
+    public void setDynamicReplies(List<DynamicReply> dynamicReplies) {
+        this.dynamicReplies = dynamicReplies;
     }
 
     @Override
@@ -376,7 +377,7 @@ public class BookCircleDynamic {
                 ", communitySubTitle='" + communitySubTitle + '\'' +
                 ", communityAuthor='" + communityAuthor + '\'' +
                 ", good=" + good +
-                ", dynamicReplyList=" + dynamicReplyList +
+                ", dynamicReplies=" + dynamicReplies +
                 '}';
     }
 }
