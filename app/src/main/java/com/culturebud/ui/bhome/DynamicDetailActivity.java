@@ -41,6 +41,7 @@ import java.util.Locale;
 
 @PresenterInject(DynamicDetailPresenter.class)
 public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Presenter> implements DynamicDetailContract.View {
+    private static final String TAG = DynamicDetailActivity.class.getSimpleName();
     private BookCircleDynamic bcd;
     private SimpleDraweeView sdvFace;
     private TextView tvNick, tvContent;
@@ -91,14 +92,14 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
         String dynamic = intent.getStringExtra("dynamic");
         if (!TextUtils.isEmpty(dynamic)) {
             bcd = new Gson().fromJson(dynamic, BookCircleDynamic.class);
-            showDynamic();
+            onDynamic(bcd);
             return;
         }
-        String dynamicId = intent.getStringExtra("dynamic_id");
-        if (TextUtils.isEmpty(dynamicId)) {
+        long dynamicId = intent.getLongExtra("dynamic_id", -1);
+        if (dynamicId == -1) {
             finish();
         }
-
+        presenter.dynamicDetail(dynamicId);
     }
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd kk:mm", Locale.getDefault());
@@ -161,8 +162,6 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
                     inflateDeletedView();
                     break;
             }
-            //presenter.dynamicDetail(bcd.getDynamicId());
-            onDynamic(bcd);
         }
     }
 
@@ -208,6 +207,10 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
 
     @Override
     public void onDynamic(BookCircleDynamic dynamic) {
+        showDynamic();
+        if (dynamic.getDynamicReplies() == null) {
+            return;
+        }
         List<DynamicReply> dynamicReplies = new LinkedList<>();
         List<DynamicReply> replies = new LinkedList<>();
         for (DynamicReply dr : dynamic.getDynamicReplies()) {
@@ -245,7 +248,7 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
                 i = src.size() - 1;
             }
             DynamicReply dr = src.get(i);
-            Log.d("xwlljj", "第" + time + "次调用方法 " + "i = " + i + " \t " + dr);
+            Log.d(TAG, "第" + time + "次调用方法 " + "i = " + i + " \t " + dr);
             if (dr.getReplyObj().getReplyId() == reply.getReplyId()) {
                 dest.add(dr);
                 src.remove(i);
