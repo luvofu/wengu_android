@@ -1,6 +1,9 @@
 package com.culturebud.contract;
 
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.DynamicReply;
+
+import java.util.List;
 
 import rx.Observable;
 
@@ -15,9 +18,13 @@ public interface DynamicDetailContract {
 
     interface View extends BaseView {
         void onDynamic(BookCircleDynamic dynamic);
+
+        void onReplies(List<DynamicReply> replies);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void dynamicDetail(long dynamicId);
+
+        public abstract void processReplies(List<DynamicReply> src);
     }
 }

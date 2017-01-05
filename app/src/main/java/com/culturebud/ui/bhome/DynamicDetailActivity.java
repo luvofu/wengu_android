@@ -8,7 +8,6 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.TextView;
@@ -28,10 +27,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -211,51 +207,11 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
         if (dynamic.getDynamicReplies() == null) {
             return;
         }
-        List<DynamicReply> dynamicReplies = new LinkedList<>();
-        List<DynamicReply> replies = new LinkedList<>();
-        for (DynamicReply dr : dynamic.getDynamicReplies()) {
-            dr.setReplies(new ArrayList<>());
-            switch (dr.getReplyType()) {
-                case 0:
-                    dynamicReplies.add(dr);
-                    break;
-                case 1:
-                    replies.add(dr);
-                    break;
-            }
-        }
-        for (DynamicReply dr : dynamicReplies) {
-            getChildReply(dr, dr.getReplies(), replies);
-            Collections.sort(dr.getReplies(), (dr01, dr02) -> {
-                if (dr01.getCreatedTime() > dr02.getCreatedTime()) {
-                    return 1;
-                } else if (dr01.getCreatedTime() == dr02.getCreatedTime()) {
-                    return 0;
-                } else {
-                    return -1;
-                }
-            });
-            time = 0;
-        }
-        ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).addItems(dynamicReplies);
+        presenter.processReplies(dynamic.getDynamicReplies());
     }
 
-    private int time = 0;
-    private void getChildReply(DynamicReply reply, List<DynamicReply> dest, List<DynamicReply> src) {
-        time++;
-        for (int i = src.size() - 1; i >= 0; i--) {
-            if (i > src.size() - 1) {
-                i = src.size() - 1;
-            }
-            DynamicReply dr = src.get(i);
-            Log.d(TAG, "第" + time + "次调用方法 " + "i = " + i + " \t " + dr);
-            if (dr.getReplyObj().getReplyId() == reply.getReplyId()) {
-                dest.add(dr);
-                src.remove(i);
-                if (src.size() > 0) {
-                    getChildReply(dr, dest, src);
-                }
-            }
-        }
+    @Override
+    public void onReplies(List<DynamicReply> replies) {
+        ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).addItems(replies);
     }
 }
