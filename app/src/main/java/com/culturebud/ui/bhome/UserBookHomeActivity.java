@@ -31,7 +31,8 @@ import java.util.List;
  */
 
 @PresenterInject(UserBookHomePresenter.class)
-public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Presenter> implements UserBookHomeContract.View, BookCircleDynamicAdapter.OnItemClickListener {
+public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Presenter>
+        implements UserBookHomeContract.View, BookCircleDynamicAdapter.OnItemClickListener {
     private static final String TAG = UserBookHomeActivity.class.getSimpleName();
     private SimpleDraweeView sdvBg, sdvFace;
     private TextView tvNick;

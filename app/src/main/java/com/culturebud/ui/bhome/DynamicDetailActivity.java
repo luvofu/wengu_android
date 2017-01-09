@@ -24,7 +24,8 @@ import java.util.List;
  */
 
 @PresenterInject(DynamicDetailPresenter.class)
-public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Presenter> implements DynamicDetailContract.View {
+public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Presenter>
+        implements DynamicDetailContract.View {
     private static final String TAG = DynamicDetailActivity.class.getSimpleName();
     private BookCircleDynamic bcd;
     private RecyclerView rvReplies;
