@@ -265,7 +265,7 @@ public class CommentDetailActivity extends BaseActivity<CommentDetailContract.Pr
     }
 
     @Override
-    public void OnSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight) {
+    public void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight) {
         if (isKeyBoardShow) {
             pwReply.update(0, screenHeight - (keyboardHeight + pwReply.getContentView().getMeasuredHeight()),
                     pwReply.getWidth(), pwReply.getHeight(), true);

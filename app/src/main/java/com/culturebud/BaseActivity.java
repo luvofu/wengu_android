@@ -58,7 +58,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     protected Uri photoUri;
 
     public interface OnSoftKeyboardStateChangedListener {
-        public void OnSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight);
+        void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight);
     }
 
     //注册软键盘状态变化监听
@@ -220,7 +220,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
                 mIsSoftKeyboardShowing = isKeyboardShowing;
                 for (int i = 0; i < mKeyboardStateListeners.size(); i++) {
                     OnSoftKeyboardStateChangedListener listener = mKeyboardStateListeners.get(i);
-                    listener.OnSoftKeyboardStateChanged(mIsSoftKeyboardShowing, heightDifference);
+                    listener.onSoftKeyboardStateChanged(mIsSoftKeyboardShowing, heightDifference);
                 }
             }
         };

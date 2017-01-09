@@ -2,9 +2,13 @@ package com.culturebud.ui.bcircle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
@@ -13,6 +17,7 @@ import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.PublishDynamicContract;
 import com.culturebud.presenter.PublishDynamicPresenter;
+import com.culturebud.ui.search.SelectBookActivity;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -24,8 +29,9 @@ import java.util.ArrayList;
 
 @PresenterInject(PublishDynamicPresenter.class)
 public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.Presenter>
-        implements OptionsPickerView.OnOptionsSelectListener, PublishDynamicContract.View {
+        implements OptionsPickerView.OnOptionsSelectListener, PublishDynamicContract.View, BaseActivity.OnSoftKeyboardStateChangedListener {
     private static final String TAG = PublishDynamicActivity.class.getSimpleName();
+    private static final int REQUEST_CODE_SELECT_BOOK = 1019;
     private OptionsPickerView<String> permissionOpts;
     private SettingItemView sivPermission;
     private int permission = ContentPermission.PERMISSION_PUBLIC;
@@ -34,6 +40,8 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
     private EditText etContent;
     private int linkType;
     private long linkId;
+    private PopupWindow pwOperas;
+    private int screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +54,27 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
         showBack();
         setOperasText(R.string.publish);
         showOperas();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        screenHeight = dm.heightPixels;
         sivPermission = obtainViewById(R.id.siv_permission);
         sdvAdd = obtainViewById(R.id.sdv_img);
         ivDel = obtainViewById(R.id.iv_del);
         etContent = obtainViewById(R.id.et_content);
+        initPopupWindow();
+        addSoftKeyboardChangedListener(this);
+        etContent.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.et_content:
+                if (!pwOperas.isShowing()) {
+                    showPop();
+                }
+                break;
             case R.id.siv_permission:
                 initPermissionDialog(permission);
                 if (!permissionOpts.isShowing()) {
@@ -66,9 +85,17 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
                 showPhotoDialog();
                 break;
             case R.id.iv_del:
+                photoUri = null;
                 sdvAdd.setImageURI("");
                 ivDel.setVisibility(View.GONE);
                 break;
+            case R.id.iv_at_friend:
+                break;
+            case R.id.iv_select_book: {
+                Intent intent = new Intent(this, SelectBookActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_BOOK);
+                break;
+            }
         }
     }
 
@@ -86,6 +113,16 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
             permissionOpts.setOnoptionsSelectListener(this);
         } else {
             permissionOpts.setSelectOptions(permission);
+        }
+    }
+
+    private void initPopupWindow() {
+        if (pwOperas == null) {
+            pwOperas = new PopupWindow(this, null, R.style.PopupWindow);
+            View view = getLayoutInflater().inflate(R.layout.publish_dynamic_operas_pop, null);
+            pwOperas.setContentView(view);
+            pwOperas.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+            pwOperas.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
         }
     }
 
@@ -143,6 +180,30 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
             finish();
         } else {
 
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        removeSoftKeyboardChangedListener(this);
+    }
+
+    private void showPop() {
+        View dv = getWindow().getDecorView();
+        pwOperas.showAtLocation(dv, Gravity.NO_GRAVITY, 0, dv.getHeight() / 2);
+    }
+
+    @Override
+    public void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight) {
+        if (isKeyBoardShow) {
+            if (!pwOperas.isShowing()) {
+                showPop();
+            }
+            pwOperas.update(0, screenHeight - (keyboardHeight + pwOperas.getContentView().getMeasuredHeight()),
+                    pwOperas.getWidth(), pwOperas.getHeight(), true);
+        } else {
+            pwOperas.dismiss();
         }
     }
 }

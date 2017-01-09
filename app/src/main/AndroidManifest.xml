@@ -125,7 +125,9 @@
 
         <activity android:name=".ui.bhome.DynamicDetailActivity" />
 
-        <activity android:name=".ui.search.SelectBookActivity" />
+        <activity
+            android:name=".ui.search.SelectBookActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <activity
             android:name="com.mob.tools.MobUIShell"
