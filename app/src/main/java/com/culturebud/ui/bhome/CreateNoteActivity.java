@@ -41,9 +41,9 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
         setContentView(R.layout.create_note);
         presenter.setView(this);
         showTitlebar();
-        setTitle("写笔记");
+        setTitle(R.string.create_note);
         showOperas();
-        setOperasText("确定");
+        setOperasText(R.string.confirm);
         setOperasTextColor(getResources().getColor(R.color.title_font_white));
         etNoteContent = obtainViewById(R.id.et_note_content);
         etChapter = obtainViewById(R.id.et_chapter);

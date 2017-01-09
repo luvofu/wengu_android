@@ -37,7 +37,7 @@ public class CreateNotebookActivity extends BaseActivity<CreateNotebookContract.
         presenter.setView(this);
         showTitlebar();
         showOperas();
-        setOperasText("确定");
+        setOperasText(R.string.confirm);
         setOperasTextColor(getResources().getColor(R.color.title_font_white));
         etContent = obtainViewById(R.id.et_notebook_name);
         tvSelectBook = obtainViewById(R.id.tv_select_book);

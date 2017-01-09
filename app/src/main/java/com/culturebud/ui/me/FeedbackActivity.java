@@ -30,7 +30,7 @@ public class FeedbackActivity extends BaseActivity<FeedbackContract.Presenter>
         setContentView(R.layout.feedback);
         presenter.setView(this);
         showTitlebar();
-        setTitle("意见反馈");
+        setTitle(R.string.feedback_idea);
         setBackGroundColor(Color.WHITE);
         etQuestions = obtainViewById(R.id.et_feedback_content);
         etContact = obtainViewById(R.id.et_contact);

@@ -29,7 +29,7 @@ public class RetrievePasswordActivity extends BaseActivity<RetrievePasswordContr
         setContentView(R.layout.retrieve_password);
         presenter.setView(this);
         showTitlebar();
-        setTitle("找回密码");
+        setTitle(R.string.retrieve_pwd);
         etPhone = obtainViewById(R.id.et_phone_number);
         etCode = obtainViewById(R.id.et_security_code);
         etPwd = obtainViewById(R.id.et_password);

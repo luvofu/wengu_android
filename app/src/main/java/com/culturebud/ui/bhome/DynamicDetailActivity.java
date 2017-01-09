@@ -46,7 +46,7 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
 
         showTitlebar();
         showBack();
-        setTitle("动态详情");
+        setTitle(R.string.dynamic_detail);
         initData();
     }
 

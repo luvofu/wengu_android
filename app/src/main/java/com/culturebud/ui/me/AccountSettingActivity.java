@@ -27,7 +27,7 @@ public class AccountSettingActivity extends BaseActivity<LoginContract.Presenter
         presenter.setView(this);
         showTitlebar();
         setBgColor(R.color.litter_gray_bg_border);
-        setTitle("账户设置");
+        setTitle(R.string.account_setting);
     }
 
     @Override

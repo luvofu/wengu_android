@@ -28,10 +28,10 @@ public class CreateBookSheetActivity extends BaseActivity<CreateBookSheetContrac
         setContentView(R.layout.create_book_sheet);
         presenter.setView(this);
         showTitlebar();
-        setTitle("新建书单");
+        setTitle(R.string.create_book_sheet);
         showBack();
         showOperas();
-        setOperasText("确定");
+        setOperasText(R.string.confirm);
 
         sdvBookSheetCover = obtainViewById(R.id.sdv_bs_cover);
         etSheetName = obtainViewById(R.id.et_sheet_name);

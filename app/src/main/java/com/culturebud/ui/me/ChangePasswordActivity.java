@@ -27,7 +27,7 @@ public class ChangePasswordActivity extends BaseActivity<ChangePasswordContract.
         setContentView(R.layout.change_password);
         presenter.setView(this);
         showTitlebar();
-        setTitle("修改密码");
+        setTitle(R.string.change_pwd);
         etCurrentPwd = obtainViewById(R.id.et_current_pwd);
         etNewPwd = obtainViewById(R.id.et_new_pwd);
         etNewPwdConfirm = obtainViewById(R.id.et_new_pwd_confirm);

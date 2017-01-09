@@ -57,7 +57,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         sivEmail = obtainViewById(R.id.siv_email);
         sivRegion = obtainViewById(R.id.siv_region);
         sivProfile = obtainViewById(R.id.siv_profile);
-        setTitle(getString(R.string.user_info));
+        setTitle(R.string.user_info);
         setListeners();
 
         initData();

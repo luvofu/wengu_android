@@ -88,7 +88,7 @@ public class SearchBookCommunityActivity extends BaseActivity<SearchBookCommunit
         btnClearHistory = new Button(this);
         btnClearHistory.setBackgroundResource(android.R.color.white);
         btnClearHistory.setGravity(Gravity.CENTER);
-        btnClearHistory.setText("清除历史记录");
+        btnClearHistory.setText(R.string.clear_history);
         btnClearHistory.setTextColor(getResources().getColor(R.color.tabar_font_checked));
         AbsListView.LayoutParams params = new AbsListView.LayoutParams(
                 AbsListView.LayoutParams.MATCH_PARENT,

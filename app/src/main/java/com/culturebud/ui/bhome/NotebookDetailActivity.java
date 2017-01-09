@@ -60,7 +60,7 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         adapter.setOnNotebookOperaListener(this);
         rvNotes.setAdapter(adapter);
         showTitlebar();
-        setTitle("详情");
+        setTitle(R.string.detail);
         showOperas();
         setOperasDrawable(R.drawable.titlebar_add_selector);
         long notebookId = getIntent().getLongExtra("notebookId", -1);

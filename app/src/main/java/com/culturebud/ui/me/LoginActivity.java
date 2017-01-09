@@ -36,7 +36,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         setContentView(R.layout.login);
         presenter.setView(this);
         showTitlebar();
-        setTitle("登录");
+        setTitle(R.string.login);
         etUserName = obtainViewById(R.id.et_username);
         etPassword = obtainViewById(R.id.et_password);
         tvRegist = obtainViewById(R.id.tv_regist);

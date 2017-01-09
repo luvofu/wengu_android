@@ -89,5 +89,33 @@
     <string name="book_sheet_cover">书单封面</string>
     <string name="search_user_hint">昵称/手机号</string>
     <string name="reply">回复</string>
+    <string name="publish">发布</string>
+    <string name="clear_history">清除历史记录</string>
+    <string name="account_setting">账户设置</string>
+    <string name="change_pwd">修改密码</string>
+    <string name="feedback_idea">意见反馈</string>
+    <string name="friend_invalidate">朋友验证</string>
+    <string name="me">我</string>
+    <string name="add_book_friend">添加书友</string>
+    <string name="regist">注册</string>
+    <string name="retrieve_pwd">找回密码</string>
+    <string name="base_info">基本信息</string>
+    <string name="book_community">书籍社区</string>
+    <string name="short_comment_detail">短评详情</string>
+    <string name="input_bname_query_short_comment">输入书名查找社区短评</string>
+    <string name="publish_short_comment">发布短评</string>
+    <string name="book_home">书房</string>
+    <string name="scan_result">扫描结果</string>
+    <string name="select_none">全不选</string>
+    <string name="collected_books">藏书</string>
+    <string name="create_book_sheet">新建书单</string>
+    <string name="create_note">写笔记</string>
+    <string name="dynamic_detail">动态详情</string>
+    <string name="edit_book_sheet_info">编辑书单信息</string>
+    <string name="edit_note">编辑笔记</string>
+    <string name="edit_notebook_name">编辑笔记本名</string>
+    <string name="commit_verify">提交审核</string>
+    <string name="note">笔记</string>
+    <string name="detail">详情</string>
 
 </resources>

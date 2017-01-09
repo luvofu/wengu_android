@@ -50,7 +50,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         rvNotebooks.addOnScrollListener(onScrollListener);
         setContentView(rvNotebooks);
         showTitlebar();
-        setTitle("笔记");
+        setTitle(R.string.note);
     }
 
     @Override

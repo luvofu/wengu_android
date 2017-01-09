@@ -32,7 +32,7 @@ public class EditBookSheetActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_book_sheet);
         showTitlebar();
-        setTitle("编辑书单信息");
+        setTitle(R.string.edit_book_sheet_info);
         showBack();
 
         sdvBookSheetCover = obtainViewById(R.id.sdv_bs_cover);

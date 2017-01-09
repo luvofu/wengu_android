@@ -112,7 +112,7 @@ public class CommunityFragment extends BaseFragment<CommunityContract.Presenter>
     @Override
     public void onResume() {
         super.onResume();
-        showTitle("输入书名查找社区短评");
+        showTitle(getString(R.string.input_bname_query_short_comment));
     }
 
     @Override

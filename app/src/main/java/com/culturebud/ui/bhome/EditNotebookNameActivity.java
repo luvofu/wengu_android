@@ -21,8 +21,8 @@ public class EditNotebookNameActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_notebook_name);
         showTitlebar();
-        setTitle("编辑笔记本名");
-        setOperasText("确定");
+        setTitle(R.string.edit_notebook_name);
+        setOperasText(R.string.confirm);
         etNotebookName = obtainViewById(R.id.et_notebook_name);
         notebookName = getIntent().getStringExtra("notebookName");
         if (!TextUtils.isEmpty(notebookName)) {

@@ -25,7 +25,7 @@ public class AlterUserInfoActivity extends BaseActivity {
         setContentView(R.layout.alter_user_info);
         etInput = obtainViewById(R.id.et_alter_user_info);
         showTitlebar();
-        setOperasText("确定");
+        setOperasText(R.string.confirm);
         Intent intent = getIntent();
         String title = intent.getStringExtra("title");
         setTitle(title);

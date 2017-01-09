@@ -46,11 +46,11 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         initView();
 
         if (isBookSheets) {
-            setTitle(getString(R.string.book_sheet_store));
+            setTitle(R.string.book_sheet_store);
             rbScore.setText("收藏量");
             rbColNum.setText("创建时间");
         } else {
-            setTitle(getString(R.string.book_store));
+            setTitle(R.string.book_store);
         }
         initList();
 

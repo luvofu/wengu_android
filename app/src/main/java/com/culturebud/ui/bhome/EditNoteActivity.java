@@ -21,7 +21,7 @@ public class EditNoteActivity extends BaseActivity<NoteContract.Presenter> imple
         setContentView(R.layout.edit_note);
         presenter.setView(this);
         showTitlebar();
-        setTitle("编辑笔记");
+        setTitle(R.string.edit_note);
     }
 
     @Override

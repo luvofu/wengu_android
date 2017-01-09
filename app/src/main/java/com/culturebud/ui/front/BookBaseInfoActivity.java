@@ -28,7 +28,7 @@ public class BookBaseInfoActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_base_info);
         showTitlebar();
-        setTitle("基本信息");
+        setTitle(R.string.base_info);
         initView();
         initData();
     }

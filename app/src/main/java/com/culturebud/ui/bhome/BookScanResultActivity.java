@@ -32,8 +32,8 @@ public class BookScanResultActivity extends BaseActivity implements BookScanResu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_scan_result);
         showTitlebar();
-        setTitle("扫描结果");
-        setOperasText("全不选");
+        setTitle(R.string.scan_result);
+        setOperasText(R.string.select_none);
         setOperasTextColor(getResources().getColor(R.color.title_font_white));
         rvBooks = obtainViewById(R.id.rv_scan_books);
         tvScanCount = obtainViewById(R.id.tv_scan_count);

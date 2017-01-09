@@ -58,7 +58,7 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
         showTitlebar();
         showBack();
         showOperas();
-        setOperasText("提交审核");
+        setOperasText(R.string.commit_verify);
 
         etAuthors = new ArrayList<>();
         etTranslators = new ArrayList<>();

@@ -63,7 +63,7 @@ public class CommentDetailActivity extends BaseActivity<CommentDetailContract.Pr
         setContentView(R.layout.comment_detail);
         presenter.setView(this);
         showTitlebar();
-        setTitle("短评详情");
+        setTitle(R.string.short_comment_detail);
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenHeight = dm.heightPixels;

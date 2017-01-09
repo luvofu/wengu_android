@@ -40,7 +40,7 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         setContentView(R.layout.book_home_sheets);
         presenter.setView(this);
         showTitlebar();
-        setTitle("书单");
+        setTitle(R.string.book_sheet);
         showBack();
         showOperas();
         setOperasDrawable(R.drawable.titlebar_add_selector);

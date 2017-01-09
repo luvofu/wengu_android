@@ -33,7 +33,7 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
         setContentView(R.layout.my_msg);
         showTitlebar();
         presenter.setView(this);
-        setTitle("我的消息");
+        setTitle(R.string.my_msg);
         rvMyMsgs = obtainViewById(R.id.rv_my_msgs);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvMyMsgs.setLayoutManager(llm);

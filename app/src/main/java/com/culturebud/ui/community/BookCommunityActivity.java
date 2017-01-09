@@ -52,7 +52,7 @@ public class BookCommunityActivity extends BaseActivity<BookCommunityContract.Pr
         presenter.setView(this);
         showTitlebar();
         setOperasDrawable(R.drawable.titlebar_add_selector);
-        setTitle("书籍社区");
+        setTitle(R.string.book_community);
         rvComments = obtainViewById(R.id.rv_comments);
         tvBookTitle = obtainViewById(R.id.tv_book_theme);
         tvCount = obtainViewById(R.id.tv_count);

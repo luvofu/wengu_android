@@ -138,6 +138,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         }
     }
 
+    public void setBackText(@StringRes int resId) {
+        tvBack.setText(resId);
+    }
+
     public void setBackTextColor(@ColorInt int color) {
         tvBack.setTextColor(color);
     }

@@ -76,7 +76,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     @Override
     public void onResume() {
         super.onResume();
-        showTitle("书房");
+        showTitle(getString(R.string.book_home));
     }
 
     @Override

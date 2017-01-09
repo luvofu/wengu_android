@@ -102,7 +102,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     @Override
     public void onResume() {
         super.onResume();
-        showTitle("我");
+        showTitle(getString(R.string.me));
         User user = BaseApp.getInstance().getUser();
         if (user == null || (user != null && !user.equals(mUser))) {
             showUser(user);

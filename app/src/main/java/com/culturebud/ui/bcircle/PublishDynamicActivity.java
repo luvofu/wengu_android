@@ -41,9 +41,9 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
         presenter.setView(this);
         showTitlebar();
         setBgColor(R.color.litter_gray_bg_border);
-        setTitle(getString(R.string.publish_dynamic));
+        setTitle(R.string.publish_dynamic);
         showBack();
-        setOperasText("发布");
+        setOperasText(R.string.publish);
         showOperas();
         sivPermission = obtainViewById(R.id.siv_permission);
         sdvAdd = obtainViewById(R.id.sdv_img);

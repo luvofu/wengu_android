@@ -26,10 +26,10 @@ public class InviteFriendActivity extends BaseActivity<InviteFriendContract.Pres
         setContentView(R.layout.invite_friend);
         presenter.setView(this);
         showTitlebar();
-        setTitle("朋友验证");
+        setTitle(R.string.friend_invalidate);
         showBack();
         showOperas();
-        setOperasText("发送");
+        setOperasText(R.string.send);
 
         etValidateInfo = obtainViewById(R.id.et_validate_info);
         fid = getIntent().getLongExtra("user_id", -1);

@@ -88,7 +88,7 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
     @Override
     public void onResume() {
         super.onResume();
-        showTitle("首页");
+        showTitle(getString(R.string.tab_front_page));
         srlRefresh.setRefreshing(true);
         presenter.loadDatas();
     }

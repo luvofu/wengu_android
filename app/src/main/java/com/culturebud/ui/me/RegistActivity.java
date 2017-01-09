@@ -38,7 +38,7 @@ public class RegistActivity extends BaseActivity<RegistContract.Presenter>
         setContentView(R.layout.regist);
         presenter.setView(this);
         showTitlebar();
-        setTitle("注册");
+        setTitle(R.string.regist);
         tvAgreement = obtainViewById(R.id.tv_agree_protocol);
         tvLogin = obtainViewById(R.id.tv_login);
         etPhone = obtainViewById(R.id.et_phone_number);

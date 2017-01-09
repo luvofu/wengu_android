@@ -42,7 +42,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         presenter.setView(this);
         opreaType = getIntent().getIntExtra(TYPE_KEY, 0);
         showTitlebar();
-        setTitle("藏书");
+        setTitle(R.string.collected_books);
         setOperasDrawable(R.drawable.titlebar_more_selector);
         rvBooks = obtainViewById(R.id.rv_collected_books);
         initList();

@@ -19,7 +19,7 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about);
         showTitlebar();
-        setTitle("关于温故");
+        setTitle(R.string.about);
         setBgColor(R.color.litter_gray_bg_border);
     }
 

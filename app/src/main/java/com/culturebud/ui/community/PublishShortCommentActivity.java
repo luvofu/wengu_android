@@ -44,9 +44,9 @@ public class PublishShortCommentActivity extends BaseActivity<PublishShortCommen
         presenter.setView(this);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
         showTitlebar();
-        setTitle("发布短评");
-        setBackText("取消");
-        setOperasText("发布");
+        setTitle(R.string.publish_short_comment);
+        setBackText(R.string.cancel);
+        setOperasText(R.string.publish);
         setBackTextColor(getResources().getColor(R.color.title_font_white));
         setOperasTextColor(getResources().getColor(R.color.title_font_white));
         etInputComment = obtainViewById(R.id.et_comment_content);

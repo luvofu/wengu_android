@@ -18,7 +18,7 @@ public class UserAgreementActivity extends TitleBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_agreement);
         wvAgreement = obtainViewById(R.id.wv_agreement);
-        setTitle("用户协议");
+        setTitle(R.string.user_agreement);
 
         wvAgreement.loadUrl("https://mywengu.com/userAgreement.html");
     }
