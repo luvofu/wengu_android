@@ -34,6 +34,10 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
 
     @Override
     public void loadDynamics(int page) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
         User user = BaseApp.getInstance().getUser();
         model.getDynamics(page, user.getToken(), user.getUserId())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())

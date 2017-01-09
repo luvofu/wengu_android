@@ -190,4 +190,16 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 break;
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_LOGIN:
+                if (RESULT_OK == resultCode) {
+                    presenter.loadDynamics(0);
+                }
+                break;
+        }
+    }
 }
