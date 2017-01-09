@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -26,21 +27,25 @@
             android:layout_height="100dp"
             android:padding="5dp">
 
-            <ImageView
-                android:id="@+id/iv_img"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_img"
                 android:layout_width="75dp"
                 android:layout_height="75dp"
                 android:layout_marginRight="12dp"
                 android:layout_marginTop="10dp"
-                android:scaleType="centerInside"
-                android:src="@mipmap/pic_add" />
+                android:clickable="true"
+                android:onClick="onClick"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImage="@mipmap/pic_add"
+                fresco:placeholderImageScaleType="fitXY" />
 
             <ImageView
-                android:id="@+id/ib_del"
+                android:id="@+id/iv_del"
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:layout_gravity="top|right"
                 android:clickable="true"
+                android:onClick="onClick"
                 android:scaleType="fitXY"
                 android:src="@mipmap/common_icon_delete" />
 
@@ -48,14 +53,15 @@
     </LinearLayout>
 
     <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_permission"
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/setting_item_bg_selector"
+        android:clickable="true"
+        android:onClick="onClick"
         app:has_icon="false"
         app:info="公开"
-        app:name="谁可以看">
-
-    </com.culturebud.widget.SettingItemView>
+        app:name="谁可以看" />
 
 </LinearLayout>

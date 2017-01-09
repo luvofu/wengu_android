@@ -176,6 +176,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
+                    sdvFace.setImageURI(photoUri);
                     User user = BaseApp.getInstance().getUser();
                     presenter.editAvatar(user.getUserId(), photoUri, true);
                 }
