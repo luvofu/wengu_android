@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst.ContentPermission;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.PublishDynamicContract;
@@ -27,7 +28,7 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
     private static final String TAG = PublishDynamicActivity.class.getSimpleName();
     private OptionsPickerView<String> permissionOpts;
     private SettingItemView sivPermission;
-    private int permission;
+    private int permission = ContentPermission.PERMISSION_PUBLIC;
     private SimpleDraweeView sdvAdd;
     private ImageView ivDel;
     private EditText etContent;
@@ -76,9 +77,9 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
         if (permissionOpts == null) {
             permissionOpts = new OptionsPickerView<>(this);
             ArrayList<String> items = new ArrayList<>();
-            items.add("公开");
-            items.add("好友");
-            items.add("私密");
+            items.add(getString(R.string.permission_public));
+            items.add(getString(R.string.permission_friend));
+            items.add(getString(R.string.permission_personal));
             permissionOpts.setPicker(items);
             permissionOpts.setSelectOptions(permission);
             permissionOpts.setCyclic(false);
@@ -104,14 +105,14 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
     public void onOptionsSelect(int options1, int option2, int options3) {
         permission = options1;
         switch (options1) {
-            case 0:
-                sivPermission.setRightInfo("公开");
+            case ContentPermission.PERMISSION_PUBLIC:
+                sivPermission.setRightInfo(R.string.permission_public);
                 break;
-            case 1:
-                sivPermission.setRightInfo("好友");
+            case ContentPermission.PERMISSION_FRIEND:
+                sivPermission.setRightInfo(R.string.permission_friend);
                 break;
-            case 2:
-                sivPermission.setRightInfo("私密");
+            case ContentPermission.PERMISSION_PERSONAL:
+                sivPermission.setRightInfo(R.string.permission_personal);
                 break;
         }
     }

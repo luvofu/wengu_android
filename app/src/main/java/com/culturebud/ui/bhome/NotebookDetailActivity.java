@@ -14,6 +14,7 @@ import android.widget.PopupWindow;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst.ContentPermission;
 import com.culturebud.R;
 import com.culturebud.adapter.NotebookDetailAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -89,9 +90,9 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         if (permissionOpts == null) {
             permissionOpts = new OptionsPickerView<>(this);
             ArrayList<String> items = new ArrayList<>();
-            items.add("公开");
-            items.add("好友");
-            items.add("私密");
+            items.add(ContentPermission.PER_DES_PUBLIC);
+            items.add(ContentPermission.PER_DES_FRIEND);
+            items.add(ContentPermission.PER_DES_PERSONAL);
             permissionOpts.setPicker(items);
             permissionOpts.setSelectOptions(permission);
             permissionOpts.setCyclic(false);

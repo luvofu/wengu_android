@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.culturebud.BaseApp;
-import com.culturebud.CommonConst.NotebookPermission;
+import com.culturebud.CommonConst.ContentPermission;
 import com.culturebud.R;
 import com.culturebud.bean.Note;
 import com.culturebud.bean.NotebookDetail;
@@ -175,16 +175,16 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
 
         public void setNotePermission(int permission) {
             String formatStr = BaseApp.getInstance().getString(R.string.note_permission);
-            String pstr = NotebookPermission.PER_DES_PUBLIC;
+            String pstr = ContentPermission.PER_DES_PUBLIC;
             switch (permission) {
-                case NotebookPermission.PERMISSION_PUBLIC:
-                    pstr = NotebookPermission.PER_DES_PUBLIC;
+                case ContentPermission.PERMISSION_PUBLIC:
+                    pstr = ContentPermission.PER_DES_PUBLIC;
                     break;
-                case NotebookPermission.PERMISSION_FRIEND:
-                    pstr = NotebookPermission.PER_DES_FRIEND;
+                case ContentPermission.PERMISSION_FRIEND:
+                    pstr = ContentPermission.PER_DES_FRIEND;
                     break;
-                case NotebookPermission.PERMISSION_PERSONAL:
-                    pstr = NotebookPermission.PER_DES_PERSONAL;
+                case ContentPermission.PERMISSION_PERSONAL:
+                    pstr = ContentPermission.PER_DES_PERSONAL;
                     break;
             }
             tvPermission.setText(String.format(Locale.getDefault(), formatStr, pstr));

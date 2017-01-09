@@ -117,5 +117,8 @@
     <string name="commit_verify">提交审核</string>
     <string name="note">笔记</string>
     <string name="detail">详情</string>
+    <string name="permission_public">公开</string>
+    <string name="permission_friend">好友</string>
+    <string name="permission_personal">私密</string>
 
 </resources>

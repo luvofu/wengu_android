@@ -181,7 +181,7 @@ public final class CommonConst {
         public static final int TYPE_BIND_MOBILE = 3;
     }
 
-    public final class NotebookPermission {
+    public final class ContentPermission {
         //公开Open(0),好友Friend(1),个人 Personal(2);
         public static final int PERMISSION_PUBLIC = 0;
         public static final int PERMISSION_FRIEND = 1;
