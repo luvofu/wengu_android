@@ -170,6 +170,14 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
                     ivDel.setVisibility(View.VISIBLE);
                 }
                 break;
+            case REQUEST_CODE_SELECT_BOOK:
+                if (resultCode == RESULT_OK) {
+                    long bookId = data.getLongExtra("book_id", -1);
+                    if (bookId != -1) {
+
+                    }
+                }
+                break;
         }
     }
 

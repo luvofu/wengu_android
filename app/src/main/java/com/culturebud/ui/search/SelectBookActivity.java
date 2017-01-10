@@ -74,7 +74,7 @@ public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Pres
     @Override
     public void onItemClick(View v, CollectedBook book) {
         Intent intent = new Intent();
-        intent.putExtra("bookId", book.getBookId());
+        intent.putExtra("book_id", book.getBookId());
         setResult(RESULT_OK, intent);
         finish();
     }

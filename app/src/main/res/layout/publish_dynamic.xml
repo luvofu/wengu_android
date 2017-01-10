@@ -50,6 +50,46 @@
                 android:src="@mipmap/common_icon_delete" />
 
         </FrameLayout>
+
+        <LinearLayout
+            android:id="@+id/ll_added_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingBottom="4dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="4dp">
+
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_book_cover"
+                android:layout_width="@dimen/setting_icon_default_middle"
+                android:layout_height="@dimen/setting_icon_default_big"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImage="@mipmap/img_placeholder"
+                fresco:placeholderImageScaleType="fitXY" />
+
+            <TextView
+                android:id="@+id/tv_book_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/title_font_default"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/iv_del_book"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:clickable="true"
+                android:onClick="onClick"
+                android:scaleType="fitXY"
+                android:src="@mipmap/common_icon_delete" />
+        </LinearLayout>
     </LinearLayout>
 
     <com.culturebud.widget.SettingItemView

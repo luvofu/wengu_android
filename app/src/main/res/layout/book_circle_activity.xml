@@ -54,7 +54,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:background="@color/status_view"
+                    android:background="@color/my_transact"
                     android:gravity="center"
                     android:orientation="horizontal"
                     android:padding="4dp">
