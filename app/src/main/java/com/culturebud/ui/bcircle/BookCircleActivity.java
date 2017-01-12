@@ -130,6 +130,18 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             case R.id.iv_back:
                 finish();
                 break;
+            case R.id.tv_my_publish: {
+                Intent intent = new Intent(this, MyDynamicActivity.class);
+                intent.putExtra("type", 0);
+                startActivity(intent);
+                break;
+            }
+            case R.id.tv_related_me: {
+                Intent intent = new Intent(this, MyDynamicActivity.class);
+                intent.putExtra("type", 1);
+                startActivity(intent);
+                break;
+            }
         }
     }
 

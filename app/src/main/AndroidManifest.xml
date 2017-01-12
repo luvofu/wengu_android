@@ -129,6 +129,8 @@
             android:name=".ui.search.SelectBookActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
+        <activity android:name=".ui.bcircle.MyDynamicActivity" />
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

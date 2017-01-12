@@ -1,0 +1,117 @@
+{
+  "dynamicPublishList": [
+    {
+      "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100009_1483929390879_300x300.png",
+      "commentId": 0,
+      "commentUserId": 0,
+      "communityId": 0,
+      "content": "闲的吧唧嘴角",
+      "createdTime": 1483941136000,
+      "dynamicId": 109,
+      "dynamicReplyList": [],
+      "dynamicType": 0,
+      "good": true,
+      "goodNum": 1,
+      "image": "http://mywengu.com/img/dynamic/content/lpic/0/109_1483941136453_300x300.jpg",
+      "linkId": 0,
+      "linkType": 0,
+      "nickname": "坏猫",
+      "replyNum": 0,
+      "userId": 100009
+    },
+    {
+      "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100009_1483929390879_300x300.png",
+      "commentId": 0,
+      "commentUserId": 0,
+      "communityId": 0,
+      "content": "乡土气息……",
+      "createdTime": 1478061648000,
+      "dynamicId": 48,
+      "dynamicReplyList": [
+        {
+          "replyType": 0,
+          "replyId": 68,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1478096350000,
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "不错"
+        },
+        {
+          "replyType": 0,
+          "replyId": 82,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1478532925000,
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "测试消息"
+        },
+        {
+          "replyType": 0,
+          "replyId": 83,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1478532929000,
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "测试消息"
+        }
+      ],
+      "dynamicType": 0,
+      "good": false,
+      "goodNum": 3,
+      "image": "http://mywengu.com/img/dynamic/content/lpic/0/48_1478061648417_1500x1125.jpg",
+      "linkId": 0,
+      "linkType": 0,
+      "nickname": "坏猫",
+      "replyNum": 3,
+      "userId": 100009
+    },
+    {
+      "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100009_1483929390879_300x300.png",
+      "commentId": 0,
+      "commentUserId": 0,
+      "communityId": 0,
+      "content": "远亦近……",
+      "createdTime": 1476801114000,
+      "dynamicId": 34,
+      "dynamicReplyList": [
+        {
+          "replyType": 0,
+          "replyId": 40,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1476801237000,
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "宁静优美的乡村，令人向往的地方！"
+        },
+        {
+          "replyType": 0,
+          "replyId": 53,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1476965065000,
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "伟哥"
+        },
+        {
+          "replyType": 0,
+          "replyId": 84,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1478532935000,
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "测试消息"
+        }
+      ],
+      "dynamicType": 0,
+      "good": false,
+      "goodNum": 4,
+      "image": "http://mywengu.com/img/dynamic/content/lpic/0/34_1476801114265_750x563.jpg",
+      "linkId": 0,
+      "linkType": 0,
+      "nickname": "坏猫",
+      "replyNum": 3,
+      "userId": 100009
+    }
+  ]
+}

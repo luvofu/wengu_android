@@ -64,6 +64,10 @@ public final class CommonConst {
 
     public static final String PATH_BOOK_CIRCLE_DYNAMIC_ADD = "api/bookCircle/addDynamic";
 
+    public static final String PATH_BOOK_CIRCLE_DYNAMIC_MY_PUBLISHED = "api/userMessage/dynamicPublish";
+
+    public static final String PATH_BOOK_CIRCLE_DYNAMIC_MY_RELATIONS = "api/userMessage/dynamicRelativeToMe";
+
     public static final String PATH_BOOK_COMMUNITY_SEARCH = "api/bookCommunity/search";
 
     public static final String PATH_BOOK_COMMUNITY_BOOK = "api/bookCommunity/book";

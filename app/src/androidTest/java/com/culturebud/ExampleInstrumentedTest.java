@@ -558,10 +558,10 @@ public class ExampleInstrumentedTest {
     public void testCommon() {
         //af8f9f1a-ee36-4a99-9407-8315dd306f7c
         Map<String, Object> params = new HashMap<>();
-        params.put("token", "af8f9f1a-ee36-4a99-9407-8315dd306f7c");
-        params.put("dynamicId", 84);
-        initRetrofit(null).create(ApiBookHomeInterface.class).dynamicDetail(params)
-                .subscribe(new Subscriber<ApiResultBean<BookCircleDynamic>>() {
+        params.put("token", "718f6f93-d4b8-4be9-a2b6-bae8aaf6bf44");
+        params.put("page", 0);
+        initRetrofit(null).create(ApiBookHomeInterface.class).myRelationDynamics(params)
+                .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                     @Override
                     public void onCompleted() {
 
@@ -569,12 +569,21 @@ public class ExampleInstrumentedTest {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
-                    public void onNext(ApiResultBean<BookCircleDynamic> bean) {
+                    public void onNext(ApiResultBean<JsonObject> bean) {
                         Log.d(TAG, bean.toString());
+//                        if (bean.getCode() == ApiErrorCode.CODE_SUCCESS) {
+//                            if (bean.getData().has("dynamicPublishList")) {
+//                                List<BookCircleDynamic> dynamics = new Gson().fromJson(bean.getData()
+//                                                .getAsJsonArray("dynamicPublishList"),
+//                                        new TypeToken<List<BookCircleDynamic>>() {
+//                                        }.getType());
+//                                Log.d(TAG, "" + dynamics);
+//                            }
+//                        }
                     }
                 });
     }

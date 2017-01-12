@@ -51,6 +51,15 @@ public interface ApiBookHomeInterface {
     @Multipart
     Observable<ApiResultBean<JsonObject>> addDynamic(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part imageFile);
 
+    @POST(CommonConst.PATH_BOOK_CIRCLE_DYNAMIC_MY_PUBLISHED)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> myPublishedDynamics(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_BOOK_CIRCLE_DYNAMIC_MY_RELATIONS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> myRelationDynamics(@FieldMap Map<String, Object> params);
+
+
     @POST(CommonConst.PATH_USER_NOTEBOOKS)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> myNoteBooks(@FieldMap Map<String, Object> params);
