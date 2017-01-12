@@ -60,7 +60,8 @@
             android:paddingBottom="4dp"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="4dp">
+            android:paddingTop="4dp"
+            android:visibility="gone">
 
             <com.facebook.drawee.view.SimpleDraweeView
                 android:id="@+id/sdv_book_cover"

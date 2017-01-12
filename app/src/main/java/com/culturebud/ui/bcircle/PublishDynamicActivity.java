@@ -2,13 +2,16 @@ package com.culturebud.ui.bcircle;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
@@ -38,6 +41,12 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
     private SimpleDraweeView sdvAdd;
     private ImageView ivDel;
     private EditText etContent;
+
+    private LinearLayout llAddBook;
+    private SimpleDraweeView sdvBookCover;
+    private TextView tvBookTitle;
+    private ImageView ivDelBook;
+
     private int linkType;
     private long linkId;
     private PopupWindow pwOperas;
@@ -61,6 +70,17 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
         sdvAdd = obtainViewById(R.id.sdv_img);
         ivDel = obtainViewById(R.id.iv_del);
         etContent = obtainViewById(R.id.et_content);
+
+        llAddBook = obtainViewById(R.id.ll_added_book);
+        sdvBookCover = obtainViewById(R.id.sdv_book_cover);
+        tvBookTitle = obtainViewById(R.id.tv_book_name);
+        ivDelBook = obtainViewById(R.id.iv_del_book);
+        if (linkType == 0) {
+            llAddBook.setVisibility(View.GONE);
+        } else {
+            llAddBook.setVisibility(View.VISIBLE);
+        }
+
         initPopupWindow();
         addSoftKeyboardChangedListener(this);
         etContent.setOnClickListener(this);
@@ -94,6 +114,12 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
             case R.id.iv_select_book: {
                 Intent intent = new Intent(this, SelectBookActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_SELECT_BOOK);
+                break;
+            }
+            case R.id.iv_del_book: {
+                linkType = 0;
+                linkId = 0;
+                llAddBook.setVisibility(View.GONE);
                 break;
             }
         }
@@ -173,8 +199,18 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
             case REQUEST_CODE_SELECT_BOOK:
                 if (resultCode == RESULT_OK) {
                     long bookId = data.getLongExtra("book_id", -1);
+                    String bookTitle = data.getStringExtra("book_title");
+                    String bookCover = data.getStringExtra("book_cover");
                     if (bookId != -1) {
-
+                        linkType = 1;
+                        linkId = bookId;
+                        llAddBook.setVisibility(View.VISIBLE);
+                        if (!TextUtils.isEmpty(bookCover)) {
+                            sdvBookCover.setImageURI(bookCover);
+                        }
+                        if (!TextUtils.isEmpty(bookTitle)) {
+                            tvBookTitle.setText(bookTitle);
+                        }
                     }
                 }
                 break;

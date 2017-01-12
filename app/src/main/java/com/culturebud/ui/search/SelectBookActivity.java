@@ -26,7 +26,8 @@ import java.util.Locale;
  */
 
 @PresenterInject(CollectedBooksPresenter.class)
-public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Presenter> implements CollectedBooksContract.View, BooksSimpleAdapter.OnItemClickListener {
+public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Presenter>
+        implements CollectedBooksContract.View, BooksSimpleAdapter.OnItemClickListener {
     private TextView tvOperaTips;
     private RecyclerView rvBooks;
     private int currentPage;
@@ -75,6 +76,8 @@ public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Pres
     public void onItemClick(View v, CollectedBook book) {
         Intent intent = new Intent();
         intent.putExtra("book_id", book.getBookId());
+        intent.putExtra("book_title", book.getTitle());
+        intent.putExtra("book_cover", book.getCover());
         setResult(RESULT_OK, intent);
         finish();
     }
