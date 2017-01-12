@@ -1,0 +1,181 @@
+{
+  "dynamicRelativeToMeList": [
+    {
+      "dynamic": {
+        "image": "http://mywengu.com/img/dynamic/content/lpic/0/34_1476801114265_750x563.jpg",
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100009_1483929390879_300x300.png",
+        "dynamicType": 0,
+        "userId": 100009,
+        "good": false,
+        "content": "远亦近……",
+        "linkId": 0,
+        "dynamicId": 34,
+        "replyNum": 3,
+        "nickname": "坏猫",
+        "createdTime": 1476801114000,
+        "linkType": 0,
+        "goodNum": 4
+      },
+      "dynamicReplyList": [
+        {
+          "replyType": 0,
+          "replyId": 40,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1476801237000,
+          "replyObj": {
+            "replyObjId": 34,
+            "nickname": "坏猫",
+            "userId": 100009
+          },
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "宁静优美的乡村，令人向往的地方！"
+        },
+        {
+          "replyType": 0,
+          "replyId": 53,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1476965065000,
+          "replyObj": {
+            "replyObjId": 34,
+            "nickname": "坏猫",
+            "userId": 100009
+          },
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "伟哥"
+        }
+      ],
+      "newReply": {
+        "nickname": "不止步的风-测试",
+        "replyId": 84,
+        "createdTime": 1478532935000,
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+        "userId": 100004,
+        "content": "测试消息"
+      }
+    },
+    {
+      "dynamic": {
+        "image": "http://mywengu.com/img/dynamic/content/lpic/0/48_1478061648417_1500x1125.jpg",
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100009_1483929390879_300x300.png",
+        "dynamicType": 0,
+        "userId": 100009,
+        "good": false,
+        "content": "乡土气息……",
+        "linkId": 0,
+        "dynamicId": 48,
+        "replyNum": 3,
+        "nickname": "坏猫",
+        "createdTime": 1478061648000,
+        "linkType": 0,
+        "goodNum": 3
+      },
+      "dynamicReplyList": [
+        {
+          "replyType": 0,
+          "replyId": 68,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1478096350000,
+          "replyObj": {
+            "replyObjId": 48,
+            "nickname": "坏猫",
+            "userId": 100009
+          },
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "不错"
+        },
+        {
+          "replyType": 0,
+          "replyId": 82,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1478532925000,
+          "replyObj": {
+            "replyObjId": 48,
+            "nickname": "坏猫",
+            "userId": 100009
+          },
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "测试消息"
+        }
+      ],
+      "newReply": {
+        "nickname": "不止步的风-测试",
+        "replyId": 83,
+        "createdTime": 1478532929000,
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+        "userId": 100004,
+        "content": "测试消息"
+      }
+    },
+    {
+      "dynamic": {
+        "image": "http://mywengu.com/img/dynamic/content/lpic/0/48_1478061648417_1500x1125.jpg",
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100009_1483929390879_300x300.png",
+        "dynamicType": 0,
+        "userId": 100009,
+        "good": false,
+        "content": "乡土气息……",
+        "linkId": 0,
+        "dynamicId": 48,
+        "replyNum": 3,
+        "nickname": "坏猫",
+        "createdTime": 1478061648000,
+        "linkType": 0,
+        "goodNum": 3
+      },
+      "dynamicReplyList": [
+        {
+          "replyType": 0,
+          "replyId": 68,
+          "nickname": "不止步的风-测试",
+          "createdTime": 1478096350000,
+          "replyObj": {
+            "replyObjId": 48,
+            "nickname": "坏猫",
+            "userId": 100009
+          },
+          "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+          "userId": 100004,
+          "content": "不错"
+        }
+      ],
+      "newReply": {
+        "nickname": "不止步的风-测试",
+        "replyId": 82,
+        "createdTime": 1478532925000,
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+        "userId": 100004,
+        "content": "测试消息"
+      }
+    },
+    {
+      "dynamic": {
+        "image": "http://mywengu.com/img/dynamic/content/lpic/0/48_1478061648417_1500x1125.jpg",
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100009_1483929390879_300x300.png",
+        "dynamicType": 0,
+        "userId": 100009,
+        "good": false,
+        "content": "乡土气息……",
+        "linkId": 0,
+        "dynamicId": 48,
+        "replyNum": 3,
+        "nickname": "坏猫",
+        "createdTime": 1478061648000,
+        "linkType": 0,
+        "goodNum": 3
+      },
+      "dynamicReplyList": [],
+      "newReply": {
+        "nickname": "不止步的风-测试",
+        "replyId": 68,
+        "createdTime": 1478096350000,
+        "avatar": "http://mywengu.com/img/user/avatar/lpic/10/100004_1478159569358_200x200.jpg",
+        "userId": 100004,
+        "content": "不错"
+      }
+    }
+  ]
+}

@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.BookCircleDynamicRelationMe;
 import com.culturebud.contract.MyDynamicsContract;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.util.ApiException;
@@ -66,7 +67,41 @@ public class MyDynamicsModel extends MyDynamicsContract.Model {
     }
 
     @Override
-    public Observable<List<BookCircleDynamic>> myRelations(String token, int page) {
-        return null;
+    public Observable<List<BookCircleDynamicRelationMe>> myRelations(String token, int page) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("page", page);
+            initRetrofit().create(ApiBookHomeInterface.class).myRelationDynamics(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                if (bean.getData().has("dynamicRelativeToMeList")) {
+                                    List<BookCircleDynamicRelationMe> dynamics = new Gson()
+                                            .fromJson(bean.getData().getAsJsonArray("dynamicRelativeToMeList"),
+                                                    new TypeToken<List<BookCircleDynamicRelationMe>>() {
+                                                    }.getType());
+                                    subscriber.onNext(dynamics);
+                                }
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
     }
 }

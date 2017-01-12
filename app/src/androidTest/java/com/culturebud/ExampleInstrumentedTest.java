@@ -11,6 +11,7 @@ import android.util.Log;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.Book;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.BookCircleDynamicRelationMe;
 import com.culturebud.bean.BookCommunityDetail;
 import com.culturebud.bean.BookDetail;
 import com.culturebud.bean.BookSheetDetail;
@@ -575,15 +576,15 @@ public class ExampleInstrumentedTest {
                     @Override
                     public void onNext(ApiResultBean<JsonObject> bean) {
                         Log.d(TAG, bean.toString());
-//                        if (bean.getCode() == ApiErrorCode.CODE_SUCCESS) {
-//                            if (bean.getData().has("dynamicPublishList")) {
-//                                List<BookCircleDynamic> dynamics = new Gson().fromJson(bean.getData()
-//                                                .getAsJsonArray("dynamicPublishList"),
-//                                        new TypeToken<List<BookCircleDynamic>>() {
-//                                        }.getType());
-//                                Log.d(TAG, "" + dynamics);
-//                            }
-//                        }
+                        if (bean.getCode() == ApiErrorCode.CODE_SUCCESS) {
+                            if (bean.getData().has("dynamicRelativeToMeList")) {
+                                List<BookCircleDynamicRelationMe> dynamics = new Gson().fromJson(bean.getData()
+                                                .getAsJsonArray("dynamicRelativeToMeList"),
+                                        new TypeToken<List<BookCircleDynamicRelationMe>>() {
+                                        }.getType());
+                                Log.d(TAG, "" + dynamics);
+                            }
+                        }
                     }
                 });
     }

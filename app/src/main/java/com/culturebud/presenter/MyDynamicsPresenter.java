@@ -2,6 +2,7 @@ package com.culturebud.presenter;
 
 import com.culturebud.BaseApp;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.BookCircleDynamicRelationMe;
 import com.culturebud.contract.MyDynamicsContract;
 import com.culturebud.model.MyDynamicsModel;
 import com.culturebud.util.ApiException;
@@ -54,6 +55,30 @@ public class MyDynamicsPresenter extends MyDynamicsContract.Presenter {
 
     @Override
     public void myRelations(int page) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.myRelations(BaseApp.getInstance().getUser().getToken(), page)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<BookCircleDynamicRelationMe>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(List<BookCircleDynamicRelationMe> dynamics) {
+                        view.onRelations(dynamics);
+                    }
+                });
     }
 }

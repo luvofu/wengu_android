@@ -10,6 +10,7 @@ import com.culturebud.R;
 import com.culturebud.adapter.BookCircleDynamicAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.BookCircleDynamicRelationMe;
 import com.culturebud.bean.DynamicReply;
 import com.culturebud.contract.MyDynamicsContract;
 import com.culturebud.presenter.MyDynamicsPresenter;
@@ -22,7 +23,8 @@ import java.util.List;
  */
 
 @PresenterInject(MyDynamicsPresenter.class)
-public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter> implements MyDynamicsContract.View, BookCircleDynamicAdapter.OnItemClickListener {
+public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter>
+        implements MyDynamicsContract.View, BookCircleDynamicAdapter.OnItemClickListener {
     private RecyclerView rvDynamics;
     private BookCircleDynamicAdapter adapter;
 
@@ -58,6 +60,11 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
     @Override
     public void onDynamics(List<BookCircleDynamic> dynamics) {
         adapter.addItems(dynamics);
+    }
+
+    @Override
+    public void onRelations(List<BookCircleDynamicRelationMe> dynamics) {
+
     }
 
     @Override
