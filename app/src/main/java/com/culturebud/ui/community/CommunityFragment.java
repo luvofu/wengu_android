@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.culturebud.BaseFragment;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.CommentAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -205,7 +206,7 @@ public class CommunityFragment extends BaseFragment<CommunityContract.Presenter>
 
     @Override
     public void onThumbUpClick(long commentId) {
-        presenter.thumbUp(0, commentId);
+        presenter.thumbUp(CommonConst.ThumbUpType.TYPE_COMMENT, commentId);
     }
 
     @Override

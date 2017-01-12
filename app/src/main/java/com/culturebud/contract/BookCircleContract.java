@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.model.CommunityBaseModel;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.google.gson.JsonObject;
 
@@ -16,10 +17,7 @@ import rx.Observable;
  */
 
 public interface BookCircleContract {
-    abstract class Model extends BaseModel {
-        protected ApiBookHomeInterface getBookCircleInterface() {
-            return initRetrofit().create(ApiBookHomeInterface.class);
-        }
+    abstract class Model extends CommunityBaseModel {
         public abstract Observable<ApiResultBean<JsonObject>> getDynamics(int page, String token, long userId);
     }
 
@@ -27,12 +25,16 @@ public interface BookCircleContract {
         void onDynamics(List<BookCircleDynamic> dynamics);
 
         void onBgImg(Bitmap bitmap);
+
+        void onThumbUp(long dynamicId, boolean result);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void loadDynamics(int page);
 
         public abstract void downloadBgImg();
+
+        public abstract void thumbUp(long dynamicId);
     }
 
 }

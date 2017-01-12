@@ -1,8 +1,7 @@
 package com.culturebud.presenter;
 
-import android.util.Log;
-
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.bean.Comment;
 import com.culturebud.bean.MyRelatedComment;
 import com.culturebud.contract.MyCommentContract;
@@ -84,7 +83,7 @@ public class MyCommentPresenter extends MyCommentContract.Presenter {
         if (!validateToken()) {
             return;
         }
-        model.thumbUp(BaseApp.getInstance().getUser().getToken(), 0, goodObjId)
+        model.thumbUp(BaseApp.getInstance().getUser().getToken(), CommonConst.ThumbUpType.TYPE_COMMENT, goodObjId)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<Boolean>() {
             @Override

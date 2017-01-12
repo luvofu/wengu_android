@@ -154,6 +154,11 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     }
 
     @Override
+    public void onThumbUp(long dynamicId, boolean result) {
+        ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).onThumbUpResult(dynamicId, result);
+    }
+
+    @Override
     public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dy) {
         switch (type) {
             case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC: {
@@ -187,6 +192,9 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 break;
             }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY:
+                break;
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_THUMB:
+                presenter.thumbUp(bcd.getDynamicId());
                 break;
         }
     }

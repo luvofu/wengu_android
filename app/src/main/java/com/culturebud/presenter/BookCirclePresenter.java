@@ -5,11 +5,13 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst.ThumbUpType;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.User;
 import com.culturebud.contract.BookCircleContract;
 import com.culturebud.model.BookCircleModel;
+import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -107,6 +109,35 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
                         if (bitmap != null && !bitmap.isRecycled()) {
                             view.onBgImg(bitmap);
                         }
+                    }
+                });
+    }
+
+    @Override
+    public void thumbUp(long dynamicId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.thumbUp(BaseApp.getInstance().getUser().getToken(), ThumbUpType.TYPE_DYNAMIC, dynamicId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean result) {
+                        view.onThumbUp(dynamicId, result);
                     }
                 });
     }

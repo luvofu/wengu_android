@@ -58,6 +58,19 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         notifyItemRangeChanged(position, items.size());
     }
 
+    public void onThumbUpResult(long dynamicId, boolean result) {
+        int index = 0;
+        for (BookCircleDynamic bcd : data) {
+            if (bcd.getDynamicId() == dynamicId) {
+                bcd.setGood(result);
+                bcd.setGoodNum(result ? bcd.getGoodNum() + 1 : bcd.getGoodNum() - 1);
+                notifyItemChanged(index);
+                return;
+            }
+            index++;
+        }
+    }
+
     @Override
     public int getItemViewType(int position) {
         BookCircleDynamic bcd = data.get(position);
@@ -227,6 +240,8 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);
             tvReplyNum = (TextView) itemView.findViewById(R.id.tv_reply_num);
             itemView.setOnClickListener(this);
+            tvGoodNum.setOnClickListener(this);
+            tvReplyNum.setOnClickListener(this);
         }
 
         public void setFace(String url) {
@@ -403,6 +418,16 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
                         onItemClickListener.onItemClick(v, ONCLICK_TYPE_IMG, bcd, null);
                     }
                     break;
+                case R.id.tv_good_num:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_THUMB, bcd, null);
+                    }
+                    break;
+                case R.id.tv_reply_num:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_REPLY, bcd, null);
+                    }
+                    break;
             }
         }
 
@@ -434,5 +459,5 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
     public static final int ONCLICK_TYPE_BOOK_SHEET = 3;
     public static final int ONCLICK_TYPE_IMG = 4;
     public static final int ONCLICK_TYPE_REPLY = 5;
-
+    public static final int ONCLICK_TYPE_THUMB = 6;
 }

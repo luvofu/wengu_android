@@ -6,6 +6,7 @@ import android.util.Log;
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.contract.BookCircleContract;
+import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.JsonObject;
 
@@ -34,7 +35,7 @@ public class BookCircleModel extends BookCircleContract.Model {
             }
             params.put("page", page);
             params.put("userId", userId);
-            getBookCircleInterface().dynamic(params).subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+            initRetrofit().create(ApiBookHomeInterface.class).dynamic(params).subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                 @Override
                 public void onCompleted() {
                     subscriber.onCompleted();

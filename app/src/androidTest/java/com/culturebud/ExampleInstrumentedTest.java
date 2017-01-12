@@ -79,22 +79,22 @@ public class ExampleInstrumentedTest {
 
         ApiHomeInterface home = retrofit.create(ApiHomeInterface.class);
         home.getFrontPageList(new HashMap<>())
-        .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-            @Override
-            public void onCompleted() {
+                .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
+                    }
 
-            @Override
-            public void onNext(ApiResultBean<JsonObject> bean) {
+                    @Override
+                    public void onNext(ApiResultBean<JsonObject> bean) {
 
-            }
-        });
+                    }
+                });
     }
 
     private static final String TOKEN = "86a2791b-e236-4bdd-8b87-94fe1aec10bc";
@@ -208,24 +208,25 @@ public class ExampleInstrumentedTest {
         Map<String, Object> params = new HashMap<>();
         params.put("platform", "Android");
         params.put("deviceToken", BaseApp.getInstance().getDeviceId());
-        params.put("token", "2d4772d9-63a5-4c83-9111-7bbb1c7375fb");
+        params.put("token", "718f6f93-d4b8-4be9-a2b6-bae8aaf6bf44");
         params.put("goodType", 0);
         params.put("goodObjId", 8);
 
         communityInterface.thumbUp(params).subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
             @Override
             public void onCompleted() {
-
+                Log.e(TAG, "onCompleted()");
             }
 
             @Override
             public void onError(Throwable e) {
-
+                e.printStackTrace();
+                Log.e(TAG, e.getMessage());
             }
 
             @Override
             public void onNext(ApiResultBean<JsonObject> bean) {
-                Log.e("xwlljj", bean.toString());
+                Log.e(TAG, bean.toString());
             }
         });
     }
@@ -560,45 +561,23 @@ public class ExampleInstrumentedTest {
         params.put("token", "af8f9f1a-ee36-4a99-9407-8315dd306f7c");
         params.put("dynamicId", 84);
         initRetrofit(null).create(ApiBookHomeInterface.class).dynamicDetail(params)
-        .subscribe(new Subscriber<ApiResultBean<BookCircleDynamic>>() {
-            @Override
-            public void onCompleted() {
+                .subscribe(new Subscriber<ApiResultBean<BookCircleDynamic>>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
+                    }
 
-            @Override
-            public void onNext(ApiResultBean<BookCircleDynamic> bean) {
-                Log.d(TAG, bean.toString());
-            }
-        });
+                    @Override
+                    public void onNext(ApiResultBean<BookCircleDynamic> bean) {
+                        Log.d(TAG, bean.toString());
+                    }
+                });
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

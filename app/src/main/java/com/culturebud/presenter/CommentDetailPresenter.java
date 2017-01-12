@@ -3,7 +3,7 @@ package com.culturebud.presenter;
 import android.text.TextUtils;
 
 import com.culturebud.BaseApp;
-import com.culturebud.bean.ApiResultBean;
+import com.culturebud.CommonConst;
 import com.culturebud.bean.CommentReply;
 import com.culturebud.bean.User;
 import com.culturebud.contract.CommentDetailContract;
@@ -31,7 +31,7 @@ public class CommentDetailPresenter extends CommentDetailContract.Presenter {
         if (!validateToken()) {
             return;
         }
-        model.thumbUp(user.getToken(), 0, goodObjId).subscribeOn(Schedulers.io())
+        model.thumbUp(user.getToken(), CommonConst.ThumbUpType.TYPE_COMMENT, goodObjId).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread()).subscribe(new Subscriber<Boolean>() {
             @Override
             public void onCompleted() {

@@ -1,6 +1,7 @@
 package com.culturebud.model;
 
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;

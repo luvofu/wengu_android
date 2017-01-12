@@ -1,6 +1,7 @@
 package com.culturebud.presenter;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst.ThumbUpType;
 import com.culturebud.bean.BookCommunityDetail;
 import com.culturebud.bean.Comment;
 import com.culturebud.bean.User;
@@ -96,7 +97,7 @@ public class BookCommunityPresenter extends BookCommunityContract.Presenter {
         if (!validateToken()) {
             return;
         }
-        model.thumbUp(BaseApp.getInstance().getUser().getToken(), 0, commentId)
+        model.thumbUp(BaseApp.getInstance().getUser().getToken(), ThumbUpType.TYPE_COMMENT, commentId)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<Boolean>() {
             @Override

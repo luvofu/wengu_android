@@ -2,7 +2,6 @@ package com.culturebud.ui.front;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.culturebud.BaseFragment;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.CommentAdapter;
 import com.culturebud.adapter.FrontPageAdapter;
@@ -182,7 +182,7 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
 
     @Override
     public void onThumbUpClick(long commentId) {
-        presenter.thumbUp(0, commentId);
+        presenter.thumbUp(CommonConst.ThumbUpType.TYPE_COMMENT, commentId);
     }
 
     @Override

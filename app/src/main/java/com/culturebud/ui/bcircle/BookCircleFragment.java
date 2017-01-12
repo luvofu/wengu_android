@@ -155,6 +155,11 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
         rlBg.setBackgroundDrawable(drawable);
     }
 
+    @Override
+    public void onThumbUp(long dynamicId, boolean result) {
+
+    }
+
     private int currentPage;
     private boolean loading = true;
     private RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {
