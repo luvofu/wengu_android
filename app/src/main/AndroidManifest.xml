@@ -131,6 +131,9 @@
 
         <activity android:name=".ui.bcircle.MyDynamicActivity" />
 
+        <activity android:name=".ui.search.SelectUserActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

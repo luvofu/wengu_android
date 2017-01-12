@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -18,11 +19,14 @@ import com.culturebud.BaseActivity;
 import com.culturebud.CommonConst.ContentPermission;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
+import com.culturebud.bean.User;
 import com.culturebud.contract.PublishDynamicContract;
 import com.culturebud.presenter.PublishDynamicPresenter;
 import com.culturebud.ui.search.SelectBookActivity;
+import com.culturebud.ui.search.SelectUserActivity;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -35,6 +39,7 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
         implements OptionsPickerView.OnOptionsSelectListener, PublishDynamicContract.View, BaseActivity.OnSoftKeyboardStateChangedListener {
     private static final String TAG = PublishDynamicActivity.class.getSimpleName();
     private static final int REQUEST_CODE_SELECT_BOOK = 1019;
+    private static final int REQUEST_CODE_SELECT_USER = 1020;
     private OptionsPickerView<String> permissionOpts;
     private SettingItemView sivPermission;
     private int permission = ContentPermission.PERMISSION_PUBLIC;
@@ -109,8 +114,13 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
                 sdvAdd.setImageURI("");
                 ivDel.setVisibility(View.GONE);
                 break;
-            case R.id.iv_at_friend:
+            case R.id.iv_at_friend: {
+                InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(etContent.getWindowToken(), 0);
+                Intent intent = new Intent(this, SelectUserActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_USER);
                 break;
+            }
             case R.id.iv_select_book: {
                 Intent intent = new Intent(this, SelectBookActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_SELECT_BOOK);
@@ -211,6 +221,16 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
                         if (!TextUtils.isEmpty(bookTitle)) {
                             tvBookTitle.setText(bookTitle);
                         }
+                    }
+                }
+                break;
+            case REQUEST_CODE_SELECT_USER:
+                if (resultCode == RESULT_OK) {
+                    String userJson = data.getStringExtra("user");
+                    if (!TextUtils.isEmpty(userJson)) {
+                        User user = new Gson().fromJson(userJson, User.class);
+                        etContent.setText(etContent.getText() + " @" + user.getNickname() + " ");
+                        etContent.setSelection(etContent.getText().length());
                     }
                 }
                 break;

@@ -123,5 +123,6 @@
     <string name="searched_books_tip">从您的书架共搜到%1$d本相关书籍</string>
     <string name="book_title_or_author">书名或作者</string>
     <string name="my_published_dynamic">我发布的动态</string>
+    <string name="select_friend">选择好友</string>
 
 </resources>

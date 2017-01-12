@@ -20,7 +20,9 @@
             android:background="@drawable/circle_bg"
             android:gravity="left|top"
             android:inputType="text"
-            android:padding="5dp" />
+            android:padding="5dp"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp" />
 
         <FrameLayout
             android:layout_width="90dp"
