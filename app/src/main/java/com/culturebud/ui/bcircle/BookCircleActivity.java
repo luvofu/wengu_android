@@ -5,11 +5,20 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethod;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,19 +49,30 @@ import java.util.List;
 
 @PresenterInject(BookCirclePresenter.class)
 public class BookCircleActivity extends BaseActivity<BookCircleContract.Presenter>
-        implements BookCircleContract.View, BookCircleDynamicAdapter.OnItemClickListener {
+        implements BookCircleContract.View, BookCircleDynamicAdapter.OnItemClickListener,
+        View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener {
     private RecyclerView rvDynamics;
     private SimpleDraweeView sdvFace;
     private TextView tvNick;
     private ImageView ivPublish;
     private RelativeLayout rlBg;
     private ImageView ivBack;
+    private PopupWindow pwReply;
+    private EditText etReplyInput;
+    private TextView tvSend;
+    private InputMethodManager imm;
+    private int screenHeight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_circle_activity);
         presenter.setView(this);
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        screenHeight = dm.heightPixels;
+        imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         rlBg = obtainViewById(R.id.rl_bc_bg);
         sdvFace = obtainViewById(R.id.sdv_face);
@@ -67,9 +87,29 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         BookCircleDynamicAdapter adapter = new BookCircleDynamicAdapter();
         adapter.setOnItemClickListener(this);
         rvDynamics.setAdapter(adapter);
+        initPopupWindow();
         setListeners();
         currentPage = 0;
         presenter.loadDynamics(0);
+    }
+
+    private void initPopupWindow() {
+        if (pwReply == null) {
+            pwReply = new PopupWindow(this, null, R.style.PopupWindow);
+            View view = getLayoutInflater().inflate(R.layout.reply_input_pop, null);
+            etReplyInput = obtainViewById(view, R.id.et_reply_input);
+            etReplyInput.setMinLines(3);
+            tvSend = obtainViewById(view, R.id.tv_send);
+            pwReply.setContentView(view);
+            pwReply.setWidth(WindowManager.LayoutParams.MATCH_PARENT);
+            pwReply.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+            pwReply.setOutsideTouchable(true);
+            pwReply.setFocusable(true);
+            pwReply.setInputMethodMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
+            pwReply.setSoftInputMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
+            pwReply.setBackgroundDrawable(new BitmapDrawable());
+            etReplyInput.setOnFocusChangeListener(this);
+        }
     }
 
     @Override
@@ -86,6 +126,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 //        ivPublish.setOnClickListener(this);
 //        srlRefresh.setOnRefreshListener(this);
         rvDynamics.setOnScrollListener(listener);
+        addSoftKeyboardChangedListener(this);
     }
 
     private int currentPage;
@@ -204,6 +245,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 break;
             }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY:
+                showPop();
                 break;
             case BookCircleDynamicAdapter.ONCLICK_TYPE_THUMB:
                 presenter.thumbUp(bcd.getDynamicId());
@@ -220,6 +262,62 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                     presenter.loadDynamics(0);
                 }
                 break;
+        }
+    }
+
+    private void showPop() {
+        View dv = getWindow().getDecorView();
+        pwReply.showAtLocation(dv, Gravity.NO_GRAVITY, 0, dv.getHeight() / 2);
+        etReplyInput.setFocusable(true);
+        etReplyInput.requestFocus();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (pwReply.isShowing()) {
+                imm.hideSoftInputFromWindow(etReplyInput.getWindowToken(), 0);
+                pwReply.dismiss();
+                return true;
+            }
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        imm.hideSoftInputFromWindow(getWindow().getDecorView().getWindowToken(), 0);
+    }
+
+    @Override
+    protected void onDestroy() {
+        removeSoftKeyboardChangedListener(this);
+        super.onDestroy();
+    }
+
+    @Override
+    public void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight) {
+        if (isKeyBoardShow) {
+            pwReply.update(0, screenHeight - (keyboardHeight + pwReply.getContentView()
+                            .getMeasuredHeight() + getTitleBarHeight()),
+                    pwReply.getWidth(), pwReply.getHeight(), true);
+        } else {
+            pwReply.update(0, screenHeight - pwReply.getContentView().getMeasuredHeight(),
+                    pwReply.getWidth(), pwReply.getHeight(), true);
+        }
+    }
+
+    private Handler handler = new Handler();
+
+    @Override
+    public void onFocusChange(View v, boolean hasFocus) {
+        if (v == etReplyInput && hasFocus) {
+            handler.postDelayed(() -> {
+                runOnUiThread(() -> {
+                    imm.showSoftInput(etReplyInput, InputMethodManager.SHOW_FORCED);
+                });
+            }, 100);
         }
     }
 }

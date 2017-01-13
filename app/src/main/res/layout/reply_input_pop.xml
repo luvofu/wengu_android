@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:background="@drawable/circle_bg"
+        android:gravity="left|top"
         android:minLines="2"
         android:padding="5dp"
         android:textColor="@color/title_font_default"
@@ -33,5 +34,19 @@
         android:text="@string/send"
         android:textColor="@drawable/btn_reply_send_selector"
         android:textSize="16sp" />
+
+    <ImageView
+        android:id="@+id/iv_at_friend"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_below="@id/et_reply_input"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="4dp"
+        android:clickable="true"
+        android:onClick="onClick"
+        android:scaleType="centerInside"
+        android:src="@drawable/at_friend_selector" />
 
 </RelativeLayout>

@@ -52,6 +52,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         initListener();
     }
 
+    public int getTitleBarHeight() {
+        return getSupportActionBar().getHeight();
+    }
+
     public void showBack() {
         tvBack.setVisibility(View.VISIBLE);
     }

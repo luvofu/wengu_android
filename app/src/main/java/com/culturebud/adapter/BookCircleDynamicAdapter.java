@@ -199,7 +199,8 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         return data.size();
     }
 
-    class DynamicViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, DynamicCommentAdapter.OnItemClickListener {
+    class DynamicViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener,
+            DynamicCommentAdapter.OnItemClickListener {
         private ViewStub vsImage, vsLinkTypeItem, vsComments;
 
         private SimpleDraweeView sdvFace;

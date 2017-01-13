@@ -36,7 +36,8 @@ import java.util.ArrayList;
 
 @PresenterInject(PublishDynamicPresenter.class)
 public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.Presenter>
-        implements OptionsPickerView.OnOptionsSelectListener, PublishDynamicContract.View, BaseActivity.OnSoftKeyboardStateChangedListener {
+        implements OptionsPickerView.OnOptionsSelectListener, PublishDynamicContract.View,
+        BaseActivity.OnSoftKeyboardStateChangedListener {
     private static final String TAG = PublishDynamicActivity.class.getSimpleName();
     private static final int REQUEST_CODE_SELECT_BOOK = 1019;
     private static final int REQUEST_CODE_SELECT_USER = 1020;
