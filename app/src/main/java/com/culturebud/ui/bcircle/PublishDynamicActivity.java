@@ -39,8 +39,6 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
         implements OptionsPickerView.OnOptionsSelectListener, PublishDynamicContract.View,
         BaseActivity.OnSoftKeyboardStateChangedListener {
     private static final String TAG = PublishDynamicActivity.class.getSimpleName();
-    private static final int REQUEST_CODE_SELECT_BOOK = 1019;
-    private static final int REQUEST_CODE_SELECT_USER = 1020;
     private OptionsPickerView<String> permissionOpts;
     private SettingItemView sivPermission;
     private int permission = ContentPermission.PERMISSION_PUBLIC;

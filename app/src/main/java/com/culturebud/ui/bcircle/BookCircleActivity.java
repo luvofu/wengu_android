@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst.DynamicReplyType;
 import com.culturebud.R;
 import com.culturebud.adapter.BookCircleDynamicAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -37,6 +38,7 @@ import com.culturebud.ui.community.CommentDetailActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
+import com.culturebud.ui.search.SelectUserActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
@@ -109,6 +111,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             pwReply.setSoftInputMode(PopupWindow.INPUT_METHOD_FROM_FOCUSABLE);
             pwReply.setBackgroundDrawable(new BitmapDrawable());
             etReplyInput.setOnFocusChangeListener(this);
+            tvSend.setOnClickListener(this);
+            obtainViewById(view, R.id.iv_at_friend).setOnClickListener(this);
         }
     }
 
@@ -183,6 +187,23 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 startActivity(intent);
                 break;
             }
+            case R.id.iv_at_friend: {
+                Intent intent = new Intent(this, SelectUserActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_USER);
+                break;
+            }
+            case R.id.tv_send: {
+                if (currClickBcd != null) {
+                    presenter.replyDynamic(currClickBcd.getDynamicId(),
+                            etReplyInput.getText().toString(),
+                            currClickDr == null ? DynamicReplyType.TYPE_DYNAMIC : DynamicReplyType.TYPE_REPLY,
+                            currClickDr == null ? -1 : currClickDr.getReplyId());
+                    imm.hideSoftInputFromWindow(etReplyInput.getWindowToken(), 0);
+                    pwReply.dismiss();
+                    etReplyInput.setText("");
+                }
+                break;
+            }
         }
     }
 
@@ -212,7 +233,23 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     }
 
     @Override
+    public void onDynamicReply(DynamicReply dynamicReply) {
+        //TODO
+        BookCircleDynamic bcd = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getDynamicById(currClickBcd.getDynamicId());
+        if (bcd != null) {
+            bcd.getDynamicReplies().add(dynamicReply);
+            int index = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getItemIndex(bcd);
+            rvDynamics.getAdapter().notifyItemChanged(index);
+        }
+    }
+
+    private BookCircleDynamic currClickBcd;
+    private DynamicReply currClickDr;
+
+    @Override
     public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dy) {
+        currClickBcd = null;
+        currClickDr = null;
         switch (type) {
             case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC: {
                 Intent intent = new Intent(this, DynamicDetailActivity.class);
@@ -245,7 +282,15 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 break;
             }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY:
+                currClickBcd = bcd;
                 showPop();
+                etReplyInput.setHint("");
+                break;
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY_REPLY:
+                currClickBcd = bcd;
+                currClickDr = dy;
+                showPop();
+                etReplyInput.setHint("回复：" + currClickDr.getNickname());
                 break;
             case BookCircleDynamicAdapter.ONCLICK_TYPE_THUMB:
                 presenter.thumbUp(bcd.getDynamicId());
@@ -262,6 +307,14 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                     presenter.loadDynamics(0);
                 }
                 break;
+            case REQUEST_CODE_SELECT_USER: {
+                if (RESULT_OK == resultCode && data.hasExtra("user")) {
+                    User user = new Gson().fromJson(data.getStringExtra("user"), User.class);
+                    etReplyInput.setText(etReplyInput.getText() + " @" + user.getNickname() + " ");
+                    etReplyInput.setSelection(etReplyInput.getText().length());
+                }
+                break;
+            }
         }
     }
 

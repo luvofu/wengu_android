@@ -71,6 +71,19 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         }
     }
 
+    public BookCircleDynamic getDynamicById(long dynamicId) {
+        for (BookCircleDynamic bcd : data) {
+            if (bcd.getDynamicId() == dynamicId) {
+                return bcd;
+            }
+        }
+        return null;
+    }
+
+    public int getItemIndex(BookCircleDynamic item) {
+        return data.indexOf(item);
+    }
+
     @Override
     public int getItemViewType(int position) {
         BookCircleDynamic bcd = data.get(position);
@@ -435,7 +448,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         @Override
         public void onItemClick(View v, BookCircleDynamic bcd, DynamicReply dr) {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, ONCLICK_TYPE_REPLY, bcd, dr);
+                onItemClickListener.onItemClick(v, ONCLICK_TYPE_REPLY_REPLY, bcd, dr);
             }
         }
     }
@@ -461,4 +474,5 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
     public static final int ONCLICK_TYPE_IMG = 4;
     public static final int ONCLICK_TYPE_REPLY = 5;
     public static final int ONCLICK_TYPE_THUMB = 6;
+    public static final int ONCLICK_TYPE_REPLY_REPLY = 7;
 }

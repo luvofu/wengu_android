@@ -4,7 +4,9 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.culturebud.ApiErrorCode;
+import com.culturebud.CommonConst;
 import com.culturebud.bean.ApiResultBean;
+import com.culturebud.bean.DynamicReply;
 import com.culturebud.contract.BookCircleContract;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.util.ApiException;
@@ -49,6 +51,47 @@ public class BookCircleModel extends BookCircleContract.Model {
                 @Override
                 public void onNext(ApiResultBean<JsonObject> bean) {
                     subscriber.onNext(bean);
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<DynamicReply> replyDynamic(String token, long dynamicId,
+                                                                String content, int replyType,
+                                                                long replyObjId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("dynamicId", dynamicId);
+            params.put("content", content);
+            params.put("replyType", replyType);
+            if (replyType == CommonConst.DynamicReplyType.TYPE_REPLY) {
+                params.put("replyObjId", replyObjId);
+            }
+            initRetrofit().create(ApiBookHomeInterface.class).replyDynamic(params)
+            .subscribe(new Subscriber<ApiResultBean<DynamicReply>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<DynamicReply> bean) {
+                    Log.d(TAG, "" + bean);
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(bean.getData());
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
                 }
             });
         });

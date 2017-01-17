@@ -8,6 +8,7 @@ import com.culturebud.BaseApp;
 import com.culturebud.CommonConst.ThumbUpType;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.contract.BookCircleContract;
 import com.culturebud.model.BookCircleModel;
@@ -138,6 +139,39 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
                     @Override
                     public void onNext(Boolean result) {
                         view.onThumbUp(dynamicId, result);
+                    }
+                });
+    }
+
+    @Override
+    public void replyDynamic(long dynamicId, String content, int replyType, long replyObjId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        if (TextUtils.isEmpty(content)) {
+            view.onErrorTip("回复内容不能为空");
+            return;
+        }
+        model.replyDynamic(BaseApp.getInstance().getUser().getToken(), dynamicId, content, replyType, replyObjId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DynamicReply>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(DynamicReply bean) {
+                        view.onDynamicReply(bean);
                     }
                 });
     }

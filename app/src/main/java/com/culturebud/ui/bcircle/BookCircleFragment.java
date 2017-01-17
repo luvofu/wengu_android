@@ -160,6 +160,11 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
 
     }
 
+    @Override
+    public void onDynamicReply(DynamicReply dynamicReply) {
+
+    }
+
     private int currentPage;
     private boolean loading = true;
     private RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {

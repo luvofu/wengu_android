@@ -68,6 +68,8 @@ public final class CommonConst {
 
     public static final String PATH_BOOK_CIRCLE_DYNAMIC_MY_RELATIONS = "api/userMessage/dynamicRelativeToMe";
 
+    public static final String PATH_BOOK_CIRCLE_DYNAMIC_REPLY = "api/dynamic/addReply";
+
     public static final String PATH_BOOK_COMMUNITY_SEARCH = "api/bookCommunity/search";
 
     public static final String PATH_BOOK_COMMUNITY_BOOK = "api/bookCommunity/book";
@@ -205,6 +207,11 @@ public final class CommonConst {
         public static final int STRANGER = 0;
         public static final int FRIEND = 1;
         public static final int PERSONAL = 2;
+    }
+
+    public final class DynamicReplyType {
+        public static final int TYPE_DYNAMIC = 0;
+        public static final int TYPE_REPLY = 1;
     }
 
     public static String getRootPath() {

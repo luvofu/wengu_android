@@ -4,6 +4,7 @@ import com.culturebud.CommonConst;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.Book;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.DynamicReply;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
@@ -59,6 +60,20 @@ public interface ApiBookHomeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> myRelationDynamics(@FieldMap Map<String, Object> params);
 
+    /**
+     * String token;令牌
+     * long dynamicId;动态id
+     * String content;内容
+     * int replyType;回复类型：
+     * 动态Dynamic(0), 回复Reply(1)
+     * long replyObjId;回复对象id
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_BOOK_CIRCLE_DYNAMIC_REPLY)
+    @FormUrlEncoded
+    Observable<ApiResultBean<DynamicReply>> replyDynamic(@FieldMap Map<String, Object> params);
 
     @POST(CommonConst.PATH_USER_NOTEBOOKS)
     @FormUrlEncoded
