@@ -2,19 +2,21 @@ package com.culturebud.ui.bcircle;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethod;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst.DeleteType;
 import com.culturebud.CommonConst.DynamicReplyType;
 import com.culturebud.R;
 import com.culturebud.adapter.BookCircleDynamicAdapter;
@@ -39,6 +42,7 @@ import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.ui.search.SelectUserActivity;
+import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
@@ -93,6 +97,50 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         setListeners();
         currentPage = 0;
         presenter.loadDynamics(0);
+    }
+
+    private BottomSheetDialog deleteDialog;
+    private TextView tvContent, tvDel, tvCancel;
+
+    private void showDeleteDialog() {
+        initDeleteDialog();
+        deleteDialog.show();
+    }
+
+    private void showDeleteDialog(String content) {
+        initDeleteDialog();
+        if (!TextUtils.isEmpty(content)) {
+            tvContent.setText(content);
+        }
+        deleteDialog.show();
+    }
+
+    private int currDeleteType = DeleteType.TYPE_DYNAMIC;
+
+    private void initDeleteDialog() {
+        if (deleteDialog == null) {
+            deleteDialog = new BottomSheetDialog(this);
+            deleteDialog.setContentView(R.layout.bottom_sheet_dialog);
+            deleteDialog.setCancelable(true);
+            deleteDialog.getWindow().findViewById(android.support.design.R.id.design_bottom_sheet)
+                    .setBackgroundResource(android.R.color.transparent);
+            tvContent = (TextView) deleteDialog.getWindow().findViewById(R.id.tv_opera_content);
+            tvDel = (TextView) deleteDialog.getWindow().findViewById(R.id.tv_del);
+            tvCancel = (TextView) deleteDialog.getWindow().findViewById(R.id.tv_cancel);
+            tvContent.setText("删除此条回复？删除后将不可恢复");
+            tvContent.setGravity(Gravity.CENTER);
+            WidgetUtil.setRawTextSize(tvContent, getResources().getDimensionPixelSize(R.dimen.dialog_opera_font_size));
+            tvCancel.setTextColor(Color.BLUE);
+            tvDel.setOnClickListener(v -> {
+                presenter.deleteDynamicOrReply(currClickBcd.getDynamicId(), currDeleteType,
+                        currDeleteType == DeleteType.TYPE_DYNAMIC ? currClickBcd.getDynamicId()
+                                : currClickDr.getReplyId());
+                deleteDialog.dismiss();
+            });
+            tvCancel.setOnClickListener(v -> {
+                deleteDialog.dismiss();
+            });
+        }
     }
 
     private void initPopupWindow() {
@@ -234,12 +282,35 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
     @Override
     public void onDynamicReply(DynamicReply dynamicReply) {
-        //TODO
         BookCircleDynamic bcd = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getDynamicById(currClickBcd.getDynamicId());
         if (bcd != null) {
             bcd.getDynamicReplies().add(dynamicReply);
+            bcd.setReplyNum(bcd.getReplyNum() + 1);
             int index = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getItemIndex(bcd);
             rvDynamics.getAdapter().notifyItemChanged(index);
+        }
+    }
+
+    @Override
+    public void onDeleteResult(long dynamicId, int deleteType, long deleteObjId, boolean res) {
+        BookCircleDynamic bcd = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getDynamicById(currClickBcd.getDynamicId());
+        if (bcd != null && res) {
+            if (deleteType == DeleteType.TYPE_DYNAMIC) {
+                ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).deleteItem(deleteObjId);
+            } else {
+                List<DynamicReply> replies = bcd.getDynamicReplies();
+                DynamicReply dr = null;
+                for (DynamicReply r : replies) {
+                    if (r.getReplyId() == deleteObjId) {
+                        dr = r;
+                        break;
+                    }
+                }
+                replies.remove(dr);
+                bcd.setReplyNum(bcd.getReplyNum() - 1);
+                int index = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getItemIndex(bcd);
+                rvDynamics.getAdapter().notifyItemChanged(index);
+            }
         }
     }
 
@@ -283,14 +354,20 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY:
                 currClickBcd = bcd;
+                currDeleteType = DeleteType.TYPE_DYNAMIC;
                 showPop();
                 etReplyInput.setHint("");
                 break;
             case BookCircleDynamicAdapter.ONCLICK_TYPE_REPLY_REPLY:
                 currClickBcd = bcd;
                 currClickDr = dy;
-                showPop();
-                etReplyInput.setHint("回复：" + currClickDr.getNickname());
+                currDeleteType = DeleteType.TYPE_DYNAMIC_REPLY;
+                if (BaseApp.getInstance().getUser().getUserId() == dy.getUserId()) {
+                    showDeleteDialog("删除此条回复？删除后将不可恢复");
+                } else {
+                    showPop();
+                    etReplyInput.setHint("回复：" + currClickDr.getNickname());
+                }
                 break;
             case BookCircleDynamicAdapter.ONCLICK_TYPE_THUMB:
                 presenter.thumbUp(bcd.getDynamicId());

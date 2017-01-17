@@ -165,6 +165,11 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
 
     }
 
+    @Override
+    public void onDeleteResult(long dynamicId, int deleteType, long deleteObjId, boolean res) {
+
+    }
+
     private int currentPage;
     private boolean loading = true;
     private RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {

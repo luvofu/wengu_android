@@ -32,6 +32,8 @@ public interface BookCircleContract {
         void onThumbUp(long dynamicId, boolean result);
 
         void onDynamicReply(DynamicReply dynamicReply);
+
+        void onDeleteResult(long dynamicId, int deleteType, long deleteObjId, boolean res);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -42,6 +44,8 @@ public interface BookCircleContract {
         public abstract void thumbUp(long dynamicId);
 
         public abstract void replyDynamic(long dynamicId, String content, int replyType, long replyObjId);
+
+        public abstract void deleteDynamicOrReply(long dynamicId, int deleteType, long deleteObjId);
     }
 
 }

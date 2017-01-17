@@ -175,4 +175,33 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void deleteDynamicOrReply(long dynamicId, int deleteType, long deleteObjId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.delete(BaseApp.getInstance().getUser().getToken(), deleteType, deleteObjId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onDeleteResult(dynamicId, deleteType, deleteObjId, aBoolean);
+                    }
+                });
+    }
 }

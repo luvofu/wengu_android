@@ -71,6 +71,22 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         }
     }
 
+    public void deleteItem(long dynamicId) {
+        BookCircleDynamic item = null;
+        int position = 0;
+        for (BookCircleDynamic bcd : data) {
+            if (bcd.getDynamicId() == dynamicId) {
+                item = bcd;
+                break;
+            }
+            position++;
+        }
+        if (item != null) {
+            data.remove(item);
+            notifyItemRemoved(position);
+        }
+    }
+
     public BookCircleDynamic getDynamicById(long dynamicId) {
         for (BookCircleDynamic bcd : data) {
             if (bcd.getDynamicId() == dynamicId) {
