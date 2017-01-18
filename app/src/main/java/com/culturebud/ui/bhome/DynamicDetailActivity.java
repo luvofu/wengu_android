@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.View;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
@@ -25,7 +26,7 @@ import java.util.List;
 
 @PresenterInject(DynamicDetailPresenter.class)
 public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Presenter>
-        implements DynamicDetailContract.View {
+        implements DynamicDetailContract.View, DynamicDetailCommentAdapter.OnItemClickListener {
     private static final String TAG = DynamicDetailActivity.class.getSimpleName();
     private BookCircleDynamic bcd;
     private RecyclerView rvReplies;
@@ -42,6 +43,7 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
         rvReplies.addItemDecoration(divider);
         DynamicDetailCommentAdapter adapter = new DynamicDetailCommentAdapter();
+        adapter.setOnItemClickListener(this);
         rvReplies.setAdapter(adapter);
 
         showTitlebar();
@@ -86,5 +88,23 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
     @Override
     public void onReplies(List<DynamicReply> replies) {
         ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).addItems(replies);
+    }
+
+    @Override
+    public void onThumbUp(long dynamicId, boolean result) {
+        ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).onThumbUp(dynamicId, result);
+    }
+
+    @Override
+    public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dynamicReply) {
+        switch (type) {
+            case DynamicDetailCommentAdapter.ITEM_CLICK_TYPE_THUMBUP:
+                presenter.thumbUP(bcd.getDynamicId());
+                break;
+            case DynamicDetailCommentAdapter.ITEM_CLICK_TYPE_REPLY_DYNAMIC:
+                break;
+            case DynamicDetailCommentAdapter.ITEM_CLICK_TYPE_REPLY_REPLY:
+                break;
+        }
     }
 }

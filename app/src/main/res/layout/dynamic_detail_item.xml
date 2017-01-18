@@ -69,8 +69,6 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_nick_name"
         android:layout_below="@id/ll_virtual"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -79,6 +77,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:textColor="#777777"
             android:textSize="@dimen/front_item_small_font"
             tools:text="10-05 09:45" />
@@ -88,9 +88,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:drawableLeft="@mipmap/good_false"
             android:drawablePadding="3dp"
             android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="10dp"
             android:textColor="#777777"
             android:textSize="@dimen/front_item_small_font"
             tools:text="10" />
@@ -100,9 +104,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="true"
             android:drawableLeft="@mipmap/reply_icon"
             android:drawablePadding="3dp"
             android:gravity="center_vertical"
+            android:paddingBottom="10dp"
+            android:paddingLeft="8dp"
+            android:paddingTop="10dp"
             android:textColor="#777777"
             android:textSize="@dimen/front_item_small_font"
             tools:text="15" />

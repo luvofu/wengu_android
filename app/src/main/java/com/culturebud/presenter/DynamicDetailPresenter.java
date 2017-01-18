@@ -3,6 +3,7 @@ package com.culturebud.presenter;
 import android.util.Log;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst.ThumbUpType;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
 import com.culturebud.contract.DynamicDetailContract;
@@ -110,6 +111,35 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
                         view.onReplies(replies);
                     }
                 });
+    }
+
+    @Override
+    public void thumbUP(long dynamicId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.thumbUp(BaseApp.getInstance().getUser().getToken(), ThumbUpType.TYPE_DYNAMIC, dynamicId)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onThumbUp(dynamicId, aBoolean);
+            }
+        });
     }
 
     private int time = 0;

@@ -193,15 +193,9 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            Log.d("bCircle", "dx = " + dx + ", dy = " + dy);
             if (dy > 0) {
                 int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
-                Log.d("bCircle", "lastPosition = " + lastPosition);
-                Log.d("bCircle", "total = " + total);
-                Log.d("bCircle", "loading is " + loading);
-                Log.d("bCircle", "(lastPosition + 1 >= total) is " + (lastPosition + 1 >= total));
-                Log.d("bCircle", "加载更多：" + ((lastPosition + 1 >= total) && !loading));
                 if (dy > 0 && (lastPosition + 1 >= total) && !loading) {
                     loading = true;
                     presenter.loadDynamics(++currentPage);
@@ -261,7 +255,6 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             Log.d("bCircle", "没有更多了");
             return;
         }
-        Log.d("bCircle", "onDynamics()");
         loading = false;
         if (currentPage == 0) {
             ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).clearData();

@@ -1,5 +1,6 @@
 package com.culturebud.adapter;
 
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.SpannableString;
@@ -64,6 +65,14 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyItemInserted(0);
     }
 
+    public void onThumbUp(long dynamicId, boolean result) {
+        if (dynamicId == dynamic.getDynamicId()) {
+            dynamic.setGood(result);
+            dynamic.setGoodNum(result ? dynamic.getGoodNum() + 1 : dynamic.getGoodNum() - 1);
+            notifyItemChanged(0);
+        }
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (position == 0) {
@@ -112,7 +121,7 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
         return data.size() + 1;
     }
 
-    class DynamicDetailViewHolder extends RecyclerView.ViewHolder {
+    class DynamicDetailViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvFace;
         private TextView tvNick, tvContent;
         private ViewStub vsImg, vsLinkedType;
@@ -138,6 +147,12 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
 
             vsImg = WidgetUtil.obtainViewById(itemView, R.id.vs_image);
             vsLinkedType = WidgetUtil.obtainViewById(itemView, R.id.vs_type_holder);
+            setListeners();
+        }
+
+        private void setListeners() {
+            tvThumbNum.setOnClickListener(this);
+            tvReplyNum.setOnClickListener(this);
         }
 
         private void showDynamic() {
@@ -150,6 +165,15 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
                 tvCreateTime.setText(sdf.format(new Date(dynamic.getCreatedTime())));
                 tvThumbNum.setText("" + dynamic.getGoodNum());
                 tvReplyNum.setText("" + dynamic.getReplyNum());
+                Drawable drawable = null;
+                if (dynamic.isGood()) {
+                    drawable = tvThumbNum.getResources().getDrawable(R.mipmap.good_true);
+                } else {
+                    drawable = tvThumbNum.getResources().getDrawable(R.mipmap.good_false);
+                }
+                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+                tvThumbNum.setCompoundDrawables(drawable, null, null, null);
+
                 if (!TextUtils.isEmpty(dynamic.getImage())) {
                     if (sdvImg == null) {
                         vsImg.setLayoutResource(R.layout.book_circle_item_img);
@@ -234,9 +258,25 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
             sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_sheet_cover);
             tvSheet = (TextView) view.findViewById(R.id.tv_type_sheet);
         }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tv_good_num:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_THUMBUP, dynamic, null);
+                    }
+                    break;
+                case R.id.tv_reply_num:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_REPLY_DYNAMIC, dynamic, null);
+                    }
+                    break;
+            }
+        }
     }
 
-    class DynamicDetailCommentViewHolder extends RecyclerView.ViewHolder {
+    class DynamicDetailCommentViewHolder extends RecyclerView.ViewHolder implements DynamicCommentAdapter.OnItemClickListener {
         private SimpleDraweeView sdvFace;
         private TextView tvNick, tvCreatedTime, tvReplyContent;
         private TextView tvReply;
@@ -285,7 +325,7 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
                 LinearLayoutManager llm = new LinearLayoutManager(itemView.getContext(), LinearLayoutManager.VERTICAL, false);
                 rvReplies.setLayoutManager(llm);
                 DynamicCommentAdapter adapter = new DynamicCommentAdapter();
-//                adapter.setOnItemClickListener(this);
+                adapter.setOnItemClickListener(this);
                 rvReplies.setAdapter(adapter);
             }
         }
@@ -295,7 +335,32 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
             ((DynamicCommentAdapter) rvReplies.getAdapter()).clearData();
             ((DynamicCommentAdapter) rvReplies.getAdapter()).addItems(replies);
         }
+
+        @Override
+        public void onItemClick(View v, BookCircleDynamic bcd, DynamicReply dr) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_REPLY_REPLY, bcd, dr);
+            }
+        }
     }
+
+    private OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dynamicReply);
+    }
+
+    public static final int ITEM_CLICK_TYPE_THUMBUP = 0;
+    public static final int ITEM_CLICK_TYPE_REPLY_DYNAMIC = 1;
+    public static final int ITEM_CLICK_TYPE_REPLY_REPLY = 2;
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm", Locale.getDefault());
 }
