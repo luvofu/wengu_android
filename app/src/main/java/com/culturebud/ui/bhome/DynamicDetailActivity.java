@@ -26,8 +26,10 @@ import com.culturebud.adapter.DynamicDetailCommentAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
+import com.culturebud.bean.User;
 import com.culturebud.contract.DynamicDetailContract;
 import com.culturebud.presenter.DynamicDetailPresenter;
+import com.culturebud.ui.search.SelectUserActivity;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
@@ -40,7 +42,8 @@ import java.util.List;
 
 @PresenterInject(DynamicDetailPresenter.class)
 public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Presenter>
-        implements DynamicDetailContract.View, DynamicDetailCommentAdapter.OnItemClickListener, View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener {
+        implements DynamicDetailContract.View, DynamicDetailCommentAdapter.OnItemClickListener,
+        View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener {
     private static final String TAG = DynamicDetailActivity.class.getSimpleName();
     private BookCircleDynamic bcd;
     private RecyclerView rvReplies;
@@ -140,9 +143,12 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
             WidgetUtil.setRawTextSize(tvContent, getResources().getDimensionPixelSize(R.dimen.dialog_opera_font_size));
             tvCancel.setTextColor(Color.BLUE);
             tvDel.setOnClickListener(v -> {
-//                presenter.deleteDynamicOrReply(currClickBcd.getDynamicId(), currDeleteType,
-//                        currDeleteType == CommonConst.DeleteType.TYPE_DYNAMIC ? currClickBcd.getDynamicId()
-//                                : currClickDr.getReplyId());
+                if (hasParent) {
+                    presenter.deleteReplyReply(currClickBcd.getDynamicId(), root.getReplyId(), currClickDr.getReplyId());
+                } else {
+                    presenter.deleteDynamicOrReply(currDeleteType, currClickBcd.getDynamicId(),
+                            currClickDr == null ? -1 : currClickDr.getReplyId());
+                }
                 deleteDialog.dismiss();
             });
             tvCancel.setOnClickListener(v -> {
@@ -157,6 +163,27 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
             tvContent.setText(content);
         }
         deleteDialog.show();
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.iv_at_friend: {
+                Intent intent = new Intent(this, SelectUserActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_USER);
+                break;
+            }
+            case R.id.tv_send: {
+                presenter.reply(currClickDr == null ? CommonConst.DynamicReplyType.TYPE_DYNAMIC
+                                : CommonConst.DynamicReplyType.TYPE_DYNAMIC,
+                        currClickBcd.getDynamicId(), currClickDr == null ? -1
+                                : currClickDr.getReplyId(), etReplyInput.getText().toString());
+                imm.hideSoftInputFromWindow(etReplyInput.getWindowToken(), 0);
+                pwReply.dismiss();
+                etReplyInput.setText("");
+            }
+        }
     }
 
     @Override
@@ -187,14 +214,46 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
         ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).onThumbUp(dynamicId, result);
     }
 
-    private BookCircleDynamic currClickBcd;
-    private DynamicReply currClickDr;
-    private int currDeleteType = CommonConst.DeleteType.TYPE_DYNAMIC;
+    @Override
+    public void onDeleteReply(long dynamicId, long replyId, boolean result) {
+        if (result) {
+            ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).deleteItem(replyId);
+        }
+    }
 
     @Override
-    public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dynamicReply) {
+    public void onDeleteReplyReply(long dynamicId, long replyId, long deleteReplyId, boolean result) {
+        if (result) {
+            ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).deleteItemItem(replyId, deleteReplyId);
+        }
+    }
+
+    @Override
+    public void onDeleteDynamic(long dynamicId, boolean result) {
+
+    }
+
+    @Override
+    public void onReply(long dynamicId, long replyId, DynamicReply dynamicReply) {
+        ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).addItemItem(replyId, dynamicReply);
+    }
+
+    @Override
+    public void onReplyDynamic(long dynamicId, DynamicReply dynamicReply) {
+        ((DynamicDetailCommentAdapter) rvReplies.getAdapter()).addItem(dynamicReply);
+    }
+
+    private BookCircleDynamic currClickBcd;
+    private DynamicReply currClickDr, root;
+    private int currDeleteType = CommonConst.DeleteType.TYPE_DYNAMIC;
+    private boolean hasParent;
+
+    @Override
+    public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dynamicReply, DynamicReply root) {
+        hasParent = false;
         currClickBcd = null;
         currClickDr = null;
+        this.root = null;
 
         switch (type) {
             case DynamicDetailCommentAdapter.ITEM_CLICK_TYPE_THUMBUP:
@@ -217,6 +276,38 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
                     etReplyInput.setHint("回复：" + currClickDr.getNickname());
                 }
                 break;
+            case DynamicDetailCommentAdapter.ITEM_CLICK_TYPE_REPLY_REPLY_REPLY:
+                hasParent = true;
+                this.root = root;
+                currClickBcd = bcd;
+                currClickDr = dynamicReply;
+                currDeleteType = CommonConst.DeleteType.TYPE_DYNAMIC_REPLY;
+                if (BaseApp.getInstance().getUser().getUserId() == dynamicReply.getUserId()) {
+                    showDeleteDialog("删除此条回复？删除后将不可恢复");
+                } else {
+                    showPop();
+                    etReplyInput.setHint("回复：" + currClickDr.getNickname());
+                }
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_SELECT_USER: {
+                if (resultCode == RESULT_OK) {
+                    String userJson = data.getStringExtra("user");
+                    if (!TextUtils.isEmpty(userJson)) {
+                        User user = new Gson().fromJson(userJson, User.class);
+                        if (user != null) {
+                            etReplyInput.setText(etReplyInput.getText().toString() + " @" + user.getNickname() + " ");
+                        }
+                    }
+                }
+                break;
+            }
         }
     }
 

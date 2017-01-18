@@ -3,6 +3,8 @@ package com.culturebud.presenter;
 import android.util.Log;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
+import com.culturebud.CommonConst.DeleteType;
 import com.culturebud.CommonConst.ThumbUpType;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
@@ -120,26 +122,118 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
             return;
         }
         model.thumbUp(BaseApp.getInstance().getUser().getToken(), ThumbUpType.TYPE_DYNAMIC, dynamicId)
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(Boolean aBoolean) {
-                view.onThumbUp(dynamicId, aBoolean);
-            }
-        });
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onThumbUp(dynamicId, aBoolean);
+                    }
+                });
+    }
+
+    @Override
+    public void deleteDynamicOrReply(int deleteType, long dynamicId, long replyId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.delete(BaseApp.getInstance().getUser().getToken(), deleteType,
+                deleteType == DeleteType.TYPE_DYNAMIC ? dynamicId : replyId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        if (replyId >= 0) {
+                            view.onDeleteReply(dynamicId, replyId, aBoolean);
+                        } else {
+                            view.onDeleteDynamic(dynamicId, aBoolean);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void deleteReplyReply(long dynamicId, long replyId, long deleteReplyId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.delete(BaseApp.getInstance().getUser().getToken(), DeleteType.TYPE_DYNAMIC_REPLY, deleteReplyId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onDeleteReplyReply(dynamicId, replyId, deleteReplyId, aBoolean);
+                    }
+                });
+    }
+
+    @Override
+    public void reply(int replyType, long dynamicId, long replyId, String content) {
+        model.replyDynamic(BaseApp.getInstance().getUser().getToken(), dynamicId, content, replyType, replyId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DynamicReply>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(DynamicReply dynamicReply) {
+                        if (replyType == CommonConst.DynamicReplyType.TYPE_REPLY) {
+                            view.onReply(dynamicId, replyId, dynamicReply);
+                        } else {
+                            view.onReplyDynamic(dynamicId, dynamicReply);
+                        }
+                    }
+                });
     }
 
     private int time = 0;

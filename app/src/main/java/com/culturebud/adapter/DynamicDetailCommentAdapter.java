@@ -49,6 +49,26 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
         notifyItemChanged(0);
     }
 
+    public void addItemItem(long replyId, DynamicReply item) {
+        if (replyId > 0 && item != null) {
+            int index = 0;
+            for (DynamicReply dr : data) {
+                if (dr.getReplyId() == replyId) {
+                    dr.getReplies().add(item);
+                    notifyItemChanged(index + 1);
+                }
+                index++;
+            }
+        }
+    }
+
+    public void addItem(DynamicReply item) {
+        if (item != null) {
+            data.add(0, item);
+            notifyItemChanged(1);
+        }
+    }
+
     public void addItems(List<DynamicReply> items) {
         if (items != null && !items.isEmpty()) {
             int position = data.size();
@@ -57,12 +77,48 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
         }
     }
 
-    public void insertItem(DynamicReply dynamicReply) {
-        if (dynamicReply == null) {
-            return;
+    public void deleteItem(long replyId) {
+        DynamicReply tmp = null;
+        int index = 0;
+        for (DynamicReply dr : data) {
+            if (dr.getReplyId() == replyId) {
+                tmp = dr;
+                break;
+            }
+            index++;
         }
-        data.add(0, dynamicReply);
-        notifyItemInserted(0);
+        if (tmp != null) {
+            data.remove(tmp);
+            notifyItemRemoved(index + 1);// +1是因为第0个位置是动态，而评论是从1开始的
+        }
+    }
+
+    public void deleteItemItem(long parentId, long replyId) {
+        if (parentId > 0 && replyId > 0) {
+            int index = 0;
+            DynamicReply tmp = null;
+            for (DynamicReply dr : data) {
+                if (dr.getReplyId() == parentId) {
+                    tmp = dr;
+                    break;
+                }
+                index++;
+            }
+            if (tmp != null && tmp.getReplies() != null) {
+                List<DynamicReply> replies = tmp.getReplies();
+                tmp = null;
+                for (DynamicReply dr : replies) {
+                    if (dr.getReplyId() == replyId) {
+                        tmp = dr;
+                        break;
+                    }
+                }
+                if (tmp != null) {
+                    replies.remove(tmp);
+                    notifyItemChanged(index + 1);// +1是因为第0个位置是动态，而评论是从1开始的
+                }
+            }
+        }
     }
 
     public void onThumbUp(long dynamicId, boolean result) {
@@ -101,6 +157,7 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
         } else {
             DynamicReply item = data.get(position - 1);
             DynamicDetailCommentViewHolder holder = (DynamicDetailCommentViewHolder) pholder;
+            holder.dynamicReply = item;
             holder.setFace(item.getAvatar());
             holder.setNick(item.getNickname());
             holder.setReplyContent(item.getContent());
@@ -239,24 +296,30 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
         }
 
         public void infalteCommentView() {
-            vsLinkedType.setLayoutResource(R.layout.book_circle_item_comment);
-            View view = vsLinkedType.inflate();
-            tvCommentContent = (TextView) view.findViewById(R.id.tv_comment);
-            tvCommunityTitle = (TextView) view.findViewById(R.id.tv_community_title);
+            if (tvCommentContent == null) {
+                vsLinkedType.setLayoutResource(R.layout.book_circle_item_comment);
+                View view = vsLinkedType.inflate();
+                tvCommentContent = (TextView) view.findViewById(R.id.tv_comment);
+                tvCommunityTitle = (TextView) view.findViewById(R.id.tv_community_title);
+            }
         }
 
         public void infalteBookView() {
-            vsLinkedType.setLayoutResource(R.layout.book_circle_item_book);
-            View view = vsLinkedType.inflate();
-            sdvBookCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_cover);
-            tvBookTitle = (TextView) view.findViewById(R.id.tv_type_book);
+            if (tvBookTitle == null) {
+                vsLinkedType.setLayoutResource(R.layout.book_circle_item_book);
+                View view = vsLinkedType.inflate();
+                sdvBookCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_cover);
+                tvBookTitle = (TextView) view.findViewById(R.id.tv_type_book);
+            }
         }
 
         public void infalteBookSheetView() {
-            vsLinkedType.setLayoutResource(R.layout.book_circle_item_sheet);
-            View view = vsLinkedType.inflate();
-            sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_sheet_cover);
-            tvSheet = (TextView) view.findViewById(R.id.tv_type_sheet);
+            if (tvSheet == null) {
+                vsLinkedType.setLayoutResource(R.layout.book_circle_item_sheet);
+                View view = vsLinkedType.inflate();
+                sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_sheet_cover);
+                tvSheet = (TextView) view.findViewById(R.id.tv_type_sheet);
+            }
         }
 
         @Override
@@ -264,24 +327,25 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
             switch (v.getId()) {
                 case R.id.tv_good_num:
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_THUMBUP, dynamic, null);
+                        onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_THUMBUP, dynamic, null, null);
                     }
                     break;
                 case R.id.tv_reply_num:
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_REPLY_DYNAMIC, dynamic, null);
+                        onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_REPLY_DYNAMIC, dynamic, null, null);
                     }
                     break;
             }
         }
     }
 
-    class DynamicDetailCommentViewHolder extends RecyclerView.ViewHolder implements DynamicCommentAdapter.OnItemClickListener {
+    class DynamicDetailCommentViewHolder extends RecyclerView.ViewHolder implements DynamicCommentAdapter.OnItemClickListener, View.OnClickListener {
         private SimpleDraweeView sdvFace;
         private TextView tvNick, tvCreatedTime, tvReplyContent;
         private TextView tvReply;
         private ViewStub vsReplies;
         private RecyclerView rvReplies;
+        private DynamicReply dynamicReply;
 
         public DynamicDetailCommentViewHolder(View itemView) {
             super(itemView);
@@ -291,6 +355,7 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
             tvReplyContent = WidgetUtil.obtainViewById(itemView, R.id.tv_reply_content);
             tvReply = WidgetUtil.obtainViewById(itemView, R.id.tv_reply);
             vsReplies = WidgetUtil.obtainViewById(itemView, R.id.vs_replies);
+            itemView.setOnClickListener(this);
         }
 
         public void setFace(String url) {
@@ -334,12 +399,21 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
             Log.d("xwlljj", "setReplies() --> replies size is " + replies.size());
             ((DynamicCommentAdapter) rvReplies.getAdapter()).clearData();
             ((DynamicCommentAdapter) rvReplies.getAdapter()).addItems(replies);
+            ((DynamicCommentAdapter) rvReplies.getAdapter()).setBcd(dynamic);
+            ((DynamicCommentAdapter) rvReplies.getAdapter()).setRootDyanmicReply(dynamicReply);
         }
 
         @Override
         public void onItemClick(View v, BookCircleDynamic bcd, DynamicReply dr) {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_REPLY_REPLY, bcd, dr);
+                onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_REPLY_REPLY_REPLY, bcd, dr, dynamicReply);
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView && onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, ITEM_CLICK_TYPE_REPLY_REPLY, dynamic, dynamicReply, null);
             }
         }
     }
@@ -355,12 +429,13 @@ public class DynamicDetailCommentAdapter extends RecyclerView.Adapter<RecyclerVi
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dynamicReply);
+        void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dynamicReply, DynamicReply root);
     }
 
     public static final int ITEM_CLICK_TYPE_THUMBUP = 0;
     public static final int ITEM_CLICK_TYPE_REPLY_DYNAMIC = 1;
     public static final int ITEM_CLICK_TYPE_REPLY_REPLY = 2;
+    public static final int ITEM_CLICK_TYPE_REPLY_REPLY_REPLY = 3;
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm", Locale.getDefault());
 }

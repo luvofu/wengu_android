@@ -24,6 +24,7 @@ import java.util.List;
 public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAdapter.DynamicCommentViewHolder> {
     private List<DynamicReply> data;
     private BookCircleDynamic bcd;
+    private DynamicReply rootDyanmicReply;
 
     public DynamicCommentAdapter() {
         data = new LinkedList<>();
@@ -35,6 +36,14 @@ public class DynamicCommentAdapter extends RecyclerView.Adapter<DynamicCommentAd
 
     public void setBcd(BookCircleDynamic bcd) {
         this.bcd = bcd;
+    }
+
+    public DynamicReply getRootDyanmicReply() {
+        return rootDyanmicReply;
+    }
+
+    public void setRootDyanmicReply(DynamicReply rootDyanmicReply) {
+        this.rootDyanmicReply = rootDyanmicReply;
     }
 
     public void clearData() {

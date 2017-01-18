@@ -317,7 +317,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         switch (type) {
             case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC: {
                 Intent intent = new Intent(this, DynamicDetailActivity.class);
-                intent.putExtra("dynamic", new Gson().toJson(bcd));
+//                intent.putExtra("dynamic", new Gson().toJson(bcd));
+                intent.putExtra("dynamic_id", bcd.getDynamicId());
                 startActivity(intent);
                 break;
             }

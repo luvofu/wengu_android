@@ -23,6 +23,17 @@ public interface DynamicDetailContract {
         void onReplies(List<DynamicReply> replies);
 
         void onThumbUp(long dynamicId, boolean result);
+
+        void onDeleteReply(long dynamicId, long replyId, boolean result);
+
+        void onDeleteReplyReply(long dynamicId, long replyId, long deleteReplyId, boolean result);
+
+        void onDeleteDynamic(long dynamicId, boolean result);
+
+        void onReply(long dynamicId, long replyId, DynamicReply dynamicReply);
+
+        void onReplyDynamic(long dynamicId, DynamicReply dynamicReply);
+
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -31,5 +42,11 @@ public interface DynamicDetailContract {
         public abstract void processReplies(List<DynamicReply> src);
 
         public abstract void thumbUP(long dynamicId);
+
+        public abstract void deleteDynamicOrReply(int deleteType, long dynamicId, long replyId);
+
+        public abstract void deleteReplyReply(long dynamicId, long replyId, long deleteReplyId);
+
+        public abstract void reply(int replyType, long dynamicId, long replyId, String content);
     }
 }
