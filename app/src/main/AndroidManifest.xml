@@ -123,7 +123,8 @@
             android:name=".ui.image.PreviewBigImgActivity"
             android:theme="@style/Welcome" />
 
-        <activity android:name=".ui.bhome.DynamicDetailActivity" />
+        <activity android:name=".ui.bhome.DynamicDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
             android:name=".ui.search.SelectBookActivity"
