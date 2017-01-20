@@ -35,6 +35,14 @@ public class SheetBook {
     @DatabaseField(columnName = "author")
     private String author;//作者
 
+    @SerializedName("rating")
+    @DatabaseField(columnName = "rating")
+    private float rating;//评分
+
+    @SerializedName("recommend")
+    @DatabaseField(columnName = "recommend")
+    private String recommend;//推荐语
+
     public long getSheetBookId() {
         return sheetBookId;
     }
@@ -83,6 +91,22 @@ public class SheetBook {
         this.author = author;
     }
 
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
+    }
+
+    public String getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(String recommend) {
+        this.recommend = recommend;
+    }
+
     @Override
     public String toString() {
         return "SheetBook{" +
@@ -92,6 +116,8 @@ public class SheetBook {
                 ", title='" + title + '\'' +
                 ", subTitle='" + subTitle + '\'' +
                 ", author='" + author + '\'' +
+                ", rating=" + rating +
+                ", recommend='" + recommend + '\'' +
                 '}';
     }
 }

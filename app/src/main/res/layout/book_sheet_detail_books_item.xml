@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -19,7 +20,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
         android:background="@drawable/circle_bg"
         android:paddingLeft="6dp"
         android:paddingRight="6dp"
@@ -34,9 +34,9 @@
         android:layout_toLeftOf="@id/iv_add"
         android:layout_toRightOf="@id/sdv_book_sheet_cover"
         android:gravity="center_vertical"
-        android:text="这是一本书"
         android:textColor="@color/title_font_default"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:text="这是一本书" />
 
     <TextView
         android:id="@+id/tv_author"
@@ -45,9 +45,75 @@
         android:layout_alignLeft="@id/tv_book_name"
         android:layout_alignRight="@id/tv_book_name"
         android:layout_below="@id/tv_book_name"
+        android:layout_marginTop="4dp"
         android:gravity="center_vertical"
-        android:text="那个人写的"
         android:textColor="@color/front_more_font"
-        android:textSize="14sp" />
+        android:textSize="12sp"
+        tools:text="那个人写的" />
+
+    <FrameLayout
+        android:id="@+id/fl_rating"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_book_name"
+        android:layout_alignRight="@id/tv_book_name"
+        android:layout_below="@id/tv_author"
+        android:layout_marginTop="4dp">
+
+        <LinearLayout
+            android:id="@+id/ll_rating"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <RatingBar
+                android:id="@+id/rb_rating"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:max="5"
+                android:progressBackgroundTint="@color/light_font_black"
+                android:progressTint="@color/orange"
+                android:rating="3"
+                android:secondaryProgressTint="@color/yellow"
+                android:stepSize="0.1" />
+
+            <TextView
+                android:id="@+id/tv_rating_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="@string/fill_score"
+                android:textColor="@color/title_font_default"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_no_rating_tip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="暂无评分"
+            android:textColor="@color/front_more_font"
+            android:textSize="12sp" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tv_recommend_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tv_book_name"
+        android:layout_below="@id/fl_rating"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/light_gray"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:textColor="@color/light_font_black"
+        android:textSize="12sp"
+        android:visibility="gone"
+        tools:text="推荐语：快睡觉去" />
 
 </RelativeLayout>

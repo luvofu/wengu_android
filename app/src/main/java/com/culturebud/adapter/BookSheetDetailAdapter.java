@@ -1,18 +1,23 @@
 package com.culturebud.adapter;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.culturebud.R;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.SheetBook;
+import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -104,6 +109,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             sbHolder.setCover(item.getCover());
             sbHolder.setBookName(item.getTitle());
             sbHolder.setAuthor(item.getAuthor());
+            sbHolder.setRating(item.getRating());
+            sbHolder.setRecommendReason(item.getRecommend());
         }
     }
 
@@ -247,16 +254,53 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvAuthor;
         private ImageView ivAdd;
+        private TextView tvRatingTip, tvRating;
+        private RatingBar rbRating;
+        private LinearLayout llRating;
+        private TextView tvRecommendReason;
         private int position;
 
         public SheetBooksViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_book_name);
-            tvAuthor = (TextView) itemView.findViewById(R.id.tv_author);
-            ivAdd = (ImageView) itemView.findViewById(R.id.iv_add);
+            sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_sheet_cover);
+            tvTitle = WidgetUtil.obtainViewById(itemView, R.id.tv_book_name);
+            tvAuthor = WidgetUtil.obtainViewById(itemView, R.id.tv_author);
+            ivAdd = WidgetUtil.obtainViewById(itemView, R.id.iv_add);
+            tvRatingTip = WidgetUtil.obtainViewById(itemView, R.id.tv_no_rating_tip);
+            tvRating = WidgetUtil.obtainViewById(itemView, R.id.tv_rating_num);
+            rbRating = WidgetUtil.obtainViewById(itemView, R.id.rb_rating);
+            llRating = WidgetUtil.obtainViewById(itemView, R.id.ll_rating);
+            tvRecommendReason = WidgetUtil.obtainViewById(itemView, R.id.tv_recommend_reason);
+
+            LayerDrawable ld = (LayerDrawable) rbRating.getProgressDrawable();
+            ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black), PorterDuff.Mode.SRC_ATOP);
+            ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
+            ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
+
             ivAdd.setOnClickListener(this);
             itemView.setOnClickListener(this);
+        }
+
+        public void setRating(float rating) {
+            if (rating <= 0) {
+                llRating.setVisibility(View.GONE);
+                tvRatingTip.setVisibility(View.VISIBLE);
+            } else {
+                tvRatingTip.setVisibility(View.GONE);
+                llRating.setVisibility(View.VISIBLE);
+                rbRating.setRating(rating / 2F);
+                tvRating.setText(String.format(Locale.getDefault(),
+                        tvRating.getResources().getString(R.string.fill_score), rating));
+            }
+        }
+
+        public void setRecommendReason(String recommendReason) {
+            if (TextUtils.isEmpty(recommendReason)) {
+                tvRecommendReason.setVisibility(View.GONE);
+            } else {
+                tvRecommendReason.setVisibility(View.VISIBLE);
+                tvRecommendReason.setText("推荐语：" + recommendReason);
+            }
         }
 
         public void setCover(String url) {
@@ -303,6 +347,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     public interface OnItemListener {
         public static final int OPERA_TYPE_ITEM = 0;
         public static final int OPERA_TYPE_ADD = 1;
+
         void onItemOpera(View v, int position, int operaType, SheetBook sheetBook);
     }
 }
