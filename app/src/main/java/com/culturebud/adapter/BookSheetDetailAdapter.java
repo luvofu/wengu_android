@@ -69,6 +69,21 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    public void updateBySheetBookId(long sheetBookId, String recommend) {
+        List<SheetBook> tmp = data.getSheetBookList();
+        if (tmp != null) {
+            int index = 0;
+            for (SheetBook sb : tmp) {
+                if (sb.getSheetBookId() == sheetBookId) {
+                    sb.setRecommend(recommend);
+                    notifyItemChanged(index + 1);
+                    return;
+                }
+                index++;
+            }
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;

@@ -25,6 +25,7 @@ import com.culturebud.bean.SheetBook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.presenter.BookSheetDetailPresenter;
+import com.culturebud.ui.bhome.BookSheetEditRecommendActivity;
 import com.culturebud.ui.bhome.EditBookSheetActivity;
 import com.culturebud.util.ShareHelper;
 import com.culturebud.util.WidgetUtil;
@@ -45,6 +46,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         implements BookSheetDetailContract.View, BookSheetDetailAdapter.OnHeaderClickListener,
         BookSheetDetailAdapter.OnItemListener, MyBookSheetAdapter.OnItemClickListener {
     private static final int REQUEST_CODE_BOOK_SHEET_EDIT = 1010;
+    private static final int REQUEST_CODE_BS_EDIT_RECOMMEND = 1021;
     private RecyclerView rvDetail;
     private int relationType;
     private PopupWindow pwItemMenu;
@@ -165,9 +167,16 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 presenter.getMySheets();
                 break;
             }
-            case R.id.siv_recommend_reason:
+            case R.id.siv_recommend_reason: {
                 hideBsdOperas();
+                if (currClickSheetBook != null) {
+                    Intent intent = new Intent(this, BookSheetEditRecommendActivity.class);
+                    intent.putExtra("sheet_book_id", currClickSheetBook.getSheetBookId());
+                    intent.putExtra("recommend", currClickSheetBook.getRecommend());
+                    startActivityForResult(intent, REQUEST_CODE_BS_EDIT_RECOMMEND);
+                }
                 break;
+            }
             case R.id.siv_add_to_bs:
                 hideBsdOperas();
                 showBottomDialog();
@@ -304,6 +313,14 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
                 }
                 break;
+            case REQUEST_CODE_BS_EDIT_RECOMMEND: {
+                if (resultCode == RESULT_OK) {
+                    long sheetBookId = data.getLongExtra("sheet_book_id", -1);
+                    String recommend = data.getStringExtra("recommend");
+                    ((BookSheetDetailAdapter) rvDetail.getAdapter()).updateBySheetBookId(sheetBookId, recommend);
+                }
+                break;
+            }
         }
     }
 

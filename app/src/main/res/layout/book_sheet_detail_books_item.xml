@@ -110,6 +110,7 @@
         android:layout_marginTop="8dp"
         android:background="@color/light_gray"
         android:gravity="center_vertical"
+        android:lineSpacingMultiplier="1.2"
         android:padding="16dp"
         android:textColor="@color/light_font_black"
         android:textSize="12sp"

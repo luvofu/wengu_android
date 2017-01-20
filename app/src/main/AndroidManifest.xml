@@ -123,8 +123,9 @@
             android:name=".ui.image.PreviewBigImgActivity"
             android:theme="@style/Welcome" />
 
-        <activity android:name=".ui.bhome.DynamicDetailActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:name=".ui.bhome.DynamicDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <activity
             android:name=".ui.search.SelectBookActivity"
@@ -132,8 +133,13 @@
 
         <activity android:name=".ui.bcircle.MyDynamicActivity" />
 
-        <activity android:name=".ui.search.SelectUserActivity"
-            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+        <activity
+            android:name=".ui.search.SelectUserActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
+
+        <activity
+            android:name=".ui.bhome.BookSheetEditRecommendActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden" />
 
         <activity
             android:name="com.mob.tools.MobUIShell"

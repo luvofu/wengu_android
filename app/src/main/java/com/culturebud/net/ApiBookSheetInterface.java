@@ -79,4 +79,16 @@ public interface ApiBookSheetInterface {
     @POST(CommonConst.PATH_BOOK_SHEET_DEL_BOOK)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> bookSheetDelBook(@FieldMap Map<String, Object> params);
+
+    /**
+     * token	是	string	令牌
+     * sheetBookId	是	long	书单书籍id
+     * recommend	是	string	推荐理由
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_BOOK_SHEET_EDIT_RECOMMEND)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> bookSheetEditRecommend(@FieldMap Map<String, Object> params);
 }
