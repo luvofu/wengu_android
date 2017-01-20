@@ -56,6 +56,7 @@ public class MyBookSheetAdapter extends RecyclerView.Adapter<MyBookSheetAdapter.
     @Override
     public void onBindViewHolder(MyBookSheetViewHolder holder, int position) {
         BookSheet item = data.get(position);
+        holder.bookSheet = item;
         holder.setCover(item.getCover());
         holder.setName(item.getName());
         holder.setBookNum(item.getBookNum());
@@ -66,15 +67,17 @@ public class MyBookSheetAdapter extends RecyclerView.Adapter<MyBookSheetAdapter.
         return data.size();
     }
 
-    class MyBookSheetViewHolder extends RecyclerView.ViewHolder {
+    class MyBookSheetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvName, tvBookNum;
+        private BookSheet bookSheet;
 
         public MyBookSheetViewHolder(View itemView) {
             super(itemView);
             sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_sheet_cover);
             tvName = (TextView) itemView.findViewById(R.id.tv_sheet_name);
             tvBookNum = (TextView) itemView.findViewById(R.id.tv_book_num);
+            itemView.setOnClickListener(this);
         }
 
         public void setCover(String url) {
@@ -94,5 +97,36 @@ public class MyBookSheetAdapter extends RecyclerView.Adapter<MyBookSheetAdapter.
         public void setBookNum(long bookNum) {
             tvBookNum.setText(bookNum + "册");
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                if (null != onItemClickListener) {
+                    onItemClickListener.onItemClick(v, bookSheet);
+                }
+            }
+        }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public List<BookSheet> getData() {
+        return data;
+    }
+
+    public void setData(List<BookSheet> data) {
+        this.data = data;
+    }
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, BookSheet bookSheet);
     }
 }

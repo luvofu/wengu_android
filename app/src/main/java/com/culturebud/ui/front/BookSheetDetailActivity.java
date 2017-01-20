@@ -39,7 +39,8 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 @PresenterInject(BookSheetDetailPresenter.class)
 public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContract.Presenter>
-        implements BookSheetDetailContract.View, BookSheetDetailAdapter.OnHeaderClickListener, BookSheetDetailAdapter.OnItemListener {
+        implements BookSheetDetailContract.View, BookSheetDetailAdapter.OnHeaderClickListener,
+        BookSheetDetailAdapter.OnItemListener, MyBookSheetAdapter.OnItemClickListener {
     private static final int REQUEST_CODE_BOOK_SHEET_EDIT = 1010;
     private RecyclerView rvDetail;
     private int relationType;
@@ -103,7 +104,9 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             rvBookSheets.setLayoutManager(llm);
             RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
             rvBookSheets.addItemDecoration(divider);
-            rvBookSheets.setAdapter(new MyBookSheetAdapter());
+            MyBookSheetAdapter mbsAdapter = new MyBookSheetAdapter();
+            mbsAdapter.setOnItemClickListener(this);
+            rvBookSheets.setAdapter(mbsAdapter);
             bsdDailog.setCancelable(true);
         }
     }
@@ -180,6 +183,16 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         }
     }
 
+    @Override
+    public void onSheetAddBook(long bookSheetId, long bookId, boolean result) {
+
+    }
+
+    @Override
+    public void onSheetDelBook(long sheetBookId, boolean result) {
+
+    }
+
     private BookSheetDetail bookSheetDetail;
 
     @Override
@@ -198,8 +211,11 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         }
     }
 
+    private SheetBook currClickSheetBook;
+
     @Override
     public void onItemOpera(View v, int position, int operaType, SheetBook sheetBook) {
+        currClickSheetBook = null;
         switch (operaType) {
             case OPERA_TYPE_ITEM: {
                 Intent intent = new Intent(this, BookDetailActivity.class);
@@ -208,6 +224,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 break;
             }
             case OPERA_TYPE_ADD: {
+                currClickSheetBook = sheetBook;
                 initItemMenu();
                 if (pwItemMenu.isShowing()) {
                     pwItemMenu.dismiss();
@@ -230,6 +247,16 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onItemClick(View v, BookSheet bookSheet) {
+        if (bsdDailog != null && bsdDailog.isShowing()) {
+            bsdDailog.dismiss();
+        }
+        if (bookSheet != null && currClickSheetBook != null) {
+            presenter.bookSheetAddBook(bookSheet.getSheetId(), currClickSheetBook.getBookId());
         }
     }
 }

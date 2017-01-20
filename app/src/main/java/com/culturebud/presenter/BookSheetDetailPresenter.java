@@ -129,25 +129,83 @@ public class BookSheetDetailPresenter extends BookSheetDetailContract.Presenter 
         }
         User user = BaseApp.getInstance().getUser();
         model.getMySheets(user.getToken(), user.getUserId())
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<List<BookSheet>>() {
-            @Override
-            public void onCompleted() {
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<BookSheet>>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(List<BookSheet> bookSheets) {
-                view.onMySheets(bookSheets);
-            }
-        });
+                    @Override
+                    public void onNext(List<BookSheet> bookSheets) {
+                        view.onMySheets(bookSheets);
+                    }
+                });
+    }
+
+    @Override
+    public void bookSheetAddBook(long bookSheetId, long bookId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.bookSheetAddBook(BaseApp.getInstance().getUser().getToken(), bookSheetId, bookId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onSheetAddBook(bookSheetId, bookId, aBoolean);
+                    }
+                });
+    }
+
+    @Override
+    public void bookSheetDelBook(long sheetBookId) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        model.bookSheetDelBook(BaseApp.getInstance().getUser().getToken(), sheetBookId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onSheetDelBook(sheetBookId, aBoolean);
+                    }
+                });
     }
 }

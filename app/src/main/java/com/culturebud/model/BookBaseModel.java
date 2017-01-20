@@ -7,6 +7,7 @@ import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.contract.BaseModel;
 import com.culturebud.net.ApiBookInterface;
+import com.culturebud.net.ApiBookSheetInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.JsonObject;
 
@@ -79,6 +80,71 @@ public abstract class BookBaseModel extends BaseModel {
                             int code = bean.getCode();
                             if (code == ApiErrorCode.CODE_SUCCESS) {
                                 subscriber.onNext(false);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    public Observable<Boolean> bookSheetAddBook(String token, long sheetId, long bookId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("sheetId", sheetId);
+            params.put("bookId", bookId);
+            initRetrofit().create(ApiBookSheetInterface.class).bookSheetAddBook(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
+        });
+    }
+
+    public Observable<Boolean> bookSheetDelBook(String token, long sheetBookId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("sheetBookId", sheetBookId);
+            initRetrofit().create(ApiBookSheetInterface.class).bookSheetDelBook(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));
                             }

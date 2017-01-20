@@ -63,4 +63,20 @@ public interface ApiBookSheetInterface {
     @POST(CommonConst.PATH_BOOK_SHEET_CREATE)
     @Multipart
     Observable<ApiResultBean<JsonObject>> createBookSheet(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part imgFile);
+
+    /**
+     * String token;令牌
+     * long sheetId;书单id
+     * long bookId;书籍id
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_BOOK_SHEET_ADD_BOOK)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> bookSheetAddBook(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_BOOK_SHEET_DEL_BOOK)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> bookSheetDelBook(@FieldMap Map<String, Object> params);
 }

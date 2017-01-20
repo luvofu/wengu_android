@@ -28,6 +28,10 @@ public interface BookSheetDetailContract {
         void onCollect(boolean isCollected);
 
         void onMySheets(List<BookSheet> bookSheets);
+
+        void onSheetAddBook(long bookSheetId, long bookId, boolean result);
+
+        void onSheetDelBook(long sheetBookId, boolean result);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -38,5 +42,9 @@ public interface BookSheetDetailContract {
         public abstract void collectDel(long sheetId);
 
         public abstract void getMySheets();
+
+        public abstract void bookSheetAddBook(long bookSheetId, long bookId);
+
+        public abstract void bookSheetDelBook(long sheetBookId);
     }
 }
