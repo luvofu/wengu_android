@@ -143,7 +143,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     @Override
     public void onBookSheetDetail(BookSheetDetail detail) {
         bookSheetDetail = detail;
-        User user =  BaseApp.getInstance().getUser();
+        User user = BaseApp.getInstance().getUser();
         if (user != null && bookSheetDetail.getUserId() == user.getUserId()) {
             showOperas();
         } else {
@@ -161,6 +161,9 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     @Override
     public void onCollect(boolean isCollected) {
         bookSheetDetail.setCollect(isCollected);
+        bookSheetDetail.setCollectionNum(isCollected ?
+                bookSheetDetail.getCollectionNum() + 1 :
+                bookSheetDetail.getCollectionNum() - 1);
         rvDetail.getAdapter().notifyItemChanged(0);
     }
 
