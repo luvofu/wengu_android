@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
@@ -26,7 +27,9 @@ import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.presenter.BookSheetDetailPresenter;
 import com.culturebud.ui.bhome.EditBookSheetActivity;
 import com.culturebud.util.ShareHelper;
+import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.culturebud.widget.SettingItemView;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -46,6 +49,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     private int relationType;
     private PopupWindow pwItemMenu;
     private BottomSheetDialog bsdDailog;
+    private BottomSheetDialog bsdOperas;
     private RecyclerView rvBookSheets;
 
     @Override
@@ -95,6 +99,13 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         }
     }
 
+    private void showBottomDialog() {
+        initBottomDialog();
+        if (!bsdDailog.isShowing()) {
+            bsdDailog.show();
+        }
+    }
+
     private void initBottomDialog() {
         if (bsdDailog == null) {
             bsdDailog = new BottomSheetDialog(this);
@@ -111,6 +122,37 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         }
     }
 
+    private void showBsdOperas() {
+        initBsdOperas();
+        if (!bsdOperas.isShowing()) {
+            bsdOperas.show();
+        }
+    }
+
+    private void hideBsdOperas() {
+        if (bsdOperas != null && bsdOperas.isShowing()) {
+            bsdOperas.dismiss();
+        }
+    }
+
+    private TextView tvBsdOperaBookName;
+    private SettingItemView sivRecommendReason, sivAddToBs, sivDelete;
+
+    private void initBsdOperas() {
+        if (bsdOperas == null) {
+            bsdOperas = new BottomSheetDialog(this);
+            bsdOperas.setContentView(R.layout.bsd_operas);
+            tvBsdOperaBookName = (TextView) bsdOperas.getWindow().findViewById(R.id.tv_opera_book);
+            sivRecommendReason = (SettingItemView) bsdOperas.getWindow().findViewById(R.id.siv_recommend_reason);
+            sivAddToBs = (SettingItemView) bsdOperas.getWindow().findViewById(R.id.siv_add_to_bs);
+            sivDelete = (SettingItemView) bsdOperas.getWindow().findViewById(R.id.siv_delete);
+            bsdOperas.setCancelable(true);
+            sivRecommendReason.setOnClickListener(this);
+            sivAddToBs.setOnClickListener(this);
+            sivDelete.setOnClickListener(this);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -119,13 +161,24 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 if (pwItemMenu.isShowing()) {
                     pwItemMenu.dismiss();
                 }
-                initBottomDialog();
-                if (!bsdDailog.isShowing()) {
-                    bsdDailog.show();
-                }
+                showBottomDialog();
                 presenter.getMySheets();
                 break;
             }
+            case R.id.siv_recommend_reason:
+                hideBsdOperas();
+                break;
+            case R.id.siv_add_to_bs:
+                hideBsdOperas();
+                showBottomDialog();
+                presenter.getMySheets();
+                break;
+            case R.id.siv_delete:
+                hideBsdOperas();
+                if (currClickSheetBook != null) {
+                    presenter.bookSheetDelBook(currClickSheetBook.getSheetBookId());
+                }
+                break;
         }
     }
 
@@ -190,7 +243,9 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
     @Override
     public void onSheetDelBook(long sheetBookId, boolean result) {
-
+        if (result) {
+            ((BookSheetDetailAdapter) rvDetail.getAdapter()).deleteByBookId(sheetBookId);
+        }
     }
 
     private BookSheetDetail bookSheetDetail;
@@ -225,14 +280,16 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             }
             case OPERA_TYPE_ADD: {
                 currClickSheetBook = sheetBook;
-                initItemMenu();
-                if (pwItemMenu.isShowing()) {
-                    pwItemMenu.dismiss();
-                }
-                int[] locs = new int[2];
-                v.getLocationOnScreen(locs);
-                int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v.getHeight() / 2;
-                pwItemMenu.showAtLocation(v, Gravity.NO_GRAVITY, locs[0], y);
+//                initItemMenu();
+//                if (pwItemMenu.isShowing()) {
+//                    pwItemMenu.dismiss();
+//                }
+//                int[] locs = new int[2];
+//                v.getLocationOnScreen(locs);
+//                int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v.getHeight() / 2;
+//                pwItemMenu.showAtLocation(v, Gravity.NO_GRAVITY, locs[0], y);
+                showBsdOperas();
+                tvBsdOperaBookName.setText(sheetBook.getTitle());
                 break;
             }
         }

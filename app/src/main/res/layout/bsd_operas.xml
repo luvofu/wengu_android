@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_opera_book"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:gravity="center_vertical"
+        android:paddingBottom="8dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/light_font_black"
+        android:textSize="14sp"
+        tools:text="张旭古诗四帖" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_recommend_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:background="@drawable/setting_item_first_bg_selector"
+        app:has_arrow="false"
+        app:icon="@mipmap/icon_edit"
+        app:name="推荐理由" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_add_to_bs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:background="@drawable/setting_item_center_bg_selector"
+        app:has_arrow="false"
+        app:icon="@mipmap/icon_add"
+        app:name="添加到书单" />
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_delete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:background="@drawable/setting_item_last_bg_selector"
+        app:has_arrow="false"
+        app:icon="@mipmap/icon_delete"
+        app:name="删除" />
+</LinearLayout>

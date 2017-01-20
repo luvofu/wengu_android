@@ -46,6 +46,24 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         }
     }
 
+    public void deleteByBookId(long sheetBookId) {
+        List<SheetBook> tmp = data.getSheetBookList();
+        if (tmp != null) {
+            SheetBook sbTmp = null;
+            for (SheetBook sb : tmp) {
+                if (sb.getSheetBookId() == sheetBookId) {
+                    sbTmp = sb;
+                    break;
+                }
+            }
+            if (sbTmp != null) {
+                int index = tmp.indexOf(sbTmp);
+                tmp.remove(sbTmp);
+                notifyItemRemoved(index + 1);
+            }
+        }
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder holder = null;
