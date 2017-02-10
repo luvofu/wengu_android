@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.SheetBook;
@@ -121,6 +122,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             SheetBook item = data.getSheetBookList().get(position - 1);
             SheetBooksViewHolder sbHolder = (SheetBooksViewHolder) holder;
             sbHolder.position = position;
+            sbHolder.needAdd(BaseApp.getInstance().getUser() == null ? false : data.getUserId() == BaseApp.getInstance()
+                    .getUser().getUserId());
             sbHolder.setCover(item.getCover());
             sbHolder.setBookName(item.getTitle());
             sbHolder.setAuthor(item.getAuthor());
@@ -288,12 +291,23 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             tvRecommendReason = WidgetUtil.obtainViewById(itemView, R.id.tv_recommend_reason);
 
             LayerDrawable ld = (LayerDrawable) rbRating.getProgressDrawable();
-            ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black), PorterDuff.Mode.SRC_ATOP);
-            ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
-            ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
+            ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black), PorterDuff
+                    .Mode.SRC_ATOP);
+            ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode
+                    .SRC_ATOP);
+            ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode
+                    .SRC_ATOP);
 
             ivAdd.setOnClickListener(this);
             itemView.setOnClickListener(this);
+        }
+
+        public void needAdd(boolean need) {
+            if (need) {
+                ivAdd.setVisibility(View.VISIBLE);
+            } else {
+                ivAdd.setVisibility(View.GONE);
+            }
         }
 
         public void setRating(float rating) {
