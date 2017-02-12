@@ -89,10 +89,10 @@ public class FrontPagePresenter extends FrontPageContract.Presenter {
                             view.showBookSheets(gson.fromJson(jarr, new TypeToken<List<BookSheet>>() {
                             }.getType()));
                         }
-                        if (jobj.has("commentList")) {
-                            JsonArray jarr = jobj.getAsJsonArray("commentList");
-                            view.showComment(gson.fromJson(jarr, new TypeToken<List<Comment>>() {
-                            }.getType()));
+                        if (jobj.has("commentList")) {//TODO 暂时关闭此功能
+//                            JsonArray jarr = jobj.getAsJsonArray("commentList");
+//                            view.showComment(gson.fromJson(jarr, new TypeToken<List<Comment>>() {
+//                            }.getType()));
                         }
                     }
                 });
