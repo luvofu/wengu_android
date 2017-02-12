@@ -32,6 +32,7 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:button="@null"
+            android:visibility="gone"
             android:drawablePadding="-2dp"
             android:drawableTop="@drawable/tabar_community_selector"
             android:gravity="center"

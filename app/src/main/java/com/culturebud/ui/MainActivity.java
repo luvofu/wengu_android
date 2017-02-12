@@ -30,7 +30,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     private FragmentManager fragmentManager;
     private static final int[] PAGE_INDEX = {
             R.id.rb_front_page,
-            R.id.rb_community,
+//            R.id.rb_community,
             R.id.rb_book_home,
 //            R.id.rb_book_circle,
             R.id.rb_me
@@ -59,14 +59,14 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                 .hide(pages[0])
                 .hide(pages[1])
                 .hide(pages[2])
-                .hide(pages[3])
+//                .hide(pages[3])
                 .commitAllowingStateLoss();
         rgTabs.check(PAGE_INDEX[BaseApp.getInstance().getCurrTabIndex()]);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        if (BaseApp.getInstance().getCurrTabIndex() == 2) {
+        if (BaseApp.getInstance().getCurrTabIndex() == 1) {
             presenter.hidePop();
         }
         return true;
@@ -79,18 +79,20 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             case R.id.rb_front_page:
                 index = 0;
                 break;
-            case R.id.rb_community:
-                index = 1;
-                break;
+//            case R.id.rb_community:
+//                index = 1;
+//                break;
             case R.id.rb_book_home:
-                index = 2;
+//                index = 2;
+                index = 1;
                 break;
 //            case R.id.rb_book_circle:
 //                index = 3;
 //                break;
             case R.id.rb_me:
 //                index = 4;
-                index = 3;
+//                index = 3;
+                index = 2;
                 break;
         }
         presenter.switchPage(index);

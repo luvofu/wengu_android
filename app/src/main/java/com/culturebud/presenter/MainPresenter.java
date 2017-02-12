@@ -17,16 +17,16 @@ public class MainPresenter extends MainContract.Presenter {
     private BaseFragment[] pages;
 
     public MainPresenter() {
-        pages = new BaseFragment[4];
+        pages = new BaseFragment[3];
     }
 
     @Override
     public void initFragment() {
         pages[0] = new FrontPageFragment();
-        pages[1] = new CommunityFragment();
-        pages[2] = new BookHomeFragment();
+//        pages[1] = new CommunityFragment();
+        pages[1] = new BookHomeFragment();
 //        pages[3] = new BookCircleFragment();
-        pages[3] = new MeFragment();
+        pages[2] = new MeFragment();
         attachFragment();
     }
 
@@ -43,6 +43,6 @@ public class MainPresenter extends MainContract.Presenter {
 
     @Override
     public void hidePop() {
-        ((BookHomeFragment)pages[2]).hidePop();
+        ((BookHomeFragment)pages[1]).hidePop();
     }
 }
