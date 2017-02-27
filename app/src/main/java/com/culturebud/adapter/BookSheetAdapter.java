@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.culturebud.R;
 import com.culturebud.bean.BookSheet;
+import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -21,9 +22,14 @@ import java.util.List;
 
 public class BookSheetAdapter extends RecyclerView.Adapter<BookSheetAdapter.HotSheetViewHolder> {
     private List<BookSheet> data;
+    private boolean isHorizontal;
 
     public BookSheetAdapter() {
         data = new ArrayList<>();
+    }
+
+    public void setHorizontal(boolean isHorizontal) {
+        this.isHorizontal = isHorizontal;
     }
 
     public void clearData() {
@@ -42,8 +48,13 @@ public class BookSheetAdapter extends RecyclerView.Adapter<BookSheetAdapter.HotS
 
     @Override
     public HotSheetViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new HotSheetViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.front_hot_sheet_item, parent, false));
+        if (isHorizontal) {
+            return new HotSheetViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.front_hot_sheet_item_h, parent, false));
+        } else {
+            return new HotSheetViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.front_hot_sheet_item, parent, false));
+        }
     }
 
     @Override
@@ -54,6 +65,7 @@ public class BookSheetAdapter extends RecyclerView.Adapter<BookSheetAdapter.HotS
         holder.setColNum(sheet.getCollectionNum());
         holder.setName(sheet.getName());
         holder.setNickName(sheet.getNickname());
+        holder.setDesc(sheet.getDescription());
     }
 
     @Override
@@ -62,7 +74,7 @@ public class BookSheetAdapter extends RecyclerView.Adapter<BookSheetAdapter.HotS
     }
 
     class HotSheetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView tvColNum, tvNickName, tvName;
+        private TextView tvColNum, tvNickName, tvName, tvDesc;
         private SimpleDraweeView sdvCover;
         private int position;
 
@@ -71,8 +83,20 @@ public class BookSheetAdapter extends RecyclerView.Adapter<BookSheetAdapter.HotS
             tvColNum = (TextView) itemView.findViewById(R.id.tv_col_num);
             tvName = (TextView) itemView.findViewById(R.id.tv_name);
             tvNickName = (TextView) itemView.findViewById(R.id.tv_nick_name);
+            if (isHorizontal) {
+                tvDesc = WidgetUtil.obtainViewById(itemView, R.id.tv_desc);
+            }
             sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             itemView.setOnClickListener(this);
+        }
+
+        public void setDesc(String desc) {
+            if (TextUtils.isEmpty(desc)) {
+                return;
+            }
+            if (isHorizontal) {
+                tvDesc.setText(desc);
+            }
         }
 
         public void setColNum(long num) {
@@ -102,6 +126,7 @@ public class BookSheetAdapter extends RecyclerView.Adapter<BookSheetAdapter.HotS
             }
         }
     }
+
     private OnItemClickListener listener;
 
     public void setOnItemClickListener(OnItemClickListener listener) {

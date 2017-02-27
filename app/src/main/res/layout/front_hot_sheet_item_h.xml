@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="110dp"
+              android:gravity="center"
+              android:orientation="horizontal"
+              android:padding="5dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_book_sheet_cover"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:layout_margin="8dp"
+        android:scaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="4dp"
+        android:orientation="vertical"
+        android:paddingBottom="8dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/title_font_default"
+            android:textSize="@dimen/titlebar_font_size"
+            tools:text="男人的世界"/>
+
+        <LinearLayout
+            android:id="@+id/ll_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_nick_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:drawableLeft="@mipmap/login_username_icon"
+                android:drawablePadding="6dp"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:lines="1"
+                android:padding="2dp"
+                android:textColor="@color/front_more_font"
+                android:textSize="@dimen/front_item_more_font"
+                tools:text="不止步的风"/>
+
+            <TextView
+                android:id="@+id/tv_col_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableLeft="@mipmap/good_num_icon"
+                android:drawablePadding="4dp"
+                android:gravity="center"
+                android:text="8"
+                android:textColor="@color/front_more_font"
+                android:textSize="@dimen/front_item_more_font"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_desc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@id/ll_bottom"
+            android:layout_below="@id/tv_name"
+            android:layout_marginTop="5dp"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:textColor="@color/front_more_font"
+            android:textSize="@dimen/titlebar_font_size"
+            tools:text="这是一个男人世界的描述"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

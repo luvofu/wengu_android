@@ -43,6 +43,9 @@ public class BookSheet {
     @DatabaseField(columnName = "book_num")
     private long bookNum;//书单书籍数
 
+    @SerializedName("description")
+    private String description;//描述
+
 
     public long getCollectionNum() {
         return collectionNum;
@@ -108,6 +111,14 @@ public class BookSheet {
         this.bookNum = bookNum;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "BookSheet{" +
@@ -119,6 +130,7 @@ public class BookSheet {
                 ", userId=" + userId +
                 ", createdTime=" + createdTime +
                 ", bookNum=" + bookNum +
+                ", description='" + description + '\'' +
                 '}';
     }
 }

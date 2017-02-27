@@ -76,6 +76,7 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.Fron
             hotSheet.put("label", "热单");
             hotSheet.put("data", sheets);
             BookSheetAdapter adapter = new BookSheetAdapter();
+            adapter.setHorizontal(true);
             adapter.setOnItemClickListener(this);
             adapter.clearData();
             adapter.addItems(sheets);
@@ -143,7 +144,8 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.Fron
     public int getItemViewType(int position) {
         Map<String, Object> item = data.get(position);
         int type = Integer.valueOf(item.get("type").toString());
-        if (type == 0 || type == 1) {
+//        if (type == 0 || type == 1) {
+        if (type == 0) {
             return 0;
         } else {
             return 1;
