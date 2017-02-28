@@ -96,10 +96,19 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     }
 
     @Override
-    public void onItemClick(View v, int position, CollectedBook book) {
-        Intent intent = new Intent(this, BookDetailActivity.class);
-        intent.putExtra("bookId", book.getBookId());
-        startActivity(intent);
+    public void onItemClick(View v, int position, CollectedBook book, int operaType) {
+        switch (operaType) {
+            case CollectedBooksAdapter.OPERA_TYPE_DETAIL:
+                Intent intent = new Intent(this, BookDetailActivity.class);
+                intent.putExtra("bookId", book.getBookId());
+                startActivity(intent);
+                break;
+            case CollectedBooksAdapter.OPERA_TYPE_EDIT:
+                Intent myBookInfo = new Intent(this, MyBookInfoActivity.class);
+                myBookInfo.putExtra("bookId", book.getBookId());
+                startActivity(myBookInfo);
+                break;
+        }
     }
 
     private RecyclerView.OnScrollListener recyclerScrollerListener = new RecyclerView.OnScrollListener() {

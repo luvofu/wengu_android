@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.CallSuper;
 import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
@@ -228,6 +229,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
 
     }
 
+    @CallSuper
     @Override
     public void onClick(View v) {
         switch (v.getId()) {

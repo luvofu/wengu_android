@@ -90,13 +90,16 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         @Override
         public void onClick(View v) {
             if (itemView == v && onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, position, data.get(position));
+                onItemClickListener.onItemClick(v, position, data.get(position), OPERA_TYPE_DETAIL);
                 return;
             }
             switch (v.getId()) {
                 case R.id.sdv_book_sheet_cover:
                     break;
                 case R.id.iv_edit:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, position, data.get(position), OPERA_TYPE_EDIT);
+                    }
                     break;
             }
         }
@@ -108,7 +111,10 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         this.onItemClickListener = onItemClickListener;
     }
 
+    public static final int OPERA_TYPE_DETAIL = 0;
+    public static final int OPERA_TYPE_EDIT = 1;
+
     public interface OnItemClickListener {
-        void onItemClick(View v, int position, CollectedBook book);
+        void onItemClick(View v, int position, CollectedBook book, int operaType);
     }
 }

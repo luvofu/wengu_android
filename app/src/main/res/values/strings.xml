@@ -125,5 +125,6 @@
     <string name="my_published_dynamic">我发布的动态</string>
     <string name="select_friend">选择好友</string>
     <string name="recommend_reason">推荐理由</string>
+    <string name="my_book_info">我的书籍信息</string>
 
 </resources>
