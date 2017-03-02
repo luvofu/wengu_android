@@ -186,7 +186,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 return;
             }
 //            List<String> tmp = Arrays.asList(tags);
-            BookSheetTagsAdapter tagsAdapter = new BookSheetTagsAdapter(tags);
+            StringTagsAdapter tagsAdapter = new StringTagsAdapter(tags);
             flTags.setAdapter(tagsAdapter);
 //            tagsAdapter.setData(tmp);
 //            flTags.requestLayout();

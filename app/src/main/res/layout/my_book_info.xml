@@ -1,7 +1,133 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:background="@color/common_bg"
+              android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:paddingBottom="6dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="6dp">
+
+        <ImageView
+            android:id="@+id/iv_arrow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:src="@mipmap/right_arrow"/>
+
+        <TextView
+            android:id="@+id/tv_rating"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/rating"
+            android:textColor="@color/title_font_default"
+            android:textSize="@dimen/content_font_default"/>
+
+        <RatingBar
+            android:id="@+id/rb_rating"
+            style="?android:attr/ratingBarStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_rating"
+            android:layout_marginTop="8dp"
+            android:max="5"
+            android:progressBackgroundTint="@color/light_font_black"
+            android:progressTint="@color/orange"
+            android:rating="3"
+            android:secondaryProgressTint="@color/yellow"
+            android:stepSize="0.1"/>
+
+        <TextView
+            android:id="@+id/tv_book_comment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rb_rating"
+            android:layout_marginTop="8dp"
+            android:text="@string/book_comment"
+            android:textColor="@color/title_font_default"
+            android:textSize="@dimen/content_font_default"/>
+
+        <TextView
+            android:id="@+id/tv_book_comment_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_book_comment"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@id/iv_arrow"
+            android:textColor="@color/front_more_font"
+            android:textSize="@dimen/content_font_default"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_center_bg_selector"
+        android:paddingBottom="6dp"
+        android:paddingLeft="15dp"
+        android:paddingTop="6dp">
+
+        <ImageView
+            android:id="@+id/iv_arrow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_margin="15dp"
+            android:src="@mipmap/right_arrow"/>
+
+        <TextView
+            android:id="@+id/tv_book_tag"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/book_comment"
+            android:textColor="@color/title_font_default"
+            android:textSize="@dimen/content_font_default"/>
+
+        <com.culturebud.widget.TagFlowLayout
+            android:id="@+id/tfl_tags"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_book_tag"
+            android:layout_marginTop="8dp"
+            android:layout_toLeftOf="@id/iv_arrow2"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/setting_item_center_bg_selector"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="8dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/personal"
+            android:textColor="@color/title_font_default"
+            android:textSize="@dimen/content_font_default"/>
+
+        <Switch
+            android:id="@+id/sch_permission"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:switchMinWidth="48dp"
+            android:textOff="@string/blank"
+            android:textOn="@string/blank"
+            android:thumb="@drawable/switch_thumb"
+            android:thumbTextPadding="16dp"
+            android:track="@drawable/switch_track"/>
+    </LinearLayout>
 </LinearLayout>

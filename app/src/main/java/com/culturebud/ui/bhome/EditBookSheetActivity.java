@@ -8,7 +8,7 @@ import android.widget.RelativeLayout;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
-import com.culturebud.adapter.BookSheetTagsAdapter;
+import com.culturebud.adapter.StringTagsAdapter;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.TagFlowLayout;
@@ -57,7 +57,7 @@ public class EditBookSheetActivity extends BaseActivity {
         String tagStr = bookSheetDetail.getTag();
         if (!TextUtils.isEmpty(tagStr)) {
             String[] tags = tagStr.split("\\|");
-            BookSheetTagsAdapter bstAdapter = new BookSheetTagsAdapter(tags);
+            StringTagsAdapter bstAdapter = new StringTagsAdapter(tags);
             tflTags.setAdapter(bstAdapter);
         }
     }

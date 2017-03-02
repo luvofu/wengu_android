@@ -14,13 +14,13 @@ import java.util.List;
  * Created by XieWei on 2016/11/8.
  */
 
-public class BookSheetTagsAdapter extends TagAdapter<String> {
+public class StringTagsAdapter extends TagAdapter<String> {
 
-    public BookSheetTagsAdapter(List<String> data) {
+    public StringTagsAdapter(List<String> data) {
         super(data);
     }
 
-    public BookSheetTagsAdapter(String... data) {
+    public StringTagsAdapter(String... data) {
         super(data);
     }
 

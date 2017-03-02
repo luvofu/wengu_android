@@ -105,7 +105,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 break;
             case CollectedBooksAdapter.OPERA_TYPE_EDIT:
                 Intent myBookInfo = new Intent(this, MyBookInfoActivity.class);
-                myBookInfo.putExtra("bookId", book.getBookId());
+                myBookInfo.putExtra("userBookId", book.getUserBookId());
                 startActivity(myBookInfo);
                 break;
         }

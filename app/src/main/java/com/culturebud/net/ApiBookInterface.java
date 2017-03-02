@@ -3,6 +3,7 @@ package com.culturebud.net;
 import com.culturebud.CommonConst;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookDetail;
+import com.culturebud.bean.UserBookInfo;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
@@ -69,4 +70,13 @@ public interface ApiBookInterface {
     @POST(CommonConst.PATH_COLLECT_DELETE)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> collcetDel(@FieldMap Map<String, Object> params);
+
+    /**
+     * userBookId
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_USER_BOOK_DETAIL)
+    @FormUrlEncoded
+    Observable<ApiResultBean<UserBookInfo>> myBookInfos(@FieldMap Map<String, Object> params);
 }
