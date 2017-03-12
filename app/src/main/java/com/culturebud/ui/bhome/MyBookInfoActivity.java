@@ -203,11 +203,16 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
         switch (requestCode) {
             case REQUEST_CODE_EDIT_READ_PLACE:
                 if (resultCode == RESULT_OK) {
-
+                    String content = data.getStringExtra("content");
+                    sivReadAddress.setRightInfo(content);
+                    //TODO 向服务器提交修改
                 }
                 break;
             case REQUEST_CODE_EDIT_OBTAIN_PLACE:
                 if (resultCode == RESULT_OK) {
+                    String content = data.getStringExtra("content");
+                    sivObtainAddress.setRightInfo(content);
+                    //TODO 向服务器提交修改
 
                 }
                 break;
