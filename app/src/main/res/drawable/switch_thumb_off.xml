@@ -3,12 +3,12 @@
        android:innerRadius="0dp"
        android:innerRadiusRatio="1"
        android:shape="ring"
-       android:thickness="16dp"
+       android:thickness="15dp"
        android:thicknessRatio="2"
        android:useLevel="false">
 
     <stroke
-        android:width="1px"
+        android:width="0.5dp"
         android:color="#BDBDBD"/>
 
     <solid android:color="#FFFFFFFF"/>
