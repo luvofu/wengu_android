@@ -37,6 +37,9 @@ import java.util.List;
 
 import cn.sharesdk.onekeyshare.OnekeyShare;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_EDIT;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BS_EDIT_RECOMMEND;
+
 /**
  * Created by XieWei on 2016/11/7.
  */
@@ -45,8 +48,6 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContract.Presenter>
         implements BookSheetDetailContract.View, BookSheetDetailAdapter.OnHeaderClickListener,
         BookSheetDetailAdapter.OnItemListener, MyBookSheetAdapter.OnItemClickListener {
-    private static final int REQUEST_CODE_BOOK_SHEET_EDIT = 1010;
-    private static final int REQUEST_CODE_BS_EDIT_RECOMMEND = 1021;
     private RecyclerView rvDetail;
     private int relationType;
     private PopupWindow pwItemMenu;

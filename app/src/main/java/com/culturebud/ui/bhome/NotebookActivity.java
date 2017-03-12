@@ -22,13 +22,14 @@ import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CREATE_NOTEBOOK;
+
 /**
  * Created by XieWei on 2016/11/20.
  */
 
 @PresenterInject(NotebookPresenter.class)
 public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> implements NotebookContract.View, NotebookAdapter.OnItemClickListener {
-    private static final int REQUEST_CREATE_NOTEBOOK = 201;
     private RecyclerView rvNotebooks;
     private int currentPage;
     private boolean loading = true;

@@ -53,6 +53,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         initListener();
     }
 
+    public void addOperaWidget(int index, View widget) {
+        toolbar.addView(widget, index);
+    }
+
     public int getTitleBarHeight() {
         return getSupportActionBar().getHeight();
     }

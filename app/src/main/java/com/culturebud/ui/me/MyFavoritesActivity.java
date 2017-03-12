@@ -42,6 +42,7 @@ public class MyFavoritesActivity extends BaseActivity {
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.iv_back:
                 finish();

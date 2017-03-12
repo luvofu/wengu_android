@@ -24,6 +24,9 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
+
 /**
  * Created by XieWei on 2016/12/9.
  */

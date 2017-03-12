@@ -22,6 +22,10 @@ import com.culturebud.widget.RecyclerViewDivider;
 import java.util.List;
 import java.util.Locale;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_CREATE;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_DETAIL;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
+
 /**
  * Created by XieWei on 2016/12/13.
  */
@@ -29,8 +33,6 @@ import java.util.Locale;
 @PresenterInject(BookSheetsPresenter.class)
 public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presenter>
         implements BookSheetsContract.View, BookSheetsAdapter.OnItemClickListener {
-    private static final int REQUEST_CODE_BOOK_SHEET_DETAIL = 1008;
-    private static final int REQUEST_CODE_BOOK_SHEET_CREATE = 1009;
     private TextView tvCreated, tvFavorite;
     private RecyclerView rvCreated, rvFavorite;
 

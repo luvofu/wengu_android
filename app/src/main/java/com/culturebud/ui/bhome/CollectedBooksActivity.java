@@ -43,7 +43,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         opreaType = getIntent().getIntExtra(TYPE_KEY, 0);
         showTitlebar();
         setTitle(R.string.collected_books);
-        setOperasDrawable(R.drawable.titlebar_more_selector);
+        setOperasDrawable(R.drawable.titlebar_add_selector);
         rvBooks = obtainViewById(R.id.rv_collected_books);
         initList();
         presenter.getMyBooks(currentPage);

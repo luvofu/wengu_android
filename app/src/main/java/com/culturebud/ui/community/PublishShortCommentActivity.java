@@ -21,6 +21,8 @@ import com.culturebud.presenter.PublishShortCommentPresenter;
 import com.culturebud.ui.search.SearchBookCommunityActivity;
 import com.google.gson.Gson;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_COMMUNITY;
+
 /**
  * Created by XieWei on 2016/11/11.
  */

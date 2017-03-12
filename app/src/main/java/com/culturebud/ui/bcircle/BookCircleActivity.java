@@ -49,6 +49,9 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
+
 /**
  * Created by XieWei on 2016/11/20.
  */

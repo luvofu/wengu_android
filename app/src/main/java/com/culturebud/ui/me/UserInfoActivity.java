@@ -1,19 +1,10 @@
 package com.culturebud.ui.me;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
@@ -22,11 +13,14 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserInfoContract;
 import com.culturebud.presenter.UserInfoPresenter;
-import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
-import java.util.UUID;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_EMAIL;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_NICK;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_PROFILE;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
 
 /**
  * Created by XieWei on 2016/11/2.
@@ -36,9 +30,6 @@ import java.util.UUID;
 public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         implements UserInfoContract.View {
     private static final String TAG = UserInfoActivity.class.getSimpleName();
-    private static final int REQUEST_CODE_ALTER_NICK = 101;
-    private static final int REQUEST_CODE_ALTER_EMAIL = 102;
-    private static final int REQUEST_CODE_ALTER_PROFILE = 103;
     private SimpleDraweeView sdvFace;
     private LinearLayout llFace;
     private SettingItemView sivNick, sivCulturebudName, sivSex, sivEmail, sivRegion, sivProfile;
@@ -128,7 +119,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 break;
             case R.id.siv_nick://修改昵称
             {
-                Intent intent = new Intent(this, AlterUserInfoActivity.class);
+                Intent intent = new Intent(this, GeneralEditorActivity.class);
                 intent.putExtra("title", "昵称");
                 intent.putExtra("content", BaseApp.getInstance().getUser().getNickname());
                 intent.putExtra("type", 0);
@@ -137,7 +128,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             }
             case R.id.siv_email://修改邮箱
             {
-                Intent intent = new Intent(this, AlterUserInfoActivity.class);
+                Intent intent = new Intent(this, GeneralEditorActivity.class);
                 intent.putExtra("title", "邮箱");
                 intent.putExtra("content", BaseApp.getInstance().getUser().getMailbox());
                 intent.putExtra("type", 1);
@@ -146,7 +137,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             }
             case R.id.siv_profile://修改个性签名
             {
-                Intent intent = new Intent(this, AlterUserInfoActivity.class);
+                Intent intent = new Intent(this, GeneralEditorActivity.class);
                 intent.putExtra("title", "修改签名");
                 intent.putExtra("content", BaseApp.getInstance().getUser().getAutograph());
                 intent.putExtra("type", 2);

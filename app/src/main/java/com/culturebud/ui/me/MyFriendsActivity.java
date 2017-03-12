@@ -19,13 +19,15 @@ import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SEARCH_USER;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
+
 /**
  * Created by XieWei on 2016/12/5.
  */
 
 @PresenterInject(MyFriendsPresenter.class)
 public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View, IndexsView.OnIndexChangedListener, MyFriendsAdapter.OnItemClickListener {
-    private static final int REQUEST_CODE_SEARCH_USER = 1012;
     private RecyclerView rvFriends;
     private IndexsView ivIndexs;
 

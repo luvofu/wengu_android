@@ -25,6 +25,9 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.Locale;
 import java.util.UUID;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
+
 /**
  * Created by XieWei on 2016/11/23.
  */

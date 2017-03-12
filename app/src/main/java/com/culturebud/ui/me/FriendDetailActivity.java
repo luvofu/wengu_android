@@ -19,13 +19,14 @@ import com.culturebud.ui.bhome.UserBookHomeActivity;
 import com.culturebud.widget.FormItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_FRIEND;
+
 /**
  * Created by XieWei on 2016/12/27.
  */
 
 @PresenterInject(FriendDetailPresenter.class)
 public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Presenter> implements FriendDetailContract.View {
-    private static final int REQUEST_CODE_ADD_FRIEND = 1014;
     private ImageView ivBack;
     private SimpleDraweeView sdvBg, sdvFace;
     private TextView tvNick;

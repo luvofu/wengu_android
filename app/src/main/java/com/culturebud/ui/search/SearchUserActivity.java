@@ -20,6 +20,8 @@ import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
+
 /**
  * Created by XieWei on 2016/12/26.
  */

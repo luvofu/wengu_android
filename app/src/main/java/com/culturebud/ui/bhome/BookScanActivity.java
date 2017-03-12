@@ -24,13 +24,14 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 
 import java.util.Locale;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_MANUAL;
+
 /**
  * Created by XieWei on 2016/11/25.
  */
 
 @PresenterInject(ScanBookPresenter.class)
 public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> implements ScanBookContract.View {
-    private static final int REQUEST_CODE_ADD_MANUAL = 1007;
     private CaptureFragment captureFragment;
     private RecyclerView rvScanResults;
     private TextView tvScanCount, tvConfirm;
@@ -100,7 +101,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                 break;
             case R.id.tv_manual: {
                 Intent intent = new Intent(this, ManualAddBookActivity.class);
-                startActivityForResult(intent, REQUEST_CODE_ADD_MANUAL);
+                startActivityForResult(intent, REQUEST_CODE_ADD_BOOK_MANUAL);
                 break;
             }
             case R.id.tv_confirm: {
@@ -171,7 +172,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_ADD_MANUAL:
+            case REQUEST_CODE_ADD_BOOK_MANUAL:
                 if (resultCode == RESULT_OK) {
                     startActivity(new Intent(this, CollectedBooksActivity.class));
                     finish();

@@ -17,6 +17,8 @@ import com.culturebud.presenter.CreateNotebookPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_COLLECTED_BOOK;
+
 /**
  * Created by XieWei on 2016/11/21.
  */
@@ -24,7 +26,6 @@ import com.google.gson.Gson;
 @PresenterInject(CreateNotebookPresenter.class)
 public class CreateNotebookActivity extends BaseActivity<CreateNotebookContract.Presenter> implements CreateNotebookContract.View {
     private static final String TAG = CreateNotebookActivity.class.getSimpleName();
-    private static final int REQUEST_CODE_SELECT_BOOK = 202;
     private EditText etContent;
     private TextView tvSelectBook;
     private SimpleDraweeView sdvBookCover;
@@ -52,7 +53,7 @@ public class CreateNotebookActivity extends BaseActivity<CreateNotebookContract.
             case R.id.tv_select_book:
                 Intent intent = new Intent(this, CollectedBooksActivity.class);
                 intent.putExtra(CollectedBooksActivity.TYPE_KEY, CollectedBooksActivity.TYPE_SELECT);
-                startActivityForResult(intent, REQUEST_CODE_SELECT_BOOK);
+                startActivityForResult(intent, REQUEST_CODE_SELECT_COLLECTED_BOOK);
                 break;
             case R.id.tv_operas:
                 presenter.createNotebook(etContent.getText().toString(), collectedBook);
@@ -70,7 +71,7 @@ public class CreateNotebookActivity extends BaseActivity<CreateNotebookContract.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_SELECT_BOOK:
+            case REQUEST_CODE_SELECT_COLLECTED_BOOK:
                 if (resultCode == RESULT_OK) {
                     String bookJson = data.getStringExtra("book");
                     if (!TextUtils.isEmpty(bookJson)) {

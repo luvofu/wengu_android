@@ -130,5 +130,13 @@
     <string name="book_comment">书评</string>
     <string name="rating">评分</string>
     <string name="personal">私密</string>
+    <string name="read_place">阅读地点</string>
+    <string name="read_time">阅读时间</string>
+    <string name="read_status">阅读状态</string>
+    <string name="obtain_type">获取方式</string>
+    <string name="obtain_place">获取地点</string>
+    <string name="obtain_time">获取时间</string>
+    <string name="book_type">书籍类型</string>
+    <string name="other">其他</string>
 
 </resources>

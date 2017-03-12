@@ -20,6 +20,9 @@ import com.culturebud.bean.User;
 import com.culturebud.contract.LoginContract;
 import com.culturebud.presenter.LoginPresenter;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_REGIST;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_RETRIEVE_PASSWORD;
+
 /**
  * Created by XieWei on 2016/10/25.
  */

@@ -36,6 +36,8 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
+
 /**
  * Created by XieWei on 2017/1/3.
  */

@@ -77,7 +77,7 @@
         <activity
             android:name=".ui.community.PublishShortCommentActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.me.AlterUserInfoActivity"/>
+        <activity android:name=".ui.me.GeneralEditorActivity"/>
         <activity android:name=".ui.me.MyMsgActivity"/>
         <activity android:name=".ui.me.MyFavoritesActivity"/>
         <activity android:name=".ui.me.RegistActivity"/>

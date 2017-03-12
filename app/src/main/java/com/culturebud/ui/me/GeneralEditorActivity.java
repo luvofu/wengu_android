@@ -14,7 +14,7 @@ import com.culturebud.R;
  * Created by XieWei on 2016/11/16.
  */
 
-public class AlterUserInfoActivity extends BaseActivity {
+public class GeneralEditorActivity extends BaseActivity {
     private EditText etInput;
     private String content;
     private int type;

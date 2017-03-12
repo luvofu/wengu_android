@@ -12,13 +12,14 @@ import com.culturebud.bean.User;
 import com.culturebud.contract.LoginContract;
 import com.culturebud.presenter.LoginPresenter;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_CHANGE_PWD;
+
 /**
  * Created by XieWei on 2016/11/1.
  */
 
 @PresenterInject(LoginPresenter.class)
 public class AccountSettingActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View {
-    private static final int REQUEST_CODE_CHANGE_PWD = 1007;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

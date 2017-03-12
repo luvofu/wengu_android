@@ -15,6 +15,9 @@ import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
+
 /**
  * Created by XieWei on 2016/12/14.
  */

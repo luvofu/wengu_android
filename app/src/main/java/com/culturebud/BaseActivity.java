@@ -36,25 +36,19 @@ import java.util.UUID;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_TAKE_PHOTO;
+
 /**
  * Created by XieWei on 2016/10/19.
  */
 
 public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
-    protected static final int REQUEST_CODE_LOGIN = 1001;
-    protected static final int REQUEST_CODE_SELECT_COMMUNITY = 1002;
-    protected static final int REQUEST_CODE_SELECT_IMAGE = 1003;
-    protected static final int REQUEST_CODE_TAKE_PHOTO = 1004;
-    protected static final int REQUEST_CODE_REGIST = 1005;
-    protected static final int REQUEST_CODE_RETRIEVE_PASSWORD = 1006;
-    protected static final int REQUEST_CODE_PHOTO_CROP = 1011;
-    protected static final int REQUEST_CODE_USER_PROFILE = 1013;
-    protected static final int REQUEST_CODE_SELECT_BOOK = 1019;
-    protected static final int REQUEST_CODE_SELECT_USER = 1020;
     protected P presenter;
     private ProgressDialog progressDialog;
-
     private BottomSheetDialog editImgDialog;
     private TextView tvAlbum, tvPhoto, tvCancel;
     protected Uri photoUri;

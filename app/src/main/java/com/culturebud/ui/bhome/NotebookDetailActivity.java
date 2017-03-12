@@ -27,6 +27,10 @@ import com.culturebud.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_CREATE_NOTE;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_NOTE;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_NOTEBOOK_NAME;
+
 /**
  * Created by XieWei on 2016/11/22.
  */
@@ -36,9 +40,6 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         implements NotebookDetailContract.View, NotebookDetailAdapter.OnNotebookOperaListener,
         OptionsPickerView.OnOptionsSelectListener {
     private static final String TAG = NotebookDetailActivity.class.getSimpleName();
-    private static final int REQUEST_CODE_EDIT_NOTEBOOK_NAME = 206;
-    private static final int REQUEST_CODE_CREATE_NOTE = 207;
-    private static final int REQUEST_CODE_EDIT_NOTE = 208;
     private RecyclerView rvNotes;
     private OptionsPickerView<String> permissionOpts;
     private NotebookDetail notebookDetail;

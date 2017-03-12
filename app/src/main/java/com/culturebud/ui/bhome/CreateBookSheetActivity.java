@@ -12,6 +12,9 @@ import com.culturebud.contract.CreateBookSheetContract;
 import com.culturebud.presenter.CreateBookSheetPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
+
 /**
  * Created by XieWei on 2016/12/14.
  */

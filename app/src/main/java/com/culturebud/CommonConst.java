@@ -20,7 +20,8 @@ public final class CommonConst {
 
     public static final String DEVICE_TOKEN = BaseApp.getDeviceId(BaseApp.getInstance());
 
-    public static final String USER_AVATAR_DEFAULT_URL = "http://www.mywengu.com/img/user/avatar/lpic/default/default.jpg";
+    public static final String USER_AVATAR_DEFAULT_URL = "http://www.mywengu.com/img/user/avatar/lpic/default/default" +
+            ".jpg";
 
 //    public static final String API_HOST = "http://192.168.1.26:8080/";
 
@@ -222,6 +223,39 @@ public final class CommonConst {
         public static final int TYPE_REPLY = 1;
     }
 
+    public final class RequestCode {
+        public static final int REQUEST_CODE_ALTER_NICK = 101;
+        public static final int REQUEST_CODE_ALTER_EMAIL = 102;
+        public static final int REQUEST_CODE_ALTER_PROFILE = 103;
+        public static final int REQUEST_CODE_CHANGE_PWD = 107;
+
+        public static final int REQUEST_CREATE_NOTEBOOK = 201;
+        public static final int REQUEST_CODE_SELECT_COLLECTED_BOOK = 202;
+        public static final int REQUEST_CODE_EDIT_NOTEBOOK_NAME = 206;
+        public static final int REQUEST_CODE_CREATE_NOTE = 207;
+        public static final int REQUEST_CODE_EDIT_NOTE = 208;
+
+        public static final int REQUEST_CODE_LOGIN = 1001;
+        public static final int REQUEST_CODE_SELECT_COMMUNITY = 1002;
+        public static final int REQUEST_CODE_SELECT_IMAGE = 1003;
+        public static final int REQUEST_CODE_TAKE_PHOTO = 1004;
+        public static final int REQUEST_CODE_REGIST = 1005;
+        public static final int REQUEST_CODE_RETRIEVE_PASSWORD = 1006;
+        public static final int REQUEST_CODE_ADD_BOOK_MANUAL = 1007;
+        public static final int REQUEST_CODE_BOOK_SHEET_DETAIL = 1008;
+        public static final int REQUEST_CODE_BOOK_SHEET_CREATE = 1009;
+        public static final int REQUEST_CODE_BOOK_SHEET_EDIT = 1010;
+        public static final int REQUEST_CODE_PHOTO_CROP = 1011;
+        public static final int REQUEST_CODE_SEARCH_USER = 1012;
+        public static final int REQUEST_CODE_USER_PROFILE = 1013;
+        public static final int REQUEST_CODE_ADD_FRIEND = 1014;
+        public static final int REQUEST_CODE_SELECT_BOOK = 1019;
+        public static final int REQUEST_CODE_SELECT_USER = 1020;
+        public static final int REQUEST_CODE_BS_EDIT_RECOMMEND = 1021;
+        public static final int REQUEST_CODE_EDIT_READ_PLACE = 1022;
+        public static final int REQUEST_CODE_EDIT_OBTAIN_PLACE = 1023;
+    }
+
     public static String getRootPath() {
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
             Log.d(TAG, "扩展存储可用，状态为" + Environment.getExternalStorageState());
@@ -232,5 +266,6 @@ public final class CommonConst {
         }
     }
 
-    public static final String CAPTURE_PATH = "file://" + Environment.getExternalStorageDirectory().getPath() + "/culture/capture";
+    public static final String CAPTURE_PATH = "file://" + Environment.getExternalStorageDirectory().getPath() +
+            "/culture/capture";
 }
