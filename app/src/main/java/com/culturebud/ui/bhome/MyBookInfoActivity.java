@@ -10,6 +10,8 @@ import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.bigkoo.pickerview.OptionsPickerView;
+import com.bigkoo.pickerview.TimePickerView;
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
 import com.culturebud.adapter.StringTagsAdapter;
@@ -22,6 +24,8 @@ import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.TagFlowLayout;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
@@ -33,7 +37,8 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_READ_PLAC
  */
 
 @PresenterInject(MyBookInfoPresenter.class)
-public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presenter> implements MyBookInfoContract.View {
+public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presenter> implements MyBookInfoContract
+        .View, OptionsPickerView.OnOptionsSelectListener, TimePickerView.OnTimeSelectListener {
     private RatingBar rbRating;
     private TextView tvBookComment;
     private TagFlowLayout tflTags;
@@ -41,6 +46,8 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
     private SettingItemView sivReadAddress, sivReadTime, sivReadStatus;
     private SettingItemView sivObtainType, sivObtainAddress, sivObtainTime, sivBookType;
     private SettingItemView sivOther;
+    private OptionsPickerView<String> singleColOpts;
+    private TimePickerView timePicker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,69 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
         presenter.myBookInfo(bookId);
     }
 
+    private int lastTimeType;
+
+    private void initTimePicker(Date time) {
+        if (timePicker == null) {
+            timePicker = new TimePickerView(this, TimePickerView.Type.YEAR_MONTH_DAY);
+            timePicker.setTime(time);
+            timePicker.setOnTimeSelectListener(this);
+        }
+    }
+
+    private static final int OPTS_TYPE_READ_STATUS = 0;
+    private static final int OPTS_TYPE_OBTAIN_TYPES = 1;
+    private static final int OPTS_TYPE_BOOK_TYPES = 2;
+    private int lastOptsType = -1;
+
+    private void initSingleOptsDialog(int type, int defaultSelect) {
+        if (singleColOpts == null) {
+            singleColOpts = new OptionsPickerView<>(this);
+            singleColOpts.setOnoptionsSelectListener(this);
+            singleColOpts.setPicker(getPickers(type));
+        } else {
+            if (type != lastOptsType) {
+                singleColOpts.setPicker(getPickers(type));
+            }
+        }
+        lastOptsType = type;
+        singleColOpts.setCyclic(false);
+        singleColOpts.setSelectOptions(defaultSelect);
+    }
+
+    private ArrayList<String> readStatus;
+    private ArrayList<String> obtainTypes;
+    private ArrayList<String> bookTypes;
+
+    private ArrayList<String> getPickers(int type) {
+        switch (type) {
+            case OPTS_TYPE_BOOK_TYPES:
+                if (bookTypes == null) {
+                    bookTypes = new ArrayList<>(2);
+                    bookTypes.add("纸质书");
+                    bookTypes.add("电子书");
+                }
+                return bookTypes;
+            case OPTS_TYPE_READ_STATUS:
+                if (readStatus == null) {
+                    readStatus = new ArrayList<>(3);
+                    readStatus.add("已读");
+                    readStatus.add("未读");
+                    readStatus.add("在读");
+                }
+                return readStatus;
+            case OPTS_TYPE_OBTAIN_TYPES:
+                if (obtainTypes == null) {
+                    obtainTypes = new ArrayList<>(3);
+                    obtainTypes.add("其他");
+                    obtainTypes.add("购买");
+                    obtainTypes.add("赠予");
+                }
+                return obtainTypes;
+        }
+        return null;
+    }
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
@@ -90,20 +160,40 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                 editAddress(REQUEST_CODE_EDIT_OBTAIN_PLACE);
                 break;
             case R.id.siv_read_time:
-
+                if (userBookInfo != null) {
+                    lastTimeType = 0;
+                    initTimePicker(userBookInfo.getReadTime() == 0 ? new Date()
+                            : new Date(userBookInfo.getReadTime()));
+                    timePicker.show();
+                }
                 break;
             case R.id.siv_read_status:
-
+                if (userBookInfo != null) {
+                    initSingleOptsDialog(OPTS_TYPE_READ_STATUS, userBookInfo.getReadStatus());
+                    singleColOpts.show();
+                }
                 break;
             case R.id.siv_obtain_type:
-
-                break;
+                if (userBookInfo != null) {
+                    initSingleOptsDialog(OPTS_TYPE_OBTAIN_TYPES, userBookInfo.getGetType());
+                    singleColOpts.show();
+                    break;
+                }
 
             case R.id.siv_obtain_time:
-
+                if (userBookInfo != null) {
+                    lastTimeType = 1;
+                    initTimePicker(userBookInfo.getGetTime() == 0 ? new Date()
+                            : new Date(userBookInfo.getGetTime()));
+                    timePicker.show();
+                }
                 break;
             case R.id.siv_book_type:
-
+                if (userBookInfo != null) {
+                    initSingleOptsDialog(OPTS_TYPE_BOOK_TYPES,
+                            userBookInfo.getBookType() == 0 ? 0 : 1);
+                    singleColOpts.show();
+                }
                 break;
         }
     }
@@ -137,9 +227,12 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
 
+    private UserBookInfo userBookInfo;
+
     @Override
     public void onBookInfo(UserBookInfo userBookInfo) {
         if (userBookInfo != null) {
+            this.userBookInfo = userBookInfo;
             rbRating.setRating(userBookInfo.getRating() / 2F);
             if (!TextUtils.isEmpty(userBookInfo.getRemark())) {
                 tvBookComment.setText(userBookInfo.getRemark());
@@ -216,6 +309,27 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
 
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onOptionsSelect(int options1, int option2, int options3) {
+        switch (lastOptsType) {
+            case OPTS_TYPE_BOOK_TYPES:
+                break;
+            case OPTS_TYPE_READ_STATUS:
+                break;
+            case OPTS_TYPE_OBTAIN_TYPES:
+                break;
+        }
+    }
+
+    @Override
+    public void onTimeSelect(Date date) {
+        if (lastTimeType == 0) {//阅读时间
+
+        } else {//获取时间
+
         }
     }
 }

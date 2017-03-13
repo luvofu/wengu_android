@@ -208,7 +208,7 @@ public final class CommonConst {
         public static final int PERMISSION_PERSONAL = 2;
 
         public static final String PER_DES_PUBLIC = "公开";
-        public static final String PER_DES_FRIEND = " 好友";
+        public static final String PER_DES_FRIEND = "好友";
         public static final String PER_DES_PERSONAL = "私密";
     }
 
