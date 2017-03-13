@@ -12,9 +12,11 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/rl_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/setting_item_only_last_bg_selector"
+            android:onClick="onClick"
             android:paddingBottom="6dp"
             android:paddingLeft="15dp"
             android:paddingTop="6dp">
@@ -72,9 +74,11 @@
         </RelativeLayout>
 
         <RelativeLayout
+            android:id="@+id/rl_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/setting_item_center_bg_selector"
+            android:onClick="onClick"
             android:paddingBottom="6dp"
             android:paddingLeft="15dp"
             android:paddingTop="6dp">
@@ -93,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="@string/book_comment"
+                android:text="@string/tag"
                 android:textColor="@color/title_font_default"
                 android:textSize="@dimen/content_font_default"/>
 

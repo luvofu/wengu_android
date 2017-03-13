@@ -29,6 +29,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_TAGS;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_OBTAIN_PLACE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_READ_PLACE;
 
@@ -153,6 +154,18 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.rl_rating:
+
+                break;
+            case R.id.rl_tags:
+                if (userBookInfo != null) {
+                    Intent intent = new Intent(this, GeneralAddBookTagsActivity.class);
+                    if (!TextUtils.isEmpty(userBookInfo.getTag())) {
+                        intent.putExtra("tag", userBookInfo.getTag());
+                    }
+                    startActivityForResult(intent, REQUEST_CODE_ADD_BOOK_TAGS);
+                }
+                break;
             case R.id.siv_read_address:
                 editAddress(REQUEST_CODE_EDIT_READ_PLACE);
                 break;

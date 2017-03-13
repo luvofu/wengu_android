@@ -138,5 +138,6 @@
     <string name="obtain_time">获取时间</string>
     <string name="book_type">书籍类型</string>
     <string name="other">其他</string>
+    <string name="tag">标签</string>
 
 </resources>
