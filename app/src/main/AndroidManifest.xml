@@ -145,6 +145,8 @@
 
         <activity android:name=".ui.bhome.GeneralAddBookTagsActivity"/>
 
+        <activity android:name=".ui.bhome.EditBookRatingActivity"/>
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

@@ -30,6 +30,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_TAGS;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_RATING;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_OBTAIN_PLACE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_READ_PLACE;
 
@@ -49,6 +50,7 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
     private SettingItemView sivOther;
     private OptionsPickerView<String> singleColOpts;
     private TimePickerView timePicker;
+    private String bookTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +86,7 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
             finish();
             return;
         }
+        bookTitle = getIntent().getStringExtra("book_title");
         presenter.myBookInfo(bookId);
     }
 
@@ -155,7 +158,13 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
         super.onClick(v);
         switch (v.getId()) {
             case R.id.rl_rating:
-
+                if (userBookInfo != null) {
+                    Intent intent = new Intent(this, EditBookRatingActivity.class);
+                    intent.putExtra("book_title", bookTitle);
+                    intent.putExtra("rating", userBookInfo.getRating());
+                    intent.putExtra("comment", userBookInfo.getRemark());
+                    startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_RATING);
+                }
                 break;
             case R.id.rl_tags:
                 if (userBookInfo != null) {
