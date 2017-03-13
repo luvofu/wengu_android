@@ -125,6 +125,10 @@ public final class CommonConst {
 
     public static final String PATH_COLLECTED_BOOKS = "api/userCollection/book";
 
+    public static final String PATH_ALTER_BOOK_READ_STATUS = "api/userBook/editReadStatus";
+
+    public static final String PATH_EDIT_USER_BOOK_INFO = "api/userBook/edit";
+
     public static final String PATH_COLLECTED_BOOK_SHEETS = "api/userCollection/bookSheet";
 
     public static final String PATH_USER_NOTEBOOKS = "api/notebook/personal";

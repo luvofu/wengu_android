@@ -23,11 +23,15 @@ import com.culturebud.ui.me.GeneralEditorActivity;
 import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.TagFlowLayout;
 
+import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_TAGS;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_RATING;
@@ -279,10 +283,16 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
             if (userBookInfo.getReadTime() != 0) {
                 sivReadTime.setRightInfo(sdf.format(new Date(userBookInfo.getReadTime())));
             }
-            if (userBookInfo.getReadStatus() == 1) {
-                sivReadStatus.setRightInfo("已读");
-            } else {
-                sivReadStatus.setRightInfo("未读");
+            switch (userBookInfo.getReadStatus()) {
+                case 0:
+                    sivReadStatus.setRightInfo("已读");
+                    break;
+                case 1:
+                    sivReadStatus.setRightInfo("未读");
+                    break;
+                case 2:
+                    sivReadStatus.setRightInfo("在读");
+                    break;
             }
 
             switch (userBookInfo.getGetType()) {
@@ -313,6 +323,31 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
     }
 
     @Override
+    public void onAlert(long userBookId, boolean res, int readStatus) {
+        if (userBookInfo != null && userBookId == userBookInfo.getUserBookId() && res) {
+            userBookInfo.setReadStatus(readStatus);
+        }
+    }
+
+    @Override
+    public void onEditUserBookInfo(long userBookId, Map<String, Object> editContent, boolean res) {
+        if (res) {
+            Set<String> keys = editContent.keySet();
+            for (String key : keys) {
+                try {
+                    Field field = userBookInfo.getClass().getDeclaredField(key);
+                    field.setAccessible(true);
+                    field.set(userBookInfo, editContent.get(key));
+                } catch (NoSuchFieldException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
@@ -320,16 +355,23 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                 if (resultCode == RESULT_OK) {
                     String content = data.getStringExtra("content");
                     sivReadAddress.setRightInfo(content);
-                    //TODO 向服务器提交修改
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("readPlace", content);
+                    presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
                 }
                 break;
             case REQUEST_CODE_EDIT_OBTAIN_PLACE:
                 if (resultCode == RESULT_OK) {
                     String content = data.getStringExtra("content");
                     sivObtainAddress.setRightInfo(content);
-                    //TODO 向服务器提交修改
-
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("getPlace", content);
+                    presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
                 }
+                break;
+            case REQUEST_CODE_ADD_BOOK_TAGS:
+                break;
+            case REQUEST_CODE_EDIT_BOOK_RATING:
                 break;
         }
     }
@@ -338,20 +380,44 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
     public void onOptionsSelect(int options1, int option2, int options3) {
         switch (lastOptsType) {
             case OPTS_TYPE_BOOK_TYPES:
+                if (userBookInfo != null) {
+                    sivBookType.setRightInfo(bookTypes.get(options1));
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("bookType", options1);
+                    presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+                }
                 break;
             case OPTS_TYPE_READ_STATUS:
+                if (userBookInfo != null) {
+                    sivReadStatus.setRightInfo(readStatus.get(options1));
+                    presenter.alterBookReadStatus(userBookInfo.getUserBookId(), options1);
+                }
                 break;
             case OPTS_TYPE_OBTAIN_TYPES:
+                if (userBookInfo != null) {
+                    sivObtainType.setRightInfo(obtainTypes.get(options1));
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("getType", options1);
+                    presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+                }
                 break;
         }
     }
 
     @Override
     public void onTimeSelect(Date date) {
-        if (lastTimeType == 0) {//阅读时间
-
-        } else {//获取时间
-
+        if (userBookInfo != null) {
+            if (lastTimeType == 0) {//阅读时间
+                sivReadTime.setRightInfo(sdf.format(date));
+                Map<String, Object> map = new HashMap<>();
+                map.put("readTime", date.getTime());
+                presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+            } else {//获取时间
+                sivObtainTime.setRightInfo(sdf.format(date));
+                Map<String, Object> map = new HashMap<>();
+                map.put("getTime", date.getTime());
+                presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+            }
         }
     }
 }
