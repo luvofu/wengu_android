@@ -6,6 +6,7 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.RatingBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -44,7 +45,8 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_READ_PLAC
 
 @PresenterInject(MyBookInfoPresenter.class)
 public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presenter> implements MyBookInfoContract
-        .View, OptionsPickerView.OnOptionsSelectListener, TimePickerView.OnTimeSelectListener {
+        .View, OptionsPickerView.OnOptionsSelectListener, TimePickerView.OnTimeSelectListener, CompoundButton
+        .OnCheckedChangeListener {
     private RatingBar rbRating;
     private TextView tvBookComment;
     private TagFlowLayout tflTags;
@@ -81,6 +83,7 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
         sivObtainTime = obtainViewById(R.id.siv_obtain_time);
         sivBookType = obtainViewById(R.id.siv_book_type);
         sivOther = obtainViewById(R.id.siv_other);
+        schPersonal.setOnCheckedChangeListener(this);
 
         showTitlebar();
         setTitle(R.string.my_book_info);
@@ -419,5 +422,21 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                 presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
             }
         }
+    }
+
+    @Override
+    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+        if (userBookInfo == null) {
+            return;
+        }
+        int permission;
+        if (isChecked) {
+            permission = 2;
+        } else {
+            permission = 0;
+        }
+        Map<String, Object> map = new HashMap<>();
+        map.put("permission", permission);
+        presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
     }
 }
