@@ -143,6 +143,8 @@
 
         <activity android:name=".ui.bhome.MyBookInfoActivity"/>
 
+        <activity android:name=".ui.bhome.GeneralAddBookTagsActivity"/>
+
         <activity
             android:name="com.mob.tools.MobUIShell"
             android:configChanges="keyboardHidden|orientation|screenSize"

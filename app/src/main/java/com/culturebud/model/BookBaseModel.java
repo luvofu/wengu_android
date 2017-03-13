@@ -9,8 +9,12 @@ import com.culturebud.contract.BaseModel;
 import com.culturebud.net.ApiBookInterface;
 import com.culturebud.net.ApiBookSheetInterface;
 import com.culturebud.util.ApiException;
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import rx.Observable;
@@ -97,27 +101,27 @@ public abstract class BookBaseModel extends BaseModel {
             params.put("sheetId", sheetId);
             params.put("bookId", bookId);
             initRetrofit().create(ApiBookSheetInterface.class).bookSheetAddBook(params)
-            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                @Override
-                public void onCompleted() {
-                    subscriber.onCompleted();
-                }
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    subscriber.onError(e);
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
 
-                @Override
-                public void onNext(ApiResultBean<JsonObject> bean) {
-                    int code = bean.getCode();
-                    if (code == ApiErrorCode.CODE_SUCCESS) {
-                        subscriber.onNext(true);
-                    } else {
-                        subscriber.onError(new ApiException(code, bean.getMsg()));
-                    }
-                }
-            });
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 
@@ -145,6 +149,41 @@ public abstract class BookBaseModel extends BaseModel {
                             int code = bean.getCode();
                             if (code == ApiErrorCode.CODE_SUCCESS) {
                                 subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    public Observable<List<String>> getBookTags() {
+        return Observable.create(subscriber -> {
+            initRetrofit().create(ApiBookInterface.class).bookTags(getCommonParams())
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                if (bean.getData().has("bookTagList")) {
+                                    Gson gson = new Gson();
+                                    List<String> tags = gson.fromJson(bean.getData().getAsJsonArray("bookTagList"), new
+                                            TypeToken<List<String>>() {
+                                            }.getType());
+                                    subscriber.onNext(tags);
+                                } else {
+                                    subscriber.onNext(new ArrayList<String>());
+                                }
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));
                             }

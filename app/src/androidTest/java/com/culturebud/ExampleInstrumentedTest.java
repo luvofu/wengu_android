@@ -55,6 +55,10 @@ import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import rx.Subscriber;
 
+import static com.culturebud.CommonConst.DEVICE_TOKEN;
+import static com.culturebud.CommonConst.DEVICE_TOKEN_KEY;
+import static com.culturebud.CommonConst.PLATFORM;
+import static com.culturebud.CommonConst.PLATFORM_KEY;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -319,8 +323,8 @@ public class ExampleInstrumentedTest {
     public void testGetBooks() {
         Retrofit retrofit = initRetrofit(null);
         Map<String, Object> params = new HashMap<>();
-        params.put(CommonConst.PLATFORM_KEY, CommonConst.PLATFORM);
-        params.put(CommonConst.DEVICE_TOKEN_KEY, CommonConst.DEVICE_TOKEN);
+        params.put(PLATFORM_KEY, PLATFORM);
+        params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
         params.put("token", "2d4772d9-63a5-4c83-9111-7bbb1c7375fb");
         params.put("page", 0);
         params.put("sortType", 0);
@@ -347,8 +351,8 @@ public class ExampleInstrumentedTest {
     public void testSearchBook() {
         ApiBookInterface abi = initRetrofit(null).create(ApiBookInterface.class);
         Map<String, Object> params = new HashMap<>();
-        params.put(CommonConst.PLATFORM_KEY, CommonConst.PLATFORM);
-        params.put(CommonConst.DEVICE_TOKEN_KEY, CommonConst.DEVICE_TOKEN);
+        params.put(PLATFORM_KEY, PLATFORM);
+        params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
         params.put("page", 0);
         params.put("keyword", "wo");
         Log.e("xwlljj", "start-->");
@@ -386,8 +390,8 @@ public class ExampleInstrumentedTest {
     public void testBookSheetDetail() {
         ApiBookSheetInterface bs = initRetrofit(null).create(ApiBookSheetInterface.class);
         Map<String, Object> params = new HashMap<>();
-        params.put(CommonConst.PLATFORM_KEY, CommonConst.PLATFORM);
-        params.put(CommonConst.DEVICE_TOKEN_KEY, CommonConst.DEVICE_TOKEN);
+        params.put(PLATFORM_KEY, PLATFORM);
+        params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
         params.put("token", "706938b1-bcd2-4346-900e-63859909fb7e");
         params.put("sheetId", 22);
         bs.getBookSheetDetail(params).subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
@@ -418,8 +422,8 @@ public class ExampleInstrumentedTest {
     public void testCommentReplies() {
         ApiCommunityInterface ci = initRetrofit(null).create(ApiCommunityInterface.class);
         Map<String, Object> params = new HashMap<>();
-        params.put(CommonConst.PLATFORM_KEY, CommonConst.PLATFORM);
-        params.put(CommonConst.DEVICE_TOKEN_KEY, CommonConst.DEVICE_TOKEN);
+        params.put(PLATFORM_KEY, PLATFORM);
+        params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
         params.put("token", "706938b1-bcd2-4346-900e-63859909fb7e");
         params.put("commentId", 22);
         params.put("page", 0);
@@ -461,8 +465,8 @@ public class ExampleInstrumentedTest {
     public void testCommunityDetail() {
         ApiCommunityInterface comm = initRetrofit(null).create(ApiCommunityInterface.class);
         Map<String, Object> params = new HashMap<>();
-        params.put(CommonConst.PLATFORM_KEY, CommonConst.PLATFORM);
-        params.put(CommonConst.DEVICE_TOKEN_KEY, CommonConst.DEVICE_TOKEN);
+        params.put(PLATFORM_KEY, PLATFORM);
+        params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
         params.put("token", "b00fd609-17a2-480b-9568-1f70af393344");
         params.put("communityId", 314013);
         comm.communityDetail(params).subscribe(new Subscriber<ApiResultBean<BookCommunityDetail>>() {
@@ -559,34 +563,31 @@ public class ExampleInstrumentedTest {
     public void testCommon() {
         //af8f9f1a-ee36-4a99-9407-8315dd306f7c
         Map<String, Object> params = new HashMap<>();
-        params.put("token", "718f6f93-d4b8-4be9-a2b6-bae8aaf6bf44");
-        params.put("page", 0);
-        initRetrofit(null).create(ApiBookHomeInterface.class).myRelationDynamics(params)
-                .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                    @Override
-                    public void onCompleted() {
+//        params.put("token", "718f6f93-d4b8-4be9-a2b6-bae8aaf6bf44");
+//        params.put("page", 0);
+        params.put(PLATFORM_KEY, PLATFORM);
+        params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
+        initRetrofit(null).create(ApiBookInterface.class).bookTags(params)
+        .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+            @Override
+            public void onCompleted() {
 
-                    }
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
 
-                    @Override
-                    public void onNext(ApiResultBean<JsonObject> bean) {
-                        Log.d(TAG, bean.toString());
-                        if (bean.getCode() == ApiErrorCode.CODE_SUCCESS) {
-                            if (bean.getData().has("dynamicRelativeToMeList")) {
-                                List<BookCircleDynamicRelationMe> dynamics = new Gson().fromJson(bean.getData()
-                                                .getAsJsonArray("dynamicRelativeToMeList"),
-                                        new TypeToken<List<BookCircleDynamicRelationMe>>() {
-                                        }.getType());
-                                Log.d(TAG, "" + dynamics);
-                            }
-                        }
-                    }
-                });
+            @Override
+            public void onNext(ApiResultBean<JsonObject> bean) {
+                if (bean.getCode() == ApiErrorCode.CODE_SUCCESS) {
+                    Log.d(TAG, bean.getData().toString());
+                } else {
+                    Log.d(TAG, bean.toString());
+                }
+            }
+        });
     }
 
 

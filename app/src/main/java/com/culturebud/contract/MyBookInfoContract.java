@@ -1,6 +1,7 @@
 package com.culturebud.contract;
 
 import com.culturebud.bean.UserBookInfo;
+import com.culturebud.model.BookBaseModel;
 
 import rx.Observable;
 
@@ -9,7 +10,7 @@ import rx.Observable;
  */
 
 public interface MyBookInfoContract {
-    abstract class Model extends BaseModel {
+    abstract class Model extends BookBaseModel {
         public abstract Observable<UserBookInfo> myBookInfo(String token, long userBookId);
     }
 

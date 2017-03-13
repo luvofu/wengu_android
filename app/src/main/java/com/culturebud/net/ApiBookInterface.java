@@ -6,6 +6,7 @@ import com.culturebud.bean.BookDetail;
 import com.culturebud.bean.UserBookInfo;
 import com.google.gson.JsonObject;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.http.FieldMap;
@@ -79,4 +80,9 @@ public interface ApiBookInterface {
     @POST(CommonConst.PATH_USER_BOOK_DETAIL)
     @FormUrlEncoded
     Observable<ApiResultBean<UserBookInfo>> myBookInfos(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_BOOK_TAGS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> bookTags(@FieldMap Map<String, Object> params);
 }
+

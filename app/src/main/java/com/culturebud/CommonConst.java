@@ -113,6 +113,8 @@ public final class CommonConst {
 
     public static final String PATH_USER_BOOK_DETAIL = "api/userBook/detail";
 
+    public static final String PATH_BOOK_TAGS = "api/common/bookTag";
+
     public static final String PATH_USER_BOOK_SHEETS = "api/bookSheet/personal";
 
     public static final String PATH_COLLECT_ADD = "api/userCollection/add";
