@@ -72,7 +72,7 @@ public class EditBookRatingActivity extends BaseActivity {
         if (rating > 0 && rating != this.rating
                 || !TextUtils.isEmpty(comment) && comment.equals(this.comment)) {
             Intent data = new Intent();
-            data.putExtra("rating", rating);
+            data.putExtra("rating", rating * 2);
             data.putExtra("comment", comment);
             setResult(RESULT_OK, data);
             finish();

@@ -375,6 +375,22 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
             case REQUEST_CODE_ADD_BOOK_TAGS:
                 break;
             case REQUEST_CODE_EDIT_BOOK_RATING:
+                if (resultCode == RESULT_OK) {
+                    float rating = data.getFloatExtra("rating", -1);
+                    String comment = data.getStringExtra("comment");
+                    if (rating != -1 || !TextUtils.isEmpty(comment)) {
+                        Map<String, Object> map = new HashMap<>();
+                        if (rating != -1) {
+                            rbRating.setRating(rating / 2);
+                            map.put("rating", rating);
+                        }
+                        if (!TextUtils.isEmpty(comment)) {
+                            tvBookComment.setText(comment);
+                            map.put("remark", comment);
+                        }
+                        presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+                    }
+                }
                 break;
         }
     }
