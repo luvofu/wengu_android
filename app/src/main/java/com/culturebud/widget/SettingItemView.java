@@ -13,6 +13,7 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -79,7 +80,7 @@ public class SettingItemView extends LinearLayout {
             if (bgDrawable != null) {
                 int bgResId = arr.getResourceId(R.styleable.SettingItemView_background, -1);
                 if (bgResId != -1) {
-                    if (bgDrawable.getCurrent() instanceof LayerDrawable  && !hasIcon) {
+                    if (bgDrawable.getCurrent() instanceof LayerDrawable && !hasIcon) {
                         LayerDrawable tmp = ((LayerDrawable) bgDrawable.getCurrent());
                         switch (bgResId) {
                             case R.drawable.setting_item_last_bg_selector:

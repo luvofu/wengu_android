@@ -35,6 +35,7 @@ import java.util.Map;
 import java.util.Set;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_TAGS;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_OTHER_INFO;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_RATING;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_OBTAIN_PLACE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_READ_PLACE;
@@ -224,6 +225,20 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                     singleColOpts.show();
                 }
                 break;
+            case R.id.siv_other: {
+                if (userBookInfo != null) {
+                    String content = userBookInfo.getOther();
+                    Intent intent = new Intent(this, GeneralEditorActivity.class);
+                    intent.putExtra("title", getString(R.string.other));
+                    if (!TextUtils.isEmpty(content)) {
+                        intent.putExtra("content", content);
+                    }
+                    intent.putExtra("type", 2);
+                    intent.putExtra("content_length", 1000);
+                    startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_OTHER_INFO);
+                }
+                break;
+            }
         }
     }
 
@@ -321,6 +336,9 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                 sivBookType.setRightInfo("纸质书");
             } else {
                 sivBookType.setRightInfo("电子书");
+            }
+            if (!TextUtils.isEmpty(userBookInfo.getOther())) {
+                sivOther.setDesc(userBookInfo.getOther());
             }
         }
     }

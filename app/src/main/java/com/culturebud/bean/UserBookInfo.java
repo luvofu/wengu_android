@@ -50,6 +50,16 @@ public class UserBookInfo {
     private long userBookId;//
     @SerializedName("description")
     private String description;//书籍描述
+    @SerializedName("other")
+    private String other;
+
+    public String getOther() {
+        return other;
+    }
+
+    public void setOther(String other) {
+        this.other = other;
+    }
 
     public long getBookId() {
         return bookId;
@@ -243,6 +253,7 @@ public class UserBookInfo {
                 ", updatedTime=" + updatedTime +
                 ", userBookId=" + userBookId +
                 ", description='" + description + '\'' +
+                ", other='" + other + '\'' +
                 '}';
     }
 }

@@ -2,6 +2,7 @@ package com.culturebud.ui.me;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.text.InputType;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +19,7 @@ public class GeneralEditorActivity extends BaseActivity {
     private EditText etInput;
     private String content;
     private int type;
+    private int contentLength = 95;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,10 +33,6 @@ public class GeneralEditorActivity extends BaseActivity {
         setTitle(title);
         content = intent.getStringExtra("content");
         type = intent.getIntExtra("type", -1);
-        if (content != null) {
-            etInput.setText(content);
-            etInput.setSelection(content.length());
-        }
         switch (type) {
             case 0://昵称
                 break;
@@ -44,7 +42,15 @@ public class GeneralEditorActivity extends BaseActivity {
             case 2://签名
                 etInput.setMinLines(6);
                 etInput.setGravity(Gravity.TOP | Gravity.LEFT);
+                etInput.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                etInput.setSingleLine(false);
                 break;
+        }
+        contentLength = intent.getIntExtra("content_length", 95);
+        etInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(contentLength)});
+        if (content != null) {
+            etInput.setText(content);
+            etInput.setSelection(content.length());
         }
     }
 

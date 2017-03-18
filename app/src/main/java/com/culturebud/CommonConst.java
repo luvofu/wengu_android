@@ -262,6 +262,7 @@ public final class CommonConst {
         public static final int REQUEST_CODE_EDIT_OBTAIN_PLACE = 1023;
         public static final int REQUEST_CODE_ADD_BOOK_TAGS = 1024;
         public static final int REQUEST_CODE_EDIT_BOOK_RATING = 1025;
+        public static final int REQUEST_CODE_EDIT_BOOK_OTHER_INFO = 1026;
     }
 
     public static String getRootPath() {
