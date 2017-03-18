@@ -410,6 +410,15 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                     }
                 }
                 break;
+            case REQUEST_CODE_EDIT_BOOK_OTHER_INFO: {
+                if (resultCode == RESULT_OK) {
+                    String content = data.getStringExtra("content");
+                    sivOther.setDesc(content);
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("other", content);
+                    presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+                }
+            }
         }
     }
 
