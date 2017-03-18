@@ -40,7 +40,7 @@
             android:background="@color/my_transact"
             android:max="100"
             android:progress="30"
-            android:progressDrawable="@color/green"/>
+            android:progressDrawable="@drawable/pb_book_mark_item"/>
 
         <TextView
             android:id="@+id/tv_read_progress"
