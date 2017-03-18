@@ -48,5 +48,15 @@
     <dimen name="min_search_width">260dp</dimen>
     <dimen name="min_search_height">36dp</dimen>
 
+    <dimen name="book_mark_item_width">96dp</dimen>
+    <dimen name="book_mark_item_height">140dp</dimen>
+    <dimen name="book_mark_item_cover_width">92dp</dimen>
+    <dimen name="book_mark_item_cover_height">130dp</dimen>
+
+    <dimen name="font_litter">8sp</dimen>
+    <dimen name="font_small">10sp</dimen>
+    <dimen name="font_default">14sp</dimen>
+    <dimen name="font_middle">16sp</dimen>
+    <dimen name="font_big">18sp</dimen>
 
 </resources>

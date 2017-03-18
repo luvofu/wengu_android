@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:fresco="http://schemas.android.com/apk/res-auto"
+             android:layout_width="@dimen/book_mark_item_width"
+             android:layout_height="@dimen/book_mark_item_height"
+             android:layout_gravity="center"
+             android:orientation="vertical">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_book_cover"
+        android:layout_width="@dimen/book_mark_item_cover_width"
+        android:layout_height="@dimen/book_mark_item_cover_height"
+        android:layout_gravity="bottom"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY"/>
+
+    <TextView
+        android:id="@+id/tv_read_page"
+        android:layout_width="36dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right|top"
+        android:background="@mipmap/icon_book_mark_bubble"
+        android:gravity="center"
+        android:textColor="@color/title_font_default"
+        android:textSize="@dimen/font_small"/>
+
+    <LinearLayout
+        android:layout_width="@dimen/book_mark_item_cover_width"
+        android:layout_height="52dp"
+        android:layout_gravity="bottom"
+        android:background="@color/my_transact2"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/pb_read_progress"
+            style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@color/my_transact"
+            android:max="100"
+            android:progress="30"
+            android:progressDrawable="@color/green"/>
+
+        <TextView
+            android:id="@+id/tv_read_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:padding="2dp"
+            android:text="30%"
+            android:textColor="@color/green"
+            android:textSize="@dimen/font_small"/>
+
+        <TextView
+            android:id="@+id/tv_read_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:padding="2dp"
+            android:text="今天 16:38"
+            android:textColor="@color/title_font_white"
+            android:textSize="@dimen/font_small"/>
+
+        <TextView
+            android:id="@+id/tv_book_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:padding="2dp"
+            android:text="说文解字"
+            android:textColor="@color/title_font_white"
+            android:textSize="@dimen/font_small"/>
+    </LinearLayout>
+
+</FrameLayout>

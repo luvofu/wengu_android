@@ -32,4 +32,6 @@
     <color name="login_btn_normal">#1592B7</color>
     <color name="mud">#F3ECE6</color>
     <color name="my_transact">#55333333</color>
+    <color name="my_transact2">#77333333</color>
+    <color name="green">#95BD40</color>
 </resources>

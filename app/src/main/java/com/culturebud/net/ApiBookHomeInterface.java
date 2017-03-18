@@ -176,4 +176,13 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_MANUAL_BOOK_ENTRY)
     @Multipart
     Observable<ApiResultBean<JsonObject>> manualAddBook(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
+
+    /**
+     *
+     * @param params token
+     * @return
+     */
+    @POST(CommonConst.PATH_MY_BOOK_MARKS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> getMyBookMarks(@FieldMap Map<String, Object> params);
 }

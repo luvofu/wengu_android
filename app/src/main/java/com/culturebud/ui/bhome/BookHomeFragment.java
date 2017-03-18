@@ -1,9 +1,12 @@
 package com.culturebud.ui.bhome;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +16,18 @@ import android.widget.TextView;
 
 import com.culturebud.BaseFragment;
 import com.culturebud.R;
+import com.culturebud.adapter.BookMarkAdapter;
 import com.culturebud.annotation.PresenterInject;
+import com.culturebud.bean.BookMark;
 import com.culturebud.contract.BookHomeContract;
 import com.culturebud.presenter.BookHomePresenter;
 import com.culturebud.ui.bcircle.BookCircleActivity;
+import com.culturebud.util.WidgetUtil;
+import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.StepperView;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.List;
 
 /**
  * Created by XieWei on 2016/10/20.
@@ -36,28 +45,49 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
 
     private TextView tvCollect, tvNote, tvBookSheet, tvDateBook;
     private SimpleDraweeView sdvScaner;
+    
+    private RecyclerView rvBookMarks;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        presenter.setView(this);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         inflateView(R.layout.book_home);
-        srlRefresh = (SwipeRefreshLayout) view.findViewById(R.id.srl_refresh);
-        rlPop = (RelativeLayout) view.findViewById(R.id.rl_pop);
-        ivBookMark = (ImageView) view.findViewById(R.id.iv_book_mark);
-        tvBookName = (TextView) view.findViewById(R.id.tv_book_name);
-        tvPageNum = (TextView) view.findViewById(R.id.tv_book_num);
-        svStepper = (StepperView) view.findViewById(R.id.sv_stepper);
+        srlRefresh = WidgetUtil.obtainViewById(view, R.id.srl_refresh);
+        rlPop = WidgetUtil.obtainViewById(view, R.id.rl_pop);
+        ivBookMark = WidgetUtil.obtainViewById(view, R.id.iv_book_mark);
+        tvBookName = WidgetUtil.obtainViewById(view, R.id.tv_book_name);
+        tvPageNum = WidgetUtil.obtainViewById(view, R.id.tv_book_num);
+        svStepper = WidgetUtil.obtainViewById(view, R.id.sv_stepper);
 
-        tvCollect = (TextView) view.findViewById(R.id.tv_collect);
-        tvNote = (TextView) view.findViewById(R.id.tv_note);
-        tvBookSheet = (TextView) view.findViewById(R.id.tv_sheet);
-        tvDateBook = (TextView) view.findViewById(R.id.tv_date_book);
-        sdvScaner = (SimpleDraweeView) view.findViewById(R.id.sdv_scanner);
+        tvCollect = WidgetUtil.obtainViewById(view, R.id.tv_collect);
+        tvNote = WidgetUtil.obtainViewById(view, R.id.tv_note);
+        tvBookSheet = WidgetUtil.obtainViewById(view, R.id.tv_sheet);
+        tvDateBook = WidgetUtil.obtainViewById(view, R.id.tv_date_book);
+        sdvScaner = WidgetUtil.obtainViewById(view, R.id.sdv_scanner);
+
+        rvBookMarks = WidgetUtil.obtainViewById(view, R.id.rv_book_marks);
 
         tvPageNum.setText(String.valueOf(page));
         setListener();
         return view;
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        rvBookMarks.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
+        RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL);
+        divider.setDividerColor(Color.TRANSPARENT);
+        divider.setDividerHeight(32);
+        rvBookMarks.addItemDecoration(divider);
+        rvBookMarks.setAdapter(new BookMarkAdapter());
     }
 
     private void setListener() {
@@ -122,7 +152,21 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     }
 
     @Override
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            presenter.getMyBookMarks();
+        }
+    }
+
+    @Override
     public void onRefresh() {
+        presenter.getMyBookMarks();
         srlRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onBookMarks(List<BookMark> bookMarks) {
+        ((BookMarkAdapter)rvBookMarks.getAdapter()).addItems(bookMarks);
     }
 }

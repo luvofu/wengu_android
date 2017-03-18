@@ -64,18 +64,22 @@ public abstract class BaseModel {
 
     protected Retrofit initRetrofit() {
         if (retrofit == null) {
-            OkHttpClient client = new OkHttpClient.Builder()
-                    .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                    .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                    .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                    .build();
+            synchronized (BaseModel.class) {
+                if (retrofit == null) {
+                    OkHttpClient client = new OkHttpClient.Builder()
+                            .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                            .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                            .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                            .build();
 
-            retrofit = new Retrofit.Builder()
-                    .baseUrl(CommonConst.API_HOST)
-                    .client(client)
-                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build();
+                    retrofit = new Retrofit.Builder()
+                            .baseUrl(CommonConst.API_HOST)
+                            .client(client)
+                            .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                            .addConverterFactory(GsonConverterFactory.create())
+                            .build();
+                }
+            }
         }
         return retrofit;
     }
