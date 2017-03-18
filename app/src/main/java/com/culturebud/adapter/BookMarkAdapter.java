@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,6 +26,8 @@ import java.util.Locale;
 
 public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMarkViewHolder> {
     private List<BookMark> data;
+    private static final int ITEM_TYPE_ADD = 0;
+    private static final int ITEM_TYPE_BOOK_MARK = 1;
 
     public BookMarkAdapter() {
         data = new ArrayList<>();
@@ -54,23 +57,46 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
 
     @Override
     public BookMarkViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BookMarkViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.book_mark_item, parent, false));
+        if (viewType == ITEM_TYPE_BOOK_MARK) {
+            return new BookMarkViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.book_mark_item, parent, false));
+        } else {
+            ImageView ivAdd = new ImageView(parent.getContext());
+            ivAdd.setImageResource(R.mipmap.pic_add);
+            ivAdd.setScaleType(ImageView.ScaleType.FIT_XY);
+            ivAdd.getDrawable().setBounds(0, 0, parent.getResources().getDimensionPixelSize(R.dimen
+                    .book_mark_item_cover_width), parent.getResources().getDimensionPixelSize(R.dimen
+                    .book_mark_item_cover_height));
+            return new BookMarkViewHolder(ivAdd);
+        }
     }
 
     @Override
     public void onBindViewHolder(BookMarkViewHolder holder, int position) {
-        BookMark item = data.get(position);
-        holder.setBookCover(item.getCover());
-        holder.setBookTitle(item.getName());
-        holder.setReadPage(item.getPages());
-        holder.setReadTime(item.getUpdatedTime());
-        holder.setReadProgress(item.getPages(), item.getTotalPage());
+        if (position == data.size()) {
+            //TODO do nothing
+        } else {
+            BookMark item = data.get(position);
+            holder.setBookCover(item.getCover());
+            holder.setBookTitle(item.getName());
+            holder.setReadPage(item.getPages());
+            holder.setReadTime(item.getUpdatedTime());
+            holder.setReadProgress(item.getPages(), item.getTotalPage());
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        if (position == data.size()) {
+            return ITEM_TYPE_ADD;
+        } else {
+            return ITEM_TYPE_BOOK_MARK;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return data.size();
+        return data.size() + 1;
     }
 
     class BookMarkViewHolder extends RecyclerView.ViewHolder {
@@ -80,13 +106,17 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
 
         public BookMarkViewHolder(View itemView) {
             super(itemView);
-            sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_cover);
-            tvReadPage = WidgetUtil.obtainViewById(itemView, R.id.tv_read_page);
-            tvReadProgress = WidgetUtil.obtainViewById(itemView, R.id.tv_read_progress);
-            tvReadTime = WidgetUtil.obtainViewById(itemView, R.id.tv_read_time);
-            tvBookTitle = WidgetUtil.obtainViewById(itemView, R.id.tv_book_title);
-            pbReadProgress = WidgetUtil.obtainViewById(itemView, R.id.pb_read_progress);
-            pbReadProgress.setMax(100);
+            if (itemView instanceof ImageView) {
+
+            } else {
+                sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_cover);
+                tvReadPage = WidgetUtil.obtainViewById(itemView, R.id.tv_read_page);
+                tvReadProgress = WidgetUtil.obtainViewById(itemView, R.id.tv_read_progress);
+                tvReadTime = WidgetUtil.obtainViewById(itemView, R.id.tv_read_time);
+                tvBookTitle = WidgetUtil.obtainViewById(itemView, R.id.tv_book_title);
+                pbReadProgress = WidgetUtil.obtainViewById(itemView, R.id.pb_read_progress);
+                pbReadProgress.setMax(100);
+            }
         }
 
         public void setBookCover(String url) {

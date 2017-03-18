@@ -78,11 +78,11 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':sharesdk')
     compile project(':lib-zxing')
-    compile 'com.android.support:appcompat-v7:25.2.0'
-    compile 'com.android.support:design:25.2.0'
-    compile 'com.android.support:recyclerview-v7:25.2.0'
-    compile 'com.android.support:support-v13:25.2.0'
-    compile 'com.android.support:percent:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.0'
+    compile 'com.android.support:design:25.3.0'
+    compile 'com.android.support:recyclerview-v7:25.3.0'
+    compile 'com.android.support:support-v13:25.3.0'
+    compile 'com.android.support:percent:25.3.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.2.5'
     compile 'com.squareup.okio:okio:1.11.0'
@@ -98,4 +98,5 @@ dependencies {
     compile 'com.bigkoo:pickerview:2.1.1'
     compile 'uk.co.chrisjenx:calligraphy:2.2.0'
     compile 'com.belerweb:pinyin4j:2.5.1'
+    compile 'com.android.support:multidex:1.0.+'
 }

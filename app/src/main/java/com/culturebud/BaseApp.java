@@ -2,10 +2,8 @@ package com.culturebud;
 
 import android.app.Application;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
-import android.os.Environment;
 import android.support.multidex.MultiDex;
 import android.telephony.TelephonyManager;
 import android.util.Log;
@@ -13,14 +11,8 @@ import android.util.Log;
 import com.culturebud.bean.User;
 import com.culturebud.db.DataHelper;
 import com.culturebud.util.CrashHandler;
-import com.facebook.cache.disk.DiskCacheConfig;
-import com.facebook.common.disk.NoOpDiskTrimmableRegistry;
 import com.facebook.common.logging.FLog;
-import com.facebook.common.memory.NoOpMemoryTrimmableRegistry;
 import com.facebook.drawee.backends.pipeline.Fresco;
-import com.facebook.imagepipeline.core.DiskStorageCacheFactory;
-import com.facebook.imagepipeline.core.FileCacheFactory;
-import com.facebook.imagepipeline.core.ImagePipelineConfig;
 
 import java.util.UUID;
 

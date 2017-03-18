@@ -83,9 +83,8 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rvBookMarks.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL);
-        divider.setDividerColor(Color.TRANSPARENT);
-        divider.setDividerHeight(32);
+        RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL, Color
+                .TRANSPARENT, 32);
         rvBookMarks.addItemDecoration(divider);
         rvBookMarks.setAdapter(new BookMarkAdapter());
     }
