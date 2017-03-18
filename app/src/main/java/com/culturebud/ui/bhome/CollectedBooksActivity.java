@@ -3,15 +3,19 @@ package com.culturebud.ui.bhome;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.CollectedBooksAdapter;
 import com.culturebud.adapter.CollectedBooksVerticalAdapter;
+import com.culturebud.adapter.MoreOperaItemsAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
@@ -20,6 +24,7 @@ import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -27,13 +32,18 @@ import java.util.List;
  */
 
 @PresenterInject(CollectedBooksPresenter.class)
-public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.Presenter> implements CollectedBooksContract.View, CollectedBooksAdapter.OnItemClickListener, CollectedBooksVerticalAdapter.OnItemClickListener {
+public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.Presenter> implements
+        CollectedBooksContract.View, CollectedBooksAdapter.OnItemClickListener, CollectedBooksVerticalAdapter
+        .OnItemClickListener {
     public static final int TYPE_SELECT = 1;
     public static final String TYPE_KEY = "opera_type";
     private RecyclerView rvBooks;
     private int currentPage;
     private boolean loading = true;
     private int opreaType;
+    private BottomSheetDialog bsdMoreOperas;
+    private RecyclerView rvOperaItems;
+    private TextView tvCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +57,57 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         rvBooks = obtainViewById(R.id.rv_collected_books);
         initList();
         presenter.getMyBooks(currentPage);
+    }
+
+    private void initMoreOperas() {
+        if (bsdMoreOperas == null) {
+            bsdMoreOperas = new BottomSheetDialog(this);
+            bsdMoreOperas.setContentView(R.layout.bottom_sheet_dialog_multi);
+            bsdMoreOperas.getWindow().findViewById(android.support.design.R.id.design_bottom_sheet)
+                    .setBackgroundResource(android.R.color.transparent);
+            rvOperaItems = (RecyclerView) bsdMoreOperas.getWindow().findViewById(R.id.rv_opera_items);
+            tvCancel = (TextView) bsdMoreOperas.getWindow().findViewById(R.id.tv_cancel);
+            tvCancel.setOnClickListener(v -> {
+                hideMoreOperas();
+            });
+            rvOperaItems.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            rvOperaItems.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL));
+            MoreOperaItemsAdapter adapter = new MoreOperaItemsAdapter();
+            List<String> items = new ArrayList<>();
+            items.add("录入新书");
+            items.add("我创建的");
+            items.add("管理自定义分类");
+            adapter.setItems(items);
+            adapter.setOnMoreOperaItemClickListener((v, item, position) -> {
+                switch (position) {
+                    case 0: {
+                        Intent intent = new Intent(this, BookScanActivity.class);
+                        startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_BOOK);
+                        break;
+                    }
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+                hideMoreOperas();
+            });
+            rvOperaItems.setAdapter(adapter);
+        }
+    }
+
+    public void showMoreOperas() {
+        if (bsdMoreOperas != null && bsdMoreOperas.isShowing()) {
+            return;
+        }
+        initMoreOperas();
+        bsdMoreOperas.show();
+    }
+
+    public void hideMoreOperas() {
+        if (bsdMoreOperas != null && bsdMoreOperas.isShowing()) {
+            bsdMoreOperas.dismiss();
+        }
     }
 
     private void initList() {
@@ -77,6 +138,12 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     protected void onBack() {
         super.onBack();
         finish();
+    }
+
+    @Override
+    protected void onOptions(View view) {
+        super.onOptions(view);
+        showMoreOperas();
     }
 
     @Override
@@ -122,7 +189,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             if (dy > 0) {
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 if (!loading && (lastPosition + 1 >= total)) {
                     presenter.getMyBooks(++currentPage);
