@@ -17,8 +17,7 @@
             android:id="@+id/fl_top"
             android:layout_width="match_parent"
             android:layout_height="160dp"
-            android:background="@mipmap/book_home_top_bg">
-
+            android:background="@color/book_marks_bg">
 
             <ImageView
                 android:id="@+id/iv_book_mark"
@@ -38,7 +37,6 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="16dp"
                 android:background="@color/transparent"/>
-
 
             <RelativeLayout
                 android:id="@+id/rl_pop"

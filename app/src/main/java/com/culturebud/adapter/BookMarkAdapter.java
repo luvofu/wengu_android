@@ -2,9 +2,11 @@ package com.culturebud.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -59,15 +61,22 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
     public BookMarkViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == ITEM_TYPE_BOOK_MARK) {
             return new BookMarkViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.book_mark_item, parent, false));
+                    .inflate(R.layout.book_mark_item, parent, false), viewType);
         } else {
+            FrameLayout fl = (FrameLayout) LayoutInflater.from(parent.getContext()).inflate(R.layout.book_mark_item,
+                    parent, false);
+            fl.removeAllViews();
+
             ImageView ivAdd = new ImageView(parent.getContext());
             ivAdd.setImageResource(R.mipmap.pic_add);
             ivAdd.setScaleType(ImageView.ScaleType.FIT_XY);
-            ivAdd.getDrawable().setBounds(0, 0, parent.getResources().getDimensionPixelSize(R.dimen
-                    .book_mark_item_cover_width), parent.getResources().getDimensionPixelSize(R.dimen
-                    .book_mark_item_cover_height));
-            return new BookMarkViewHolder(ivAdd);
+            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(parent.getResources()
+                    .getDimensionPixelSize(R.dimen.book_mark_item_cover_width),
+                    parent.getResources().getDimensionPixelSize(R.dimen.book_mark_item_cover_height));
+            params.gravity = Gravity.BOTTOM;
+            ivAdd.setLayoutParams(params);
+            fl.addView(ivAdd);
+            return new BookMarkViewHolder(fl, viewType);
         }
     }
 
@@ -104,9 +113,9 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
         private TextView tvReadPage, tvReadProgress, tvReadTime, tvBookTitle;
         private ProgressBar pbReadProgress;
 
-        public BookMarkViewHolder(View itemView) {
+        public BookMarkViewHolder(View itemView, int viewType) {
             super(itemView);
-            if (itemView instanceof ImageView) {
+            if (viewType == ITEM_TYPE_ADD) {
 
             } else {
                 sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_cover);
