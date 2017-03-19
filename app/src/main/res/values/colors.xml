@@ -35,4 +35,6 @@
     <color name="my_transact2">#77333333</color>
     <color name="green">#95BD40</color>
     <color name="book_marks_bg">#F0D1A3</color>
+    
+    <color name="edit_books_action">#1592B7</color>
 </resources>

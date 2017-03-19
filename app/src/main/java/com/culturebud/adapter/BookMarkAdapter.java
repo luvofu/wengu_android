@@ -91,6 +91,7 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
             holder.setReadPage(item.getPages());
             holder.setReadTime(item.getUpdatedTime());
             holder.setReadProgress(item.getPages(), item.getTotalPage());
+            holder.setItem(item);
         }
     }
 
@@ -108,13 +109,16 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
         return data.size() + 1;
     }
 
-    class BookMarkViewHolder extends RecyclerView.ViewHolder {
+    class BookMarkViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvReadPage, tvReadProgress, tvReadTime, tvBookTitle;
         private ProgressBar pbReadProgress;
+        private int viewType;
+        private BookMark item;
 
         public BookMarkViewHolder(View itemView, int viewType) {
             super(itemView);
+            this.viewType = viewType;
             if (viewType == ITEM_TYPE_ADD) {
 
             } else {
@@ -126,6 +130,11 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
                 pbReadProgress = WidgetUtil.obtainViewById(itemView, R.id.pb_read_progress);
                 pbReadProgress.setMax(100);
             }
+            itemView.setOnClickListener(this);
+        }
+
+        public void setItem(BookMark item) {
+            this.item = item;
         }
 
         public void setBookCover(String url) {
@@ -157,7 +166,30 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
                 tvBookTitle.setText(title);
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                if (onBookMarkItemClickListener != null) {
+                    onBookMarkItemClickListener.onBookMarkItemClick(v, item, viewType);
+                }
+            }
+        }
     }
 
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm");
+
+    private OnBookMarkItemClickListener onBookMarkItemClickListener;
+
+    public OnBookMarkItemClickListener getOnBookMarkItemClickListener() {
+        return onBookMarkItemClickListener;
+    }
+
+    public void setOnBookMarkItemClickListener(OnBookMarkItemClickListener onBookMarkItemClickListener) {
+        this.onBookMarkItemClickListener = onBookMarkItemClickListener;
+    }
+
+    public interface OnBookMarkItemClickListener {
+        void onBookMarkItemClick(View v, BookMark item, int type);
+    }
 }

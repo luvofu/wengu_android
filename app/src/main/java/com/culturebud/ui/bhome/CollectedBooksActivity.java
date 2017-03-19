@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -44,6 +45,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     private BottomSheetDialog bsdMoreOperas;
     private RecyclerView rvOperaItems;
     private TextView tvCancel;
+    private FloatingActionButton fabEditBooks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +57,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         setTitle(R.string.collected_books);
         setOperasDrawable(R.drawable.titlebar_add_selector);
         rvBooks = obtainViewById(R.id.rv_collected_books);
+        fabEditBooks = obtainViewById(R.id.fab_edit_books);
+        fabEditBooks.setOnClickListener(this);
         initList();
         presenter.getMyBooks(currentPage);
     }

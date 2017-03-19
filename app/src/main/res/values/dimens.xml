@@ -58,5 +58,6 @@
     <dimen name="font_default">14sp</dimen>
     <dimen name="font_middle">16sp</dimen>
     <dimen name="font_big">18sp</dimen>
+    <dimen name="fab_margin">24dp</dimen>
 
 </resources>

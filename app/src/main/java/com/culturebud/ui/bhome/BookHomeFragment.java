@@ -35,7 +35,7 @@ import java.util.List;
 
 @PresenterInject(BookHomePresenter.class)
 public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> implements View.OnClickListener,
-        StepperView.OnValueChangedListener, BookHomeContract.View, SwipeRefreshLayout.OnRefreshListener {
+        StepperView.OnValueChangedListener, BookHomeContract.View, SwipeRefreshLayout.OnRefreshListener, BookMarkAdapter.OnBookMarkItemClickListener {
     private SwipeRefreshLayout srlRefresh;
     private RelativeLayout rlPop;
     private ImageView ivBookMark;
@@ -45,7 +45,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
 
     private TextView tvCollect, tvNote, tvBookSheet, tvDateBook;
     private SimpleDraweeView sdvScaner;
-    
+
     private RecyclerView rvBookMarks;
 
     @Override
@@ -86,7 +86,9 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL, Color
                 .WHITE, 32);
         rvBookMarks.addItemDecoration(divider);
-        rvBookMarks.setAdapter(new BookMarkAdapter());
+        BookMarkAdapter adapter = new BookMarkAdapter();
+        adapter.setOnBookMarkItemClickListener(this);
+        rvBookMarks.setAdapter(adapter);
     }
 
     private void setListener() {
@@ -166,6 +168,15 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
 
     @Override
     public void onBookMarks(List<BookMark> bookMarks) {
-        ((BookMarkAdapter)rvBookMarks.getAdapter()).addItems(bookMarks);
+        ((BookMarkAdapter) rvBookMarks.getAdapter()).addItems(bookMarks);
+    }
+
+    @Override
+    public void onBookMarkItemClick(View v, BookMark item, int type) {
+        if (type == 1 && item != null) {
+
+        } else {
+
+        }
     }
 }
