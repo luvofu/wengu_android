@@ -68,8 +68,9 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
             fl.removeAllViews();
 
             ImageView ivAdd = new ImageView(parent.getContext());
-            ivAdd.setImageResource(R.mipmap.pic_add);
-            ivAdd.setScaleType(ImageView.ScaleType.FIT_XY);
+            ivAdd.setImageResource(R.mipmap.ic_add_white);
+            ivAdd.setBackgroundResource(R.drawable.bg_dashed);
+            ivAdd.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
             FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(parent.getResources()
                     .getDimensionPixelSize(R.dimen.book_mark_item_cover_width),
                     parent.getResources().getDimensionPixelSize(R.dimen.book_mark_item_cover_height));
