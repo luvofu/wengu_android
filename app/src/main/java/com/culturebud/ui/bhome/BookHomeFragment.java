@@ -23,6 +23,7 @@ import com.culturebud.contract.BookHomeContract;
 import com.culturebud.presenter.BookHomePresenter;
 import com.culturebud.ui.bcircle.BookCircleActivity;
 import com.culturebud.util.WidgetUtil;
+import com.culturebud.widget.DividerItemDecoration;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.StepperView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -35,7 +36,8 @@ import java.util.List;
 
 @PresenterInject(BookHomePresenter.class)
 public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> implements View.OnClickListener,
-        StepperView.OnValueChangedListener, BookHomeContract.View, SwipeRefreshLayout.OnRefreshListener, BookMarkAdapter.OnBookMarkItemClickListener {
+        StepperView.OnValueChangedListener, BookHomeContract.View, SwipeRefreshLayout.OnRefreshListener,
+        BookMarkAdapter.OnBookMarkItemClickListener {
     private SwipeRefreshLayout srlRefresh;
     private RelativeLayout rlPop;
     private ImageView ivBookMark;
@@ -83,8 +85,9 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         rvBookMarks.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false));
-        RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.VERTICAL, Color
-                .WHITE, 32);
+        DividerItemDecoration divider = new DividerItemDecoration(getActivity(), LinearLayoutManager.HORIZONTAL,
+                android.R.color.transparent, getResources().getDimensionPixelSize(R.dimen
+                .item_horizontal_divider_width));
         rvBookMarks.addItemDecoration(divider);
         BookMarkAdapter adapter = new BookMarkAdapter();
         adapter.setOnBookMarkItemClickListener(this);
@@ -168,6 +171,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
 
     @Override
     public void onBookMarks(List<BookMark> bookMarks) {
+        ((BookMarkAdapter) rvBookMarks.getAdapter()).clearData();
         ((BookMarkAdapter) rvBookMarks.getAdapter()).addItems(bookMarks);
     }
 

@@ -60,4 +60,6 @@
     <dimen name="font_big">18sp</dimen>
     <dimen name="fab_margin">24dp</dimen>
 
+    <dimen name="item_horizontal_divider_width">12dp</dimen>
+
 </resources>
