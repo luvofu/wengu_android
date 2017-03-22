@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.culturebud.R;
+import com.culturebud.util.WidgetUtil;
 
 /**
  * Created by XieWei on 2016/10/28.
@@ -96,7 +97,9 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
         } else {
             etNum.setEnabled(true);
             etNum.setMinimumWidth(32);
+            etNum.setPadding(1, 1, 1, 1);
             etNum.setBackgroundResource(R.drawable.stepper_number_bg);
+            WidgetUtil.setRawTextSize(etNum, getResources().getDimensionPixelSize(R.dimen.font_litter));
         }
         addView(ivSub);
         addView(etNum);
@@ -185,6 +188,10 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
         }
     }
 
+    public void setStep(int stepValue) {
+        this.stepValue = stepValue;
+        etNum.setText(String.valueOf(stepValue));
+    }
     public interface OnValueChangedListener {
         void onValueChanged(int value, boolean isPlus);
     }

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:background="@drawable/white_circle_bg"
+              android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_center_bg_selector">
+
+        <TextView
+            android:id="@+id/tv_ppw_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="书签"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp"/>
+
+        <ImageView
+            android:id="@+id/iv_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_margin="8dp"
+            android:clickable="true"
+            android:scaleType="centerInside"
+            android:src="@mipmap/edittext_del"/>
+    </FrameLayout>
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_book_name"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_icon_default_middle"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        app:has_arrow="false"
+        app:has_icon="false"
+        app:name="书名"/>
+
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_book_pages"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_icon_default_middle"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        app:has_arrow="false"
+        app:has_icon="false"
+        app:name="总页码"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_icon_default_middle"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="在读页码"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp"/>
+
+        <com.culturebud.widget.StepperView
+            android:id="@+id/sv_stepper"
+            android:layout_width="96dp"
+            android:layout_height="28dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:show_number="true"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/setting_item_middle_height"
+        android:background="@drawable/setting_item_center_bg_selector"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:text="删除"
+            android:textColor="@color/tabar_font_checked"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_completed"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:paddingLeft="15dp"
+            android:text="完成"
+            android:textColor="@color/tabar_font_checked"
+            android:textSize="14sp"/>
+
+    </LinearLayout>
+
+</LinearLayout>

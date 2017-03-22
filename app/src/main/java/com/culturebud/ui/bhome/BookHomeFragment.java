@@ -7,10 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -25,6 +30,7 @@ import com.culturebud.ui.bcircle.BookCircleActivity;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.DividerItemDecoration;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.StepperView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -49,6 +55,8 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     private SimpleDraweeView sdvScaner;
 
     private RecyclerView rvBookMarks;
+    private PopupWindow ppwBookMark;
+    private FrameLayout flTop;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +83,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         sdvScaner = WidgetUtil.obtainViewById(view, R.id.sdv_scanner);
 
         rvBookMarks = WidgetUtil.obtainViewById(view, R.id.rv_book_marks);
+        flTop = WidgetUtil.obtainViewById(view, R.id.fl_top);
 
         tvPageNum.setText(String.valueOf(page));
         setListener();
@@ -175,12 +184,65 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         ((BookMarkAdapter) rvBookMarks.getAdapter()).addItems(bookMarks);
     }
 
-    @Override
-    public void onBookMarkItemClick(View v, BookMark item, int type) {
-        if (type == 1 && item != null) {
+    private SettingItemView sivBookName, sivPages;
+    private StepperView svPage;
 
+    private void initBookMarkDialog() {
+        if (ppwBookMark == null) {
+            ppwBookMark = new PopupWindow(getActivity(), null, R.style.PopupWindow);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.ppw_bookmark_opera, null);
+            ImageView ivClose = WidgetUtil.obtainViewById(view, R.id.iv_close);
+            ivClose.setOnClickListener(v -> {
+                if (ppwBookMark.isShowing()) {
+                    ppwBookMark.dismiss();
+                }
+            });
+            TextView tvCompleted = WidgetUtil.obtainViewById(view, R.id.tv_completed);
+            tvCompleted.setOnClickListener(v -> {
+
+            });
+            TextView tvDel = WidgetUtil.obtainViewById(view, R.id.tv_delete);
+            tvDel.setOnClickListener(v -> {
+
+            });
+            sivBookName = WidgetUtil.obtainViewById(view, R.id.siv_book_name);
+            sivPages = WidgetUtil.obtainViewById(view, R.id.siv_book_pages);
+            svPage = WidgetUtil.obtainViewById(view, R.id.sv_stepper);
+
+            ppwBookMark.setContentView(view);
+            DisplayMetrics dm = new DisplayMetrics();
+            getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
+            screenWidth = dm.widthPixels;
+            screenHeight = dm.heightPixels;
+            ppwBookMark.setWidth((dm.widthPixels / 3) * 2);
+            ppwBookMark.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+        }
+    }
+
+    private int screenWidth, screenHeight;
+    private BookMark currentBookMark;
+
+    private void showBookMarkDialog() {
+        initBookMarkDialog();
+        if (currentBookMark != null) {
+            sivBookName.setRightInfo(currentBookMark.getName());
+            sivPages.setRightInfo(currentBookMark.getTotalPage() + "");
+            svPage.setStep(currentBookMark.getPages());
         } else {
 
         }
+
+        ppwBookMark.showAsDropDown(flTop, (screenWidth / 3) / 2, 4);
+    }
+
+    @Override
+    public void onBookMarkItemClick(View v, BookMark item, int type) {
+        currentBookMark = null;
+        if (type == 1 && item != null) {
+            currentBookMark = item;
+        } else {
+
+        }
+        showBookMarkDialog();
     }
 }
