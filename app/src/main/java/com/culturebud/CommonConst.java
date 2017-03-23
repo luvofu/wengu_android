@@ -157,6 +157,10 @@ public final class CommonConst {
 
     public static final String PATH_MY_BOOK_MARKS = "api/bookmark/personal_v103";
 
+    public static final String PATH_ADD_BOOK_MARK = "api/bookmark/add_v103";
+
+    public static final String PATH_ALTER_BOOK_MARK = "api/bookmark/edit_v103";
+
     public final class ThumbUpType {
         public static final int TYPE_COMMENT = 0;//短评
         public static final int TYPE_DYNAMIC = 1;//书圈动态

@@ -63,4 +63,76 @@ public class BookHomeModel extends BookHomeContract.Model {
                     });
         });
     }
+
+    @Override
+    public Observable<Boolean> addBookMark(String token, long userBookId, int pages, int totalPage) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("userBookId", userBookId);
+            params.put("pages", pages);
+            params.put("totalPage", totalPage);
+            initRetrofit().create(ApiBookHomeInterface.class).addBookMark(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> alterBookMark(String token, long bookmarkId, int pages, int totalPage) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("bookmarkId", bookmarkId);
+            params.put("pages", pages);
+            if (totalPage > 0) {
+                params.put("totalPage", totalPage);
+            }
+            initRetrofit().create(ApiBookHomeInterface.class).alterBookMark(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
 }

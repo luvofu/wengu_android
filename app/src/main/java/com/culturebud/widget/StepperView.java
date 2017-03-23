@@ -161,6 +161,10 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
         }
     }
 
+    public int getStepValue() {
+        return stepValue;
+    }
+
     public void setOnValueChangedListener(OnValueChangedListener listener) {
         this.listener = listener;
     }

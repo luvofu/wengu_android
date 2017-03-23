@@ -185,4 +185,12 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_MY_BOOK_MARKS)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> getMyBookMarks(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_ADD_BOOK_MARK)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> addBookMark(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_ALTER_BOOK_MARK)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> alterBookMark(@FieldMap Map<String, Object> params);
 }

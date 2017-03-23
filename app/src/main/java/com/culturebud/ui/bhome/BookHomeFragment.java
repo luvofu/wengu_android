@@ -185,6 +185,20 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         ((BookMarkAdapter) rvBookMarks.getAdapter()).addItems(bookMarks);
     }
 
+    @Override
+    public void onAddBookMark(boolean success) {
+        if (success) {
+            presenter.getMyBookMarks();
+        }
+    }
+
+    @Override
+    public void onAlterBookMark(boolean success) {
+        if (success) {
+            presenter.getMyBookMarks();
+        }
+    }
+
     private SettingItemView sivBookName, sivPages;
     private StepperView svPage;
 
@@ -202,6 +216,12 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             tvCompleted.setOnClickListener(v -> {
                 if (ppwBookMark != null && ppwBookMark.isShowing()) {
                     ppwBookMark.dismiss();
+                    if (currentBookMark == null) {
+//                        presenter.addBookMark();
+                    } else {
+                        presenter.alterBookMark(currentBookMark.getBookmarkId(), svPage.getStepValue(),
+                                Integer.valueOf(sivPages.getInfo()));
+                    }
                 }
             });
             TextView tvDel = WidgetUtil.obtainViewById(view, R.id.tv_delete);
