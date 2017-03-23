@@ -31,6 +31,7 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
     private EditText etNum;
     private boolean needNum;
     private int stepValue = 1;
+    private int maxValue = Integer.MAX_VALUE;
 
     public StepperView(Context context) {
         super(context);
@@ -86,7 +87,7 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
                 stepValue = 1;
             }
             if (needNum) {
-                etNum.setText(String.valueOf(stepValue));
+                flushStepValue();
             }
             ta.recycle();
         }
@@ -99,7 +100,7 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
             etNum.setMinimumWidth(32);
             etNum.setPadding(1, 1, 1, 1);
             etNum.setBackgroundResource(R.drawable.stepper_number_bg);
-            WidgetUtil.setRawTextSize(etNum, getResources().getDimensionPixelSize(R.dimen.font_litter));
+            WidgetUtil.setRawTextSize(etNum, getResources().getDimensionPixelSize(R.dimen.font_web));
         }
         addView(ivSub);
         addView(etNum);
@@ -124,24 +125,34 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
         ivSub.setMinimumHeight(getMeasuredHeight());
     }
 
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
+        if (stepValue > maxValue) {
+            stepValue = maxValue;
+            flushStepValue();
+        }
+    }
+
     @Override
     public void onClick(View v) {
         Log.e(TAG, "onClick()" + v);
         if (v == ivAdd) {
-            ++stepValue;
-            Log.e(TAG, "stepValue = " + stepValue);
-            if (needNum) {
-                etNum.setText(String.valueOf(stepValue));
-            }
-            if (listener != null) {
-                listener.onValueChanged(stepValue, true);
+            if (stepValue < maxValue) {
+                ++stepValue;
+                Log.e(TAG, "stepValue = " + stepValue);
+                if (needNum) {
+                    flushStepValue();
+                }
+                if (listener != null) {
+                    listener.onValueChanged(stepValue, true);
+                }
             }
         } else if (v == ivSub) {
             if (stepValue > 1) {
                 --stepValue;
                 Log.e(TAG, "stepValue = " + stepValue);
                 if (needNum) {
-                    etNum.setText(String.valueOf(stepValue));
+                    flushStepValue();
                 }
                 if (listener != null) {
                     listener.onValueChanged(stepValue, false);
@@ -184,13 +195,18 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
                 }
             }
         } else {
-            etNum.setText(String.valueOf(stepValue));
+            flushStepValue();
         }
+    }
+
+    private void flushStepValue() {
+        etNum.setText(String.valueOf(stepValue));
+        etNum.setSelection(String.valueOf(stepValue).length());
     }
 
     public void setStep(int stepValue) {
         this.stepValue = stepValue;
-        etNum.setText(String.valueOf(stepValue));
+        flushStepValue();
     }
     public interface OnValueChangedListener {
         void onValueChanged(int value, boolean isPlus);

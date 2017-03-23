@@ -1,8 +1,10 @@
 package com.culturebud.util;
 
 import android.support.annotation.IdRes;
+import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.lang.reflect.Method;
@@ -15,8 +17,10 @@ public class WidgetUtil {
 
     public static void setRawTextSize(TextView view, int size) {
         Class tvNameCls = view.getClass();
-        if (view instanceof AppCompatTextView) {
+        if (view instanceof AppCompatTextView || view instanceof EditText) {
             tvNameCls = view.getClass().getSuperclass();
+        } else if (view instanceof AppCompatEditText) {
+            tvNameCls = view.getClass().getSuperclass().getSuperclass();
         }
         try {
             Method setRawTS = tvNameCls.getDeclaredMethod("setRawTextSize", float.class);

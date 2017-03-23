@@ -108,4 +108,8 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
             ((BaseActivity) getActivity()).hideProDialog();
         }
     }
+
+    protected boolean onPopBack() {
+        return false;
+    }
 }

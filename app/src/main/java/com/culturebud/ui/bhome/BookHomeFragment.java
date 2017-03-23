@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -199,15 +200,22 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             });
             TextView tvCompleted = WidgetUtil.obtainViewById(view, R.id.tv_completed);
             tvCompleted.setOnClickListener(v -> {
-
+                if (ppwBookMark != null && ppwBookMark.isShowing()) {
+                    ppwBookMark.dismiss();
+                }
             });
             TextView tvDel = WidgetUtil.obtainViewById(view, R.id.tv_delete);
             tvDel.setOnClickListener(v -> {
-
+                if (ppwBookMark != null && ppwBookMark.isShowing()) {
+                    ppwBookMark.dismiss();
+                }
             });
             sivBookName = WidgetUtil.obtainViewById(view, R.id.siv_book_name);
             sivPages = WidgetUtil.obtainViewById(view, R.id.siv_book_pages);
             svPage = WidgetUtil.obtainViewById(view, R.id.sv_stepper);
+            svPage.setOnValueChangedListener((value, isPlus) -> {
+
+            });
 
             ppwBookMark.setContentView(view);
             DisplayMetrics dm = new DisplayMetrics();
@@ -216,6 +224,15 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             screenHeight = dm.heightPixels;
             ppwBookMark.setWidth((dm.widthPixels / 3) * 2);
             ppwBookMark.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
+            view.setOnKeyListener((v, keyCode, event) -> {
+                if (keyCode == KeyEvent.KEYCODE_BACK) {
+                    if (ppwBookMark.isShowing()) {
+                        ppwBookMark.dismiss();
+                        return true;
+                    }
+                }
+                return false;
+            });
         }
     }
 
@@ -229,7 +246,9 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             sivPages.setRightInfo(currentBookMark.getTotalPage() + "");
             svPage.setStep(currentBookMark.getPages());
         } else {
-
+            sivBookName.setRightInfo("");
+            sivPages.setRightInfo("");
+            svPage.setStep(0);
         }
 
         ppwBookMark.showAsDropDown(flTop, (screenWidth / 3) / 2, 4);
@@ -245,4 +264,5 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         }
         showBookMarkDialog();
     }
+
 }
