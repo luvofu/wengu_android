@@ -1,7 +1,9 @@
 package com.culturebud.ui.bhome;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -21,6 +23,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.culturebud.BaseFragment;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.BookMarkAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -28,6 +31,7 @@ import com.culturebud.bean.BookMark;
 import com.culturebud.contract.BookHomeContract;
 import com.culturebud.presenter.BookHomePresenter;
 import com.culturebud.ui.bcircle.BookCircleActivity;
+import com.culturebud.ui.search.SelectBookActivity;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.DividerItemDecoration;
 import com.culturebud.widget.RecyclerViewDivider;
@@ -188,6 +192,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     @Override
     public void onAddBookMark(boolean success) {
         if (success) {
+            ppwBookMark.dismiss();
             presenter.getMyBookMarks();
         }
     }
@@ -201,10 +206,13 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
 
     private SettingItemView sivBookName, sivPages;
     private StepperView svPage;
+    private TextView tvDel;
 
     private void initBookMarkDialog() {
         if (ppwBookMark == null) {
             ppwBookMark = new PopupWindow(getActivity(), null, R.style.PopupWindow);
+            ppwBookMark.setBackgroundDrawable(new ColorDrawable(0x55333333));
+            ppwBookMark.setOutsideTouchable(false);
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.ppw_bookmark_opera, null);
             ImageView ivClose = WidgetUtil.obtainViewById(view, R.id.iv_close);
             ivClose.setOnClickListener(v -> {
@@ -215,16 +223,16 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             TextView tvCompleted = WidgetUtil.obtainViewById(view, R.id.tv_completed);
             tvCompleted.setOnClickListener(v -> {
                 if (ppwBookMark != null && ppwBookMark.isShowing()) {
-                    ppwBookMark.dismiss();
                     if (currentBookMark == null) {
-//                        presenter.addBookMark();
+                        presenter.addBookMark(userBookId, svPage.getStepValue(), Integer.valueOf(sivPages.getInfo()));
                     } else {
+                        ppwBookMark.dismiss();
                         presenter.alterBookMark(currentBookMark.getBookmarkId(), svPage.getStepValue(),
                                 Integer.valueOf(sivPages.getInfo()));
                     }
                 }
             });
-            TextView tvDel = WidgetUtil.obtainViewById(view, R.id.tv_delete);
+            tvDel = WidgetUtil.obtainViewById(view, R.id.tv_delete);
             tvDel.setOnClickListener(v -> {
                 if (ppwBookMark != null && ppwBookMark.isShowing()) {
                     ppwBookMark.dismiss();
@@ -235,6 +243,14 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             svPage = WidgetUtil.obtainViewById(view, R.id.sv_stepper);
             svPage.setOnValueChangedListener((value, isPlus) -> {
 
+            });
+
+            sivBookName.setOnClickListener(v -> {
+                if (currentBookMark != null) {
+                    return;
+                }
+                Intent intent = new Intent(getActivity(), SelectBookActivity.class);
+                startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_SELECT_BOOK);
             });
 
             ppwBookMark.setContentView(view);
@@ -265,10 +281,14 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             sivBookName.setRightInfo(currentBookMark.getName());
             sivPages.setRightInfo(currentBookMark.getTotalPage() + "");
             svPage.setStep(currentBookMark.getPages());
+            sivBookName.setHasArrow(false);
+            tvDel.setVisibility(View.VISIBLE);
         } else {
             sivBookName.setRightInfo("");
-            sivPages.setRightInfo("");
+            sivPages.setRightInfo("300");
             svPage.setStep(0);
+            sivBookName.setHasArrow(true);
+            tvDel.setVisibility(View.GONE);
         }
 
         ppwBookMark.showAsDropDown(flTop, (screenWidth / 3) / 2, 4);
@@ -277,6 +297,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     @Override
     public void onBookMarkItemClick(View v, BookMark item, int type) {
         currentBookMark = null;
+        userBookId = -1;
         if (type == 1 && item != null) {
             currentBookMark = item;
         } else {
@@ -285,4 +306,18 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         showBookMarkDialog();
     }
 
+    private long userBookId = -1;
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CommonConst.RequestCode.REQUEST_CODE_SELECT_BOOK:
+                if (resultCode == Activity.RESULT_OK) {
+                    sivBookName.setRightInfo(data.getStringExtra("book_title"));
+                    userBookId = data.getLongExtra("user_book_id", -1);
+                }
+                break;
+        }
+    }
 }

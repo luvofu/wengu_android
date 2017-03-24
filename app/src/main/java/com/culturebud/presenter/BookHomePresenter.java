@@ -53,6 +53,14 @@ public class BookHomePresenter extends BookHomeContract.Presenter {
             view.onToLogin();
             return;
         }
+        if (userBookId <= 0) {
+            view.onErrorTip("请选择书籍");
+             return;
+        }
+        if (totalPage <= 0) {
+            view.onErrorTip("请输入页码");
+             return;
+        }
         model.addBookMark(BaseApp.getInstance().getUser().getToken(), userBookId, pages, totalPage)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<Boolean>() {
