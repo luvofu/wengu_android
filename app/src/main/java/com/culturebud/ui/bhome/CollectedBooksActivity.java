@@ -1,14 +1,19 @@
 package com.culturebud.ui.bhome;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
@@ -46,6 +51,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     private RecyclerView rvOperaItems;
     private TextView tvCancel;
     private FloatingActionButton fabEditBooks;
+    private PopupWindow ppwCategory;
+    private BottomNavigationView bnvOperas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +66,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         setOperasDrawable(R.drawable.titlebar_add_selector);
         rvBooks = obtainViewById(R.id.rv_collected_books);
         fabEditBooks = obtainViewById(R.id.fab_edit_books);
+        bnvOperas = obtainViewById(R.id.bnv_operas);
         fabEditBooks.setOnClickListener(this);
         initList();
         presenter.getMyBooks(currentPage);
@@ -140,9 +148,20 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     }
 
     @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.fab_edit_books:
+                fabEditBooks.hide();
+                bnvOperas.setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    @Override
     protected void onTitleOptions(View view) {
         super.onTitleOptions(view);
-
+        switchCategoryDlg();
     }
 
     @Override
@@ -155,6 +174,42 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     protected void onOptions(View view) {
         super.onOptions(view);
         showMoreOperas();
+    }
+
+    private void initCategoryDlg() {
+        if (ppwCategory == null) {
+            ppwCategory = new PopupWindow(this, null, R.style.PopupWindow);
+            ppwCategory.setBackgroundDrawable(new ColorDrawable(0x55333333));
+            ppwCategory.setOutsideTouchable(false);
+            View view = getLayoutInflater().inflate(R.layout.dlg_user_book_category_type, null);
+            ppwCategory.setContentView(view);
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+            ppwCategory.setWidth(dm.widthPixels);
+        }
+    }
+
+    private void switchCategoryDlg() {
+        if (ppwCategory == null || !ppwCategory.isShowing()) {
+            showCategoryDlg();
+        } else {
+            hideCategoryDlg();
+        }
+    }
+
+    private void showCategoryDlg() {
+        setTitleRightIcon(R.mipmap.ic_arrow_white_up);
+        initCategoryDlg();
+        if (!ppwCategory.isShowing()) {
+            ppwCategory.showAsDropDown(getToolbar());
+        }
+    }
+
+    private void hideCategoryDlg() {
+        setTitleRightIcon(R.mipmap.ic_arrow_white_down);
+        if (ppwCategory != null && ppwCategory.isShowing()) {
+            ppwCategory.dismiss();
+        }
     }
 
     @Override

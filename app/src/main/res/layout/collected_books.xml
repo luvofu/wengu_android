@@ -20,4 +20,14 @@
         android:src="@mipmap/icon_floating_action_btn"
         app:backgroundTint="@color/edit_books_action"
         app:rippleColor="@color/edit_books_action"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bnv_operas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:visibility="gone"
+        app:itemBackground="@android:color/white"
+        app:itemTextColor="@color/font_black_light"
+        app:menu="@menu/menu_bottom_nav"/>
 </android.support.design.widget.CoordinatorLayout>

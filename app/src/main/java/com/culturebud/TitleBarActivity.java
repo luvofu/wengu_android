@@ -10,6 +10,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -51,6 +52,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
         initListener();
+    }
+
+    protected Toolbar getToolbar() {
+        return toolbar;
     }
 
     public void addOperaWidget(int index, View widget) {
@@ -197,6 +202,8 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
 
     private void initListener() {
         etTitle.setOnClickListener(this);
+        etTitle.setEnabled(true);
+        etTitle.setInputType(InputType.TYPE_NULL);
         tvBack.setOnClickListener(this);
         tvOperas.setOnClickListener(this);
     }
@@ -252,7 +259,6 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
             case R.id.tv_back:
                 onBack();
                 break;
-
             case R.id.tv_operas:
                 onOptions(v);
                 break;

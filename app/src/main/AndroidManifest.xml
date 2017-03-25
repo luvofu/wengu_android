@@ -66,7 +66,9 @@
         <activity android:name=".ui.front.BookStoreActivity"/>
         <activity android:name=".ui.search.SearchBookActivity"/>
         <activity android:name=".ui.search.SearchBookCommunityActivity"/>
-        <activity android:name=".ui.front.BookDetailActivity"/>
+        <activity
+            android:name=".ui.front.BookDetailActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity android:name=".ui.front.BookBaseInfoActivity"/>
         <activity android:name=".ui.front.BookSheetDetailActivity"/>
         <activity

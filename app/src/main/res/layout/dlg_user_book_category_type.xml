@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/common_bg"
+              android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btn_all"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:background="@drawable/login_btn_selector"
+        android:gravity="center"
+        android:text="全部"
+        android:textColor="@color/title_font_white"
+        android:textSize="@dimen/font_default"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="中图法"
+        android:textColor="@color/me_login_font"
+        android:textSize="@dimen/font_default"/>
+
+    <com.culturebud.widget.TagFlowLayout
+        android:id="@+id/tfl_clc"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="自定义"
+        android:textColor="@color/me_login_font"
+        android:textSize="@dimen/font_default"/>
+
+    <com.culturebud.widget.TagFlowLayout
+        android:id="@+id/tfl_custom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:text="其它"
+        android:textColor="@color/me_login_font"
+        android:textSize="@dimen/font_default"/>
+
+    <com.culturebud.widget.TagFlowLayout
+        android:id="@+id/tfl_other"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"/>
+
+</LinearLayout>
