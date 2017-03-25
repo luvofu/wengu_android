@@ -1,10 +1,14 @@
 package com.culturebud.model;
 
 import android.text.TextUtils;
+import android.util.Log;
 
+import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
+import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
+import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.net.ApiBookInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
@@ -107,6 +111,39 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                             }
                         }
                     });
+        });
+    }
+
+    @Override
+    public Observable<BookCategoryGroup> getCategoryStatistics(String token, long userId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("userId", userId);
+            initRetrofit().create(ApiBookInterface.class).getCategoryStatistics(params)
+            .subscribe(new Subscriber<ApiResultBean<BookCategoryGroup>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<BookCategoryGroup> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(bean.getData());
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
         });
     }
 }

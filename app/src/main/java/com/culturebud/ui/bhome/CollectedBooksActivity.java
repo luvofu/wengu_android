@@ -13,6 +13,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -22,12 +23,16 @@ import com.culturebud.R;
 import com.culturebud.adapter.CollectedBooksAdapter;
 import com.culturebud.adapter.CollectedBooksVerticalAdapter;
 import com.culturebud.adapter.MoreOperaItemsAdapter;
+import com.culturebud.adapter.WhiteTagAdapter;
 import com.culturebud.annotation.PresenterInject;
+import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.presenter.CollectedBooksPresenter;
 import com.culturebud.ui.front.BookDetailActivity;
+import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.culturebud.widget.TagFlowLayout;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -176,12 +181,55 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         showMoreOperas();
     }
 
+    private Button btnAll;
+    private TagFlowLayout tflClc, tflCustom, tflOther;
+
     private void initCategoryDlg() {
         if (ppwCategory == null) {
             ppwCategory = new PopupWindow(this, null, R.style.PopupWindow);
             ppwCategory.setBackgroundDrawable(new ColorDrawable(0x55333333));
             ppwCategory.setOutsideTouchable(false);
             View view = getLayoutInflater().inflate(R.layout.dlg_user_book_category_type, null);
+            btnAll = WidgetUtil.obtainViewById(view, R.id.btn_all);
+            tflClc = WidgetUtil.obtainViewById(view, R.id.tfl_clc);
+            tflCustom = WidgetUtil.obtainViewById(view, R.id.tfl_custom);
+            tflOther = WidgetUtil.obtainViewById(view, R.id.tfl_other);
+
+            btnAll.setOnClickListener(v -> {
+                setTitle(btnAll.getText());
+                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
+                ppwCategory.dismiss();
+                currentPage = 0;
+                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
+            });
+
+            tflClc.setOnSelectListener(selectPosSet -> {
+                ppwCategory.dismiss();
+                int index = selectPosSet.iterator().next();
+                BookCategoryGroup.Category category = ((WhiteTagAdapter) tflClc.getAdapter()).getItem(index);
+                setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                currentPage = 0;
+                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category.getCategory());
+            });
+
+            tflCustom.setOnSelectListener(selectPosSet -> {
+                ppwCategory.dismiss();
+                int index = selectPosSet.iterator().next();
+                BookCategoryGroup.Category category = ((WhiteTagAdapter) tflCustom.getAdapter()).getItem(index);
+                setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                currentPage = 0;
+                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category.getCategory());
+            });
+
+            tflOther.setOnSelectListener(selectPosSet -> {
+                ppwCategory.dismiss();
+                int index = selectPosSet.iterator().next();
+                BookCategoryGroup.Category category = ((WhiteTagAdapter) tflOther.getAdapter()).getItem(index);
+                setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                currentPage = 0;
+                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category.getCategory());
+            });
+
             ppwCategory.setContentView(view);
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -192,6 +240,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     private void switchCategoryDlg() {
         if (ppwCategory == null || !ppwCategory.isShowing()) {
             showCategoryDlg();
+            presenter.getCategoryStatistics();
         } else {
             hideCategoryDlg();
         }
@@ -224,10 +273,28 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 ((CollectedBooksAdapter) rvBooks.getAdapter()).clearData();
             }
             ((CollectedBooksAdapter) rvBooks.getAdapter()).addItems(books);
-            int count = ((CollectedBooksAdapter) rvBooks.getAdapter()).getItemCount();
-            setTitle("全部（" + count + "）");
         }
         loading = false;
+    }
+
+    private BookCategoryGroup categoryGroup;
+
+    @Override
+    public void onCategoryStatistics(BookCategoryGroup categoryGroup) {
+        if (categoryGroup != null) {
+            this.categoryGroup = categoryGroup;
+            btnAll.setText("全部（" + categoryGroup.getTotal() + "）");
+            List<BookCategoryGroup.CategoryGroup> categoryGroups = categoryGroup.getCategoryGroups();
+            for (BookCategoryGroup.CategoryGroup cg : categoryGroups) {
+                if (cg.getCategoryType() == 1) {
+                    tflClc.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
+                } else if (cg.getCategoryType() == 2) {
+                    tflCustom.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
+                } else if (cg.getCategoryType() == 3) {
+                    tflOther.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
+                }
+            }
+        }
     }
 
     @Override

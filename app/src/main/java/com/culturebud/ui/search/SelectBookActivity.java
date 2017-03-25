@@ -15,6 +15,7 @@ import com.culturebud.adapter.BookScanResultAdapter;
 import com.culturebud.adapter.BooksSimpleAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Book;
+import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.presenter.CollectedBooksPresenter;
@@ -79,6 +80,11 @@ public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Pres
         tvOperaTips.setText(String.format(Locale.getDefault(),
                 getString(R.string.searched_books_tip),
                 rvBooks.getAdapter().getItemCount()));
+    }
+
+    @Override
+    public void onCategoryStatistics(BookCategoryGroup categoryGroup) {
+
     }
 
     @Override

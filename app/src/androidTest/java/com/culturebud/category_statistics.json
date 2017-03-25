@@ -1,0 +1,80 @@
+{
+  "relationType": 2,
+  "total": 26,
+  "categoryGroupList": [
+    {
+      "categoryStatisList": [
+        {
+          "category": "工业技术",
+          "statis": 12
+        },
+        {
+          "category": "其它",
+          "statis": 6
+        },
+        {
+          "category": "文学",
+          "statis": 3
+        },
+        {
+          "category": "艺术",
+          "statis": 2
+        },
+        {
+          "category": "科教文体",
+          "statis": 1
+        },
+        {
+          "category": "语言文字",
+          "statis": 1
+        },
+        {
+          "category": "经济",
+          "statis": 1
+        }
+      ],
+      "categoryType": 1,
+      "categoryTypeName": "中图法"
+    },
+    {
+      "categoryStatisList": [
+        {
+          "category": "未分类",
+          "statis": 26
+        }
+      ],
+      "categoryType": 2,
+      "categoryTypeName": "自定义"
+    },
+    {
+      "categoryStatisList": [
+        {
+          "category": "私密",
+          "statis": 0
+        },
+        {
+          "category": "在读",
+          "statis": 2
+        },
+        {
+          "category": "未读",
+          "statis": 17
+        },
+        {
+          "category": "已读",
+          "statis": 7
+        },
+        {
+          "category": "可借阅",
+          "statis": 0
+        },
+        {
+          "category": "可出售",
+          "statis": 0
+        }
+      ],
+      "categoryType": 3,
+      "categoryTypeName": "其它"
+    }
+  ]
+}

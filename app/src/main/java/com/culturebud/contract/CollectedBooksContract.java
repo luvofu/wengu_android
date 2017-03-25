@@ -1,6 +1,8 @@
 package com.culturebud.contract;
 
+import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -17,15 +19,21 @@ public interface CollectedBooksContract {
 
         public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page, int
                 categoryType, String category);
+
+        public abstract Observable<BookCategoryGroup> getCategoryStatistics(String token, long userId);
     }
 
     interface View extends BaseView {
         void onBooks(List<CollectedBook> books);
+
+        void onCategoryStatistics(BookCategoryGroup categoryGroup);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void getMyBooks(int page);
 
         public abstract void getMyBooks(int page, int categoryType, String category);
+
+        public abstract void getCategoryStatistics();
     }
 }

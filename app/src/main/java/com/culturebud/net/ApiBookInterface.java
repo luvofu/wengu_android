@@ -2,6 +2,7 @@ package com.culturebud.net;
 
 import com.culturebud.CommonConst;
 import com.culturebud.bean.ApiResultBean;
+import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.BookDetail;
 import com.culturebud.bean.UserBookInfo;
 import com.google.gson.JsonObject;
@@ -78,6 +79,7 @@ public interface ApiBookInterface {
 
     /**
      * userBookId
+     *
      * @param params
      * @return
      */
@@ -88,5 +90,9 @@ public interface ApiBookInterface {
     @POST(CommonConst.PATH_BOOK_TAGS)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> bookTags(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_USRE_BOOK_CATEGORY_STATISTICS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<BookCategoryGroup>> getCategoryStatistics(@FieldMap Map<String, Object> params);
 }
 
