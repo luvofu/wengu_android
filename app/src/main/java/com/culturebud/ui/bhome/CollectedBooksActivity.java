@@ -162,6 +162,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 bnvOperas.setVisibility(View.VISIBLE);
                 setOperasDrawable(null);
                 setOperasText("完成");
+                ((CollectedBooksAdapter)rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_CHECK);
                 break;
         }
     }
@@ -187,6 +188,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             setOperasDrawable(R.drawable.titlebar_add_selector);
             fabEditBooks.show();
             bnvOperas.setVisibility(View.GONE);
+            ((CollectedBooksAdapter)rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT);
         } else {
             showMoreOperas();
         }

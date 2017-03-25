@@ -1,14 +1,19 @@
 package com.culturebud.adapter;
 
+import android.support.annotation.IntDef;
+import android.support.annotation.IntegerRes;
+import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.culturebud.R;
 import com.culturebud.bean.CollectedBook;
+import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -20,9 +25,21 @@ import java.util.List;
 
 public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAdapter.CollectedBooksViewHolder> {
     private List<CollectedBook> data;
+    public static final int MODEL_EDIT = 0;
+    public static final int MODEL_CHECK = 1;
+    private int model = MODEL_EDIT;
+
+    @IntDef({MODEL_EDIT, MODEL_CHECK})
+    @interface ModelRes {
+    }
 
     public CollectedBooksAdapter() {
         data = new ArrayList<>();
+    }
+
+    public void setModel(@ModelRes int model) {
+        this.model = model;
+        notifyDataSetChanged();
     }
 
     public void clearData() {
@@ -31,6 +48,7 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
             notifyDataSetChanged();
         }
     }
+
     public void addItems(List<CollectedBook> books) {
         if (books == null || books.isEmpty()) {
             return;
@@ -59,6 +77,11 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         CollectedBook item = data.get(position);
         holder.position = position;
         holder.setCover(item.getCover());
+        if (model == MODEL_EDIT) {
+            holder.showEditModel();
+        } else {
+            holder.showCheckModel();
+        }
     }
 
     @Override
@@ -69,12 +92,14 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
     class CollectedBooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private ImageView ivEdit;
+        private CheckBox cbCheck;
         private int position;
 
         public CollectedBooksViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
-            ivEdit = (ImageView) itemView.findViewById(R.id.iv_edit);
+            sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_sheet_cover);
+            ivEdit = WidgetUtil.obtainViewById(itemView, R.id.iv_edit);
+            cbCheck = WidgetUtil.obtainViewById(itemView, R.id.cb_check);
 //            sdvCover.setOnClickListener(this);
             ivEdit.setOnClickListener(this);
             itemView.setOnClickListener(this);
@@ -85,6 +110,16 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
                 return;
             }
             sdvCover.setImageURI(url);
+        }
+
+        public void showEditModel() {
+            ivEdit.setVisibility(View.VISIBLE);
+            cbCheck.setVisibility(View.GONE);
+        }
+
+        public void showCheckModel() {
+            cbCheck.setVisibility(View.VISIBLE);
+            ivEdit.setVisibility(View.GONE);
         }
 
         @Override

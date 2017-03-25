@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center"
-    android:orientation="vertical">
+             xmlns:fresco="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:layout_gravity="center"
+             android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
             android:layout_marginRight="5dp"
             fresco:actualImageScaleType="fitXY"
             fresco:placeholderImage="@mipmap/img_placeholder"
-            fresco:placeholderImageScaleType="fitXY" />
+            fresco:placeholderImageScaleType="fitXY"/>
 
         <ImageView
             android:id="@+id/iv_edit"
@@ -28,7 +28,18 @@
             android:layout_gravity="bottom|right"
             android:layout_marginBottom="4dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/icon_book_info" />
+            android:src="@mipmap/icon_book_info"/>
+
+        <CheckBox
+            android:id="@+id/cb_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="4dp"
+            android:button="@null"
+            android:scaleType="centerInside"
+            android:background="@drawable/cb_user_book_selector"
+            android:visibility="gone"/>
     </FrameLayout>
 
 </FrameLayout>
