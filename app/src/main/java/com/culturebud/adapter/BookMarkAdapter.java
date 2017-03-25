@@ -42,6 +42,16 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
         }
     }
 
+    public void deleteItem(BookMark item) {
+        if (item != null) {
+            int index = data.indexOf(item);
+            boolean res = data.remove(item);
+            if (res) {
+                notifyItemRemoved(index);
+            }
+        }
+    }
+
     public void addItems(List<BookMark> items) {
         if (items != null && items.size() > 0) {
             int position = data.size() - 1;

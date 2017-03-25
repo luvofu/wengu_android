@@ -112,4 +112,37 @@ public class BookHomePresenter extends BookHomeContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void delBookMark(BookMark bookMark) {
+        if (!validateToken()) {
+            view.onToLogin();
+            return;
+        }
+        if (bookMark == null) {
+            //TODO
+            return;
+        }
+        model.delBookMark(BaseApp.getInstance().getUser().getToken(), bookMark.getBookmarkId())
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onDelBookMark(aBoolean, bookMark);
+            }
+        });
+    }
 }

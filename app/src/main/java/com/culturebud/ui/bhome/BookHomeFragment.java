@@ -205,6 +205,17 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         }
     }
 
+    @Override
+    public void onDelBookMark(boolean success, BookMark bookMark) {
+        if (success) {
+            if (bookMark != null) {
+                ((BookMarkAdapter)rvBookMarks.getAdapter()).deleteItem(bookMark);
+            } else {
+                presenter.getMyBookMarks();
+            }
+        }
+    }
+
     private SettingItemView sivBookName, sivPages;
     private StepperView svPage;
     private TextView tvDel;
@@ -238,6 +249,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                 if (ppwBookMark != null && ppwBookMark.isShowing()) {
                     ppwBookMark.dismiss();
                 }
+                presenter.delBookMark(currentBookMark);
             });
             sivBookName = WidgetUtil.obtainViewById(view, R.id.siv_book_name);
             sivPages = WidgetUtil.obtainViewById(view, R.id.siv_book_pages);

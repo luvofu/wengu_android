@@ -135,4 +135,37 @@ public class BookHomeModel extends BookHomeContract.Model {
                     });
         });
     }
+
+    @Override
+    public Observable<Boolean> delBookMark(String token, long bookmarkId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("bookmarkId", bookmarkId);
+            initRetrofit().create(ApiBookHomeInterface.class).delBookMark(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
+        });
+    }
 }

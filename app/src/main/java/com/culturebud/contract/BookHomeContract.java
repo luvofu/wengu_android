@@ -17,6 +17,8 @@ public interface BookHomeContract {
         public abstract Observable<Boolean> addBookMark(String token, long userBookId, int pages, int totalPage);
 
         public abstract Observable<Boolean> alterBookMark(String token, long bookmarkId, int pages, int totalPage);
+
+        public abstract Observable<Boolean> delBookMark(String token, long bookmarkId);
     }
 
     interface View extends BaseView {
@@ -25,6 +27,8 @@ public interface BookHomeContract {
         void onAddBookMark(boolean success);
 
         void onAlterBookMark(boolean success);
+
+        void onDelBookMark(boolean success, BookMark bookMark);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -33,6 +37,8 @@ public interface BookHomeContract {
         public abstract void addBookMark(long userBookId, int pages, int totalPage);
 
         public abstract void alterBookMark(long bookmarkId, int pages, int totalPage);
+
+        public abstract void delBookMark(BookMark bookMark);
 
     }
 }
