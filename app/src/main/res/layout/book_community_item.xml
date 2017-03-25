@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textColor="@color/front_more_font"
+            android:textColor="@color/font_more"
             android:textSize="12sp" />
     </LinearLayout>
 
@@ -43,7 +43,7 @@
         android:layout_margin="15dp"
         android:gravity="center"
         android:text="@string/book_community_comment_num"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="12sp" />
 
 </LinearLayout>

@@ -71,7 +71,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         sivMore = obtainViewById(R.id.siv_more);
 
         LayerDrawable ld = (LayerDrawable) rbRating.getProgressDrawable();
-        ld.getDrawable(0).setColorFilter(getResources().getColor(R.color.light_font_black), PorterDuff.Mode.SRC_ATOP);
+        ld.getDrawable(0).setColorFilter(getResources().getColor(R.color.font_black_light), PorterDuff.Mode.SRC_ATOP);
         ld.getDrawable(1).setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
         ld.getDrawable(2).setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
 

@@ -63,7 +63,7 @@ public class FormItemView extends LinearLayout {
         tvLabel = new TextView(getContext());
         etContent = new EditText(getContext());
 
-        labelFontColor = getResources().getColor(R.color.light_font_black);
+        labelFontColor = getResources().getColor(R.color.font_black_light);
         labelFontSize = getResources().getDimensionPixelSize(R.dimen.content_font_default);
         contentFontColor = getResources().getColor(R.color.title_font_default);
         contentFontSize = getResources().getDimensionPixelSize(R.dimen.content_font_default);

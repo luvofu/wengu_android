@@ -27,7 +27,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:gravity="center"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp"
         tools:text="0" />
 
@@ -53,7 +53,7 @@
         android:layout_alignRight="@id/tv_book_name"
         android:layout_below="@id/tv_book_name"
         android:gravity="center_vertical"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp"
         tools:text="今天 21:52" />
 </RelativeLayout>

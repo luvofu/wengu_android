@@ -64,6 +64,10 @@ public interface ApiBookInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> getUserCollectedBooks(@FieldMap Map<String, Object> params);
 
+    @POST(CommonConst.PATH_USER_BOOKS_V104)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> getUserCollectedBooksNew(@FieldMap Map<String, Object> params);
+
     @POST(CommonConst.PATH_COLLECT_ADD)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> collcetAdd(@FieldMap Map<String, Object> params);

@@ -36,7 +36,7 @@
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:text="@string/more"
-            android:textColor="@color/front_more_font"
+            android:textColor="@color/font_more"
             android:textSize="@dimen/front_item_more_font" />
     </LinearLayout>
 

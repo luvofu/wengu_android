@@ -291,7 +291,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             tvRecommendReason = WidgetUtil.obtainViewById(itemView, R.id.tv_recommend_reason);
 
             LayerDrawable ld = (LayerDrawable) rbRating.getProgressDrawable();
-            ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black), PorterDuff
+            ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.font_black_light), PorterDuff
                     .Mode.SRC_ATOP);
             ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode
                     .SRC_ATOP);

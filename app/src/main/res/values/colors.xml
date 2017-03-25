@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">@color/light_font_black</color>
+    <color name="colorAccent">@color/font_black_light</color>
     <color name="red">#FF0000</color>
     <color name="orange">#FF8200</color>
     <color name="yellow">#ffC200</color>
@@ -23,9 +23,10 @@
     <color name="tabar_font_checked">#1672BD</color>
 
     <color name="front_hot_font">#1592B7</color>
-    <color name="front_more_font">#AAAAAA</color>
-
-    <color name="light_font_black">#888888</color>
+    <color name="font_more">#AAAAAA</color>
+    <color name="font_more_light">#DDDDDD</color>
+    <color name="font_black_light">#888888</color>
+    <color name="font_black_dark">#777777</color>
 
     <color name="me_login_font">#1592B7</color>
     <color name="login_btn_pressed">#1672BD</color>

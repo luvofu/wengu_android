@@ -16,7 +16,7 @@
         android:maxLength="180"
         android:padding="5dp"
         android:textColor="@color/title_font_default"
-        android:textColorHint="@color/front_more_font"
+        android:textColorHint="@color/font_more"
         android:textSize="14sp" />
 
     <FrameLayout
@@ -76,7 +76,7 @@
             android:gravity="center"
             android:padding="10dp"
             android:text="@string/please_select_book_community"
-            android:textColor="@color/light_font_black"
+            android:textColor="@color/font_black_light"
             android:textSize="14sp" />
     </FrameLayout>
 
@@ -86,7 +86,7 @@
         android:layout_below="@id/fl_center"
         android:padding="15dp"
         android:text="@string/book_community_introduction"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="10sp" />
 
 

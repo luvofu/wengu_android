@@ -27,7 +27,7 @@
             android:minLines="1"
             android:padding="5dp"
             android:textColor="@color/title_font_default"
-            android:textColorHint="@color/front_more_font"
+            android:textColorHint="@color/font_more"
             android:textSize="14sp" />
     </LinearLayout>
 </FrameLayout>

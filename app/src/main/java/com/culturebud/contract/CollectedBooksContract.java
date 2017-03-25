@@ -14,6 +14,9 @@ public interface CollectedBooksContract {
 
     abstract class Model extends BaseModel {
         public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page);
+
+        public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page, int
+                categoryType, String category);
     }
 
     interface View extends BaseView {
@@ -22,5 +25,7 @@ public interface CollectedBooksContract {
 
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void getMyBooks(int page);
+
+        public abstract void getMyBooks(int page, int categoryType, String category);
     }
 }

@@ -38,7 +38,7 @@
         android:isIndicator="true"
         android:max="10"
         android:numStars="5"
-        android:progressBackgroundTint="@color/light_font_black"
+        android:progressBackgroundTint="@color/font_black_light"
         android:progressTint="@color/orange"
         android:secondaryProgressTint="@color/yellow"
         android:stepSize="0.1" />

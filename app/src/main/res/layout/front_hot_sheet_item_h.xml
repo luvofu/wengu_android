@@ -54,7 +54,7 @@
                 android:gravity="center_vertical"
                 android:lines="1"
                 android:padding="2dp"
-                android:textColor="@color/front_more_font"
+                android:textColor="@color/font_more"
                 android:textSize="@dimen/front_item_more_font"
                 tools:text="不止步的风"/>
 
@@ -66,7 +66,7 @@
                 android:drawablePadding="4dp"
                 android:gravity="center"
                 android:text="8"
-                android:textColor="@color/front_more_font"
+                android:textColor="@color/font_more"
                 android:textSize="@dimen/front_item_more_font"/>
 
         </LinearLayout>
@@ -80,7 +80,7 @@
             android:layout_marginTop="5dp"
             android:ellipsize="end"
             android:maxLines="2"
-            android:textColor="@color/front_more_font"
+            android:textColor="@color/font_more"
             android:textSize="@dimen/titlebar_font_size"
             tools:text="这是一个男人世界的描述"/>
     </RelativeLayout>

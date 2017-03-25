@@ -111,6 +111,8 @@ public final class CommonConst {
 
     public static final String PATH_USER_BOOKS = "api/userBook/personal";
 
+    public static final String PATH_USER_BOOKS_V104 = "api/userBook/personal_v104";
+
     public static final String PATH_USER_BOOK_DETAIL = "api/userBook/detail";
 
     public static final String PATH_BOOK_TAGS = "api/common/bookTag";
@@ -233,6 +235,20 @@ public final class CommonConst {
     public final class DynamicReplyType {
         public static final int TYPE_DYNAMIC = 0;
         public static final int TYPE_REPLY = 1;
+    }
+
+    public final class UserBookCategoryType {
+//        categoryType	是	int	分类类型： All(0, “全部”),Normal(1, “中图法”),Custom(2, “自定义”),Other(3, “其它”);
+//        category	是	string	类别（例如：文学 哲学 未读 私密）
+        public static final int TYPE_ALL = 0;
+        public static final int TYPE_NORMAL = 1;
+        public static final int TYPE_CUSTOM = 2;
+        public static final int TYPE_OTHER = 3;
+
+        public static final String CATEGORY_LITERATURE = "文学";
+        public static final String CATEGORY_PHILOSOPHY = "哲学";
+        public static final String CATEGORY_UNREAD = "未读";
+        public static final String CATEGORY_PRIVACY = "私密";
     }
 
     public final class RequestCode {

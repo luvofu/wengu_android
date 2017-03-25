@@ -40,6 +40,7 @@
         android:background="@drawable/setting_item_only_last_bg_selector"
         app:has_arrow="false"
         app:has_icon="false"
+        app:info_color="@color/font_black_dark"
         app:name="书名"/>
 
     <com.culturebud.widget.SettingItemView
@@ -47,9 +48,11 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/setting_icon_default_middle"
         android:background="@drawable/setting_item_only_last_bg_selector"
+        app:can_edit_info="true"
         app:has_arrow="false"
         app:has_icon="false"
-        app:name="总页码"/>
+        app:hint_info="@string/total_pages"
+        app:name="@string/total_pages"/>
 
     <LinearLayout
         android:layout_width="match_parent"

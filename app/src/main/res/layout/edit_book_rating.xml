@@ -11,7 +11,7 @@
         android:gravity="center"
         android:padding="8dp"
         android:text="@string/rating"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="@dimen/content_font_default"/>
 
     <RatingBar
@@ -23,7 +23,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
         android:max="5"
-        android:progressBackgroundTint="@color/light_font_black"
+        android:progressBackgroundTint="@color/font_black_light"
         android:progressTint="@color/orange"
         android:rating="3"
         android:secondaryProgressTint="@color/yellow"
@@ -41,7 +41,7 @@
         android:minLines="8"
         android:padding="4dp"
         android:textColor="@color/title_font_default"
-        android:textColorHint="@color/front_more_font"
+        android:textColorHint="@color/font_more"
         android:textSize="@dimen/content_font_default"/>
 
 </LinearLayout>

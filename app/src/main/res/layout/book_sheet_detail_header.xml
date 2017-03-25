@@ -123,7 +123,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="20dp"
         android:paddingTop="5dp"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp"
         tools:text="共21本" />
 </LinearLayout>

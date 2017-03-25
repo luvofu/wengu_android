@@ -211,6 +211,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
     @Override
     public void onClick(View v) {
+        super.onClick(v);
         switch (v.getId()) {
             case R.id.iv_publish: {
                 Intent intent = new Intent(this, PublishDynamicActivity.class);

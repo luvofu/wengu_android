@@ -10,7 +10,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="书名"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -26,7 +26,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="作者"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -42,7 +42,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="译者"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -58,7 +58,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="ISBN"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -74,7 +74,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="定价"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -90,7 +90,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="出版社"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -106,7 +106,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="出版日期"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -122,7 +122,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="装帧"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView
@@ -138,7 +138,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="8dp"
         android:text="页数"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="14sp" />
 
     <TextView

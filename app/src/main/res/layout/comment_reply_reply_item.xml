@@ -47,7 +47,7 @@
         android:layout_marginBottom="5dp"
         android:layout_marginRight="5dp"
         android:gravity="center_vertical"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="12sp"
         tools:text="2016-07-23 23:30" />
 

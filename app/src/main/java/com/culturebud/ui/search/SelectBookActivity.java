@@ -4,10 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.BookScanResultAdapter;
 import com.culturebud.adapter.BooksSimpleAdapter;
@@ -52,7 +54,14 @@ public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Pres
         BooksSimpleAdapter adapter = new BooksSimpleAdapter();
         rvBooks.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
-        presenter.getMyBooks(0);
+        Intent intent = getIntent();
+        int categoryType = intent.getIntExtra("category_type", CommonConst.UserBookCategoryType.TYPE_ALL);
+        String category = intent.getStringExtra("category");
+        if (TextUtils.isEmpty(category)) {
+            presenter.getMyBooks(0);
+        } else {
+            presenter.getMyBooks(0, categoryType, category);
+        }
     }
 
     @Override
@@ -79,6 +88,7 @@ public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Pres
         intent.putExtra("user_book_id", book.getUserBookId());
         intent.putExtra("book_title", book.getTitle());
         intent.putExtra("book_cover", book.getCover());
+        intent.putExtra("book_total_page", book.getTotalPage());
         setResult(RESULT_OK, intent);
         finish();
     }

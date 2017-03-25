@@ -21,7 +21,7 @@
         android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/title_font_default"
-        android:textColorHint="@color/front_more_font"
+        android:textColorHint="@color/font_more"
         android:textSize="14sp" />
 
     <FrameLayout
@@ -45,7 +45,7 @@
             android:maxLines="1"
             android:padding="15dp"
             android:textColor="@color/title_font_default"
-            android:textColorHint="@color/front_more_font"
+            android:textColorHint="@color/font_more"
             android:textSize="14sp" />
 
         <TextView
@@ -78,7 +78,7 @@
         android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/title_font_default"
-        android:textColorHint="@color/front_more_font"
+        android:textColorHint="@color/font_more"
         android:textSize="14sp" />
 
     <EditText
@@ -98,7 +98,7 @@
         android:maxLines="1"
         android:padding="15dp"
         android:textColor="@color/title_font_default"
-        android:textColorHint="@color/front_more_font"
+        android:textColorHint="@color/font_more"
         android:textSize="14sp" />
 
     <Button
@@ -125,7 +125,7 @@
         android:clickable="true"
         android:onClick="onClick"
         android:text="已有账号？ 立即登录"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="14sp" />
 
     <TextView
@@ -139,7 +139,7 @@
         android:clickable="true"
         android:onClick="onClick"
         android:text="注册即表示你同意《文芽用户协议》"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="12sp" />
 
 </LinearLayout>

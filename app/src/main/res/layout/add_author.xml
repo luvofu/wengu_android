@@ -15,7 +15,7 @@
         android:gravity="center_vertical"
         android:paddingLeft="15dp"
         android:text="@string/author"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="14sp" />
 
     <EditText
@@ -27,7 +27,7 @@
         android:background="@color/title_font_white"
         android:hint="可添加多个作者（必填）"
         android:textColor="@color/title_font_default"
-        android:textColorHint="@color/front_more_font"
+        android:textColorHint="@color/font_more"
         android:textSize="14sp" />
 
     <ImageView

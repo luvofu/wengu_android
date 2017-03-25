@@ -23,6 +23,15 @@ public class CollectedBook {
     @SerializedName("subTitle")
     private String subTitle;//副标题
 
+    @SerializedName("totalPage")
+    private int totalPage;//总页数
+
+    @SerializedName("lease")
+    private boolean lease;//可租借
+
+    @SerializedName("sale")
+    private boolean sale;//可出售
+
     public long getUserBookId() {
         return userBookId;
     }
@@ -63,6 +72,30 @@ public class CollectedBook {
         this.subTitle = subTitle;
     }
 
+    public int getTotalPage() {
+        return totalPage;
+    }
+
+    public void setTotalPage(int totalPage) {
+        this.totalPage = totalPage;
+    }
+
+    public boolean isLease() {
+        return lease;
+    }
+
+    public void setLease(boolean lease) {
+        this.lease = lease;
+    }
+
+    public boolean isSale() {
+        return sale;
+    }
+
+    public void setSale(boolean sale) {
+        this.sale = sale;
+    }
+
     @Override
     public String toString() {
         return "CollectedBook{" +
@@ -71,6 +104,9 @@ public class CollectedBook {
                 ", cover='" + cover + '\'' +
                 ", title='" + title + '\'' +
                 ", subTitle='" + subTitle + '\'' +
+                ", totalPage=" + totalPage +
+                ", lease=" + lease +
+                ", sale=" + sale +
                 '}';
     }
 }

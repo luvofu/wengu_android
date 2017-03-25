@@ -34,7 +34,7 @@
         android:layout_below="@id/tv_sheet_name"
         android:gravity="center_vertical"
         android:padding="5dp"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="12sp" />
 
 </RelativeLayout>

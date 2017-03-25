@@ -18,6 +18,8 @@
         <attr name="info_size" format="reference|dimension" />
         <attr name="info_color" format="reference|color" />
         <attr name="has_arrow" format="boolean" />
+        <attr name="can_edit_info" format="boolean"/>
+        <attr name="hint_info" format="reference|string"/>
         <attr name="background" format="reference" />
     </declare-styleable>
 

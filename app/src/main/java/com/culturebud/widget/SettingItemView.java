@@ -6,25 +6,26 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
-import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.AppCompatTextView;
+import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.culturebud.R;
+import com.culturebud.util.WidgetUtil;
 
 import java.lang.reflect.Method;
 
@@ -37,7 +38,7 @@ public class SettingItemView extends LinearLayout {
     private ImageView ivIcon;
     private TextView tvName;
     private TextView tvDesc;
-    private TextView tvArrow;
+    private EditText etArrow;
 
     public SettingItemView(Context context) {
         super(context);
@@ -67,10 +68,10 @@ public class SettingItemView extends LinearLayout {
         int pr = getResources().getDimensionPixelSize(R.dimen.setting_item_padding_right);
         setPadding(pl, getPaddingTop(), pr, getPaddingBottom());
         View view = View.inflate(getContext(), R.layout.setting_item_view, this);
-        ivIcon = (ImageView) view.findViewById(R.id.iv_icon);
-        tvName = (TextView) view.findViewById(R.id.tv_name);
-        tvDesc = (TextView) view.findViewById(R.id.tv_desc);
-        tvArrow = (TextView) view.findViewById(R.id.tv_arrow);
+        ivIcon = WidgetUtil.obtainViewById(view, R.id.iv_icon);
+        tvName = WidgetUtil.obtainViewById(view, R.id.tv_name);
+        tvDesc = WidgetUtil.obtainViewById(view, R.id.tv_desc);
+        etArrow = WidgetUtil.obtainViewById(view, R.id.et_arrow);
 
         if (attrs != null) {
             TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.SettingItemView);
@@ -128,11 +129,11 @@ public class SettingItemView extends LinearLayout {
                 Drawable arrow = arr.getDrawable(R.styleable.SettingItemView_arrow);
                 if (arrow != null) {
                     arrow.setBounds(0, 0, arrow.getIntrinsicWidth(), arrow.getIntrinsicHeight());
-                    tvArrow.setCompoundDrawables(null, null, arrow, null);
+                    etArrow.setCompoundDrawables(null, null, arrow, null);
                 }
             } else {
-                Drawable[] drawables = tvArrow.getCompoundDrawables();
-                tvArrow.setCompoundDrawables(drawables[0], drawables[1], null, drawables[3]);
+                Drawable[] drawables = etArrow.getCompoundDrawables();
+                etArrow.setCompoundDrawables(drawables[0], drawables[1], null, drawables[3]);
             }
 
             String name = arr.getString(R.styleable.SettingItemView_name);
@@ -153,16 +154,22 @@ public class SettingItemView extends LinearLayout {
                     getResources().getDimensionPixelSize(R.dimen.setting_item_name_font));
             setRawTextSize(tvName, nameSize);
 
+            boolean canEditInfo = arr.getBoolean(R.styleable.SettingItemView_can_edit_info, false);
+            etArrow.setEnabled(canEditInfo);
+            String hintInfo = arr.getString(R.styleable.SettingItemView_hint_info);
+            if (hintInfo != null) {
+                etArrow.setHint(hintInfo);
+            }
             String info = arr.getString(R.styleable.SettingItemView_info);
             if (info != null) {
-                tvArrow.setText(info);
+                etArrow.setText(info);
             }
             int infoColor = arr.getColor(R.styleable.SettingItemView_info_color,
                     getResources().getColor(R.color.gray_bg_border));
-            tvArrow.setTextColor(infoColor);
+            etArrow.setTextColor(infoColor);
             int infoSize = arr.getDimensionPixelSize(R.styleable.SettingItemView_info_size,
                     getResources().getDimensionPixelSize(R.dimen.setting_item_name_font));
-            setRawTextSize(tvArrow, infoSize);
+            setRawTextSize(etArrow, infoSize);
 
             boolean needShowDesc = arr.getBoolean(R.styleable.SettingItemView_show_desc, false);
             if (needShowDesc) {
@@ -224,42 +231,50 @@ public class SettingItemView extends LinearLayout {
     public void setArrow(@DrawableRes int resId) {
         Drawable drawable = getResources().getDrawable(resId);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        tvArrow.setCompoundDrawables(null, null, drawable, null);
+        etArrow.setCompoundDrawables(null, null, drawable, null);
     }
 
     public void setArrow(Drawable arrow) {
         arrow.setBounds(0, 0, arrow.getIntrinsicWidth(), arrow.getIntrinsicHeight());
-        tvArrow.setCompoundDrawables(null, null, arrow, null);
+        etArrow.setCompoundDrawables(null, null, arrow, null);
     }
 
     public void setArrow(Bitmap arrow) {
         Drawable drawable = new BitmapDrawable(arrow);
         drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        tvArrow.setCompoundDrawables(null, null, drawable, null);
+        etArrow.setCompoundDrawables(null, null, drawable, null);
+    }
+
+    public void setCanEditInfo(boolean canEditInfo) {
+        etArrow.setEnabled(canEditInfo);
+    }
+
+    public void setInfoInputType(int inputType) {
+        etArrow.setInputType(inputType);
     }
 
     public void setRightInfo(CharSequence info) {
-        tvArrow.setText(info);
+        etArrow.setText(info);
     }
 
     public void setRightInfo(@StringRes int resId) {
-        tvArrow.setText(resId);
+        etArrow.setText(resId);
     }
 
     public void setInfoColor(@ColorInt int color) {
-        tvArrow.setTextColor(color);
+        etArrow.setTextColor(color);
     }
 
     public void setInfoSize(@DimenRes int resId) {
-        setRawTextSize(tvArrow, getResources().getDimensionPixelSize(resId));
+        setRawTextSize(etArrow, getResources().getDimensionPixelSize(resId));
     }
 
     public void setInfoSize(float size) {
-        tvArrow.setTextSize(size);
+        etArrow.setTextSize(size);
     }
 
     public String getInfo() {
-        return tvArrow.getText().toString();
+        return etArrow.getText().toString();
     }
 
     public void setSettingName(CharSequence name) {
@@ -328,10 +343,10 @@ public class SettingItemView extends LinearLayout {
         if (hasArrow) {
             Drawable drawable = getResources().getDrawable(R.mipmap.right_arrow);
             drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-            tvArrow.setCompoundDrawables(null, null, drawable, null);
+            etArrow.setCompoundDrawables(null, null, drawable, null);
         } else {
-            Drawable[] drawables = tvArrow.getCompoundDrawables();
-            tvArrow.setCompoundDrawables(drawables[0], drawables[1], null, drawables[3]);
+            Drawable[] drawables = etArrow.getCompoundDrawables();
+            etArrow.setCompoundDrawables(drawables[0], drawables[1], null, drawables[3]);
         }
     }
 

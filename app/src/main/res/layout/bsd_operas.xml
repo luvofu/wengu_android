@@ -16,7 +16,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:paddingTop="8dp"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="14sp"
         tools:text="张旭古诗四帖" />
 

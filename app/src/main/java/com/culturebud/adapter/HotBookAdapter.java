@@ -82,7 +82,7 @@ public class HotBookAdapter extends RecyclerView.Adapter<HotBookAdapter.HotBookV
             rbRating.setMax(10);
             rbRating.setStepSize(0.1F);
             LayerDrawable ld = (LayerDrawable) rbRating.getProgressDrawable();
-            ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black), PorterDuff.Mode.SRC_ATOP);
+            ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.font_black_light), PorterDuff.Mode.SRC_ATOP);
             ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
             ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
             itemView.setOnClickListener(this);

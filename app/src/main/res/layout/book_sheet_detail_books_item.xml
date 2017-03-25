@@ -47,7 +47,7 @@
         android:layout_below="@id/tv_book_name"
         android:layout_marginTop="4dp"
         android:gravity="center_vertical"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="12sp"
         tools:text="那个人写的" />
 
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:max="5"
-                android:progressBackgroundTint="@color/light_font_black"
+                android:progressBackgroundTint="@color/font_black_light"
                 android:progressTint="@color/orange"
                 android:rating="3"
                 android:secondaryProgressTint="@color/yellow"
@@ -96,7 +96,7 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:text="暂无评分"
-            android:textColor="@color/front_more_font"
+            android:textColor="@color/font_more"
             android:textSize="12sp" />
     </FrameLayout>
 
@@ -112,7 +112,7 @@
         android:gravity="center_vertical"
         android:lineSpacingMultiplier="1.2"
         android:padding="16dp"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="12sp"
         android:visibility="gone"
         tools:text="推荐语：快睡觉去" />

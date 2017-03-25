@@ -46,7 +46,7 @@
                 android:layout_below="@id/tv_rating"
                 android:layout_marginTop="8dp"
                 android:max="5"
-                android:progressBackgroundTint="@color/light_font_black"
+                android:progressBackgroundTint="@color/font_black_light"
                 android:progressTint="@color/orange"
                 android:rating="3"
                 android:secondaryProgressTint="@color/yellow"
@@ -69,7 +69,7 @@
                 android:layout_below="@id/tv_book_comment"
                 android:layout_marginTop="8dp"
                 android:layout_toLeftOf="@id/iv_arrow"
-                android:textColor="@color/front_more_font"
+                android:textColor="@color/font_more"
                 android:textSize="@dimen/content_font_default"/>
         </RelativeLayout>
 

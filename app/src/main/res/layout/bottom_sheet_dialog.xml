@@ -18,14 +18,14 @@
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:padding="15dp"
-            android:textColor="@color/light_font_black"
+            android:textColor="@color/font_black_light"
             android:textSize="14sp"
             tools:text="锁狼帝国看蓝色通过机车厂" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/light_font_black" />
+            android:background="@color/font_black_light" />
 
         <TextView
             android:id="@+id/tv_del"

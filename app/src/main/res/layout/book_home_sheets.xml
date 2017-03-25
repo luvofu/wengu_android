@@ -25,7 +25,7 @@
             android:padding="15dp"
             android:tag="1"
             android:text="@string/sheets_my_created"
-            android:textColor="@color/front_more_font"
+            android:textColor="@color/font_more"
             android:textSize="14sp" />
 
         <android.support.v7.widget.RecyclerView
@@ -45,7 +45,7 @@
             android:padding="15dp"
             android:tag="1"
             android:text="@string/sheets_my_favorite"
-            android:textColor="@color/front_more_font"
+            android:textColor="@color/font_more"
             android:textSize="14sp" />
 
         <android.support.v7.widget.RecyclerView

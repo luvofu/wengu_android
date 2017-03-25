@@ -19,7 +19,7 @@
             android:maxLines="5"
             android:padding="20dp"
             android:textColor="@color/title_font_default"
-            android:textColorHint="@color/front_more_font"
+            android:textColorHint="@color/font_more"
             android:textSize="14sp" />
 
         <FrameLayout
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="25dp"
             android:text="章节"
-            android:textColor="@color/light_font_black"
+            android:textColor="@color/font_black_light"
             android:textSize="14sp" />
 
         <EditText
@@ -75,8 +75,8 @@
             android:ellipsize="end"
             android:hint="例：第二章 初出茅庐"
             android:maxLines="1"
-            android:textColor="@color/light_font_black"
-            android:textColorHint="@color/front_more_font"
+            android:textColor="@color/font_black_light"
+            android:textColorHint="@color/font_more"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="25dp"
             android:text="页码"
-            android:textColor="@color/light_font_black"
+            android:textColor="@color/font_black_light"
             android:textSize="14sp" />
 
         <EditText
@@ -104,8 +104,8 @@
             android:hint="例：23"
             android:inputType="number"
             android:maxLines="1"
-            android:textColor="@color/light_font_black"
-            android:textColorHint="@color/front_more_font"
+            android:textColor="@color/font_black_light"
+            android:textColorHint="@color/font_more"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="25dp"
             android:text="其他"
-            android:textColor="@color/light_font_black"
+            android:textColor="@color/font_black_light"
             android:textSize="14sp" />
 
         <EditText
@@ -132,8 +132,8 @@
             android:ellipsize="end"
             android:hint="例：人不抱期望是很傻的"
             android:maxLines="1"
-            android:textColor="@color/light_font_black"
-            android:textColorHint="@color/front_more_font"
+            android:textColor="@color/font_black_light"
+            android:textColorHint="@color/font_more"
             android:textSize="14sp" />
     </LinearLayout>
 </LinearLayout>

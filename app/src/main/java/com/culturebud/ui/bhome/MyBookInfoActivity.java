@@ -27,7 +27,6 @@ import com.culturebud.widget.TagFlowLayout;
 import java.lang.reflect.Field;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
@@ -67,7 +66,7 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
 
         rbRating = obtainViewById(R.id.rb_rating);
         LayerDrawable ld = (LayerDrawable) rbRating.getProgressDrawable();
-        ld.getDrawable(0).setColorFilter(getResources().getColor(R.color.light_font_black), PorterDuff.Mode.SRC_ATOP);
+        ld.getDrawable(0).setColorFilter(getResources().getColor(R.color.font_black_light), PorterDuff.Mode.SRC_ATOP);
         ld.getDrawable(1).setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
         ld.getDrawable(2).setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
 

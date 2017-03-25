@@ -44,16 +44,20 @@
             tools:text="请看详细操作"/>
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/tv_arrow"
+    <EditText
+        android:id="@+id/et_arrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
+        android:background="@android:color/white"
         android:drawablePadding="10dp"
         android:drawableRight="@mipmap/right_arrow"
+        android:enabled="false"
         android:gravity="center"
+        android:inputType="text"
         android:scaleType="centerInside"
-        android:textColor="@color/gray_bg_border"
+        android:textColor="@color/font_more"
+        android:textColorHint="@color/font_more_light"
         android:textSize="14sp"
         tools:text="未填写"/>
 

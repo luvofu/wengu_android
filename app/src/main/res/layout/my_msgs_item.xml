@@ -55,7 +55,7 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="2"
-        android:textColor="@color/front_more_font"
+        android:textColor="@color/font_more"
         android:textSize="@dimen/front_item_name_font"
         tools:text="请求添加你到书桌：《说幽默话做幽默人大全》读书莱克斯顿该考试了" />
 

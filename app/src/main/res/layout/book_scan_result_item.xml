@@ -22,7 +22,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="12sp"
         tools:text="已存在" />
 
@@ -47,7 +47,7 @@
         android:layout_below="@id/tv_book_name"
         android:layout_marginTop="10dp"
         android:padding="5dp"
-        android:textColor="@color/light_font_black"
+        android:textColor="@color/font_black_light"
         android:textSize="12sp"
         tools:text="George Fairbanks 著 / 张逸 译 / 华中科技大学出版社" />
 

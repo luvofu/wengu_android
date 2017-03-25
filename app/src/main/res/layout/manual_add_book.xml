@@ -29,7 +29,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/book_cover"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <com.facebook.drawee.view.SimpleDraweeView
@@ -61,7 +61,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/book_name"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <EditText
@@ -72,7 +72,7 @@
                 android:background="@color/title_font_white"
                 android:hint="例：追风筝的人（必填）"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -88,7 +88,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/book_name_orign"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <EditText
@@ -99,7 +99,7 @@
                 android:background="@color/title_font_white"
                 android:hint="例：The Kite Runner"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -115,7 +115,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/subtitle"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <EditText
@@ -125,7 +125,7 @@
                 android:layout_marginLeft="15dp"
                 android:background="@color/title_font_white"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -142,7 +142,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/isbn"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <EditText
@@ -153,7 +153,7 @@
                 android:background="@color/title_font_white"
                 android:hint="例： 987208061644"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
         </LinearLayout>
 
@@ -178,7 +178,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/price"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <EditText
@@ -190,7 +190,7 @@
                 android:background="@color/title_font_white"
                 android:hint="例： 29.00元"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -207,7 +207,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/publisher"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <EditText
@@ -219,7 +219,7 @@
                 android:background="@color/title_font_white"
                 android:hint="例： 上海人民出版社"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -234,7 +234,7 @@
             app:info="2015.12"
             app:info_color="@color/title_font_default"
             app:name="  出版日期"
-            app:name_color="@color/light_font_black" />
+            app:name_color="@color/font_black_light" />
 
 
         <com.culturebud.widget.SettingItemView
@@ -246,7 +246,7 @@
             app:info="精装"
             app:info_color="@color/title_font_default"
             app:name="  装帧"
-            app:name_color="@color/light_font_black" />
+            app:name_color="@color/font_black_light" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -261,7 +261,7 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="15dp"
                 android:text="@string/pages"
-                android:textColor="@color/light_font_black"
+                android:textColor="@color/font_black_light"
                 android:textSize="14sp" />
 
             <EditText
@@ -273,7 +273,7 @@
                 android:background="@color/title_font_white"
                 android:hint="例： 236"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
 
         </LinearLayout>
@@ -294,7 +294,7 @@
                 android:gravity="top|left"
                 android:hint="内容简介"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
 
         </android.support.design.widget.TextInputLayout>
@@ -315,7 +315,7 @@
                 android:gravity="top|left"
                 android:hint="作者简介"
                 android:textColor="@color/title_font_default"
-                android:textColorHint="@color/front_more_font"
+                android:textColorHint="@color/font_more"
                 android:textSize="14sp" />
 
         </android.support.design.widget.TextInputLayout>
