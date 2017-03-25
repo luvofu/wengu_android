@@ -192,8 +192,12 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     }
 
     public void setOperasDrawable(Drawable drawable) {
-        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-        tvOperas.setCompoundDrawables(null, null, drawable, null);
+        if (drawable == null) {
+            tvOperas.setCompoundDrawables(null, null, null, null);
+        } else {
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            tvOperas.setCompoundDrawables(null, null, drawable, null);
+        }
     }
 
     public void setBackGroundColor(int color) {

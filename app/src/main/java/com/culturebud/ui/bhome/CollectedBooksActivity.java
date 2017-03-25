@@ -8,6 +8,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -159,6 +160,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             case R.id.fab_edit_books:
                 fabEditBooks.hide();
                 bnvOperas.setVisibility(View.VISIBLE);
+                setOperasDrawable(null);
+                setOperasText("完成");
                 break;
         }
     }
@@ -178,7 +181,15 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     @Override
     protected void onOptions(View view) {
         super.onOptions(view);
-        showMoreOperas();
+        TextView tv = (TextView) view;
+        if ("完成".equals(tv.getText())) {
+            setOperasText(null);
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+            fabEditBooks.show();
+            bnvOperas.setVisibility(View.GONE);
+        } else {
+            showMoreOperas();
+        }
     }
 
     private Button btnAll;
