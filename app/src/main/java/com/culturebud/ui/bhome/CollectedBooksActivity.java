@@ -208,6 +208,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 int index = selectPosSet.iterator().next();
                 BookCategoryGroup.Category category = ((WhiteTagAdapter) tflClc.getAdapter()).getItem(index);
                 setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
                 presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category.getCategory());
             });
@@ -217,6 +218,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 int index = selectPosSet.iterator().next();
                 BookCategoryGroup.Category category = ((WhiteTagAdapter) tflCustom.getAdapter()).getItem(index);
                 setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
                 presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category.getCategory());
             });
@@ -226,6 +228,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 int index = selectPosSet.iterator().next();
                 BookCategoryGroup.Category category = ((WhiteTagAdapter) tflOther.getAdapter()).getItem(index);
                 setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
                 presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category.getCategory());
             });
