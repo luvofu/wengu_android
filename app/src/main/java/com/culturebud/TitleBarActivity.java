@@ -196,6 +196,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     }
 
     private void initListener() {
+        etTitle.setOnClickListener(this);
         tvBack.setOnClickListener(this);
         tvOperas.setOnClickListener(this);
     }
@@ -207,6 +208,14 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     @Override
     public void setTitle(@StringRes int titleId) {
         etTitle.setText(titleId);
+    }
+
+    public void setTitleRightIcon(@DrawableRes int resId) {
+        Drawable[] drawables = etTitle.getCompoundDrawables();
+        Drawable right = getResources().getDrawable(resId);
+        right.setBounds(0, 0, right.getIntrinsicWidth(), right.getIntrinsicHeight());
+        drawables[2] = right;
+        etTitle.setCompoundDrawables(drawables[0], drawables[1], drawables[2], drawables[3]);
     }
 
     @Override
@@ -237,6 +246,9 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.et_title:
+                onTitleOptions(v);
+                break;
             case R.id.tv_back:
                 onBack();
                 break;
@@ -248,6 +260,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     }
 
     protected void onOptions(View view) {
+
+    }
+
+    protected void onTitleOptions(View view) {
 
     }
 }

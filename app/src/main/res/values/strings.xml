@@ -9,7 +9,7 @@
     <string name="related_me">与我相关</string>
     <string name="book_name">书名</string>
     <string name="page_number">页码</string>
-    <string name="collect_books">藏书</string>
+    <string name="collect_books">书架</string>
     <string name="notebooks">笔记</string>
     <string name="book_sheet">书单</string>
     <string name="book_shelf">书架</string>
@@ -108,7 +108,6 @@
     <string name="book_home">书房</string>
     <string name="scan_result">扫描结果</string>
     <string name="select_none">全不选</string>
-    <string name="collected_books">藏书</string>
     <string name="create_book_sheet">新建书单</string>
     <string name="create_note">写笔记</string>
     <string name="dynamic_detail">动态详情</string>

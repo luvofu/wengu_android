@@ -141,7 +141,9 @@
             android:name=".ui.bhome.BookSheetEditRecommendActivity"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
-        <activity android:name=".ui.bhome.MyBookInfoActivity"/>
+        <activity
+            android:name=".ui.bhome.MyBookInfoActivity"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity android:name=".ui.bhome.GeneralAddBookTagsActivity"/>
 

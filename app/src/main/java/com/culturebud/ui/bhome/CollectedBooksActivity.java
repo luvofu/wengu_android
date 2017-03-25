@@ -54,7 +54,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         presenter.setView(this);
         opreaType = getIntent().getIntExtra(TYPE_KEY, 0);
         showTitlebar();
-        setTitle(R.string.collected_books);
+        setTitle(R.string.book_shelf);
+        setTitleRightIcon(R.mipmap.ic_arrow_white_down);
         setOperasDrawable(R.drawable.titlebar_add_selector);
         rvBooks = obtainViewById(R.id.rv_collected_books);
         fabEditBooks = obtainViewById(R.id.fab_edit_books);
@@ -139,6 +140,12 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     }
 
     @Override
+    protected void onTitleOptions(View view) {
+        super.onTitleOptions(view);
+
+    }
+
+    @Override
     protected void onBack() {
         super.onBack();
         finish();
@@ -162,6 +169,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 ((CollectedBooksAdapter) rvBooks.getAdapter()).clearData();
             }
             ((CollectedBooksAdapter) rvBooks.getAdapter()).addItems(books);
+            int count = ((CollectedBooksAdapter) rvBooks.getAdapter()).getItemCount();
+            setTitle("全部（" + count + "）");
         }
         loading = false;
     }

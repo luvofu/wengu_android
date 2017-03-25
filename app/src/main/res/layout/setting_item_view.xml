@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
-        android:background="@android:color/white"
+        android:background="@android:color/transparent"
         android:drawablePadding="10dp"
         android:drawableRight="@mipmap/right_arrow"
         android:enabled="false"
