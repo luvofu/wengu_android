@@ -208,7 +208,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (ppwCategory == null) {
             ppwCategory = new PopupWindow(this, null, R.style.PopupWindow);
             ppwCategory.setBackgroundDrawable(new ColorDrawable(0x55333333));
-            ppwCategory.setOutsideTouchable(false);
+            ppwCategory.setOutsideTouchable(true);
             View view = getLayoutInflater().inflate(R.layout.dlg_user_book_category_type, null);
             btnAll = WidgetUtil.obtainViewById(view, R.id.btn_all);
             tflClc = WidgetUtil.obtainViewById(view, R.id.tfl_clc);
