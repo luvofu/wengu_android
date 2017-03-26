@@ -257,6 +257,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             ppwCategory.setWidth(dm.widthPixels);
+            ppwCategory.setOnDismissListener(() -> setTitleRightIcon(R.mipmap.ic_arrow_white_down));
         }
     }
 
