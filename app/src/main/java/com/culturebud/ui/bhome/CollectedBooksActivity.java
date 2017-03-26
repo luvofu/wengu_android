@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
@@ -13,6 +14,7 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.DisplayMetrics;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupWindow;
@@ -38,6 +40,7 @@ import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by XieWei on 2016/11/9.
@@ -46,7 +49,8 @@ import java.util.List;
 @PresenterInject(CollectedBooksPresenter.class)
 public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.Presenter> implements
         CollectedBooksContract.View, CollectedBooksAdapter.OnItemClickListener, CollectedBooksVerticalAdapter
-        .OnItemClickListener {
+        .OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView
+        .OnNavigationItemReselectedListener {
     public static final int TYPE_SELECT = 1;
     public static final String TYPE_KEY = "opera_type";
     private RecyclerView rvBooks;
@@ -73,6 +77,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         rvBooks = obtainViewById(R.id.rv_collected_books);
         fabEditBooks = obtainViewById(R.id.fab_edit_books);
         bnvOperas = obtainViewById(R.id.bnv_operas);
+        bnvOperas.setOnNavigationItemReselectedListener(this);
+        bnvOperas.setOnNavigationItemSelectedListener(this);
         fabEditBooks.setOnClickListener(this);
         initList();
         presenter.getMyBooks(currentPage);
@@ -162,7 +168,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 bnvOperas.setVisibility(View.VISIBLE);
                 setOperasDrawable(null);
                 setOperasText("完成");
-                ((CollectedBooksAdapter)rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_CHECK);
+                ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_CHECK, true);
                 break;
         }
     }
@@ -188,7 +194,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             setOperasDrawable(R.drawable.titlebar_add_selector);
             fabEditBooks.show();
             bnvOperas.setVisibility(View.GONE);
-            ((CollectedBooksAdapter)rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT);
+            ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
+            ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
         } else {
             showMoreOperas();
         }
@@ -359,5 +366,42 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         intent.putExtra("book", new Gson().toJson(book));
         setResult(RESULT_OK, intent);
         finish();
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Set<CollectedBook> checkedItems = ((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks();
+        if (!checkedItems.isEmpty()) {
+            switch (item.getItemId()) {
+                case R.id.menu_item_del:
+                    onErrorTip("删除");
+                    break;
+                case R.id.menu_item_read_status:
+                    onErrorTip("阅读状态");
+                    break;
+                case R.id.menu_item_custom:
+                    onErrorTip("自定义");
+                    break;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public void onNavigationItemReselected(@NonNull MenuItem item) {
+        Set<CollectedBook> checkedItems = ((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks();
+        if (!checkedItems.isEmpty()) {
+            switch (item.getItemId()) {
+                case R.id.menu_item_del:
+                    onErrorTip("删除");
+                    break;
+                case R.id.menu_item_read_status:
+                    onErrorTip("阅读状态");
+                    break;
+                case R.id.menu_item_custom:
+                    onErrorTip("自定义");
+                    break;
+            }
+        }
     }
 }

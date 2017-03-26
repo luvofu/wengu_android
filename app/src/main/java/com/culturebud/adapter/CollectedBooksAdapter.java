@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 
 import com.culturebud.R;
@@ -17,7 +18,10 @@ import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by XieWei on 2016/11/9.
@@ -28,6 +32,7 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
     public static final int MODEL_EDIT = 0;
     public static final int MODEL_CHECK = 1;
     private int model = MODEL_EDIT;
+    private Set<CollectedBook> checkedSet;
 
     @IntDef({MODEL_EDIT, MODEL_CHECK})
     @interface ModelRes {
@@ -35,18 +40,41 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
 
     public CollectedBooksAdapter() {
         data = new ArrayList<>();
+        checkedSet = new HashSet<>();
+    }
+
+    public Set<CollectedBook> getCheckedBooks() {
+        Set<CollectedBook> tmp = new HashSet<>();
+        tmp.addAll(checkedSet);
+        return tmp;
+    }
+
+    public void clearCheckedStatus() {
+        checkedSet.clear();
     }
 
     public void setModel(@ModelRes int model) {
+        setModel(model, false);
+    }
+    public void setModel(@ModelRes int model, boolean notify) {
         this.model = model;
-        notifyDataSetChanged();
+        if (notify) {
+            notifyDataSetChanged();
+        }
     }
 
     public void clearData() {
         if (!data.isEmpty()) {
             data.clear();
+            checkedSet.clear();
             notifyDataSetChanged();
         }
+    }
+
+    public void deleteItems(Collection<CollectedBook> items) {
+        data.removeAll(items);
+        checkedSet.removeAll(items);
+        notifyDataSetChanged();
     }
 
     public void addItems(List<CollectedBook> books) {
@@ -76,6 +104,7 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
     public void onBindViewHolder(CollectedBooksViewHolder holder, int position) {
         CollectedBook item = data.get(position);
         holder.position = position;
+        holder.item = item;
         holder.setCover(item.getCover());
         if (model == MODEL_EDIT) {
             holder.showEditModel();
@@ -89,11 +118,13 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         return data.size();
     }
 
-    class CollectedBooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class CollectedBooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, CompoundButton
+            .OnCheckedChangeListener {
         private SimpleDraweeView sdvCover;
         private ImageView ivEdit;
         private CheckBox cbCheck;
         private int position;
+        private CollectedBook item;
 
         public CollectedBooksViewHolder(View itemView) {
             super(itemView);
@@ -103,6 +134,7 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
 //            sdvCover.setOnClickListener(this);
             ivEdit.setOnClickListener(this);
             itemView.setOnClickListener(this);
+            cbCheck.setOnCheckedChangeListener(this);
         }
 
         public void setCover(String url) {
@@ -120,6 +152,11 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         public void showCheckModel() {
             cbCheck.setVisibility(View.VISIBLE);
             ivEdit.setVisibility(View.GONE);
+            if (checkedSet.contains(item)) {
+                cbCheck.setChecked(true);
+            } else {
+                cbCheck.setChecked(false);
+            }
         }
 
         @Override
@@ -136,6 +173,15 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
                         onItemClickListener.onItemClick(v, position, data.get(position), OPERA_TYPE_EDIT);
                     }
                     break;
+            }
+        }
+
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (isChecked) {
+                checkedSet.add(item);
+            } else {
+                checkedSet.remove(item);
             }
         }
     }

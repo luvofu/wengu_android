@@ -3,21 +3,21 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/bottom_nav_ui"
+        android:id="@+id/menu_item_del"
         android:enabled="true"
         android:icon="@null"
         android:title="@string/delete"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/bottom_nav_data"
+        android:id="@+id/menu_item_read_status"
         android:enabled="true"
         android:icon="@null"
         android:title="@string/read_status"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/bottom_nav_service"
+        android:id="@+id/menu_item_custom"
         android:enabled="true"
         android:icon="@null"
         android:title="自定义分类"
