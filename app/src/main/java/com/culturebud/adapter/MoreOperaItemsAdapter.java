@@ -18,13 +18,13 @@ import java.util.List;
  */
 
 public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAdapter.MoreOperaItemViewHolder> {
-    private List<String> data;
+    private List<MoreOperaItemBean> data;
 
     public MoreOperaItemsAdapter() {
         data = new ArrayList<>();
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(List<MoreOperaItemBean> items) {
         if (items != null) {
             data.clear();
             notifyDataSetChanged();
@@ -48,8 +48,9 @@ public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAd
 
     @Override
     public void onBindViewHolder(MoreOperaItemViewHolder holder, int position) {
-        holder.setItemInfo(data.get(position));
+        holder.setItemInfo(data.get(position).getItemInfo());
         holder.position = position;
+        holder.item = data.get(position);
     }
 
     @Override
@@ -60,6 +61,7 @@ public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAd
     class MoreOperaItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView tvItem;
         private int position;
+        private MoreOperaItemBean item;
 
         public MoreOperaItemViewHolder(View itemView) {
             super(itemView);
@@ -79,7 +81,7 @@ public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAd
         public void onClick(View v) {
             if (v == tvItem) {
                 if (onMoreOperaItemClickListener != null) {
-                    onMoreOperaItemClickListener.onMoreOperaItemClick(v, tvItem.getText().toString(), position);
+                    onMoreOperaItemClickListener.onMoreOperaItemClick(v, item, position);
                 }
             }
         }
@@ -96,6 +98,43 @@ public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAd
     }
 
     public interface OnMoreOperaItemClickListener {
-        void onMoreOperaItemClick(View v, String item, int position);
+        void onMoreOperaItemClick(View v, MoreOperaItemBean item, int position);
+    }
+
+    public static abstract class MoreOperaItemBean {
+        private int type;
+        private String itemInfo;
+
+        public MoreOperaItemBean() {
+        }
+
+        public MoreOperaItemBean(int type, String itemInfo) {
+            this.type = type;
+            this.itemInfo = itemInfo;
+        }
+
+        public int getType() {
+            return type;
+        }
+
+        public void setType(int type) {
+            this.type = type;
+        }
+
+        public String getItemInfo() {
+            return itemInfo;
+        }
+
+        public void setItemInfo(String itemInfo) {
+            this.itemInfo = itemInfo;
+        }
+
+        @Override
+        public String toString() {
+            return "MoreOperaItemBean{" +
+                    "type=" + type +
+                    ", itemInfo='" + itemInfo + '\'' +
+                    '}';
+        }
     }
 }

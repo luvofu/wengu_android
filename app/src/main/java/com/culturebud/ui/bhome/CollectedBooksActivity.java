@@ -1,5 +1,6 @@
 package com.culturebud.ui.bhome;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,6 +10,7 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -84,7 +86,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         presenter.getMyBooks(currentPage);
     }
 
-    private void initMoreOperas() {
+    private void initMoreOperas(List<MoreOperaItemsAdapter.MoreOperaItemBean> items) {
         if (bsdMoreOperas == null) {
             bsdMoreOperas = new BottomSheetDialog(this);
             bsdMoreOperas.setContentView(R.layout.bottom_sheet_dialog_multi);
@@ -97,35 +99,35 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             });
             rvOperaItems.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             rvOperaItems.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL));
-            MoreOperaItemsAdapter adapter = new MoreOperaItemsAdapter();
-            List<String> items = new ArrayList<>();
-            items.add("录入新书");
-            items.add("我创建的");
-            items.add("管理自定义分类");
-            adapter.setItems(items);
-            adapter.setOnMoreOperaItemClickListener((v, item, position) -> {
-                switch (position) {
-                    case 0: {
+        }
+        MoreOperaItemsAdapter adapter = new MoreOperaItemsAdapter();
+        adapter.setItems(items);
+        adapter.setOnMoreOperaItemClickListener((v, item, position) -> {
+            switch (position) {
+                case 0: {
+                    if (item.getType() == 1) {
                         Intent intent = new Intent(this, BookScanActivity.class);
                         startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_BOOK);
-                        break;
+                    } else if (item.getType() == 2) {
+
                     }
-                    case 1:
-                        break;
-                    case 2:
-                        break;
+                    break;
                 }
-                hideMoreOperas();
-            });
-            rvOperaItems.setAdapter(adapter);
-        }
+                case 1:
+                    break;
+                case 2:
+                    break;
+            }
+            hideMoreOperas();
+        });
+        rvOperaItems.setAdapter(adapter);
     }
 
-    public void showMoreOperas() {
+    public void showMoreOperas(List<MoreOperaItemsAdapter.MoreOperaItemBean> items) {
         if (bsdMoreOperas != null && bsdMoreOperas.isShowing()) {
             return;
         }
-        initMoreOperas();
+        initMoreOperas(items);
         bsdMoreOperas.show();
     }
 
@@ -197,7 +199,14 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
             ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
         } else {
-            showMoreOperas();
+            List<MoreOperaItemsAdapter.MoreOperaItemBean> items = new ArrayList<>();
+            items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(1, "录入新书") {
+            });
+            items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(1, "我创建的") {
+            });
+            items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(1, "管理自定义分类") {
+            });
+            showMoreOperas(items);
         }
     }
 
@@ -375,10 +384,10 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (!checkedItems.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.menu_item_del:
-                    onErrorTip("删除");
+                    deleteBooks(checkedItems);
                     break;
                 case R.id.menu_item_read_status:
-                    onErrorTip("阅读状态");
+                    alterReadStatus(checkedItems);
                     break;
                 case R.id.menu_item_custom:
                     onErrorTip("自定义");
@@ -394,15 +403,41 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (!checkedItems.isEmpty()) {
             switch (item.getItemId()) {
                 case R.id.menu_item_del:
-                    onErrorTip("删除");
+                    deleteBooks(checkedItems);
                     break;
                 case R.id.menu_item_read_status:
-                    onErrorTip("阅读状态");
+                    alterReadStatus(checkedItems);
                     break;
                 case R.id.menu_item_custom:
                     onErrorTip("自定义");
                     break;
             }
         }
+    }
+
+    private void alterReadStatus(Set<CollectedBook> checkedItems) {
+        List<MoreOperaItemsAdapter.MoreOperaItemBean> items = new ArrayList<>();
+        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "已读") {
+        });
+        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "在读") {
+        });
+        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "未读") {
+        });
+        showMoreOperas(items);
+    }
+
+    private void deleteBooks(Set<CollectedBook> checkedItems) {
+        String msg;
+        if (checkedItems.size() > 1) {
+            msg = checkedItems.size() + "本书";
+        } else {
+            msg = checkedItems.iterator().next().getTitle();
+        }
+        new AlertDialog.Builder(this).setMessage("是否从书架上删除" + msg)
+                .setPositiveButton("删除", (dialog, which) -> {
+
+                })
+                .setNegativeButton("取消", null)
+                .show();
     }
 }
