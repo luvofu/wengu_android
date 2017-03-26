@@ -38,7 +38,6 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
     @Override
     public void loadDynamics(int page) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         User user = BaseApp.getInstance().getUser();
@@ -117,7 +116,6 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
     @Override
     public void thumbUp(long dynamicId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.thumbUp(BaseApp.getInstance().getUser().getToken(), ThumbUpType.TYPE_DYNAMIC, dynamicId)
@@ -146,7 +144,6 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
     @Override
     public void replyDynamic(long dynamicId, String content, int replyType, long replyObjId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         if (TextUtils.isEmpty(content)) {
@@ -179,7 +176,6 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
     @Override
     public void deleteDynamicOrReply(long dynamicId, int deleteType, long deleteObjId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.delete(BaseApp.getInstance().getUser().getToken(), deleteType, deleteObjId)

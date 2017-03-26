@@ -27,7 +27,6 @@ public class UserSearchPresenter extends UserSearchContract.Presenter {
     @Override
     public void search(String keyword, int page) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         if (TextUtils.isEmpty(keyword)) {

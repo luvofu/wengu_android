@@ -24,7 +24,7 @@ public class BookHomePresenter extends BookHomeContract.Presenter {
 
     @Override
     public void getMyBookMarks() {
-        if (!validateToken()) {
+        if (!validateToken(false)) {
             return;
         }
         model.getBookMarks(BaseApp.getInstance().getUser().getToken())
@@ -50,7 +50,6 @@ public class BookHomePresenter extends BookHomeContract.Presenter {
     @Override
     public void addBookMark(long userBookId, int pages, int totalPage) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         if (userBookId <= 0) {
@@ -87,7 +86,6 @@ public class BookHomePresenter extends BookHomeContract.Presenter {
     @Override
     public void alterBookMark(long bookmarkId, int pages, int totalPage) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.alterBookMark(BaseApp.getInstance().getUser().getToken(), bookmarkId, pages, totalPage)
@@ -116,7 +114,6 @@ public class BookHomePresenter extends BookHomeContract.Presenter {
     @Override
     public void delBookMark(BookMark bookMark) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         if (bookMark == null) {

@@ -36,7 +36,6 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
     @Override
     public void dynamicDetail(long dynamicId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         view.showProDialog();
@@ -118,7 +117,6 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
     @Override
     public void thumbUP(long dynamicId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.thumbUp(BaseApp.getInstance().getUser().getToken(), ThumbUpType.TYPE_DYNAMIC, dynamicId)
@@ -147,7 +145,6 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
     @Override
     public void deleteDynamicOrReply(int deleteType, long dynamicId, long replyId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.delete(BaseApp.getInstance().getUser().getToken(), deleteType,
@@ -181,7 +178,6 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
     @Override
     public void deleteReplyReply(long dynamicId, long replyId, long deleteReplyId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.delete(BaseApp.getInstance().getUser().getToken(), DeleteType.TYPE_DYNAMIC_REPLY, deleteReplyId)

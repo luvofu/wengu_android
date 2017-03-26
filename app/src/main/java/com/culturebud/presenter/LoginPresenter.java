@@ -90,11 +90,10 @@ public class LoginPresenter extends LoginContract.Presenter {
 
     @Override
     public void logout() {
-        User user = BaseApp.getInstance().getUser();
-        if (user == null) {
-            view.onToLogin();
+        if (!validateToken()) {
             return;
         }
+        User user = BaseApp.getInstance().getUser();
         model.logout(user).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<Boolean>() {
             @Override

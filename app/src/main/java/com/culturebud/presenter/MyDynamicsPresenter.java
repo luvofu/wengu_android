@@ -27,7 +27,6 @@ public class MyDynamicsPresenter extends MyDynamicsContract.Presenter {
     @Override
     public void myPublished(int page) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.myPublished(BaseApp.getInstance().getUser().getToken(), page)
@@ -56,7 +55,6 @@ public class MyDynamicsPresenter extends MyDynamicsContract.Presenter {
     @Override
     public void myRelations(int page) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.myRelations(BaseApp.getInstance().getUser().getToken(), page)

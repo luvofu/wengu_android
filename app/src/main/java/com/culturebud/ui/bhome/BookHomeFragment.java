@@ -155,6 +155,9 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                 startActivity(new Intent(getActivity(), NotebookActivity.class));
                 break;
             case R.id.sdv_scanner:
+                if (!presenter.validateToken()) {
+                    return;
+                }
                 startActivity(new Intent(getActivity(), BookScanActivity.class));
                 break;
         }
@@ -322,7 +325,9 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         if (type == 1 && item != null) {
             currentBookMark = item;
         } else {
-
+            if (!presenter.validateToken()) {
+                return;
+            }
         }
         showBookMarkDialog();
     }

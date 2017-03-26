@@ -24,11 +24,10 @@ public class PublishShortCommentPresenter extends PublishShortCommentContract.Pr
 
     @Override
     public void publish(long communityId, String content) {
-        User user = BaseApp.getInstance().getUser();
-        if (user == null || TextUtils.isEmpty(user.getToken())) {
-            view.onToLogin();
+        if (!validateToken()) {
             return;
         }
+        User user = BaseApp.getInstance().getUser();
         if (TextUtils.isEmpty(content)) {
             view.onContentEmpty();
             return;

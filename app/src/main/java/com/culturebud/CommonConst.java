@@ -115,7 +115,9 @@ public final class CommonConst {
 
     public static final String PATH_USER_BOOK_DETAIL = "api/userBook/detail";
 
-    public static final String PATH_USRE_BOOK_CATEGORY_STATISTICS = "api/userBook/categoryStatis_v104";
+    public static final String PATH_USER_BOOK_CATEGORY_STATISTICS = "api/userBook/categoryStatis_v104";
+
+    public static final String PATH_USER_BOOK_DELETE = "api/userBook/delete";
 
     public static final String PATH_BOOK_TAGS = "api/common/bookTag";
 

@@ -21,7 +21,6 @@ public class InviteFriendPresenter extends InviteFriendContract.Presenter {
     @Override
     public void invite(long friendId, String content) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         view.showProDialog();

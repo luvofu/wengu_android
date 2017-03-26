@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import rx.Observable;
 import rx.Subscriber;
@@ -145,5 +146,10 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                 }
             });
         });
+    }
+
+    @Override
+    public Observable<Boolean> deleteUserBooks(String token, Set<CollectedBook> userBooks) {
+        return null;
     }
 }

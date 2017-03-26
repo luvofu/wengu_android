@@ -22,9 +22,15 @@ public abstract class BasePresenter<V extends BaseView, M extends BaseModel> {
     }
 
     public boolean validateToken() {
+        return validateToken(true);
+    }
+
+    public boolean validateToken(boolean needToLoginView) {
         User user = BaseApp.getInstance().getUser();
         if (user == null || TextUtils.isEmpty(user.getToken())) {
-            view.onToLogin();
+            if (needToLoginView) {
+                view.onToLogin();
+            }
             return false;
         }
         return true;

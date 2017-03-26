@@ -154,7 +154,6 @@ public class BookSheetDetailPresenter extends BookSheetDetailContract.Presenter 
     @Override
     public void bookSheetAddBook(long bookSheetId, long bookId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.bookSheetAddBook(BaseApp.getInstance().getUser().getToken(), bookSheetId, bookId)
@@ -183,7 +182,6 @@ public class BookSheetDetailPresenter extends BookSheetDetailContract.Presenter 
     @Override
     public void bookSheetDelBook(long sheetBookId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.bookSheetDelBook(BaseApp.getInstance().getUser().getToken(), sheetBookId)

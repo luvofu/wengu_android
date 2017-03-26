@@ -27,11 +27,10 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
 
     @Override
     public void editAvatar(long imageObjId, Uri imgUri, boolean isJPEG) {
-        User user = BaseApp.getInstance().getUser();
-        if (user == null || TextUtils.isEmpty(user.getToken())) {
-            view.onToLogin();
+        if (!validateToken()) {
             return;
         }
+        User user = BaseApp.getInstance().getUser();
         view.showProDialog();
         model.uploadImage(user.getToken(), 0, imageObjId, imgUri, isJPEG)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
@@ -59,11 +58,10 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
 
     @Override
     public void editNick(String nick) {
-        User user = BaseApp.getInstance().getUser();
-        if (user == null || TextUtils.isEmpty(user.getToken())) {
-            view.onToLogin();
+        if (!validateToken()) {
             return;
         }
+        User user = BaseApp.getInstance().getUser();
         model.alterNick(user.getToken(), nick).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {

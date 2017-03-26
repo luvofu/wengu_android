@@ -1,16 +1,14 @@
 package com.culturebud.presenter;
 
-import android.text.TextUtils;
-
 import com.culturebud.BaseApp;
 import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.model.CollectedBooksModel;
-import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.Set;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -28,12 +26,10 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
     @Override
     public void getMyBooks(int page) {
-        User user = BaseApp.getInstance().getUser();
-        if (user == null) {
-            view.onToLogin();
+        if (!validateToken()) {
             return;
         }
-
+        User user = BaseApp.getInstance().getUser();
         model.getCollectedBooks(user.getToken(), user.getUserId(), page).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<CollectedBook>>() {
@@ -58,12 +54,10 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
     @Override
     public void getMyBooks(int page, int categoryType, String category) {
-        User user = BaseApp.getInstance().getUser();
-        if (user == null) {
-            view.onToLogin();
+        if (!validateToken()) {
             return;
         }
-
+        User user = BaseApp.getInstance().getUser();
         model.getCollectedBooks(user.getToken(), user.getUserId(), page, categoryType, category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -88,7 +82,6 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
     @Override
     public void getCategoryStatistics() {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         User user = BaseApp.getInstance().getUser();
@@ -110,5 +103,10 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
                         view.onCategoryStatistics(res);
                     }
                 });
+    }
+
+    @Override
+    public void deleteUserBooks(Set<CollectedBook> userBooks) {
+
     }
 }

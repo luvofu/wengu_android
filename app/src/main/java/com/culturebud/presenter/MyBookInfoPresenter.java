@@ -25,7 +25,6 @@ public class MyBookInfoPresenter extends MyBookInfoContract.Presenter {
     @Override
     public void myBookInfo(long userBookId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.myBookInfo(BaseApp.getInstance().getUser().getToken(), userBookId)
@@ -54,7 +53,6 @@ public class MyBookInfoPresenter extends MyBookInfoContract.Presenter {
     @Override
     public void alterBookReadStatus(long userBookId, int status) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.alterBookReadStatus(BaseApp.getInstance().getUser().getToken(), userBookId, status)
@@ -84,7 +82,6 @@ public class MyBookInfoPresenter extends MyBookInfoContract.Presenter {
     @Override
     public void editUserBookInfo(long userBookId, Map<String, Object> editContent) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.editUserBookInfo(BaseApp.getInstance().getUser().getToken(), userBookId, editContent)

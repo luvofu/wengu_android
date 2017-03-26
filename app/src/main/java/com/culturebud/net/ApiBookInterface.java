@@ -7,13 +7,11 @@ import com.culturebud.bean.BookDetail;
 import com.culturebud.bean.UserBookInfo;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.POST;
-import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -91,8 +89,12 @@ public interface ApiBookInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> bookTags(@FieldMap Map<String, Object> params);
 
-    @POST(CommonConst.PATH_USRE_BOOK_CATEGORY_STATISTICS)
+    @POST(CommonConst.PATH_USER_BOOK_CATEGORY_STATISTICS)
     @FormUrlEncoded
     Observable<ApiResultBean<BookCategoryGroup>> getCategoryStatistics(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_USER_BOOK_DELETE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> deleteUserBooks(@FieldMap Map<String, Object> params);
 }
 

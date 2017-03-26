@@ -22,7 +22,6 @@ public class BookSheetEditRecommendPresenter extends BookSheetEditRecommendContr
     @Override
     public void editRecommend(long sheetBookId, String recommend) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         view.showProDialog();

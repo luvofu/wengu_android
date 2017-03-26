@@ -23,7 +23,6 @@ public class FriendDetailPresenter extends FriendDetailContract.Presenter {
     @Override
     public void getFriendDetail(long userId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         view.showProDialog();

@@ -5,6 +5,7 @@ import com.culturebud.bean.CollectedBook;
 import com.google.gson.JsonObject;
 
 import java.util.List;
+import java.util.Set;
 
 import rx.Observable;
 
@@ -21,6 +22,8 @@ public interface CollectedBooksContract {
                 categoryType, String category);
 
         public abstract Observable<BookCategoryGroup> getCategoryStatistics(String token, long userId);
+
+        public abstract Observable<Boolean> deleteUserBooks(String token, Set<CollectedBook> userBooks);
     }
 
     interface View extends BaseView {
@@ -35,5 +38,7 @@ public interface CollectedBooksContract {
         public abstract void getMyBooks(int page, int categoryType, String category);
 
         public abstract void getCategoryStatistics();
+
+        public abstract void deleteUserBooks(Set<CollectedBook> userBooks);
     }
 }

@@ -24,7 +24,6 @@ public class PublishDynamicPresenter extends PublishDynamicContract.Presenter {
     @Override
     public void publish(String content, Uri imgUri, int permission, int linkType, long linkId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
 

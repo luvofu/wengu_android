@@ -27,7 +27,6 @@ public class UserBookHomePresenter extends UserBookHomeContract.Presenter {
     @Override
     public void getUserProfile(long userId) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         model.getUserProfile(BaseApp.getInstance().getUser().getToken(), userId)
@@ -57,7 +56,6 @@ public class UserBookHomePresenter extends UserBookHomeContract.Presenter {
     @Override
     public void getDynamics(long userId, int page) {
         if (!validateToken()) {
-            view.onToLogin();
             return;
         }
         view.showProDialog();
