@@ -43,6 +43,7 @@
 
         <activity
             android:name=".ui.WelcomeActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Welcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -51,105 +52,195 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.MainActivity"></activity>
+        <activity
+            android:name=".ui.MainActivity"
+            android:screenOrientation="portrait"></activity>
         <activity
             android:name=".ui.me.LoginActivity"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.community.CommunityActivity"/>
-        <activity android:name=".ui.me.AccountSettingActivity"/>
-        <activity android:name=".ui.me.AboutActivity"/>
-        <activity android:name=".ui.me.FeedbackActivity"/>
-        <activity android:name=".ui.me.UserAgreementActivity"/>
-        <activity android:name=".ui.me.UserInfoActivity"/>
-        <activity android:name=".ui.bcircle.PublishDynamicActivity"/>
-        <activity android:name=".ui.front.BookStoreActivity"/>
-        <activity android:name=".ui.search.SearchBookActivity"/>
-        <activity android:name=".ui.search.SearchBookCommunityActivity"/>
+        <activity
+            android:name=".ui.community.CommunityActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.AccountSettingActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.AboutActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.FeedbackActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.UserAgreementActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.UserInfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bcircle.PublishDynamicActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.front.BookStoreActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.search.SearchBookActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.search.SearchBookCommunityActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.front.BookDetailActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.front.BookBaseInfoActivity"/>
-        <activity android:name=".ui.front.BookSheetDetailActivity"/>
+        <activity
+            android:name=".ui.front.BookBaseInfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.front.BookSheetDetailActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.community.CommentDetailActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.bhome.CollectedBooksActivity"/>
-        <activity android:name=".ui.community.BookCommunityActivity"/>
+        <activity
+            android:name=".ui.bhome.CollectedBooksActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.community.BookCommunityActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.community.PublishShortCommentActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.me.GeneralEditorActivity"/>
-        <activity android:name=".ui.me.MyMsgActivity"/>
-        <activity android:name=".ui.me.MyFavoritesActivity"/>
-        <activity android:name=".ui.me.RegistActivity"/>
-        <activity android:name=".ui.me.RetrievePasswordActivity"/>
-        <activity android:name=".ui.me.ChangePasswordActivity"/>
-        <activity android:name=".ui.community.MyCommunityActivity"/>
-        <activity android:name=".ui.bcircle.BookCircleActivity"/>
-        <activity android:name=".ui.bhome.NotebookActivity"/>
-        <activity android:name=".ui.bhome.CreateNotebookActivity"/>
-        <activity android:name=".ui.bhome.NotebookDetailActivity"/>
-        <activity android:name=".ui.bhome.EditNotebookNameActivity"/>
-        <activity android:name=".ui.bhome.CreateNoteActivity"/>
-        <activity android:name=".ui.bhome.EditNoteActivity"/>
-        <activity android:name=".ui.bhome.BookScanActivity"/>
-        <activity android:name=".ui.bhome.BookScanResultActivity"/>
+        <activity
+            android:name=".ui.me.GeneralEditorActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.MyMsgActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.MyFavoritesActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.RegistActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.RetrievePasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.ChangePasswordActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.community.MyCommunityActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bcircle.BookCircleActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.NotebookActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.CreateNotebookActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.NotebookDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.EditNotebookNameActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.CreateNoteActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.EditNoteActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.BookScanActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.bhome.BookScanResultActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.bhome.ManualAddBookActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".ui.me.MyFriendsActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-        <activity android:name=".ui.bhome.BookSheetsActivity"/>
+        <activity
+            android:name=".ui.bhome.BookSheetsActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.bhome.CreateBookSheetActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".ui.bhome.EditBookSheetActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
             android:name=".ui.search.SearchUserActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
-        <activity android:name=".ui.me.FriendDetailActivity"/>
+        <activity
+            android:name=".ui.me.FriendDetailActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.me.InviteFriendActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysVisible"/>
 
-        <activity android:name=".ui.bhome.UserBookHomeActivity"/>
+        <activity
+            android:name=".ui.bhome.UserBookHomeActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.image.PreviewBigImgActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/Welcome"/>
 
         <activity
             android:name=".ui.bhome.DynamicDetailActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
             android:name=".ui.search.SelectBookActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
-        <activity android:name=".ui.bcircle.MyDynamicActivity"/>
+        <activity
+            android:name=".ui.bcircle.MyDynamicActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".ui.search.SelectUserActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
             android:name=".ui.bhome.BookSheetEditRecommendActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
             android:name=".ui.bhome.MyBookInfoActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
-        <activity android:name=".ui.bhome.GeneralAddBookTagsActivity"/>
+        <activity
+            android:name=".ui.bhome.GeneralAddBookTagsActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".ui.bhome.EditBookRatingActivity"/>
+        <activity
+            android:name=".ui.bhome.EditBookRatingActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.mob.tools.MobUIShell"
