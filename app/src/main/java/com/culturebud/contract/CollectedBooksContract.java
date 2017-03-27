@@ -30,6 +30,8 @@ public interface CollectedBooksContract {
         void onBooks(List<CollectedBook> books);
 
         void onCategoryStatistics(BookCategoryGroup categoryGroup);
+
+        void onDeleteUserBooks(Set<CollectedBook> books, boolean success);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {

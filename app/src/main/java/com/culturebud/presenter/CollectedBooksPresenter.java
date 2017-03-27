@@ -6,6 +6,7 @@ import com.culturebud.bean.CollectedBook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.model.CollectedBooksModel;
+import com.culturebud.util.ApiException;
 
 import java.util.List;
 import java.util.Set;
@@ -107,6 +108,29 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
     @Override
     public void deleteUserBooks(Set<CollectedBook> userBooks) {
+        if (!validateToken()) {
+            return;
+        }
+        model.deleteUserBooks(BaseApp.getInstance().getUser().getToken(), userBooks)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onDeleteUserBooks(userBooks, aBoolean);
+            }
+        });
     }
 }

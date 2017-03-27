@@ -1,6 +1,5 @@
 package com.culturebud.ui.bhome;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -9,9 +8,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -57,6 +54,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public static final String TYPE_KEY = "opera_type";
     private RecyclerView rvBooks;
     private int currentPage;
+    private int currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
+    private String currentCategory = "全部";
     private boolean loading = true;
     private int opreaType;
     private BottomSheetDialog bsdMoreOperas;
@@ -229,6 +228,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 ppwCategory.dismiss();
                 currentPage = 0;
+                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
+                currentCategory = "全部";
                 presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
             });
 
@@ -239,6 +240,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
+                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_NORMAL;
+                currentCategory = category.getCategory();
                 presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category.getCategory());
             });
 
@@ -249,6 +252,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
+                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_CUSTOM;
+                currentCategory = category.getCategory();
                 presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category.getCategory());
             });
 
@@ -259,6 +264,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
+                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_OTHER;
+                currentCategory = category.getCategory();
                 presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category.getCategory());
             });
 
@@ -327,6 +334,13 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     tflOther.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
                 }
             }
+        }
+    }
+
+    @Override
+    public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
+        if (success) {
+            presenter.getMyBooks(currentPage, currentCategoryType, currentCategory);
         }
     }
 
@@ -435,7 +449,13 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
         new AlertDialog.Builder(this).setMessage("是否从书架上删除" + msg)
                 .setPositiveButton("删除", (dialog, which) -> {
-
+                    setOperasText(null);
+                    setOperasDrawable(R.drawable.titlebar_add_selector);
+                    fabEditBooks.show();
+                    bnvOperas.setVisibility(View.GONE);
+                    ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
+                    ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
+                    presenter.deleteUserBooks(checkedItems);
                 })
                 .setNegativeButton("取消", null)
                 .show();

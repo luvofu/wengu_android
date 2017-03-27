@@ -16,6 +16,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -150,6 +151,43 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
 
     @Override
     public Observable<Boolean> deleteUserBooks(String token, Set<CollectedBook> userBooks) {
-        return null;
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            String userBookIdList = "";
+            if (userBooks != null && userBooks.size() > 0) {
+                Iterator<CollectedBook> cbs = userBooks.iterator();
+                while (cbs.hasNext()) {
+                    CollectedBook cb = cbs.next();
+                    userBookIdList = cb.getUserBookId() + "|";
+                }
+                userBookIdList = userBookIdList.substring(0, userBookIdList.lastIndexOf("|"));
+            }
+            params.put("userBookIdList", userBookIdList);
+            initRetrofit().create(ApiBookInterface.class).deleteUserBooks(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
+        });
     }
 }

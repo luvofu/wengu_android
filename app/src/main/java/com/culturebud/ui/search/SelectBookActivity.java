@@ -23,6 +23,7 @@ import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Created by XieWei on 2017/1/9.
@@ -84,6 +85,11 @@ public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Pres
 
     @Override
     public void onCategoryStatistics(BookCategoryGroup categoryGroup) {
+
+    }
+
+    @Override
+    public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
 
     }
 
