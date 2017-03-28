@@ -104,6 +104,7 @@ public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAd
     public static abstract class MoreOperaItemBean {
         private int type;
         private String itemInfo;
+        private int readStatus;
 
         public MoreOperaItemBean() {
         }
@@ -111,6 +112,12 @@ public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAd
         public MoreOperaItemBean(int type, String itemInfo) {
             this.type = type;
             this.itemInfo = itemInfo;
+        }
+
+        public MoreOperaItemBean(int type, String itemInfo, int readStatus) {
+            this.type = type;
+            this.itemInfo = itemInfo;
+            this.readStatus = readStatus;
         }
 
         public int getType() {
@@ -129,11 +136,20 @@ public class MoreOperaItemsAdapter extends RecyclerView.Adapter<MoreOperaItemsAd
             this.itemInfo = itemInfo;
         }
 
+        public int getReadStatus() {
+            return readStatus;
+        }
+
+        public void setReadStatus(int readStatus) {
+            this.readStatus = readStatus;
+        }
+
         @Override
         public String toString() {
             return "MoreOperaItemBean{" +
                     "type=" + type +
                     ", itemInfo='" + itemInfo + '\'' +
+                    ", readStatus=" + readStatus +
                     '}';
         }
     }

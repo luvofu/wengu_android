@@ -10,6 +10,7 @@ import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.net.ApiBookInterface;
+import com.culturebud.net.ApiCollectedInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -167,6 +168,47 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
             }
             params.put("userBookIdList", userBookIdList);
             initRetrofit().create(ApiBookInterface.class).deleteUserBooks(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> alterReadStatus(String token, Set<CollectedBook> userBooks, int readStatus) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            Iterator<CollectedBook> iterator = userBooks.iterator();
+            String ids = "";
+            while (iterator.hasNext()) {
+                CollectedBook cb = iterator.next();
+                ids = ids + cb.getUserBookId() + "|";
+            }
+            ids = ids.substring(0, ids.lastIndexOf("|"));
+            params.put("userBookIds", ids);
+            params.put("readStatus", readStatus);
+            initRetrofit().create(ApiCollectedInterface.class).alterBookReadStatus(params)
             .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                 @Override
                 public void onCompleted() {

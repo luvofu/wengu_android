@@ -133,4 +133,32 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void alterReadStatus(Set<CollectedBook> userBooks, int readStatus) {
+        if (!validateToken()) {
+            return;
+        }
+        model.alterReadStatus(BaseApp.getInstance().getUser().getToken(), userBooks, readStatus)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+
+            }
+        });
+    }
 }

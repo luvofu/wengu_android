@@ -107,8 +107,6 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     if (item.getType() == 1) {
                         Intent intent = new Intent(this, BookScanActivity.class);
                         startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_BOOK);
-                    } else if (item.getType() == 2) {
-
                     }
                     break;
                 }
@@ -116,6 +114,16 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     break;
                 case 2:
                     break;
+            }
+            if (item.getType() == 2) {
+                Set<CollectedBook> checkedItems = ((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks();
+                presenter.alterReadStatus(checkedItems, item.getReadStatus());
+                setOperasText(null);
+                setOperasDrawable(R.drawable.titlebar_add_selector);
+                fabEditBooks.show();
+                bnvOperas.setVisibility(View.GONE);
+                ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
+                ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
             }
             hideMoreOperas();
         });
@@ -401,7 +409,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     deleteBooks(checkedItems);
                     break;
                 case R.id.menu_item_read_status:
-                    alterReadStatus(checkedItems);
+                    alterReadStatus();
                     break;
                 case R.id.menu_item_custom:
                     onErrorTip("自定义");
@@ -420,7 +428,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     deleteBooks(checkedItems);
                     break;
                 case R.id.menu_item_read_status:
-                    alterReadStatus(checkedItems);
+                    alterReadStatus();
                     break;
                 case R.id.menu_item_custom:
                     onErrorTip("自定义");
@@ -429,13 +437,13 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
     }
 
-    private void alterReadStatus(Set<CollectedBook> checkedItems) {
+    private void alterReadStatus() {
         List<MoreOperaItemsAdapter.MoreOperaItemBean> items = new ArrayList<>();
-        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "已读") {
+        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "已读", 0) {
         });
-        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "在读") {
+        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "在读", 2) {
         });
-        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "未读") {
+        items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(2, "未读", 1) {
         });
         showMoreOperas(items);
     }

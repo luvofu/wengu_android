@@ -24,6 +24,8 @@ public interface CollectedBooksContract {
         public abstract Observable<BookCategoryGroup> getCategoryStatistics(String token, long userId);
 
         public abstract Observable<Boolean> deleteUserBooks(String token, Set<CollectedBook> userBooks);
+
+        public abstract Observable<Boolean> alterReadStatus(String token, Set<CollectedBook> userBooks, int readStatus);
     }
 
     interface View extends BaseView {
@@ -42,5 +44,7 @@ public interface CollectedBooksContract {
         public abstract void getCategoryStatistics();
 
         public abstract void deleteUserBooks(Set<CollectedBook> userBooks);
+
+        public abstract void alterReadStatus(Set<CollectedBook> userBooks, int readStatus);
     }
 }
