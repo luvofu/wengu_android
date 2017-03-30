@@ -102,20 +102,19 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         MoreOperaItemsAdapter adapter = new MoreOperaItemsAdapter();
         adapter.setItems(items);
         adapter.setOnMoreOperaItemClickListener((v, item, position) -> {
-            switch (position) {
-                case 0: {
-                    if (item.getType() == 1) {
+            if (item.getType() == 1) {
+                switch (position) {
+                    case 0: {
                         Intent intent = new Intent(this, BookScanActivity.class);
                         startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_BOOK);
+                        break;
                     }
-                    break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
                 }
-                case 1:
-                    break;
-                case 2:
-                    break;
-            }
-            if (item.getType() == 2) {
+            } else if (item.getType() == 2) {
                 Set<CollectedBook> checkedItems = ((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks();
                 presenter.alterReadStatus(checkedItems, item.getReadStatus());
                 setOperasText(null);
