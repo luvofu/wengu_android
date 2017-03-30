@@ -197,4 +197,8 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_DEL_BOOK_MARK)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> delBookMark(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_USER_MANUAL_ENTERING_BOOKS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> myCreatedBooks(@FieldMap Map<String, Object> params);
 }

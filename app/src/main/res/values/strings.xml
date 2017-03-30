@@ -141,5 +141,6 @@
     <string name="write_some_idea">写点见解吧...</string>
     <string name="set_tags">设置标签</string>
     <string name="total_pages">总页码</string>
+    <string name="my_created">我创建的</string>
 
 </resources>

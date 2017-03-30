@@ -109,8 +109,11 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                         startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_BOOK);
                         break;
                     }
-                    case 1:
+                    case 1: {
+                        Intent intent = new Intent(this, MyCreatedBooksActivity.class);
+                        startActivity(intent);
                         break;
+                    }
                     case 2:
                         break;
                 }

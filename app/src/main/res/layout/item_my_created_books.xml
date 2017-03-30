@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/setting_item_only_last_bg_selector"
+              android:orientation="horizontal"
+              android:paddingBottom="@dimen/common_padding_small"
+              android:paddingLeft="@dimen/common_padding_middle"
+              android:paddingRight="@dimen/common_padding_middle"
+              android:paddingTop="@dimen/common_padding_small">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:id="@+id/sdv_book_cover"
+        android:layout_width="@dimen/item_book_cover_width_small"
+        android:layout_height="@dimen/item_book_cover_height_small"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_book_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/font_black_dark"
+            android:textSize="@dimen/font_default"/>
+
+        <TextView
+            android:id="@+id/tv_book_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/font_more"
+            android:textSize="@dimen/font_web"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:textColor="@color/front_hot_font"
+        android:textSize="@dimen/font_default"
+        tools:text="审核中"/>
+
+</LinearLayout>
