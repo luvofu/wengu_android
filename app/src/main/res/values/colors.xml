@@ -28,7 +28,7 @@
     <color name="font_black_light">#888888</color>
     <color name="font_black_dark">#777777</color>
 
-    <color name="me_login_font">#1592B7</color>
+    <color name="font_login">#1592B7</color>
     <color name="login_btn_pressed">#1672BD</color>
     <color name="login_btn_normal">#1592B7</color>
     <color name="mud">#F3ECE6</color>

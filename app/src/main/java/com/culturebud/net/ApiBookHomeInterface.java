@@ -201,4 +201,8 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_USER_MANUAL_ENTERING_BOOKS)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> myCreatedBooks(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_CUSTOM_CATEGORIES)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> customCategories(@FieldMap Map<String, Object> params);
 }

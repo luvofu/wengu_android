@@ -61,7 +61,7 @@
                     android:paddingRight="15dp"
                     android:paddingTop="1dp"
                     android:text="@string/login"
-                    android:textColor="@color/me_login_font"
+                    android:textColor="@color/font_login"
                     android:textSize="16sp"
                     android:visibility="visible" />
 

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_tips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bottom_line_bg"
+        android:paddingBottom="@dimen/common_padding_small"
+        android:paddingLeft="@dimen/common_padding_middle"
+        android:paddingRight="@dimen/common_padding_middle"
+        android:paddingTop="@dimen/common_padding_small"
+        android:text="点击修改分类名（分类名不能超过8个字）"
+        android:textColor="@color/font_black_light"
+        android:textSize="@dimen/font_default"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_custom_categories"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

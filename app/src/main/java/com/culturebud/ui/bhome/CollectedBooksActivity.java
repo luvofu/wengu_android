@@ -114,8 +114,11 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                         startActivity(intent);
                         break;
                     }
-                    case 2:
+                    case 2: {
+                        Intent intent = new Intent(this, CustomCategoriesActivity.class);
+                        startActivity(intent);
                         break;
+                    }
                 }
             } else if (item.getType() == 2) {
                 Set<CollectedBook> checkedItems = ((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks();

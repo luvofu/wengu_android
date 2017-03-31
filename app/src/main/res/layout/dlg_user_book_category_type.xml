@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:text="中图法"
-        android:textColor="@color/me_login_font"
+        android:textColor="@color/font_login"
         android:textSize="@dimen/font_default"/>
 
     <com.culturebud.widget.TagFlowLayout
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:text="自定义"
-        android:textColor="@color/me_login_font"
+        android:textColor="@color/font_login"
         android:textSize="@dimen/font_default"/>
 
     <com.culturebud.widget.TagFlowLayout
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="16dp"
         android:text="其它"
-        android:textColor="@color/me_login_font"
+        android:textColor="@color/font_login"
         android:textSize="@dimen/font_default"/>
 
     <com.culturebud.widget.TagFlowLayout
