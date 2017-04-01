@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_categories_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_color"
+        android:paddingBottom="@dimen/common_padding_small"
+        android:paddingLeft="@dimen/common_padding_middle"
+        android:paddingTop="@dimen/common_padding_small"
+        android:text="@string/txt_custom_categories_count"
+        android:textColor="@color/font_black_dark"
+        android:textSize="@dimen/font_default"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_custom_categories"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

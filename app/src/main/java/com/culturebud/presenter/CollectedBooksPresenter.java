@@ -2,6 +2,7 @@ package com.culturebud.presenter;
 
 import com.culturebud.BaseApp;
 import com.culturebud.bean.BookCategoryGroup;
+import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.CollectedBooksContract;
@@ -160,5 +161,38 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
             }
         });
+    }
+
+    @Override
+    public void customCategories() {
+        if (!validateToken()) {
+            return;
+        }
+        model.customCategories(BaseApp.getInstance().getUser().getToken())
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<List<Category>>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(List<Category> categories) {
+                view.onCustomCategories(categories);
+            }
+        });
+    }
+
+    @Override
+    public void addCustomCategory(String category) {
+
     }
 }

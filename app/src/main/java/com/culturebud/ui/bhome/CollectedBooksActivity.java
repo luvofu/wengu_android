@@ -24,21 +24,25 @@ import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.CollectedBooksAdapter;
 import com.culturebud.adapter.CollectedBooksVerticalAdapter;
+import com.culturebud.adapter.CustomCategoriesAdapter;
 import com.culturebud.adapter.MoreOperaItemsAdapter;
 import com.culturebud.adapter.WhiteTagAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCategoryGroup;
+import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.presenter.CollectedBooksPresenter;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.util.WidgetUtil;
+import com.culturebud.widget.DividerItemDecoration;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.TagFlowLayout;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 
 /**
@@ -64,6 +68,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     private FloatingActionButton fabEditBooks;
     private PopupWindow ppwCategory;
     private BottomNavigationView bnvOperas;
+    private BottomSheetDialog bsdCustomCategories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -358,6 +363,17 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     }
 
     @Override
+    public void onCustomCategories(List<Category> categories) {
+        if (rvCategories == null) {
+            return;
+        }
+        ((CustomCategoriesAdapter) rvCategories.getAdapter()).clearData();
+        ((CustomCategoriesAdapter) rvCategories.getAdapter()).addItems(categories);
+        tvCategoriesCount.setText(String.format(Locale.getDefault(), getString(R.string.txt_custom_categories_count),
+                rvCategories.getAdapter().getItemCount() - 1));
+    }
+
+    @Override
     public void onItemClick(View v, int position, CollectedBook book, int operaType) {
         switch (operaType) {
             case CollectedBooksAdapter.OPERA_TYPE_DETAIL:
@@ -417,7 +433,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     alterReadStatus();
                     break;
                 case R.id.menu_item_custom:
-                    onErrorTip("自定义");
+                    showCustomCategoriesDlg();
                     break;
             }
         }
@@ -436,7 +452,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     alterReadStatus();
                     break;
                 case R.id.menu_item_custom:
-                    onErrorTip("自定义");
+                    showCustomCategoriesDlg();
                     break;
             }
         }
@@ -472,5 +488,39 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 })
                 .setNegativeButton("取消", null)
                 .show();
+    }
+
+    private TextView tvCategoriesCount;
+    private RecyclerView rvCategories;
+
+    private void initCustomCategoriesDlg() {
+        if (bsdCustomCategories == null) {
+            bsdCustomCategories = new BottomSheetDialog(this);
+            bsdCustomCategories.setContentView(R.layout.dlg_custom_categories);
+//            bsdCustomCategories.getWindow().findViewById(android.support.design.R.id.design_bottom_sheet)
+//                    .setBackgroundResource(android.R.color.transparent);
+            tvCategoriesCount = (TextView) bsdCustomCategories.getWindow().findViewById(R.id.tv_categories_count);
+            rvCategories = (RecyclerView) bsdCustomCategories.getWindow().findViewById(R.id.rv_custom_categories);
+            rvCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
+            DividerItemDecoration divider = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL, true);
+            rvCategories.addItemDecoration(divider);
+            CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
+            adapter.setAsDlg();
+            rvCategories.setAdapter(adapter);
+        }
+        presenter.customCategories();
+    }
+
+    public void showCustomCategoriesDlg() {
+        initCustomCategoriesDlg();
+        if (!bsdCustomCategories.isShowing()) {
+            bsdCustomCategories.show();
+        }
+    }
+
+    public void hideCustomCategoriesDlg() {
+        if (bsdCustomCategories != null && bsdCustomCategories.isShowing()) {
+            bsdCustomCategories.dismiss();
+        }
     }
 }

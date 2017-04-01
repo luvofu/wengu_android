@@ -22,9 +22,17 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
     private List<Category> data;
     private static final int ITEM_TYPE_ADD = 1;
     private static final int ITEM_TYPE_CATEGORY = 2;
+    private static final int ITEM_TYPE_CATEGORY_SIMPLE = 3;
+    private static final int MODEL_NORMAL = 1;
+    private static final int MODEL_SIMPLE = 2;
+    private int model = MODEL_NORMAL;
 
     public CustomCategoriesAdapter() {
         data = new ArrayList<>();
+    }
+
+    public void setAsDlg() {
+        model = MODEL_SIMPLE;
     }
 
     public void clearData() {
@@ -47,9 +55,12 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         if (ITEM_TYPE_ADD == viewType) {
             return new AddCustomCategoryViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_custom_category_add, parent, false));
-        } else {
+        } else if(ITEM_TYPE_CATEGORY == viewType) {
             return new CustomCategoriesViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_custom_category, parent, false));
+        } else {
+            return new CustomCategoriesSimpleViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_custom_category_add, parent, false));
         }
     }
 
@@ -57,11 +68,15 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
     public void onBindViewHolder(AddCustomCategoryViewHolder holder, int position) {
         if (holder.getClass() == AddCustomCategoryViewHolder.class) {
 
-        } else {
+        } else if (holder.getClass() == CustomCategoriesViewHolder.class) {
             Category item = data.get(position);
             CustomCategoriesViewHolder ccHolder = (CustomCategoriesViewHolder) holder;
             ccHolder.setCategory(item.getCategory());
             ccHolder.setCount(item.getStatis());
+        } else {
+            Category item = data.get(position);
+            CustomCategoriesSimpleViewHolder ccsHolder = (CustomCategoriesSimpleViewHolder) holder;
+            ccsHolder.setCategory(item.getCategory());
         }
     }
 
@@ -70,7 +85,11 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         if (position == data.size()) {
             return ITEM_TYPE_ADD;
         } else {
-            return ITEM_TYPE_CATEGORY;
+            if (model == MODEL_NORMAL) {
+                return ITEM_TYPE_CATEGORY;
+            } else {
+                return ITEM_TYPE_CATEGORY_SIMPLE;
+            }
         }
     }
 
@@ -103,6 +122,23 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
 
         public void setCount(int count) {
             tvCount.setText(String.valueOf(count));
+        }
+    }
+
+    class CustomCategoriesSimpleViewHolder extends AddCustomCategoryViewHolder {
+        private TextView tvCategory;
+
+        public CustomCategoriesSimpleViewHolder(View itemView) {
+            super(itemView);
+            tvCategory = (TextView) itemView;
+            tvCategory.setTextColor(itemView.getResources().getColor(R.color.title_font_default));
+            tvCategory.setCompoundDrawables(null, null, null, null);
+        }
+
+        public void setCategory(String category) {
+            if (!TextUtils.isEmpty(category)) {
+                tvCategory.setText(category);
+            }
         }
     }
 }

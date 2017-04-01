@@ -142,5 +142,6 @@
     <string name="set_tags">设置标签</string>
     <string name="total_pages">总页码</string>
     <string name="my_created">我创建的</string>
+    <string name="txt_custom_categories_count">自定义分类（%1$d）</string>
 
 </resources>

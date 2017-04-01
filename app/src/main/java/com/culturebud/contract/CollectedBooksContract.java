@@ -1,7 +1,9 @@
 package com.culturebud.contract;
 
 import com.culturebud.bean.BookCategoryGroup;
+import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
+import com.culturebud.model.CustomCategoriesModel;
 import com.google.gson.JsonObject;
 
 import java.util.List;
@@ -15,7 +17,7 @@ import rx.Observable;
 
 public interface CollectedBooksContract {
 
-    abstract class Model extends BaseModel {
+    abstract class Model extends CustomCategoriesModel {
         public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page);
 
         public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page, int
@@ -34,6 +36,8 @@ public interface CollectedBooksContract {
         void onCategoryStatistics(BookCategoryGroup categoryGroup);
 
         void onDeleteUserBooks(Set<CollectedBook> books, boolean success);
+
+        void onCustomCategories(List<Category> categories);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -46,5 +50,9 @@ public interface CollectedBooksContract {
         public abstract void deleteUserBooks(Set<CollectedBook> userBooks);
 
         public abstract void alterReadStatus(Set<CollectedBook> userBooks, int readStatus);
+
+        public abstract void customCategories();
+
+        public abstract void addCustomCategory(String category);
     }
 }

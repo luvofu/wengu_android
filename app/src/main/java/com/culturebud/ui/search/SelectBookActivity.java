@@ -18,7 +18,9 @@ import com.culturebud.bean.Book;
 import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
+import com.culturebud.contract.SelectBookContract;
 import com.culturebud.presenter.CollectedBooksPresenter;
+import com.culturebud.presenter.SelectBookPresenter;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -29,9 +31,9 @@ import java.util.Set;
  * Created by XieWei on 2017/1/9.
  */
 
-@PresenterInject(CollectedBooksPresenter.class)
-public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Presenter>
-        implements CollectedBooksContract.View, BooksSimpleAdapter.OnItemClickListener {
+@PresenterInject(SelectBookPresenter.class)
+public class SelectBookActivity extends BaseActivity<SelectBookContract.Presenter>
+        implements SelectBookContract.View, BooksSimpleAdapter.OnItemClickListener {
     private TextView tvOperaTips;
     private RecyclerView rvBooks;
     private int currentPage;
@@ -81,16 +83,6 @@ public class SelectBookActivity extends BaseActivity<CollectedBooksContract.Pres
         tvOperaTips.setText(String.format(Locale.getDefault(),
                 getString(R.string.searched_books_tip),
                 rvBooks.getAdapter().getItemCount()));
-    }
-
-    @Override
-    public void onCategoryStatistics(BookCategoryGroup categoryGroup) {
-
-    }
-
-    @Override
-    public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
-
     }
 
     @Override
