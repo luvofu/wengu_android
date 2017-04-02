@@ -28,6 +28,7 @@ public interface CollectedBooksContract {
         public abstract Observable<Boolean> deleteUserBooks(String token, Set<CollectedBook> userBooks);
 
         public abstract Observable<Boolean> alterReadStatus(String token, Set<CollectedBook> userBooks, int readStatus);
+
     }
 
     interface View extends BaseView {
@@ -38,6 +39,8 @@ public interface CollectedBooksContract {
         void onDeleteUserBooks(Set<CollectedBook> books, boolean success);
 
         void onCustomCategories(List<Category> categories);
+
+        void onAddCategory(boolean success);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {

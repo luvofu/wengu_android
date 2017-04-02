@@ -67,16 +67,18 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
     @Override
     public void onBindViewHolder(AddCustomCategoryViewHolder holder, int position) {
         if (holder.getClass() == AddCustomCategoryViewHolder.class) {
-
+            holder.category = null;
         } else if (holder.getClass() == CustomCategoriesViewHolder.class) {
             Category item = data.get(position);
             CustomCategoriesViewHolder ccHolder = (CustomCategoriesViewHolder) holder;
             ccHolder.setCategory(item.getCategory());
             ccHolder.setCount(item.getStatis());
+            ccHolder.category = item;
         } else {
             Category item = data.get(position);
             CustomCategoriesSimpleViewHolder ccsHolder = (CustomCategoriesSimpleViewHolder) holder;
             ccsHolder.setCategory(item.getCategory());
+            ccsHolder.category = item;
         }
     }
 
@@ -98,9 +100,19 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         return data.size() + 1;
     }
 
-    class AddCustomCategoryViewHolder extends RecyclerView.ViewHolder {
+    class AddCustomCategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        protected Category category;
+
         public AddCustomCategoryViewHolder(View itemView) {
             super(itemView);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, category);
+            }
         }
     }
 
@@ -114,6 +126,13 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
             tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_count);
         }
 
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, category);
+            }
+        }
+
         public void setCategory(String category) {
             if (!TextUtils.isEmpty(category)) {
                 tvCategory.setText(category);
@@ -125,7 +144,7 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         }
     }
 
-    class CustomCategoriesSimpleViewHolder extends AddCustomCategoryViewHolder {
+    class CustomCategoriesSimpleViewHolder extends AddCustomCategoryViewHolder{
         private TextView tvCategory;
 
         public CustomCategoriesSimpleViewHolder(View itemView) {
@@ -140,5 +159,26 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
                 tvCategory.setText(category);
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(v, category);
+            }
+        }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, Category category);
     }
 }

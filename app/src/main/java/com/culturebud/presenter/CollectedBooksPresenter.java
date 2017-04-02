@@ -193,6 +193,29 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
     @Override
     public void addCustomCategory(String category) {
+        if (!validateToken()) {
+            return;
+        }
+        model.addCategory(BaseApp.getInstance().getUser().getToken(), category)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onAddCategory(aBoolean);
+            }
+        });
     }
 }

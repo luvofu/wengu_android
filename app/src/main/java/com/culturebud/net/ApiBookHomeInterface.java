@@ -50,7 +50,8 @@ public interface ApiBookHomeInterface {
 
     @POST(CommonConst.PATH_BOOK_CIRCLE_DYNAMIC_ADD)
     @Multipart
-    Observable<ApiResultBean<JsonObject>> addDynamic(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part imageFile);
+    Observable<ApiResultBean<JsonObject>> addDynamic(@PartMap Map<String, RequestBody> params, @Part MultipartBody
+            .Part imageFile);
 
     @POST(CommonConst.PATH_BOOK_CIRCLE_DYNAMIC_MY_PUBLISHED)
     @FormUrlEncoded
@@ -141,7 +142,8 @@ public interface ApiBookHomeInterface {
 
     @POST(CommonConst.PATH_NOTE_CREATE)
     @Multipart
-    Observable<ApiResultBean<JsonObject>> createNote(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
+    Observable<ApiResultBean<JsonObject>> createNote(@PartMap Map<String, RequestBody> params, @Part MultipartBody
+            .Part file);
 
     /**
      * String token;令牌
@@ -175,10 +177,10 @@ public interface ApiBookHomeInterface {
 
     @POST(CommonConst.PATH_MANUAL_BOOK_ENTRY)
     @Multipart
-    Observable<ApiResultBean<JsonObject>> manualAddBook(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part file);
+    Observable<ApiResultBean<JsonObject>> manualAddBook(@PartMap Map<String, RequestBody> params, @Part MultipartBody
+            .Part file);
 
     /**
-     *
      * @param params token
      * @return
      */
@@ -205,4 +207,20 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_CUSTOM_CATEGORIES)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> customCategories(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_CUSTOM_CATEGORY_ADD)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> addCustomCategory(@FieldMap Map<String, Object> params);
+
+    /**
+     * String token;令牌
+     * private String userBookIdList;;藏书ids(“1000|1002|10003”形式)
+     * private String category;类别（已存在的或新建的）
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_MOVE_BOOK_TO_CATEGORY)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> moveBookToCategory(@FieldMap Map<String, Object> params);
 }

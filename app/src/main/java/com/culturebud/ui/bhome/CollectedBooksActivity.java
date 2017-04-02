@@ -12,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.MenuItem;
 import android.view.View;
@@ -34,6 +35,7 @@ import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.presenter.CollectedBooksPresenter;
 import com.culturebud.ui.front.BookDetailActivity;
+import com.culturebud.ui.me.GeneralEditorActivity;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.DividerItemDecoration;
 import com.culturebud.widget.RecyclerViewDivider;
@@ -374,6 +376,13 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     }
 
     @Override
+    public void onAddCategory(boolean success) {
+        if (success) {
+            presenter.customCategories();
+        }
+    }
+
+    @Override
     public void onItemClick(View v, int position, CollectedBook book, int operaType) {
         switch (operaType) {
             case CollectedBooksAdapter.OPERA_TYPE_DETAIL:
@@ -506,6 +515,17 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             rvCategories.addItemDecoration(divider);
             CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
             adapter.setAsDlg();
+            adapter.setOnItemClickListener((v, category) -> {
+                if (category == null) {//添加分类
+                    Intent intent = new Intent(this, GeneralEditorActivity.class);
+                    intent.putExtra("title", "新增分类");
+                    intent.putExtra("hint", "输入书籍分类（不超过8个字）");
+                    intent.putExtra("content_length", 8);
+                    startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ADD_CUSTOM_CATEGORY);
+                } else {//把书籍添加到该分类
+
+                }
+            });
             rvCategories.setAdapter(adapter);
         }
         presenter.customCategories();
@@ -521,6 +541,21 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void hideCustomCategoriesDlg() {
         if (bsdCustomCategories != null && bsdCustomCategories.isShowing()) {
             bsdCustomCategories.dismiss();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case CommonConst.RequestCode.REQUEST_CODE_ADD_CUSTOM_CATEGORY:
+                if (RESULT_OK == resultCode) {
+                    String content = data.getStringExtra("content");
+                    if (!TextUtils.isEmpty(content)) {
+                        presenter.addCustomCategory(content);
+                    }
+                }
+                break;
         }
     }
 }

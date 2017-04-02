@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
@@ -48,6 +49,10 @@ public class GeneralEditorActivity extends BaseActivity {
         }
         contentLength = intent.getIntExtra("content_length", 95);
         etInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(contentLength)});
+        String hint = intent.getStringExtra("hint");
+        if (!TextUtils.isEmpty(hint)) {
+            etInput.setHint(hint);
+        }
         if (content != null) {
             etInput.setText(content);
             etInput.setSelection(content.length());

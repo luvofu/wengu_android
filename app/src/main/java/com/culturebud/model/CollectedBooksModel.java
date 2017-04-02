@@ -25,11 +25,14 @@ import java.util.Set;
 import rx.Observable;
 import rx.Subscriber;
 
+import static com.culturebud.CommonConst.TOKEN_KEY;
+
 /**
  * Created by XieWei on 2016/11/9.
  */
 
 public class CollectedBooksModel extends CollectedBooksContract.Model {
+
     @Override
     public Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page) {
         return Observable.create(subscriber -> {
@@ -58,7 +61,8 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                                 JsonObject jobj = res.getData();
                                 if (jobj.has("userBookList")) {
                                     JsonArray jarr = jobj.getAsJsonArray("userBookList");
-                                    List<CollectedBook> books = new Gson().fromJson(jarr, new TypeToken<List<CollectedBook>>() {
+                                    List<CollectedBook> books = new Gson().fromJson(jarr, new
+                                            TypeToken<List<CollectedBook>>() {
                                     }.getType());
                                     subscriber.onNext(books);
                                 } else {
@@ -103,7 +107,8 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                                 JsonObject jobj = res.getData();
                                 if (jobj.has("userBookList")) {
                                     JsonArray jarr = jobj.getAsJsonArray("userBookList");
-                                    List<CollectedBook> books = new Gson().fromJson(jarr, new TypeToken<List<CollectedBook>>() {
+                                    List<CollectedBook> books = new Gson().fromJson(jarr, new
+                                            TypeToken<List<CollectedBook>>() {
                                     }.getType());
                                     subscriber.onNext(books);
                                 } else {
@@ -126,27 +131,27 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
             }
             params.put("userId", userId);
             initRetrofit().create(ApiBookInterface.class).getCategoryStatistics(params)
-            .subscribe(new Subscriber<ApiResultBean<BookCategoryGroup>>() {
-                @Override
-                public void onCompleted() {
-                    subscriber.onCompleted();
-                }
+                    .subscribe(new Subscriber<ApiResultBean<BookCategoryGroup>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    subscriber.onError(e);
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
 
-                @Override
-                public void onNext(ApiResultBean<BookCategoryGroup> bean) {
-                    int code = bean.getCode();
-                    if (code == ApiErrorCode.CODE_SUCCESS) {
-                        subscriber.onNext(bean.getData());
-                    } else {
-                        subscriber.onError(new ApiException(code, bean.getMsg()));
-                    }
-                }
-            });
+                        @Override
+                        public void onNext(ApiResultBean<BookCategoryGroup> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(bean.getData());
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 
@@ -168,27 +173,27 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
             }
             params.put("userBookIdList", userBookIdList);
             initRetrofit().create(ApiBookInterface.class).deleteUserBooks(params)
-            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                @Override
-                public void onCompleted() {
-                    subscriber.onCompleted();
-                }
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    subscriber.onError(e);
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
 
-                @Override
-                public void onNext(ApiResultBean<JsonObject> bean) {
-                    int code = bean.getCode();
-                    if (code == ApiErrorCode.CODE_SUCCESS) {
-                        subscriber.onNext(true);
-                    } else {
-                        subscriber.onError(new ApiException(code, bean.getMsg()));
-                    }
-                }
-            });
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 
@@ -209,27 +214,27 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
             params.put("userBookIds", ids);
             params.put("readStatus", readStatus);
             initRetrofit().create(ApiCollectedInterface.class).alterBookReadStatus(params)
-            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                @Override
-                public void onCompleted() {
-                    subscriber.onCompleted();
-                }
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    subscriber.onError(e);
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
 
-                @Override
-                public void onNext(ApiResultBean<JsonObject> bean) {
-                    int code = bean.getCode();
-                    if (code == ApiErrorCode.CODE_SUCCESS) {
-                        subscriber.onNext(true);
-                    } else {
-                        subscriber.onError(new ApiException(code, bean.getMsg()));
-                    }
-                }
-            });
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 }
