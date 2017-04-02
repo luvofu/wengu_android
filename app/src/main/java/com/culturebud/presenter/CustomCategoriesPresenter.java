@@ -72,7 +72,63 @@ public class CustomCategoriesPresenter extends CustomCategoriesContract.Presente
 
             @Override
             public void onNext(Boolean aBoolean) {
-                view.onAddCategory(aBoolean);
+                view.onCategoryChanged(aBoolean);
+            }
+        });
+    }
+
+    @Override
+    public void deleteCustomCategory(long categoryId) {
+        if (!validateToken()) {
+            return;
+        }
+        model.deleteCategory(BaseApp.getInstance().getUser().getToken(), categoryId)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onCategoryChanged(aBoolean);
+            }
+        });
+    }
+
+    @Override
+    public void editCustomCategory(long categoryId, String category) {
+        if (!validateToken()) {
+            return;
+        }
+        model.editCategory(BaseApp.getInstance().getUser().getToken(), categoryId, category)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onCategoryChanged(true);
             }
         });
     }

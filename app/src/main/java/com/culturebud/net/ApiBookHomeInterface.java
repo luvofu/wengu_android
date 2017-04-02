@@ -212,6 +212,14 @@ public interface ApiBookHomeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> addCustomCategory(@FieldMap Map<String, Object> params);
 
+    @POST(CommonConst.PATH_CUSTOM_CATEGORY_DEL)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> deleteCustomCategory(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_CUSTOM_CATEGORY_EDIT)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> editCustomCategory(@FieldMap Map<String, Object> params);
+
     /**
      * String token;令牌
      * private String userBookIdList;;藏书ids(“1000|1002|10003”形式)

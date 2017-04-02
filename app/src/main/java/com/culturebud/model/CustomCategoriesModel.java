@@ -24,6 +24,7 @@ import rx.Subscriber;
  */
 
 public class CustomCategoriesModel extends CustomCategoriesContract.Model {
+
     @Override
     public Observable<List<Category>> customCategories(String token) {
         return Observable.create(subscriber -> {
@@ -97,6 +98,73 @@ public class CustomCategoriesModel extends CustomCategoriesContract.Model {
                             }
                         }
                     });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteCategory(String token, long categoryId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("categoryId", categoryId);
+            initRetrofit().create(ApiBookHomeInterface.class).deleteCustomCategory(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> editCategory(String token, long categoryId, String category) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("categoryId", categoryId);
+            params.put("category", category);
+            initRetrofit().create(ApiBookHomeInterface.class).editCustomCategory(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
         });
     }
 }

@@ -68,7 +68,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     }
 
     @Override
-    public void onAddCategory(boolean success) {
+    public void onCategoryChanged(boolean success) {
         if (success) {
             presenter.customCategories();
         }
