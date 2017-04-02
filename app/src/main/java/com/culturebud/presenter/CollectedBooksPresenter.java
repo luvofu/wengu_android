@@ -113,26 +113,26 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
             return;
         }
         model.deleteUserBooks(BaseApp.getInstance().getUser().getToken(), userBooks)
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(Boolean aBoolean) {
-                view.onDeleteUserBooks(userBooks, aBoolean);
-            }
-        });
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onDeleteUserBooks(userBooks, aBoolean);
+                    }
+                });
     }
 
     @Override
@@ -141,26 +141,26 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
             return;
         }
         model.alterReadStatus(BaseApp.getInstance().getUser().getToken(), userBooks, readStatus)
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(Boolean aBoolean) {
+                    @Override
+                    public void onNext(Boolean aBoolean) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
@@ -169,53 +169,53 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
             return;
         }
         model.customCategories(BaseApp.getInstance().getUser().getToken())
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<List<Category>>() {
-            @Override
-            public void onCompleted() {
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Category>>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(List<Category> categories) {
-                view.onCustomCategories(categories);
-            }
-        });
+                    @Override
+                    public void onNext(List<Category> categories) {
+                        view.onCustomCategories(categories);
+                    }
+                });
     }
 
     @Override
-    public void addCustomCategory(String category) {
+    public void moveBook2CustomCategory(Set<CollectedBook> books, String category) {
         if (!validateToken()) {
             return;
         }
-        model.addCategory(BaseApp.getInstance().getUser().getToken(), category)
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
+        model.moveBook2CustomCategory(BaseApp.getInstance().getUser().getToken(), books, category)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(Boolean aBoolean) {
-                view.onAddCategory(aBoolean);
-            }
-        });
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onMove2Category(aBoolean);
+                    }
+                });
     }
 }

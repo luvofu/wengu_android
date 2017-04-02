@@ -42,8 +42,10 @@
     <dimen name="common_margin_small">5dp</dimen>
     <dimen name="common_margin_middle">15dp</dimen>
     <dimen name="common_margin_big">25dp</dimen>
-    <dimen name="common_padding_middle">15dp</dimen>
+    <dimen name="common_padding_big">15dp</dimen>
     <dimen name="common_padding_small">6dp</dimen>
+    <dimen name="common_padding_default">8dp</dimen>
+    <dimen name="common_padding_middle">12dp</dimen>
     <dimen name="max_search_width">800dp</dimen>
     <dimen name="min_search_width">260dp</dimen>
     <dimen name="min_search_height">36dp</dimen>

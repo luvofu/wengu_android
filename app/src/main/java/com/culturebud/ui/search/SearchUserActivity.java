@@ -47,7 +47,7 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
         showOperas();
         setOperasText(R.string.cancel);
 
-        int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_middle);
+        int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_big);
         rvUsers.setPadding(padding, padding, padding, padding);
         UsersAdapter adapter = new UsersAdapter();
         rvUsers.setAdapter(adapter);

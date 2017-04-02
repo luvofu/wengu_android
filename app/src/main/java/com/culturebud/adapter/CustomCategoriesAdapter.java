@@ -2,9 +2,12 @@ package com.culturebud.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.culturebud.R;
@@ -118,12 +121,23 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
 
 
     class CustomCategoriesViewHolder extends AddCustomCategoryViewHolder {
-        private TextView tvCategory, tvCount;
+        private TextView tvCount;
+        private EditText etCategory;
 
         public CustomCategoriesViewHolder(View itemView) {
             super(itemView);
-            tvCategory = WidgetUtil.obtainViewById(itemView, R.id.tv_category);
+            etCategory = WidgetUtil.obtainViewById(itemView, R.id.et_category);
             tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_count);
+            etCategory.setOnClickListener(v -> {
+                etCategory.setCursorVisible(true);
+            });
+            etCategory.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    etCategory.setCursorVisible(true);
+                    return true;
+                }
+                return false;
+            });
         }
 
         @Override
@@ -135,7 +149,9 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
 
         public void setCategory(String category) {
             if (!TextUtils.isEmpty(category)) {
-                tvCategory.setText(category);
+                etCategory.setText(category);
+                etCategory.setSelection(category.length());
+                etCategory.setCursorVisible(false);
             }
         }
 

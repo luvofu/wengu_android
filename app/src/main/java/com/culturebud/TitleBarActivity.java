@@ -176,6 +176,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         tvOperas.setText(resId);
     }
 
+    public TextView getOperasView() {
+        return tvOperas;
+    }
+
     public void setBackDrawable(@DrawableRes int resId) {
         Drawable drawable = getResources().getDrawable(resId);
         setBackDrawable(drawable);

@@ -37,7 +37,7 @@
                     android:id="@+id/iv_back"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginTop="@dimen/common_padding_middle"
+                    android:layout_marginTop="@dimen/common_padding_big"
                     android:scaleType="centerInside"
                     android:src="@drawable/titlebar_back_selector" />
 

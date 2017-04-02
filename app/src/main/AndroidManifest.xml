@@ -248,7 +248,8 @@
 
         <activity
             android:name=".ui.bhome.CustomCategoriesActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
             android:name="com.mob.tools.MobUIShell"

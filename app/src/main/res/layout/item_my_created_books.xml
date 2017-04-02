@@ -7,8 +7,8 @@
               android:background="@drawable/setting_item_only_last_bg_selector"
               android:orientation="horizontal"
               android:paddingBottom="@dimen/common_padding_small"
-              android:paddingLeft="@dimen/common_padding_middle"
-              android:paddingRight="@dimen/common_padding_middle"
+              android:paddingLeft="@dimen/common_padding_big"
+              android:paddingRight="@dimen/common_padding_big"
               android:paddingTop="@dimen/common_padding_small">
 
     <com.facebook.drawee.view.SimpleDraweeView

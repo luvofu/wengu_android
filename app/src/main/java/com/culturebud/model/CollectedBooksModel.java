@@ -1,7 +1,6 @@
 package com.culturebud.model;
 
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
@@ -24,8 +23,6 @@ import java.util.Set;
 
 import rx.Observable;
 import rx.Subscriber;
-
-import static com.culturebud.CommonConst.TOKEN_KEY;
 
 /**
  * Created by XieWei on 2016/11/9.
@@ -63,7 +60,7 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                                     JsonArray jarr = jobj.getAsJsonArray("userBookList");
                                     List<CollectedBook> books = new Gson().fromJson(jarr, new
                                             TypeToken<List<CollectedBook>>() {
-                                    }.getType());
+                                            }.getType());
                                     subscriber.onNext(books);
                                 } else {
                                     subscriber.onNext(null);
@@ -109,7 +106,7 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                                     JsonArray jarr = jobj.getAsJsonArray("userBookList");
                                     List<CollectedBook> books = new Gson().fromJson(jarr, new
                                             TypeToken<List<CollectedBook>>() {
-                                    }.getType());
+                                            }.getType());
                                     subscriber.onNext(books);
                                 } else {
                                     subscriber.onNext(null);
@@ -235,6 +232,49 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                             }
                         }
                     });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> moveBook2CustomCategory(String token, Set<CollectedBook> books, String category) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            String userBookIds = "";
+            Iterator<CollectedBook> iterator = books.iterator();
+            while (iterator.hasNext()) {
+                CollectedBook cb = iterator.next();
+                userBookIds = userBookIds + cb.getUserBookId() + "|";
+            }
+            if (userBookIds.endsWith("|")) {
+                userBookIds = userBookIds.substring(0, userBookIds.lastIndexOf("|"));
+            }
+            params.put("userBookIdList", userBookIds);
+            params.put("category", category);
+            initRetrofit().create(ApiBookHomeInterface.class).moveBookToCategory(params)
+            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+                    subscriber.onCompleted();
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    subscriber.onError(e);
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code == ApiErrorCode.CODE_SUCCESS) {
+                        subscriber.onNext(true);
+                    } else {
+                        subscriber.onError(new ApiException(code, bean.getMsg()));
+                    }
+                }
+            });
         });
     }
 }

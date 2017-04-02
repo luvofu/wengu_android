@@ -376,7 +376,16 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     }
 
     @Override
-    public void onAddCategory(boolean success) {
+    public void onMove2Category(boolean success) {
+        hideCustomCategoriesDlg();
+        if ("完成".equals(getOperasView().getText())) {
+            setOperasText(null);
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+            fabEditBooks.show();
+            bnvOperas.setVisibility(View.GONE);
+            ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
+            ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
+        }
         if (success) {
             presenter.customCategories();
         }
@@ -506,8 +515,6 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (bsdCustomCategories == null) {
             bsdCustomCategories = new BottomSheetDialog(this);
             bsdCustomCategories.setContentView(R.layout.dlg_custom_categories);
-//            bsdCustomCategories.getWindow().findViewById(android.support.design.R.id.design_bottom_sheet)
-//                    .setBackgroundResource(android.R.color.transparent);
             tvCategoriesCount = (TextView) bsdCustomCategories.getWindow().findViewById(R.id.tv_categories_count);
             rvCategories = (RecyclerView) bsdCustomCategories.getWindow().findViewById(R.id.rv_custom_categories);
             rvCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -521,9 +528,10 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     intent.putExtra("title", "新增分类");
                     intent.putExtra("hint", "输入书籍分类（不超过8个字）");
                     intent.putExtra("content_length", 8);
-                    startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ADD_CUSTOM_CATEGORY);
+                    startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_MOVE_TO_NEW_CUSTOM_CATEGORY);
                 } else {//把书籍添加到该分类
-
+                    presenter.moveBook2CustomCategory(((CollectedBooksAdapter) rvBooks.getAdapter())
+                            .getCheckedBooks(), category.getCategory());
                 }
             });
             rvCategories.setAdapter(adapter);
@@ -548,11 +556,12 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case CommonConst.RequestCode.REQUEST_CODE_ADD_CUSTOM_CATEGORY:
+            case CommonConst.RequestCode.REQUEST_CODE_MOVE_TO_NEW_CUSTOM_CATEGORY:
                 if (RESULT_OK == resultCode) {
                     String content = data.getStringExtra("content");
                     if (!TextUtils.isEmpty(content)) {
-                        presenter.addCustomCategory(content);
+                        presenter.moveBook2CustomCategory(((CollectedBooksAdapter) rvBooks.getAdapter())
+                                .getCheckedBooks(), content);
                     }
                 }
                 break;

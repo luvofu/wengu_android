@@ -306,6 +306,7 @@ public final class CommonConst {
         public static final int REQUEST_CODE_ENTERING_NEW_BOOK = 1027;
 
         public static final int REQUEST_CODE_ADD_CUSTOM_CATEGORY = 1028;
+        public static final int REQUEST_CODE_MOVE_TO_NEW_CUSTOM_CATEGORY = 1029;
     }
 
     public static String getRootPath() {

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:background="@color/bg_color"
         android:paddingBottom="@dimen/common_padding_small"
-        android:paddingLeft="@dimen/common_padding_middle"
+        android:paddingLeft="@dimen/common_padding_big"
         android:paddingTop="@dimen/common_padding_small"
         android:text="@string/txt_custom_categories_count"
         android:textColor="@color/font_black_dark"

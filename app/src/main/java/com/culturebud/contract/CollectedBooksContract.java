@@ -29,6 +29,8 @@ public interface CollectedBooksContract {
 
         public abstract Observable<Boolean> alterReadStatus(String token, Set<CollectedBook> userBooks, int readStatus);
 
+        public abstract Observable<Boolean> moveBook2CustomCategory(String token, Set<CollectedBook> books, String
+                category);
     }
 
     interface View extends BaseView {
@@ -40,7 +42,7 @@ public interface CollectedBooksContract {
 
         void onCustomCategories(List<Category> categories);
 
-        void onAddCategory(boolean success);
+        void onMove2Category(boolean success);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -56,6 +58,6 @@ public interface CollectedBooksContract {
 
         public abstract void customCategories();
 
-        public abstract void addCustomCategory(String category);
+        public abstract void moveBook2CustomCategory(Set<CollectedBook> books, String category);
     }
 }
