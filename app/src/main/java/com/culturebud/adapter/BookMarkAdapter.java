@@ -164,7 +164,7 @@ public class BookMarkAdapter extends RecyclerView.Adapter<BookMarkAdapter.BookMa
             if (totalPages > 0) {
                 float progress = pages / Float.valueOf(totalPages);
                 pbReadProgress.setProgress((int) (progress * 100));
-                tvReadProgress.setText(String.format(Locale.getDefault(), "%.2f", progress * 100) + "%");
+                tvReadProgress.setText(String.format(Locale.getDefault(), "%.0f", progress * 100) + "%");
             }
         }
 

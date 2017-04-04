@@ -64,6 +64,7 @@ public class ManualAddBookPresenter extends ManualAddBookContract.Presenter {
 
             @Override
             public void onError(Throwable e) {
+                view.hideProDialog();
                 e.printStackTrace();
                 if (e instanceof ApiException) {
                     view.onErrorTip(e.getMessage());

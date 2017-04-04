@@ -109,25 +109,26 @@
                     android:id="@+id/tv_collect"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/common_margin_small"
                     android:layout_weight="1"
                     android:background="@drawable/circle_bg"
                     android:drawableLeft="@mipmap/book_mark_collect"
-                    android:drawablePadding="5dp"
-                    android:gravity="center"
-                    android:padding="15dp"
+                    android:drawablePadding="@dimen/common_padding_big"
+                    android:gravity="center_vertical|left"
+                    android:padding="@dimen/common_padding_big"
                     android:text="@string/collect_books"/>
 
                 <TextView
                     android:id="@+id/tv_note"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/common_margin_small"
                     android:layout_weight="1"
                     android:background="@drawable/circle_bg"
+                    android:drawablePadding="@dimen/common_padding_big"
                     android:drawableRight="@mipmap/book_mark_note"
-                    android:gravity="center"
-                    android:padding="15dp"
+                    android:gravity="center_vertical|right"
+                    android:padding="@dimen/common_padding_big"
                     android:text="@string/notebooks"/>
             </LinearLayout>
 
@@ -141,24 +142,26 @@
                     android:id="@+id/tv_sheet"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/common_margin_small"
                     android:layout_weight="1"
                     android:background="@drawable/circle_bg"
                     android:drawableLeft="@mipmap/book_mark_sheet"
-                    android:gravity="center"
-                    android:padding="15dp"
+                    android:drawablePadding="@dimen/common_padding_big"
+                    android:gravity="center_vertical|left"
+                    android:padding="@dimen/common_padding_big"
                     android:text="@string/book_sheet"/>
 
                 <TextView
                     android:id="@+id/tv_date_book"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_margin="5dp"
+                    android:layout_margin="@dimen/common_margin_small"
                     android:layout_weight="1"
                     android:background="@drawable/circle_bg"
+                    android:drawablePadding="@dimen/common_padding_big"
                     android:drawableRight="@mipmap/book_mark_date"
-                    android:gravity="center"
-                    android:padding="15dp"
+                    android:gravity="center_vertical|right"
+                    android:padding="@dimen/common_padding_big"
                     android:text="@string/tab_book_circle"/>
 
             </LinearLayout>
