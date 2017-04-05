@@ -20,7 +20,9 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@mipmap/icon_floating_action_btn"
         app:backgroundTint="@color/edit_books_action"
-        app:rippleColor="@color/edit_books_action"/>
+        app:elevation="4dp"
+        app:fabSize="mini"
+        app:rippleColor="@color/login_btn_pressed"/>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/bnv_operas"
