@@ -11,19 +11,26 @@ import android.widget.TextView;
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
 import com.culturebud.adapter.BookScanResultAdapter;
+import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Book;
+import com.culturebud.contract.BookScanResultContract;
+import com.culturebud.presenter.BookScanResultPresenter;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by XieWei on 2016/11/26.
  */
 
-public class BookScanResultActivity extends BaseActivity implements BookScanResultAdapter.OnItemClickListener {
+@PresenterInject(BookScanResultPresenter.class)
+public class BookScanResultActivity extends BaseActivity<BookScanResultContract.Presenter> implements BookScanResultAdapter
+        .OnItemClickListener, BookScanResultContract.View {
     private RecyclerView rvBooks;
     private TextView tvScanCount, tvAddFavorite;
 
@@ -31,6 +38,7 @@ public class BookScanResultActivity extends BaseActivity implements BookScanResu
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_scan_result);
+        presenter.setView(this);
         showTitlebar();
         setTitle(R.string.scan_result);
         setOperasText(R.string.select_none);
@@ -75,7 +83,12 @@ public class BookScanResultActivity extends BaseActivity implements BookScanResu
         super.onClick(v);
         switch (v.getId()) {
             case R.id.tv_add_favorite:
-
+                int count = ((BookScanResultAdapter) rvBooks.getAdapter()).getCheckedCount();
+                if (count > 0) {
+                    Map<String, List<Book>> books = new HashMap<>();
+                    books.put("未分类", ((BookScanResultAdapter) rvBooks.getAdapter()).getCheckedBooks());
+                    presenter.addScanBooks(books);
+                }
                 break;
             case R.id.tv_operas:
                 BookScanResultAdapter adapter = (BookScanResultAdapter) rvBooks.getAdapter();
@@ -109,6 +122,14 @@ public class BookScanResultActivity extends BaseActivity implements BookScanResu
             setOperasText("全不选");
         } else {
             setOperasText("全选");
+        }
+    }
+
+    @Override
+    public void onAdd(boolean success) {
+        if (success) {
+            setResult(RESULT_OK);
+            finish();
         }
     }
 }

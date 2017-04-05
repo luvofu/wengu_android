@@ -169,6 +169,8 @@ public final class CommonConst {
 
     public static final String PATH_SCAN_BOOK_ENTRY = "api/userBook/scanSearch";
 
+    public static final String PATH_SCAN_BOOK_ADD = "api/userBook/addScanBooks";
+
     public static final String PATH_MANUAL_BOOK_ENTRY = "api/bookCheck/entry";
 
     public static final String PATH_BOOK_SHEET_CREATE = "/api/bookSheet/add_v101";
@@ -307,6 +309,8 @@ public final class CommonConst {
 
         public static final int REQUEST_CODE_ADD_CUSTOM_CATEGORY = 1028;
         public static final int REQUEST_CODE_MOVE_TO_NEW_CUSTOM_CATEGORY = 1029;
+
+        public static final int REQUEST_CODE_ADD_SCAN_BOOKS = 1030;
     }
 
     public static String getRootPath() {

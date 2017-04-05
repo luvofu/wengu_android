@@ -57,6 +57,18 @@ public class BookScanResultAdapter extends Adapter<BookScanResultAdapter.BookSca
         notifyDataSetChanged();
     }
 
+    public List<Book> getCheckedBooks() {
+        int count = checkedData.size();
+        List<Book> res = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            int key = checkedData.keyAt(i);
+            if (checkedData.get(key)) {
+                res.add(data.get(key));
+            }
+        }
+        return res;
+    }
+
     public int getCheckedCount() {
         int count = 0;
         for (int i = 0; i < checkedData.size(); i++) {

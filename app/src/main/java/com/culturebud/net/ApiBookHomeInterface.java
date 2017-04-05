@@ -231,4 +231,8 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_MOVE_BOOK_TO_CATEGORY)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> moveBookToCategory(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_SCAN_BOOK_ADD)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> addScanBook(@FieldMap Map<String, Object> params);
 }

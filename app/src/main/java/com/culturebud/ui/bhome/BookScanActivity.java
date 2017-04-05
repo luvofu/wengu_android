@@ -25,6 +25,7 @@ import com.uuzuche.lib_zxing.activity.CodeUtils;
 import java.util.Locale;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_MANUAL;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_SCAN_BOOKS;
 
 /**
  * Created by XieWei on 2016/11/25.
@@ -107,7 +108,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
             case R.id.tv_confirm: {
                 Intent intent = new Intent(this, BookScanResultActivity.class);
                 intent.putExtra("books", new Gson().toJson(adapter.getData()));
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_ADD_SCAN_BOOKS);
                 break;
             }
         }
@@ -175,6 +176,13 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
             case REQUEST_CODE_ADD_BOOK_MANUAL:
                 if (resultCode == RESULT_OK) {
                     startActivity(new Intent(this, CollectedBooksActivity.class));
+                    finish();
+                }
+                break;
+            case REQUEST_CODE_ADD_SCAN_BOOKS:
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent(this, CollectedBooksActivity.class);
+                    startActivity(intent);
                     finish();
                 }
                 break;

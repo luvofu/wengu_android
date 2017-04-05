@@ -77,7 +77,7 @@ public class ScanBookAdapter extends Adapter<ScanBookAdapter.ScanBookViewHolder>
         }
 
         public void setBookState(boolean state) {
-            Drawable drawable = null;
+            Drawable drawable;
             if (state) {
                 tvBookState.setText("已在书架");
                 drawable = itemView.getResources().getDrawable(R.mipmap.book_exits_icon);
