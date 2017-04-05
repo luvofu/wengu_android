@@ -1,5 +1,6 @@
 package com.culturebud.ui.bhome;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -39,6 +40,7 @@ import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.StepperView;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.util.List;
 
@@ -155,10 +157,17 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                 startActivity(new Intent(getActivity(), NotebookActivity.class));
                 break;
             case R.id.sdv_scanner:
-                if (!presenter.validateToken()) {
-                    return;
-                }
-                startActivity(new Intent(getActivity(), BookScanActivity.class));
+                new RxPermissions(getActivity()).request(Manifest.permission.CAMERA)
+                        .subscribe(grant -> {
+                            if (grant) {
+                                if (!presenter.validateToken()) {
+                                    return;
+                                }
+                                startActivity(new Intent(getActivity(), BookScanActivity.class));
+                            } else {
+                                onErrorTip("你拒绝了文芽使用反相头扫描书籍！");
+                            }
+                        });
                 break;
         }
     }

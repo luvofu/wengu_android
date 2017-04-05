@@ -1,5 +1,6 @@
 package com.culturebud.ui;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,7 @@ import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.User;
 import com.culturebud.model.MeModel;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -31,6 +33,11 @@ public class WelcomeActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome);
+        new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS,
+                Manifest.permission.READ_PHONE_STATE, Manifest.permission.GET_ACCOUNTS, Manifest.permission.INTERNET)
+        .subscribe(grant -> {
+
+        });
     }
 
     @Override
