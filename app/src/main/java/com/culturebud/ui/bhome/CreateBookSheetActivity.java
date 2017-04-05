@@ -13,7 +13,6 @@ import com.culturebud.presenter.CreateBookSheetPresenter;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
 
 /**
  * Created by XieWei on 2016/12/14.
@@ -67,11 +66,11 @@ public class CreateBookSheetActivity extends BaseActivity<CreateBookSheetContrac
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_SELECT_IMAGE:
-                if (resultCode == RESULT_OK) {
-                    sdvBookSheetCover.setImageURI(photoUri);
-                }
-                break;
+//            case REQUEST_CODE_SELECT_IMAGE:
+//                if (resultCode == RESULT_OK) {
+//                    sdvBookSheetCover.setImageURI(photoUri);
+//                }
+//                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvBookSheetCover.setImageURI(photoUri);

@@ -1,32 +1,22 @@
 package com.culturebud.ui.bhome;
 
-import android.content.ContentValues;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.design.widget.BottomSheetDialog;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.NoteContract;
 import com.culturebud.presenter.NotePresenter;
-import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.Locale;
-import java.util.UUID;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
 
 /**
  * Created by XieWei on 2016/11/23.
@@ -102,11 +92,11 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_SELECT_IMAGE:
-                if (resultCode == RESULT_OK) {
-                    sdvAddImg.setImageURI(photoUri);
-                }
-                break;
+//            case REQUEST_CODE_SELECT_IMAGE:
+//                if (resultCode == RESULT_OK) {
+//                    sdvAddImg.setImageURI(photoUri);
+//                }
+//                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvAddImg.setImageURI(photoUri);

@@ -25,7 +25,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
 
 /**
  * Created by XieWei on 2016/12/9.
@@ -226,15 +225,14 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_SELECT_IMAGE:
-                if (resultCode == RESULT_OK) {
-                    sdvBookCover.setImageURI(photoUri);
-                }
-                break;
+//            case REQUEST_CODE_SELECT_IMAGE:
+//                if (resultCode == RESULT_OK) {
+//                    sdvBookCover.setImageURI(photoUri);
+//                }
+//                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvBookCover.setImageURI(photoUri);
-
                 }
                 break;
         }

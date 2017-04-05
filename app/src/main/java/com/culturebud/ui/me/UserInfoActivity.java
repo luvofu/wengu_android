@@ -20,7 +20,6 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_EMAIL;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_NICK;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_PROFILE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
 
 /**
  * Created by XieWei on 2016/11/2.
@@ -158,13 +157,13 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_SELECT_IMAGE:
-                if (resultCode == RESULT_OK) {
-                    sdvFace.setImageURI(photoUri);
-                    User user = BaseApp.getInstance().getUser();
-                    presenter.editAvatar(user.getUserId(), photoUri, false);
-                }
-                break;
+//            case REQUEST_CODE_SELECT_IMAGE:
+//                if (resultCode == RESULT_OK) {
+//                    sdvFace.setImageURI(photoUri);
+//                    User user = BaseApp.getInstance().getUser();
+//                    presenter.editAvatar(user.getUserId(), photoUri, false);
+//                }
+//                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvFace.setImageURI(photoUri);

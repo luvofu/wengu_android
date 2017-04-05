@@ -32,7 +32,6 @@ import java.util.ArrayList;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_BOOK;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_IMAGE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
 
 /**
@@ -198,12 +197,12 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_SELECT_IMAGE:
-                if (resultCode == RESULT_OK) {
-                    sdvAdd.setImageURI(photoUri);
-                    ivDel.setVisibility(View.VISIBLE);
-                }
-                break;
+//            case REQUEST_CODE_SELECT_IMAGE:
+//                if (resultCode == RESULT_OK) {
+//                    sdvAdd.setImageURI(photoUri);
+//                    ivDel.setVisibility(View.VISIBLE);
+//                }
+//                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvAdd.setImageURI(photoUri);

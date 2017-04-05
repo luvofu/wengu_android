@@ -348,4 +348,20 @@ public class ImgUtil {
         intent.putExtra("noFaceDetection", true); // no face detection
         activity.startActivityForResult(intent, requestCode);
     }
+
+    public static void cropImageUri(Activity activity, Uri uri, Uri output, int outputX, int outputY, int requestCode) {
+        Intent intent = new Intent("com.android.camera.action.CROP");
+        intent.setDataAndType(uri, "image/*");
+        intent.putExtra("crop", "true");
+        intent.putExtra("aspectX", 4);
+        intent.putExtra("aspectY", 4);
+        intent.putExtra("outputX", outputX);
+        intent.putExtra("outputY", outputY);
+        intent.putExtra("scale", true);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, output);
+        intent.putExtra("return-data", false);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true); // no face detection
+        activity.startActivityForResult(intent, requestCode);
+    }
 }

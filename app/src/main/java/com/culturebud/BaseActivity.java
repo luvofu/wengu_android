@@ -1,5 +1,6 @@
 package com.culturebud;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -29,6 +30,7 @@ import com.culturebud.ui.me.LoginActivity;
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.ImgUtil;
 import com.culturebud.util.WidgetUtil;
+import com.tbruyelle.rxpermissions.RxPermissions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -102,13 +104,13 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
             {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setDataAndType(MediaStore.Images.Media.INTERNAL_CONTENT_URI, "image/*");
-                intent.putExtra("crop", "true");
-                intent.putExtra("aspectX", 4);
-                intent.putExtra("aspectY", 4);
-                intent.putExtra("outputX", 300);
-                intent.putExtra("outputY", 300);
-                intent.putExtra("scale", true);
-                intent.putExtra("return-data", false);
+//                intent.putExtra("crop", "true");
+//                intent.putExtra("aspectX", 4);
+//                intent.putExtra("aspectY", 4);
+//                intent.putExtra("outputX", 300);
+//                intent.putExtra("outputY", 300);
+//                intent.putExtra("scale", true);
+//                intent.putExtra("return-data", false);
 
                 Log.d(TAG, CommonConst.getRootPath());
                 File dir = new File(CommonConst.CAPTURE_PATH.replace("file://", ""));
@@ -121,7 +123,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
                 Log.d(TAG, "photo uri is " + photoUri);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, photoUri);
                 intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-                intent.putExtra("noFaceDetection", true); // no face detection
+//                intent.putExtra("noFaceDetection", true); // no face detection
                 startActivityForResult(intent, REQUEST_CODE_SELECT_IMAGE);
                 editImgDialog.dismiss();
                 break;
@@ -148,8 +150,15 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     }
 
     protected void showPhotoDialog() {
-        initEditImgDialog();
-        editImgDialog.show();
+        new RxPermissions(this).request(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe(grant -> {
+                    if (grant) {
+                        initEditImgDialog();
+                        editImgDialog.show();
+                    } else {
+                        onErrorTip("您拒绝了授权，将无法使用拍照和相册图片！");
+                    }
+                });
     }
 
     private void initEditImgDialog() {
@@ -264,6 +273,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
                     finish();
                 }
                 break;
+            case REQUEST_CODE_SELECT_IMAGE: {
+                if (RESULT_OK == resultCode) {
+                    ImgUtil.cropImageUri(this, data.getData(), photoUri, 300, 300, REQUEST_CODE_PHOTO_CROP);
+                }
+            }
+            break;
             case REQUEST_CODE_TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
                     ImgUtil.cropImageUri(this, photoUri, 300, 300, REQUEST_CODE_PHOTO_CROP);
