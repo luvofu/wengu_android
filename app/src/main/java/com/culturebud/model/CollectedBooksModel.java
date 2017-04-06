@@ -164,7 +164,7 @@ public class CollectedBooksModel extends CollectedBooksContract.Model {
                 Iterator<CollectedBook> cbs = userBooks.iterator();
                 while (cbs.hasNext()) {
                     CollectedBook cb = cbs.next();
-                    userBookIdList = cb.getUserBookId() + "|";
+                    userBookIdList = userBookIdList + cb.getUserBookId() + "|";
                 }
                 userBookIdList = userBookIdList.substring(0, userBookIdList.lastIndexOf("|"));
             }
