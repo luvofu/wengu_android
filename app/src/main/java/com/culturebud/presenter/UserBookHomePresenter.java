@@ -1,8 +1,12 @@
 package com.culturebud.presenter;
 
+import android.text.TextUtils;
+
 import com.culturebud.ApiErrorCode;
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.bean.BookCircleDynamic;
+import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserBookHomeContract;
 import com.culturebud.model.UserBookHomeModel;
@@ -79,6 +83,66 @@ public class UserBookHomePresenter extends UserBookHomeContract.Presenter {
                     @Override
                     public void onNext(List<BookCircleDynamic> bookCircleDynamics) {
                         view.onDynamics(bookCircleDynamics);
+                    }
+                });
+    }
+
+    @Override
+    public void thumbUpDynamic(long dynamicId) {
+        if (!validateToken()) {
+            return;
+        }
+        model.thumbUp(BaseApp.getInstance().getUser().getToken(), CommonConst.ThumbUpType.TYPE_DYNAMIC, dynamicId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onThumbUp(dynamicId, aBoolean);
+                    }
+                });
+    }
+
+    @Override
+    public void replyDynamic(long dynamicId, String content, int replyType, long replyObjId) {
+        if (!validateToken()) {
+            return;
+        }
+        if (TextUtils.isEmpty(content)) {
+            view.onErrorTip("回复内容不能为空");
+            return;
+        }
+        model.replyDynamic(BaseApp.getInstance().getUser().getToken(), dynamicId, content, replyType, replyObjId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<DynamicReply>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(DynamicReply dynamicReply) {
+                        view.onDynamicReply(dynamicReply);
                     }
                 });
     }
