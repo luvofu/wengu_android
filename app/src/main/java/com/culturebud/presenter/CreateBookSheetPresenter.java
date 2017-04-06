@@ -51,7 +51,7 @@ public class CreateBookSheetPresenter extends CreateBookSheetContract.Presenter 
 
             @Override
             public void onNext(Integer res) {
-
+                view.onCreateSuccess(res);
             }
         });
     }
