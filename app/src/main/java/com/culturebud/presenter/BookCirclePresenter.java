@@ -1,10 +1,12 @@
 package com.culturebud.presenter;
 
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.CommonConst.ThumbUpType;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookCircleDynamic;
@@ -74,7 +76,8 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
 
                         if (jobj.has("bookCircleDynamicList")) {
                             JsonArray jarr = jobj.getAsJsonArray("bookCircleDynamicList");
-                            List<BookCircleDynamic> bcds = gson.fromJson(jarr, new TypeToken<List<BookCircleDynamic>>() {
+                            List<BookCircleDynamic> bcds = gson.fromJson(jarr, new TypeToken<List<BookCircleDynamic>>
+                                    () {
                             }.getType());
 
                             view.onDynamics(bcds);
@@ -111,6 +114,64 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void uploadBgImg(Uri imgUri, boolean isJPG) {
+        if (!validateToken()) {
+            return;
+        }
+        view.showProDialog();
+        User user = BaseApp.getInstance().getUser();
+        model.uploadImage(user.getToken(), CommonConst.UploadImgType.TYPE_USER_BG, user.getUserId(), imgUri, isJPG)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hideProDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProDialog();
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+                        Log.d("xiewei", "user before update " + user);
+                        view.onUploadBgImg(s);
+                        uploadLocalUser(s);
+                    }
+                });
+    }
+
+    private void uploadLocalUser(String url) {
+        User user = BaseApp.getInstance().getUser();
+        if (user != null) {
+            user.setBackground(url);
+            model.updateLocelUser(user).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<Boolean>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onNext(Boolean aBoolean) {
+                    Log.d("xiewei", "user update " + aBoolean);
+                    Log.d("xiewei", "user update " + user);
+                }
+            });
+        }
     }
 
     @Override

@@ -183,6 +183,14 @@ public final class CommonConst {
 
     public static final String PATH_DEL_BOOK_MARK = "api/bookmark/delete";
 
+    public final class UploadImgType {
+        public static final int TYPE_USER_AVATAR = 0;
+        public static final int TYPE_USER_BG = 1;
+        public static final int TYPE_USER_BOOK_SHEET_COVER = 2;
+        public static final int TYPE_USER_NOTEBOOK_CONTENT = 3;
+        public static final int TYPE_USER_DYNAMIC_CONTENT = 4;
+    }
+
     public final class ThumbUpType {
         public static final int TYPE_COMMENT = 0;//短评
         public static final int TYPE_DYNAMIC = 1;//书圈动态

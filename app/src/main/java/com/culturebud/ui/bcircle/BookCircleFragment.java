@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -30,7 +29,6 @@ import com.culturebud.contract.BookCircleContract;
 import com.culturebud.presenter.BookCirclePresenter;
 import com.culturebud.ui.bhome.DynamicDetailActivity;
 import com.culturebud.ui.community.CommentDetailActivity;
-import com.culturebud.ui.community.CommunityActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
@@ -153,6 +151,11 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
     public void onBgImg(Bitmap bitmap) {
         Drawable drawable = new BitmapDrawable(bitmap);
         rlBg.setBackgroundDrawable(drawable);
+    }
+
+    @Override
+    public void onUploadBgImg(String url) {
+
     }
 
     @Override

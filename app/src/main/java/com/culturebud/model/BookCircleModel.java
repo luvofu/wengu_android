@@ -7,11 +7,14 @@ import com.culturebud.ApiErrorCode;
 import com.culturebud.CommonConst;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.DynamicReply;
+import com.culturebud.bean.User;
 import com.culturebud.contract.BookCircleContract;
+import com.culturebud.db.dao.UserDAO;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.JsonObject;
 
+import java.sql.SQLException;
 import java.util.Map;
 
 import retrofit2.Call;
@@ -26,6 +29,28 @@ import rx.Subscriber;
 
 public class BookCircleModel extends BookCircleContract.Model {
     private static final String TAG = BookCircleModel.class.getSimpleName();
+
+    private UserDAO userDAO;
+
+    private void initUserDAO() throws SQLException {
+        if (userDAO == null) {
+            userDAO = new UserDAO();
+        }
+    }
+
+    @Override
+    public Observable<Boolean> updateLocelUser(User user) {
+        return Observable.create(subscriber -> {
+            try {
+                initUserDAO();
+                subscriber.onNext(userDAO.updateUser(user));
+                subscriber.onCompleted();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+            }
+        });
+    }
 
     @Override
     public Observable<ApiResultBean<JsonObject>> getDynamics(

@@ -3,7 +3,6 @@ package com.culturebud.ui;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.RadioGroup;
 
@@ -14,10 +13,6 @@ import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.MainContract;
 import com.culturebud.presenter.MainPresenter;
-import com.culturebud.ui.bcircle.BookCircleFragment;
-import com.culturebud.ui.bhome.BookHomeFragment;
-import com.culturebud.ui.community.CommunityFragment;
-import com.culturebud.ui.me.MeFragment;
 
 /**
  * Created by XieWei on 2016/10/19.

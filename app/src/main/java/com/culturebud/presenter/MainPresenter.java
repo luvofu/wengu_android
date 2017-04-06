@@ -3,9 +3,7 @@ package com.culturebud.presenter;
 import com.culturebud.BaseApp;
 import com.culturebud.BaseFragment;
 import com.culturebud.contract.MainContract;
-import com.culturebud.ui.bcircle.BookCircleFragment;
 import com.culturebud.ui.bhome.BookHomeFragment;
-import com.culturebud.ui.community.CommunityFragment;
 import com.culturebud.ui.front.FrontPageFragment;
 import com.culturebud.ui.me.MeFragment;
 

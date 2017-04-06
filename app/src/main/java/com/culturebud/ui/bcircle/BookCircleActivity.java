@@ -50,6 +50,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
 
 /**
@@ -99,6 +100,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         initPopupWindow();
         setListeners();
         currentPage = 0;
+        presenter.downloadBgImg();
         presenter.loadDynamics(0);
     }
 
@@ -180,6 +182,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     private void setListeners() {
 //        ivPublish.setOnClickListener(this);
 //        srlRefresh.setOnRefreshListener(this);
+        rlBg.setOnClickListener(this);
         rvDynamics.setOnScrollListener(listener);
         addSoftKeyboardChangedListener(this);
     }
@@ -220,6 +223,9 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             }
             case R.id.iv_back:
                 finish();
+                break;
+            case R.id.rl_bc_bg:
+                showPhotoDialog();
                 break;
             case R.id.tv_my_publish: {
                 Intent intent = new Intent(this, MyDynamicActivity.class);
@@ -270,6 +276,14 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     public void onBgImg(Bitmap bitmap) {
         Drawable drawable = new BitmapDrawable(bitmap);
         rlBg.setBackgroundDrawable(drawable);
+    }
+
+    @Override
+    public void onUploadBgImg(String url) {
+        if (!TextUtils.isEmpty(url)) {
+            BaseApp.getInstance().getUser().setBackground(url);
+            presenter.downloadBgImg();
+        }
     }
 
     @Override
@@ -390,6 +404,11 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 }
                 break;
             }
+            case REQUEST_CODE_PHOTO_CROP:
+                if (resultCode == RESULT_OK) {
+                    presenter.uploadBgImg(photoUri, true);
+                }
+                break;
         }
     }
 

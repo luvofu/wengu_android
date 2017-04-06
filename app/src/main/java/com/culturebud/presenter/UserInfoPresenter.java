@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserInfoContract;
 import com.culturebud.model.UserInfoModel;
@@ -32,7 +33,7 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
         }
         User user = BaseApp.getInstance().getUser();
         view.showProDialog();
-        model.uploadImage(user.getToken(), 0, imageObjId, imgUri, isJPEG)
+        model.uploadImage(user.getToken(), CommonConst.UploadImgType.TYPE_USER_AVATAR, imageObjId, imgUri, isJPEG)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<String>() {
                     @Override
