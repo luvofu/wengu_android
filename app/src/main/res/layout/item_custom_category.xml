@@ -1,52 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:background="@android:color/white"
-              android:gravity="center"
-              android:orientation="horizontal"
-              android:paddingBottom="@dimen/common_padding_middle"
-              android:paddingLeft="@dimen/common_padding_big"
-              android:paddingRight="@dimen/common_padding_big"
-              android:paddingTop="@dimen/common_padding_middle">
+<com.culturebud.widget.SwipeMenuView xmlns:android="http://schemas.android.com/apk/res/android"
+                                     android:layout_width="match_parent"
+                                     android:layout_height="wrap_content"
+                                     android:background="@android:color/white">
 
-    <ImageButton
-        android:id="@+id/ib_delete_category"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@null"
-        android:scaleType="centerInside"
-        android:src="@mipmap/ic_delete_category"/>
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/common_padding_middle"
+        android:paddingLeft="@dimen/common_padding_big"
+        android:paddingRight="@dimen/common_padding_big"
+        android:paddingTop="@dimen/common_padding_middle">
 
-    <EditText
-        android:id="@+id/et_category"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/common_margin_middle"
-        android:layout_weight="1"
-        android:background="@android:color/white"
-        android:ellipsize="end"
-        android:imeOptions="actionDone"
-        android:inputType="text"
-        android:lines="1"
-        android:maxLines="1"
-        android:singleLine="true"
-        android:textColor="@color/font_black_dark"
-        android:textSize="@dimen/font_default"/>
+        <ImageButton
+            android:id="@+id/ib_delete_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_delete_category"
+            android:visibility="gone"/>
 
-    <TextView
-        android:id="@+id/tv_count"
+        <EditText
+            android:id="@+id/et_category"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_middle"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:ellipsize="end"
+            android:imeOptions="actionDone"
+            android:inputType="text"
+            android:lines="1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:textColor="@color/font_black_dark"
+            android:textSize="@dimen/font_default"/>
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/common_margin_small"
+            android:layout_marginRight="@dimen/common_margin_small"
+            android:textColor="@color/font_more"
+            android:textSize="@dimen/font_default"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_info"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/common_margin_small"
         android:layout_marginRight="@dimen/common_margin_small"
-        android:textColor="@color/font_more"
+        android:background="@color/red"
+        android:text="@string/delete"
+        android:textColor="@color/title_font_white"
         android:textSize="@dimen/font_default"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerInside"
-        android:src="@mipmap/ic_info"/>
-
-</LinearLayout>
+</com.culturebud.widget.SwipeMenuView>

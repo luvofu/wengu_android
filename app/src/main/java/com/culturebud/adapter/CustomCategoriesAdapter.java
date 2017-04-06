@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -69,6 +70,7 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
 
     @Override
     public void onBindViewHolder(AddCustomCategoryViewHolder holder, int position) {
+        holder.position = position;
         if (holder.getClass() == AddCustomCategoryViewHolder.class) {
             holder.category = null;
         } else if (holder.getClass() == CustomCategoriesViewHolder.class) {
@@ -103,8 +105,18 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         return data.size() + 1;
     }
 
+    public void deleteItem(Category category) {
+        if (data != null) {
+            int index = data.indexOf(category);
+            if (data.remove(category)) {
+                notifyItemRemoved(index);
+            }
+        }
+    }
+
     class AddCustomCategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         protected Category category;
+        protected int position;
 
         public AddCustomCategoryViewHolder(View itemView) {
             super(itemView);
@@ -123,11 +135,13 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
     class CustomCategoriesViewHolder extends AddCustomCategoryViewHolder {
         private TextView tvCount;
         private EditText etCategory;
+        private Button btnDel;
 
         public CustomCategoriesViewHolder(View itemView) {
             super(itemView);
             etCategory = WidgetUtil.obtainViewById(itemView, R.id.et_category);
             tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_count);
+            btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
             etCategory.setOnClickListener(v -> {
                 etCategory.setCursorVisible(true);
             });
@@ -137,6 +151,11 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
                     return true;
                 }
                 return false;
+            });
+            btnDel.setOnClickListener(v -> {
+                if (deleteListener != null) {
+                    deleteListener.onItemDelete(position, category);
+                }
             });
         }
 
@@ -196,5 +215,19 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
 
     public interface OnItemClickListener {
         void onItemClick(View view, Category category);
+    }
+
+    private OnItemDeleteListener deleteListener;
+
+    public OnItemDeleteListener getDeleteListener() {
+        return deleteListener;
+    }
+
+    public void setDeleteListener(OnItemDeleteListener deleteListener) {
+        this.deleteListener = deleteListener;
+    }
+
+    public interface OnItemDeleteListener {
+        void onItemDelete(int position, Category category);
     }
 }

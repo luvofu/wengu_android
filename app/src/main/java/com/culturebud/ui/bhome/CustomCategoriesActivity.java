@@ -26,7 +26,7 @@ import java.util.List;
 
 @PresenterInject(CustomCategoriesPresenter.class)
 public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContract.Presenter> implements
-        CustomCategoriesContract.View, CustomCategoriesAdapter.OnItemClickListener {
+        CustomCategoriesContract.View, CustomCategoriesAdapter.OnItemClickListener, CustomCategoriesAdapter.OnItemDeleteListener {
     private RecyclerView rvCustomCategories;
 
     @Override
@@ -44,6 +44,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         DividerItemDecoration divider = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL, true);
         rvCustomCategories.addItemDecoration(divider);
         CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
+        adapter.setDeleteListener(this);
         adapter.setOnItemClickListener(this);
         rvCustomCategories.setAdapter(adapter);
         presenter.customCategories();
@@ -99,6 +100,14 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
                     }
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onItemDelete(int position, Category category) {
+        if (category != null) {
+            ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).deleteItem(category);
+            presenter.deleteCustomCategory(category.getCategoryId());
         }
     }
 }
