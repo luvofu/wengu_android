@@ -20,10 +20,12 @@
     <string name="hint_contact">联系方式：邮箱/手机号</string>
     <string name="submit">提交</string>
     <string name="send_weibo">给我们发微博</string>
+    <string name="send_weibo_info">\@文芽爱书</string>
     <string name="send_email">给我们发邮件</string>
+    <string name="send_email_info">uvnya@foxmail.com</string>
     <string name="grade_app">给应用评分</string>
     <string name="user_agreement">用户协议</string>
-    <string name="motto">温故而知新，可以为师矣！</string>
+    <string name="motto">生活不止苟且，还有书和远方！</string>
     <string name="version">版本 v1.0</string>
     <string name="user_info">个人信息</string>
     <string name="binding_account">账号绑定</string>

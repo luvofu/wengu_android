@@ -20,7 +20,8 @@ public class UserAgreementActivity extends TitleBarActivity {
         wvAgreement = obtainViewById(R.id.wv_agreement);
         setTitle(R.string.user_agreement);
 
-        wvAgreement.loadUrl("https://mywengu.com/userAgreement.html");
+//        wvAgreement.loadUrl("https://mywengu.com/userAgreement.html");
+        wvAgreement.loadUrl("https://www.uvnya.com/doc/userAgreement.html");
     }
 
     @Override

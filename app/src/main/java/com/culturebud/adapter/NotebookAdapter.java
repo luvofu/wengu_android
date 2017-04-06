@@ -56,7 +56,7 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         Notebook item = data.get(position);
         holder.position = position;
         holder.setBookCover(item.getCover());
-        holder.setBookName(item.getTitle() + "." + item.getName());
+        holder.setBookName(item.getTitle()/* + "." + item.getName()*/);
         holder.setBookNum(item.getNoteNum());
         holder.setCreateTime(item.getCreatedTime());
     }

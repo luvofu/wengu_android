@@ -25,6 +25,7 @@
         android:clickable="true"
         android:onClick="onClick"
         app:has_icon="false"
+        app:info="@string/send_weibo_info"
         app:name="@string/send_weibo" />
 
     <com.culturebud.widget.SettingItemView
@@ -35,6 +36,7 @@
         android:clickable="true"
         android:onClick="onClick"
         app:has_icon="false"
+        app:info="@string/send_email_info"
         app:name="@string/send_email" />
 
     <com.culturebud.widget.SettingItemView
