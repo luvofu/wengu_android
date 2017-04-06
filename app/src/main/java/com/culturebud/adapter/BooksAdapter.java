@@ -58,9 +58,10 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
         holder.setPosition(position);
         holder.setBookCover(book.getCover());
         holder.setBookName(book.getTitle());
-        holder.setPublisherInfo(book.getAuthor() + " 著 / "
-                + book.getTranslator() + " 译 / "
-                + book.getPublisher() + " / " + book.getPubDate());
+        holder.setPublisherInfo((TextUtils.isEmpty(book.getAuthor()) ? "" : (book.getAuthor() + " 著 / "))
+                + (TextUtils.isEmpty(book.getTranslator()) ? "" : (book.getTranslator() + " 译 / "))
+                + (TextUtils.isEmpty(book.getPublisher()) ? "" : (book.getPublisher() + " / "))
+                + (TextUtils.isEmpty(book.getPubDate()) ? "" : book.getPubDate()));
         holder.setGoodRating(book.getRating());
     }
 
