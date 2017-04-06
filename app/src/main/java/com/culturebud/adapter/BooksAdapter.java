@@ -17,6 +17,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by XieWei on 2016/11/3.
@@ -117,7 +118,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
 
         public void setGoodRating(float rating) {
             rbGoodRating.setRating(rating / 2);
-            tvGoodNum.setText(rating + "分");
+            tvGoodNum.setText(String.format(Locale.getDefault(), "%.1f", rating) + "分");
         }
 
         @Override
