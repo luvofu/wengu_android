@@ -27,12 +27,13 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
     }
 
     @Override
-    public void getMyBooks(int page) {
+    public void getMyBooks(long userId, int page) {
         if (!validateToken()) {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        model.getCollectedBooks(user.getToken(), user.getUserId(), page).subscribeOn(Schedulers.io())
+        model.getCollectedBooks(user.getToken(), userId == -1 ? user.getUserId() : userId, page)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<CollectedBook>>() {
                     @Override
@@ -55,12 +56,12 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
     }
 
     @Override
-    public void getMyBooks(int page, int categoryType, String category) {
+    public void getMyBooks(long userId, int page, int categoryType, String category) {
         if (!validateToken()) {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        model.getCollectedBooks(user.getToken(), user.getUserId(), page, categoryType, category)
+        model.getCollectedBooks(user.getToken(), userId == -1 ? user.getUserId() : userId, page, categoryType, category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<CollectedBook>>() {

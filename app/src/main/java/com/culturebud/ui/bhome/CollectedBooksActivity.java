@@ -58,12 +58,14 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         .OnNavigationItemReselectedListener {
     public static final int TYPE_SELECT = 1;
     public static final String TYPE_KEY = "opera_type";
+    public static final String USER_ID_KEY = "user_id";
     private RecyclerView rvBooks;
     private int currentPage;
     private int currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
     private String currentCategory = "全部";
     private boolean loading = true;
     private int opreaType;
+    private long userId;
     private BottomSheetDialog bsdMoreOperas;
     private RecyclerView rvOperaItems;
     private TextView tvCancel;
@@ -78,18 +80,27 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         setContentView(R.layout.collected_books);
         presenter.setView(this);
         opreaType = getIntent().getIntExtra(TYPE_KEY, 0);
+        userId = getIntent().getLongExtra(USER_ID_KEY, -1);
         showTitlebar();
         setTitle(R.string.book_shelf);
         setTitleRightIcon(R.mipmap.ic_arrow_white_down);
-        setOperasDrawable(R.drawable.titlebar_add_selector);
+
         rvBooks = obtainViewById(R.id.rv_collected_books);
         fabEditBooks = obtainViewById(R.id.fab_edit_books);
         bnvOperas = obtainViewById(R.id.bnv_operas);
+
+        if (userId == -1) {
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+        } else {
+            fabEditBooks.hide();
+        }
+
         bnvOperas.setOnNavigationItemReselectedListener(this);
         bnvOperas.setOnNavigationItemSelectedListener(this);
         fabEditBooks.setOnClickListener(this);
+
         initList();
-        presenter.getMyBooks(currentPage);
+        presenter.getMyBooks(userId, currentPage);
     }
 
     private void initMoreOperas(List<MoreOperaItemsAdapter.MoreOperaItemBean> items) {
@@ -175,6 +186,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             rvBooks.addItemDecoration(hdivider);
             rvBooks.addOnScrollListener(recyclerScrollerListener);
             CollectedBooksAdapter adapter = new CollectedBooksAdapter();
+            adapter.setUserId(userId);
             adapter.setOnItemClickListener(this);
             rvBooks.setAdapter(adapter);
         }
@@ -250,7 +262,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
                 currentCategory = "全部";
-                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
+                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
             });
 
             tflClc.setOnSelectListener(selectPosSet -> {
@@ -262,7 +274,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_NORMAL;
                 currentCategory = category.getCategory();
-                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category.getCategory());
+                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category
+                        .getCategory
+                                ());
             });
 
             tflCustom.setOnSelectListener(selectPosSet -> {
@@ -274,7 +288,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_CUSTOM;
                 currentCategory = category.getCategory();
-                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category.getCategory());
+                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category
+                        .getCategory
+                                ());
             });
 
             tflOther.setOnSelectListener(selectPosSet -> {
@@ -286,7 +302,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_OTHER;
                 currentCategory = category.getCategory();
-                presenter.getMyBooks(currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category.getCategory());
+                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category
+                        .getCategory());
             });
 
             ppwCategory.setContentView(view);
@@ -360,7 +377,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     @Override
     public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
         if (success) {
-            presenter.getMyBooks(currentPage, currentCategoryType, currentCategory);
+            presenter.getMyBooks(userId, currentPage, currentCategoryType, currentCategory);
         }
     }
 
@@ -422,7 +439,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                         .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 if (!loading && (lastPosition + 1 >= total)) {
-                    presenter.getMyBooks(++currentPage);
+                    presenter.getMyBooks(userId, ++currentPage);
                     loading = true;
                 }
             } else {

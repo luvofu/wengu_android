@@ -100,9 +100,15 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
             case R.id.iv_back:
                 finish();
                 break;
-            case R.id.tv_book_shelf:
-
+            case R.id.tv_book_shelf: {
+                if (user == null) {
+                    break;
+                }
+                Intent intent = new Intent(this, CollectedBooksActivity.class);
+                intent.putExtra(CollectedBooksActivity.USER_ID_KEY, user.getUserId());
+                startActivity(intent);
                 break;
+            }
             case R.id.tv_note:
 
                 break;

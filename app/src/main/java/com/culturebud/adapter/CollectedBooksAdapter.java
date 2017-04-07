@@ -33,6 +33,11 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
     public static final int MODEL_CHECK = 1;
     private int model = MODEL_EDIT;
     private Set<CollectedBook> checkedSet;
+    private long userId = -1;
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     @IntDef({MODEL_EDIT, MODEL_CHECK})
     @interface ModelRes {
@@ -145,8 +150,13 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         }
 
         public void showEditModel() {
-            ivEdit.setVisibility(View.VISIBLE);
+            if (userId == -1) {
+                ivEdit.setVisibility(View.VISIBLE);
+            } else {
+                ivEdit.setVisibility(View.GONE);
+            }
             cbCheck.setVisibility(View.GONE);
+
         }
 
         public void showCheckModel() {
