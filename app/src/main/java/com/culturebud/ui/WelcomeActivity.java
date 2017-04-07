@@ -1,7 +1,6 @@
 package com.culturebud.ui;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -36,44 +35,38 @@ public class WelcomeActivity extends BaseActivity {
         new RxPermissions(this).request(Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.SEND_SMS,
                 Manifest.permission.READ_PHONE_STATE, Manifest.permission.GET_ACCOUNTS, Manifest.permission.INTERNET)
         .subscribe(grant -> {
+            new Handler().postDelayed(() -> {
+                new MeModel().loadLastUser().subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe(new Subscriber<User>() {
+                            @Override
+                            public void onCompleted() {
 
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+
+                            }
+
+                            @Override
+                            public void onNext(User user) {
+                                if (user != null) {
+                                    BaseApp.getInstance().setUser(user);
+                                }
+                                Intent intent = new Intent();
+                                intent.setClass(WelcomeActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+            }, 500);//欢迎界面的时间随初始化数据的时间而定，可加上下限
         });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-    }
-
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        new Handler().postDelayed(() -> {
-            new MeModel().loadLastUser().subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Subscriber<User>() {
-                        @Override
-                        public void onCompleted() {
-
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-
-                        }
-
-                        @Override
-                        public void onNext(User user) {
-                            if (user != null) {
-                                BaseApp.getInstance().setUser(user);
-                            }
-                            Intent intent = new Intent();
-                            intent.setClass(WelcomeActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-                    });
-        }, 500);//欢迎界面的时间随初始化数据的时间而定，可加上下限
     }
 
     @Override
