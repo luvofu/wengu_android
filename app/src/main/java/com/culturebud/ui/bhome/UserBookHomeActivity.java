@@ -112,9 +112,15 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
             case R.id.tv_note:
 
                 break;
-            case R.id.tv_book_sheet:
-
+            case R.id.tv_book_sheet: {
+                if (user == null) {
+                    break;
+                }
+                Intent intent = new Intent(this, BookSheetsActivity.class);
+                intent.putExtra("user_id", user.getUserId());
+                startActivity(intent);
                 break;
+            }
             case R.id.tv_send: {
                 if (currClickBcd != null) {
                     presenter.replyDynamic(currClickBcd.getDynamicId(),

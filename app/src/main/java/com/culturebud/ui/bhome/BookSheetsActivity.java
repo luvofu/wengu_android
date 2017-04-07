@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
-import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.adapter.BookSheetsAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -35,6 +34,7 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         implements BookSheetsContract.View, BookSheetsAdapter.OnItemClickListener {
     private TextView tvCreated, tvFavorite;
     private RecyclerView rvCreated, rvFavorite;
+    private long userId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +44,18 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         showTitlebar();
         setTitle(R.string.book_sheet);
         showBack();
-        showOperas();
-        setOperasDrawable(R.drawable.titlebar_add_selector);
+        userId = getIntent().getLongExtra("user_id", -1);
+        if (userId == -1) {
+            showOperas();
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+        }
 
         tvCreated = obtainViewById(R.id.tv_my_created);
         tvFavorite = obtainViewById(R.id.tv_my_favorite);
-        tvCreated.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_created), 0));
-        tvFavorite.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_favorite), 0));
+        tvCreated.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_created), userId == -1 ?
+                "我创建的" : "", 0));
+        tvFavorite.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_favorite), userId == -1 ? "我"
+                : "", 0));
 
         rvCreated = obtainViewById(R.id.rv_sheets_created);
         rvFavorite = obtainViewById(R.id.rv_sheets_favorite);
@@ -73,8 +78,8 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         BookSheetsAdapter favoriteAdapter = new BookSheetsAdapter();
         favoriteAdapter.setOnItemClickListener(this);
         rvFavorite.setAdapter(favoriteAdapter);
-        presenter.getMyCreatedSheets();
-        presenter.getMyFavoriteSheets();
+        presenter.getUserCreatedSheets(userId);
+        presenter.getUserFavoriteSheets(userId);
     }
 
     @Override
@@ -133,20 +138,26 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
     public void onMyCreatedSheets(List<BookSheet> sheets) {
         ((BookSheetsAdapter) rvCreated.getAdapter()).clearData();
         ((BookSheetsAdapter) rvCreated.getAdapter()).addItems(sheets);
-        tvCreated.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_created), sheets.size()));
+        tvCreated.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_created), userId == -1 ?
+                "我创建的" : "", sheets
+                .size()));
     }
 
     @Override
     public void onMyFavoriteSheets(List<BookSheet> sheets) {
         ((BookSheetsAdapter) rvFavorite.getAdapter()).clearData();
         ((BookSheetsAdapter) rvFavorite.getAdapter()).addItems(sheets);
-        tvFavorite.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_favorite), sheets.size()));
+        tvFavorite.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_favorite), userId == -1 ?
+                "我" : "", sheets
+                .size
+                        ()));
     }
 
     @Override
     public void onItemClick(View v, int position, BookSheet bookSheet) {
         Intent intent = new Intent(this, BookSheetDetailActivity.class);
         intent.putExtra("sheetId", bookSheet.getSheetId());
+        intent.putExtra("user_id", userId);
         startActivityForResult(intent, REQUEST_CODE_BOOK_SHEET_DETAIL);
     }
 
@@ -157,14 +168,15 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
             case REQUEST_CODE_LOGIN:
                 hasToLogin = false;
                 if (resultCode == RESULT_OK) {
-                    presenter.getMyCreatedSheets();
-                    presenter.getMyFavoriteSheets();
+                    presenter.getUserCreatedSheets(userId);
+                    presenter.getUserFavoriteSheets(userId);
                 }
                 break;
         }
     }
 
     private boolean hasToLogin;
+
     @Override
     public void onToLogin() {
         if (hasToLogin) {

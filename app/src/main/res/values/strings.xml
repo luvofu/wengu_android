@@ -83,8 +83,8 @@
     <string name="pub_date">出版日期</string>
     <string name="pages">页数</string>
     <string name="confirm">确定</string>
-    <string name="sheets_my_created">我创建的书单（%1$d）</string>
-    <string name="sheets_my_favorite">我收藏的书单（%1$d）</string>
+    <string name="sheets_my_created">%1$s书单（%2$d）</string>
+    <string name="sheets_my_favorite">%1$s收藏的书单（%2$d）</string>
     <string name="hint_book_sheet_desc">书单描述（不超过500字）</string>
     <string name="book_sheet_desc">书单介绍</string>
     <string name="hint_book_sheet_name">必填（不超过15字）</string>

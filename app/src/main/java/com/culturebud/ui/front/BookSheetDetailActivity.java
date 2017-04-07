@@ -54,6 +54,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     private BottomSheetDialog bsdDailog;
     private BottomSheetDialog bsdOperas;
     private RecyclerView rvBookSheets;
+    private long userId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,10 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         setContentView(R.layout.book_sheet_detail);
         presenter.setView(this);
         showTitlebar();
-        setOperasDrawable(R.drawable.titlebar_edit_selector);
+        userId = getIntent().getLongExtra("user_id", -1);
+        if (userId == -1) {
+            setOperasDrawable(R.drawable.titlebar_edit_selector);
+        }
         rvDetail = obtainViewById(R.id.rv_sheet_detail);
 
         initList();

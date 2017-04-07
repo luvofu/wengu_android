@@ -26,12 +26,12 @@ public class BookSheetsPresenter extends BookSheetsContract.Presenter {
     }
 
     @Override
-    public void getMyCreatedSheets() {
+    public void getUserCreatedSheets(long userId) {
         if (!validateToken()) {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        model.getMySheets(user.getToken(), user.getUserId())
+        model.getMySheets(user.getToken(), userId == -1 ? user.getUserId() : userId)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<List<BookSheet>>() {
             @Override
@@ -55,12 +55,12 @@ public class BookSheetsPresenter extends BookSheetsContract.Presenter {
     }
 
     @Override
-    public void getMyFavoriteSheets() {
+    public void getUserFavoriteSheets(long userId) {
         if (!validateToken()) {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        model.getMyFavoriteBookSheets(user.getToken(), 0, user.getUserId())
+        model.getMyFavoriteBookSheets(user.getToken(), 0, userId == -1 ? user.getUserId() : userId)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<Map<Integer, List<BookSheet>>>() {
             @Override

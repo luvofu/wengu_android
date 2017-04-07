@@ -26,8 +26,8 @@ public interface BookSheetsContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void getMyCreatedSheets();
+        public abstract void getUserCreatedSheets(long userId);
 
-        public abstract void getMyFavoriteSheets();
+        public abstract void getUserFavoriteSheets(long userId);
     }
 }
