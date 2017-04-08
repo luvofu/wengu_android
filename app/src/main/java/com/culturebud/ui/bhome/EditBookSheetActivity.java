@@ -9,19 +9,27 @@ import android.widget.RelativeLayout;
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
 import com.culturebud.adapter.StringTagsAdapter;
+import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookSheetDetail;
+import com.culturebud.contract.BookSheetEditContract;
+import com.culturebud.presenter.BookSheetEditPresenter;
+import com.culturebud.ui.me.GeneralEditorActivity;
 import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_DESC;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_NAME;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_TAG;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 
 /**
  * Created by XieWei on 2016/12/14.
  */
 
-public class EditBookSheetActivity extends BaseActivity {
+@PresenterInject(BookSheetEditPresenter.class)
+public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Presenter> implements BookSheetEditContract.View {
     private SimpleDraweeView sdvBookSheetCover;
     private SettingItemView sivBookSheetName;
     private SettingItemView sivBookSheetDesc;
@@ -33,6 +41,7 @@ public class EditBookSheetActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_book_sheet);
+        presenter.setView(this);
         showTitlebar();
         setTitle(R.string.edit_book_sheet_info);
         showBack();
@@ -71,15 +80,33 @@ public class EditBookSheetActivity extends BaseActivity {
             case R.id.ll_add_cover:
                 showPhotoDialog();
                 break;
-            case R.id.siv_bs_name:
-
+            case R.id.siv_bs_name: {
+                Intent intent = new Intent(this, GeneralEditorActivity.class);
+                intent.putExtra("title", "书单名");
+                intent.putExtra("content", bookSheetDetail.getName());
+                intent.putExtra("hint", "书单名（不超过15个字符）");
+                intent.putExtra("content_length", 15);
+                startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_SHEET_NAME);
                 break;
-            case R.id.siv_bs_desc:
-
+            }
+            case R.id.siv_bs_desc: {
+                Intent intent = new Intent(this, GeneralEditorActivity.class);
+                intent.putExtra("title", "书单介绍");
+                intent.putExtra("content", bookSheetDetail.getDescription());
+                intent.putExtra("hint", "书单介绍");
+                intent.putExtra("content_length", 500);
+                intent.putExtra("type", 2);
+                startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_SHEET_DESC);
                 break;
-            case R.id.rl_tags:
-
+            }
+            case R.id.rl_tags: {
+                Intent intent = new Intent(this, GeneralAddBookTagsActivity.class);
+                if (!TextUtils.isEmpty(bookSheetDetail.getTag())) {
+                    intent.putExtra("tag", bookSheetDetail.getTag());
+                }
+                startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_SHEET_TAG);
                 break;
+            }
         }
     }
 
@@ -101,8 +128,28 @@ public class EditBookSheetActivity extends BaseActivity {
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvBookSheetCover.setImageURI(photoUri);
+                    presenter.editCover(photoUri, bookSheetDetail.getSheetId());
+                }
+                break;
+            case REQUEST_CODE_EDIT_BOOK_SHEET_NAME:
+                if (resultCode == RESULT_OK) {
+                    String content = data.getStringExtra("content");
+                    sivBookSheetName.setRightInfo(content);
+                    presenter.editBookSheet(bookSheetDetail.getSheetId(), content, null, null);
+                }
+                break;
+            case REQUEST_CODE_EDIT_BOOK_SHEET_DESC:
+                if (resultCode == RESULT_OK) {
+                    String content = data.getStringExtra("content");
+                    sivBookSheetDesc.setDesc(content);
+                    presenter.editBookSheet(bookSheetDetail.getSheetId(), null, content, null);
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onEdit(boolean success) {
+
     }
 }

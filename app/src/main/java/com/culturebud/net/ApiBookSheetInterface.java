@@ -62,7 +62,8 @@ public interface ApiBookSheetInterface {
      */
     @POST(CommonConst.PATH_BOOK_SHEET_CREATE)
     @Multipart
-    Observable<ApiResultBean<JsonObject>> createBookSheet(@PartMap Map<String, RequestBody> params, @Part MultipartBody.Part imgFile);
+    Observable<ApiResultBean<JsonObject>> createBookSheet(@PartMap Map<String, RequestBody> params, @Part
+            MultipartBody.Part imgFile);
 
     /**
      * String token;令牌
@@ -91,4 +92,8 @@ public interface ApiBookSheetInterface {
     @POST(CommonConst.PATH_BOOK_SHEET_EDIT_RECOMMEND)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> bookSheetEditRecommend(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_BOOK_SHEET_EDIT)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> editBookSheet(@FieldMap Map<String, Object> params);
 }

@@ -107,6 +107,8 @@ public final class CommonConst {
 
     public static final String PATH_BOOK_SHEET_DEL_BOOK = "api/bookSheet/deleteBook";
 
+    public static final String PATH_BOOK_SHEET_EDIT = "api/bookSheet/edit";
+
     public static final String PATH_BOOK_SHEET_EDIT_RECOMMEND = "/api/bookSheet/editRecommend";
 
     public static final String PATH_USER_BOOKS = "api/userBook/personal";
@@ -319,6 +321,9 @@ public final class CommonConst {
         public static final int REQUEST_CODE_MOVE_TO_NEW_CUSTOM_CATEGORY = 1029;
 
         public static final int REQUEST_CODE_ADD_SCAN_BOOKS = 1030;
+        public static final int REQUEST_CODE_EDIT_BOOK_SHEET_NAME = 1031;
+        public static final int REQUEST_CODE_EDIT_BOOK_SHEET_DESC = 1032;
+        public static final int REQUEST_CODE_EDIT_BOOK_SHEET_TAG = 1033;
     }
 
     public static String getRootPath() {
