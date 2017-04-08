@@ -1,24 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="15dp"
-    android:paddingLeft="20dp"
-    android:paddingRight="20dp"
-    android:paddingTop="15dp">
+                xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="15dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="15dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_face"
         android:layout_width="36dp"
         android:layout_height="36dp"
+        android:clickable="true"
         fresco:actualImageScaleType="centerInside"
         fresco:placeholderImage="@mipmap/me_default_icon"
         fresco:placeholderImageScaleType="centerInside"
         fresco:roundAsCircle="true"
         fresco:roundingBorderColor="@android:color/transparent"
-        fresco:roundingBorderWidth="0.5dp" />
+        fresco:roundingBorderWidth="0.5dp"/>
 
     <TextView
         android:id="@+id/tv_nick_name"
@@ -29,7 +30,7 @@
         android:layout_toRightOf="@id/sdv_face"
         android:gravity="center_vertical"
         android:textSize="12sp"
-        tools:text="不止步的风" />
+        tools:text="不止步的风"/>
 
     <TextView
         android:id="@+id/tv_content"
@@ -37,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_nick_name"
         android:layout_below="@id/tv_nick_name"
-        android:paddingBottom="10dp" />
+        android:paddingBottom="10dp"/>
 
     <LinearLayout
         android:id="@+id/ll_virtual"
@@ -53,7 +54,7 @@
             android:layout_height="140dp"
             android:layout_alignLeft="@id/tv_nick_name"
             android:layout_below="@id/tv_content"
-            android:layout_marginBottom="10dp" />
+            android:layout_marginBottom="10dp"/>
 
         <ViewStub
             android:id="@+id/vs_type_holder"
@@ -61,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@id/tv_nick_name"
             android:layout_below="@id/vs_image"
-            android:background="@color/litter_gray_bg_border" />
+            android:background="@color/litter_gray_bg_border"/>
     </LinearLayout>
 
     <LinearLayout
@@ -81,7 +82,7 @@
             android:gravity="center_vertical"
             android:textColor="#777777"
             android:textSize="@dimen/front_item_small_font"
-            tools:text="10-05 09:45" />
+            tools:text="10-05 09:45"/>
 
         <TextView
             android:id="@+id/tv_good_num"
@@ -95,7 +96,7 @@
             android:padding="10dp"
             android:textColor="#777777"
             android:textSize="@dimen/front_item_small_font"
-            tools:text="10" />
+            tools:text="10"/>
 
         <TextView
             android:id="@+id/tv_reply_num"
@@ -109,7 +110,7 @@
             android:padding="10dp"
             android:textColor="#777777"
             android:textSize="@dimen/front_item_small_font"
-            tools:text="15" />
+            tools:text="15"/>
 
     </LinearLayout>
 
@@ -119,5 +120,5 @@
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_nick_name"
         android:layout_below="@id/ll_operas"
-        android:background="@color/litter_gray_bg_border" />
+        android:background="@color/litter_gray_bg_border"/>
 </RelativeLayout>

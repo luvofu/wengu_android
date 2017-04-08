@@ -37,6 +37,7 @@ import com.culturebud.bean.User;
 import com.culturebud.contract.BookCircleContract;
 import com.culturebud.presenter.BookCirclePresenter;
 import com.culturebud.ui.bhome.DynamicDetailActivity;
+import com.culturebud.ui.bhome.UserBookHomeActivity;
 import com.culturebud.ui.community.CommentDetailActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
@@ -200,7 +201,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             if (dy > 0) {
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 if (dy > 0 && (lastPosition + 1 >= total) && !loading) {
                     loading = true;
@@ -293,7 +295,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
     @Override
     public void onDynamicReply(DynamicReply dynamicReply) {
-        BookCircleDynamic bcd = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getDynamicById(currClickBcd.getDynamicId());
+        BookCircleDynamic bcd = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getDynamicById(currClickBcd
+                .getDynamicId());
         if (bcd != null) {
             bcd.getDynamicReplies().add(dynamicReply);
             bcd.setReplyNum(bcd.getReplyNum() + 1);
@@ -304,7 +307,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
     @Override
     public void onDeleteResult(long dynamicId, int deleteType, long deleteObjId, boolean res) {
-        BookCircleDynamic bcd = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getDynamicById(currClickBcd.getDynamicId());
+        BookCircleDynamic bcd = ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).getDynamicById(currClickBcd
+                .getDynamicId());
         if (bcd != null && res) {
             if (deleteType == DeleteType.TYPE_DYNAMIC) {
                 ((BookCircleDynamicAdapter) rvDynamics.getAdapter()).deleteItem(deleteObjId);
@@ -333,6 +337,12 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         currClickBcd = null;
         currClickDr = null;
         switch (type) {
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_FACE: {
+                Intent intent = new Intent(this, UserBookHomeActivity.class);
+                intent.putExtra("user_id", bcd.getUserId());
+                startActivity(intent);
+                break;
+            }
             case BookCircleDynamicAdapter.ONCLICK_TYPE_DYNAMIC: {
                 Intent intent = new Intent(this, DynamicDetailActivity.class);
 //                intent.putExtra("dynamic", new Gson().toJson(bcd));

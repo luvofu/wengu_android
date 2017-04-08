@@ -182,7 +182,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         holder.setReplyNum(bcd.getReplyNum());
 
         if (bcd.getReplyNum() == 18)
-        Log.d("xwlljj", "dynamic id is " + bcd.getDynamicId());
+            Log.d("xwlljj", "dynamic id is " + bcd.getDynamicId());
 
         if (!TextUtils.isEmpty(bcd.getImage())) {
             holder.setImage(bcd.getImage());
@@ -272,6 +272,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             itemView.setOnClickListener(this);
             tvGoodNum.setOnClickListener(this);
             tvReplyNum.setOnClickListener(this);
+            sdvFace.setOnClickListener(this);
         }
 
         public void setFace(String url) {
@@ -387,9 +388,11 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             vsComments.setLayoutResource(R.layout.book_circle_item_comments);
             View view = vsComments.inflate();
             rvComments = (RecyclerView) view.findViewById(R.id.rv_comments);
-            LinearLayoutManager llm = new LinearLayoutManager(rvComments.getContext(), LinearLayoutManager.VERTICAL, false);
+            LinearLayoutManager llm = new LinearLayoutManager(rvComments.getContext(), LinearLayoutManager.VERTICAL,
+                    false);
             rvComments.setLayoutManager(llm);
-            RecyclerViewDivider divider = new RecyclerViewDivider(rvComments.getContext(), LinearLayoutManager.HORIZONTAL);
+            RecyclerViewDivider divider = new RecyclerViewDivider(rvComments.getContext(), LinearLayoutManager
+                    .HORIZONTAL);
             divider.setDividerColor(rvComments.getResources().getColor(android.R.color.transparent));
             rvComments.addItemDecoration(divider);
             DynamicCommentAdapter adapter = new DynamicCommentAdapter();
@@ -428,6 +431,11 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
                 return;
             }
             switch (v.getId()) {
+                case R.id.sdv_face:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_FACE, bcd, null);
+                    }
+                    break;
                 case R.id.ll_book:
                     if (onItemClickListener != null) {
                         onItemClickListener.onItemClick(v, ONCLICK_TYPE_BOOK, bcd, null);
@@ -491,4 +499,5 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
     public static final int ONCLICK_TYPE_REPLY = 5;
     public static final int ONCLICK_TYPE_THUMB = 6;
     public static final int ONCLICK_TYPE_REPLY_REPLY = 7;
+    public static final int ONCLICK_TYPE_FACE = 8;
 }
