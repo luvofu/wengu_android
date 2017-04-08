@@ -33,6 +33,7 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
     public static final int OPERA_TYPE_PERMISSION = 0;
     public static final int OPERA_TYPE_NOTEBOOK_NAME = 1;
     public static final int OPERA_TYPE_NOTE_EDIT_DELETE = 2;
+    public static final int OPERA_TYPE_NOTE_PREVIEW_PIC = 3;
 
     private NotebookDetail nbDetail;
     private List<Note> data;
@@ -221,6 +222,7 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
             tvNoteDesc = (TextView) itemView.findViewById(R.id.tv_note_desc);
             tvUpdateTime = (TextView) itemView.findViewById(R.id.tv_update_time);
             ivOperas.setOnClickListener(this);
+            sdvImg.setOnClickListener(this);
         }
 
         public void setImage(String url) {
@@ -263,7 +265,14 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
             switch (view.getId()) {
                 case R.id.iv_operas:
                     if (onNotebookOperaListener != null) {
-                        onNotebookOperaListener.onNoteOpera(view, note, OPERA_TYPE_NOTE_EDIT_DELETE, data.indexOf(note) + 1);
+                        onNotebookOperaListener.onNoteOpera(view, note, OPERA_TYPE_NOTE_EDIT_DELETE, data.indexOf
+                                (note) + 1);
+                    }
+                    break;
+                case R.id.sdv_img:
+                    if (onNotebookOperaListener != null) {
+                        onNotebookOperaListener.onNoteOpera(view, note, OPERA_TYPE_NOTE_PREVIEW_PIC, data.indexOf
+                                (note) + 1);
                     }
                     break;
             }

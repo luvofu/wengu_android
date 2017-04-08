@@ -22,6 +22,7 @@ import com.culturebud.bean.Note;
 import com.culturebud.bean.NotebookDetail;
 import com.culturebud.contract.NotebookDetailContract;
 import com.culturebud.presenter.NotebookDetailPresenter;
+import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.ArrayList;
@@ -206,6 +207,12 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
                 int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v.getHeight() / 2;
                 pwItemMenu.showAtLocation(v, Gravity.NO_GRAVITY, locs[0], y);
                 break;
+            case NotebookDetailAdapter.OPERA_TYPE_NOTE_PREVIEW_PIC: {
+                Intent intent = new Intent(this, PreviewBigImgActivity.class);
+                intent.putExtra("img_url", note.getImage());
+                startActivity(intent);
+                break;
+            }
         }
     }
 
