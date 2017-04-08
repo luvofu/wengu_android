@@ -18,6 +18,7 @@ import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.SheetBook;
+import com.culturebud.bean.User;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -113,6 +114,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             bsHolder.setDesc(data.getDescription());
             bsHolder.setNick(data.getNickname());
             bsHolder.setBookNum(data.getBookNum());
+            User user = BaseApp.getInstance().getUser();
+            bsHolder.canAddBook(user == null ? false : user.getUserId() == data.getUserId());
             String tagStr = data.getTag();
             if (!TextUtils.isEmpty(tagStr)) {
                 String[] tags = tagStr.split("\\|");
@@ -160,18 +163,20 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private ImageView ivShare;
         private TextView tvDesc, tvBookNum;
         private TagFlowLayout flTags;
+        private TextView tvAddBook;
 
         public BookSheetDetailViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_book_name);
-            tvNick = (TextView) itemView.findViewById(R.id.tv_nick);
-            tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
-            tvColNum = (TextView) itemView.findViewById(R.id.tv_collect);
+            sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_sheet_cover);
+            tvTitle = WidgetUtil.obtainViewById(itemView, R.id.tv_book_name);
+            tvNick = WidgetUtil.obtainViewById(itemView, R.id.tv_nick);
+            tvCreateTime = WidgetUtil.obtainViewById(itemView, R.id.tv_create_time);
+            tvColNum = WidgetUtil.obtainViewById(itemView, R.id.tv_collect);
             ivShare = (ImageView) itemView.findViewById(R.id.iv_share);
-            tvDesc = (TextView) itemView.findViewById(R.id.tv_desc);
-            tvBookNum = (TextView) itemView.findViewById(R.id.tv_book_num);
-            flTags = (TagFlowLayout) itemView.findViewById(R.id.fl_tags);
+            tvDesc = WidgetUtil.obtainViewById(itemView, R.id.tv_desc);
+            tvBookNum = WidgetUtil.obtainViewById(itemView, R.id.tv_book_num);
+            flTags = WidgetUtil.obtainViewById(itemView, R.id.fl_tags);
+            tvAddBook = WidgetUtil.obtainViewById(itemView, R.id.tv_add_book);
 
             setListener();
         }
@@ -179,6 +184,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private void setListener() {
             tvColNum.setOnClickListener(this);
             ivShare.setOnClickListener(this);
+            tvAddBook.setOnClickListener(this);
         }
 
         public void setTags(String[] tags) {
@@ -243,6 +249,14 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                     tvBookNum.getContext().getString(R.string.book_num), num));
         }
 
+        public void canAddBook(boolean can) {
+            if (can) {
+                tvAddBook.setVisibility(View.VISIBLE);
+            } else {
+                tvAddBook.setVisibility(View.GONE);
+            }
+        }
+
         @Override
         public void onClick(View v) {
             if (onHeaderClickListener != null) {
@@ -252,6 +266,9 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                         break;
                     case R.id.iv_share:
                         onHeaderClickListener.onHeaderClick(v, 1, data);
+                        break;
+                    case R.id.tv_add_book:
+                        onHeaderClickListener.onHeaderClick(v, 2, data);
                         break;
                 }
             }
@@ -374,8 +391,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     }
 
     public interface OnItemListener {
-        public static final int OPERA_TYPE_ITEM = 0;
-        public static final int OPERA_TYPE_ADD = 1;
+        int OPERA_TYPE_ITEM = 0;
+        int OPERA_TYPE_ADD = 1;
 
         void onItemOpera(View v, int position, int operaType, SheetBook sheetBook);
     }
