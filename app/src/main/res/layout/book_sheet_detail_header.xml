@@ -145,6 +145,7 @@
             android:gravity="center_vertical|right"
             android:paddingBottom="5dp"
             android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:paddingTop="5dp"
             android:text="+添加书目"
             android:textColor="@color/font_more"
