@@ -194,9 +194,11 @@ public class SettingItemView extends LinearLayout {
             tvNameCls = view.getClass().getSuperclass();
         }
         try {
-            Method setRawTS = tvNameCls.getDeclaredMethod("setRawTextSize", float.class);
-            setRawTS.setAccessible(true);
-            setRawTS.invoke(view, size);
+            if(tvNameCls == TextView.class) {
+                Method setRawTS = tvNameCls.getDeclaredMethod("setRawTextSize", float.class);
+                setRawTS.setAccessible(true);
+                setRawTS.invoke(view, size);
+            }
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, e.toString());
