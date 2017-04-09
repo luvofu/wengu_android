@@ -88,8 +88,14 @@ public class EditableTagsAdapter extends TagAdapter<Tag> implements View.OnClick
         switch (actionId) {
             case EditorInfo.IME_ACTION_DONE:
             case EditorInfo.IME_ACTION_NONE:
-                Tag t = (Tag) v.getTag();
-                t.setContent(v.getText().toString());
+                if (getCount() < 3) {
+                    Tag t = new Tag();
+                    t.setContent(v.getText().toString());
+                    addTag(t, getCount() - 1);
+                } else {
+                    Tag t = (Tag) v.getTag();
+                    t.setContent(v.getText().toString());
+                }
                 notifyDataChanged();
                 return true;
         }

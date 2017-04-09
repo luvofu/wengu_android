@@ -178,7 +178,7 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
         } else {
             Tag t = new Tag();
             t.setContent(((TagFlowLayout) parent).getAdapter().getItem(position).toString());
-            etAdapter.addTag(t, 0);
+            etAdapter.addTag(t, etAdapter.getCount() - 1);
             return true;
         }
     }
