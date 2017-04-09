@@ -9,16 +9,69 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class TagAdapter<T> {
-    private List<T> mTagDatas;
+    private List<T> tags;
     private OnDataChangedListener mOnDataChangedListener;
-    private HashSet<Integer> mCheckedPosList = new HashSet<Integer>();
+    private HashSet<Integer> mCheckedPosList = new HashSet<>();
 
-    public TagAdapter(List<T> datas) {
-        mTagDatas = datas;
+    public TagAdapter() {
+        tags = new ArrayList<>();
     }
 
-    public TagAdapter(T... datas) {
-        mTagDatas = new ArrayList<T>(Arrays.asList(datas));
+    public TagAdapter(List<T> tags) {
+        this.tags = tags;
+    }
+
+    public TagAdapter(T... tags) {
+        this.tags = new ArrayList<>(Arrays.asList(tags));
+    }
+
+    public void addTag(T t) {
+        if (t != null) {
+            tags.add(t);
+            notifyDataChanged();
+        }
+    }
+
+    public void addTag(T t, int position) {
+        if (t != null) {
+            tags.add(position, t);
+            notifyDataChanged();
+        }
+    }
+
+    public void addTags(List<T> ts) {
+        if (ts != null && !ts.isEmpty()) {
+            tags.addAll(ts);
+            notifyDataChanged();
+        }
+    }
+
+    public void clearData() {
+        if (!tags.isEmpty()) {
+            tags.clear();
+            notifyDataChanged();
+        }
+    }
+
+    public List<T> getTags() {
+        List<T> ts = new ArrayList<>();
+        ts.addAll(tags);
+        return ts;
+    }
+
+    public void delTag(T t) {
+        if (t != null) {
+            if (tags.remove(t)) {
+                notifyDataChanged();
+            }
+        }
+    }
+
+    public T getLastTag() {
+        if (!tags.isEmpty()) {
+            return tags.get(tags.size() - 1);
+        }
+        return null;
     }
 
     interface OnDataChangedListener {
@@ -50,7 +103,7 @@ public abstract class TagAdapter<T> {
 
 
     public int getCount() {
-        return mTagDatas == null ? 0 : mTagDatas.size();
+        return tags == null ? 0 : tags.size();
     }
 
     public void notifyDataChanged() {
@@ -58,7 +111,7 @@ public abstract class TagAdapter<T> {
     }
 
     public T getItem(int position) {
-        return mTagDatas.get(position);
+        return tags.get(position);
     }
 
     public abstract View getView(FlowLayout parent, int position, T t);

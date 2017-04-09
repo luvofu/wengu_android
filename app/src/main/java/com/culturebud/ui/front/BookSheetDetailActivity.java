@@ -57,6 +57,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     private BottomSheetDialog bsdOperas;
     private RecyclerView rvBookSheets;
     private long userId = -1;
+    private long sheetId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,9 +89,12 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
     private void initData() {
         Intent intent = getIntent();
-        long sheetId = intent.getLongExtra("sheetId", -1);
+        sheetId = intent.getLongExtra("sheetId", -1);
         if (sheetId > 0) {
             presenter.getBookSheetDetail(sheetId);
+        } else {
+            onErrorTip("非法操作");
+            finish();
         }
     }
 
@@ -325,7 +329,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         switch (requestCode) {
             case REQUEST_CODE_BOOK_SHEET_EDIT:
                 if (resultCode == RESULT_OK) {
-
+                    presenter.getBookSheetDetail(sheetId);
                 }
                 break;
             case REQUEST_CODE_BS_EDIT_RECOMMEND: {

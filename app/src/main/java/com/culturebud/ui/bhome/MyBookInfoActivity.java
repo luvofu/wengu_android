@@ -175,7 +175,7 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                 break;
             case R.id.rl_tags:
                 if (userBookInfo != null) {
-                    Intent intent = new Intent(this, GeneralAddBookTagsActivity.class);
+                    Intent intent = new Intent(this, GeneralAddTagsActivity.class);
                     if (!TextUtils.isEmpty(userBookInfo.getTag())) {
                         intent.putExtra("tag", userBookInfo.getTag());
                     }
@@ -390,6 +390,12 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                 }
                 break;
             case REQUEST_CODE_ADD_BOOK_TAGS:
+                if (resultCode == RESULT_OK) {
+                    String tag = data.getStringExtra("tag");
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("tag", tag);
+                    presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+                }
                 break;
             case REQUEST_CODE_EDIT_BOOK_RATING:
                 if (resultCode == RESULT_OK) {

@@ -235,7 +235,7 @@
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
-            android:name=".ui.bhome.GeneralAddBookTagsActivity"
+            android:name=".ui.bhome.GeneralAddTagsActivity"
             android:screenOrientation="portrait"/>
 
         <activity

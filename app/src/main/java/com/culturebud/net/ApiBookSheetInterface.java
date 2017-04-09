@@ -96,4 +96,8 @@ public interface ApiBookSheetInterface {
     @POST(CommonConst.PATH_BOOK_SHEET_EDIT)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> editBookSheet(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_BOOK_SHEET_TAGS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> getTags(@FieldMap Map<String, Object> params);
 }

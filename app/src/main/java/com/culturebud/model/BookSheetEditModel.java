@@ -34,7 +34,7 @@ public class BookSheetEditModel extends BookSheetEditContract.Model {
                 params.put("description", desc);
             }
             if (!TextUtils.isEmpty(tag)) {
-                params.put("tag", true);
+                params.put("tag", tag);
             }
             initRetrofit().create(ApiBookSheetInterface.class).editBookSheet(params)
             .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {

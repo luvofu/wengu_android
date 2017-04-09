@@ -19,6 +19,9 @@ import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_DESC;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_NAME;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_TAG;
@@ -36,6 +39,7 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
     private RelativeLayout rlTags;
     private TagFlowLayout tflTags;
     private BookSheetDetail bookSheetDetail;
+    private boolean hasChanged;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,10 +104,11 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
                 break;
             }
             case R.id.rl_tags: {
-                Intent intent = new Intent(this, GeneralAddBookTagsActivity.class);
+                Intent intent = new Intent(this, GeneralAddTagsActivity.class);
                 if (!TextUtils.isEmpty(bookSheetDetail.getTag())) {
                     intent.putExtra("tag", bookSheetDetail.getTag());
                 }
+                intent.putExtra("type", 1);
                 startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_SHEET_TAG);
                 break;
             }
@@ -145,11 +150,33 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
                     presenter.editBookSheet(bookSheetDetail.getSheetId(), null, content, null);
                 }
                 break;
+            case REQUEST_CODE_EDIT_BOOK_SHEET_TAG:
+                if (resultCode == RESULT_OK) {
+                    String tag = data.getStringExtra("tag");
+                    String[] tarr = tag.split("\\|");
+                    List<String> tmp = new ArrayList<>();
+                    if (tarr != null) {
+                        for (String s : tarr) {
+                            tmp.add(s);
+                        }
+                    }
+                    tflTags.getAdapter().clearData();
+                    tflTags.getAdapter().addTags(tmp);
+                    presenter.editBookSheet(bookSheetDetail.getSheetId(), null, null, tag);
+                }
+                break;
         }
     }
 
     @Override
     public void onEdit(boolean success) {
-
+        if (!hasChanged) {
+            if (success) {
+                hasChanged = true;
+                Intent data = new Intent();
+                data.putExtra("has_changed", hasChanged);
+                setResult(RESULT_OK, data);
+            }
+        }
     }
 }

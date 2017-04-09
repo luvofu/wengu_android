@@ -567,7 +567,7 @@ public class ExampleInstrumentedTest {
 //        params.put("page", 0);
         params.put(PLATFORM_KEY, PLATFORM);
         params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
-        initRetrofit(null).create(ApiBookInterface.class).bookTags(params)
+        initRetrofit(null).create(ApiBookSheetInterface.class).getTags(params)
         .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
             @Override
             public void onCompleted() {
