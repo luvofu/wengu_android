@@ -276,6 +276,10 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     public void onHeaderClick(View v, int type, BookSheetDetail detail) {
         switch (type) {
             case 0://收藏
+                User user = BaseApp.getInstance().getUser();
+                if (user != null && user.getUserId() == detail.getUserId()) {
+                    return;
+                }
                 if (detail.isCollect()) {
                     presenter.collectDel(detail.getSheetId());
                 } else {

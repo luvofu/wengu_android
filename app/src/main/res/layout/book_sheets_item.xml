@@ -1,57 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="5dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="5dp">
+<com.culturebud.widget.SwipeMenuView xmlns:android="http://schemas.android.com/apk/res/android"
+                                     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                                     android:layout_width="match_parent"
+                                     android:layout_height="wrap_content">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_bs_cover"
-        android:layout_width="@dimen/setting_icon_default_big"
-        android:layout_height="@dimen/setting_icon_default_big"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        fresco:actualImageScaleType="fitXY"
-        fresco:placeholderImage="@mipmap/img_placeholder"
-        fresco:placeholderImageScaleType="fitXY" />
-
-    <TextView
-        android:id="@+id/tv_bs_title"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/sdv_bs_cover"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="小伙伴们一起来看书"
-        android:textColor="@color/title_font_default"
-        android:textSize="16sp" />
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="5dp">
 
-    <TextView
-        android:id="@+id/tv_book_volumes"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_bs_cover"
+            android:layout_width="@dimen/setting_icon_default_big"
+            android:layout_height="@dimen/setting_icon_default_big"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            fresco:actualImageScaleType="fitXY"
+            fresco:placeholderImage="@mipmap/img_placeholder"
+            fresco:placeholderImageScaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/tv_bs_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/sdv_bs_cover"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="小伙伴们一起来看书"
+            android:textColor="@color/title_font_default"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/tv_book_volumes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_bs_title"
+            android:layout_below="@id/tv_bs_title"
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:text="8册"
+            android:textColor="@color/font_more"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:id="@+id/tv_nick"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@id/tv_book_volumes"
+            android:layout_marginLeft="35dp"
+            android:layout_toRightOf="@id/tv_book_volumes"
+            android:drawableLeft="@mipmap/login_username_icon"
+            android:gravity="center_vertical"
+            android:text="不止步的风"
+            android:textColor="@color/font_more"
+            android:textSize="12sp"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_bs_title"
-        android:layout_below="@id/tv_bs_title"
-        android:layout_marginTop="6dp"
-        android:gravity="center_vertical"
-        android:text="8册"
-        android:textColor="@color/font_more"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/tv_nick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@id/tv_book_volumes"
-        android:layout_marginLeft="35dp"
-        android:layout_toRightOf="@id/tv_book_volumes"
-        android:drawableLeft="@mipmap/login_username_icon"
-        android:gravity="center_vertical"
-        android:text="不止步的风"
-        android:textColor="@color/font_more"
-        android:textSize="12sp" />
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/common_margin_small"
+        android:layout_marginRight="@dimen/common_margin_small"
+        android:background="@color/red"
+        android:text="@string/delete"
+        android:textColor="@color/title_font_white"
+        android:textSize="@dimen/font_default"/>
+</com.culturebud.widget.SwipeMenuView>

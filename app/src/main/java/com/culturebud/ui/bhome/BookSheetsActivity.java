@@ -31,7 +31,8 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
 
 @PresenterInject(BookSheetsPresenter.class)
 public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presenter>
-        implements BookSheetsContract.View, BookSheetsAdapter.OnItemClickListener {
+        implements BookSheetsContract.View, BookSheetsAdapter.OnItemClickListener, BookSheetsAdapter
+        .OnItemDeleteListener {
     private TextView tvCreated, tvFavorite;
     private RecyclerView rvCreated, rvFavorite;
     private long userId = -1;
@@ -74,9 +75,11 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
 
         BookSheetsAdapter createdAdapter = new BookSheetsAdapter();
         createdAdapter.setOnItemClickListener(this);
+        createdAdapter.setDeleteListener(this);
         rvCreated.setAdapter(createdAdapter);
         BookSheetsAdapter favoriteAdapter = new BookSheetsAdapter();
         favoriteAdapter.setOnItemClickListener(this);
+        favoriteAdapter.setDeleteListener(this);
         rvFavorite.setAdapter(favoriteAdapter);
         presenter.getUserCreatedSheets(userId);
         presenter.getUserFavoriteSheets(userId);
@@ -154,6 +157,16 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
     }
 
     @Override
+    public void onDeleteMyCreated(boolean success, BookSheet sheet) {
+        ((BookSheetsAdapter) rvCreated.getAdapter()).deleteItem(sheet);
+    }
+
+    @Override
+    public void onDeleteMyFavorite(boolean success, BookSheet sheet) {
+        ((BookSheetsAdapter) rvFavorite.getAdapter()).deleteItem(sheet);
+    }
+
+    @Override
     public void onItemClick(View v, int position, BookSheet bookSheet) {
         Intent intent = new Intent(this, BookSheetDetailActivity.class);
         intent.putExtra("sheetId", bookSheet.getSheetId());
@@ -184,5 +197,10 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         }
         hasToLogin = true;
         super.onToLogin();
+    }
+
+    @Override
+    public void onItemDelete(int position, BookSheet bookSheet) {
+        presenter.deleteBookSheet(bookSheet);
     }
 }

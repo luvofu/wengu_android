@@ -5,11 +5,15 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.adapter.BookSheetsAdapter.BookSheetsViewHolder;
 import com.culturebud.bean.BookSheet;
+import com.culturebud.bean.User;
+import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -56,7 +60,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         holder.setTitle(item.getName());
         holder.setNick(item.getNickname());
         holder.setVolumes(item.getBookNum() + "册");
-        holder.showNick(item.getCreatedTime());
+        holder.showNick(item.getUserId());
     }
 
     @Override
@@ -64,22 +68,39 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         return data.size();
     }
 
+    public boolean deleteItem(BookSheet sheet) {
+        if (sheet == null) {
+            return false;
+        } else {
+            int position = data.indexOf(sheet);
+            if (position == -1) {
+                return false;
+            }
+            boolean res = data.remove(sheet);
+            notifyItemRemoved(position);
+            return res;
+        }
+    }
     class BookSheetsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvCount, tvNick;
+        private Button btnDel;
         private int position;
 
         public BookSheetsViewHolder(View itemView) {
             super(itemView);
-            sdvCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_bs_cover);
-            tvTitle = (TextView) itemView.findViewById(R.id.tv_bs_title);
-            tvCount = (TextView) itemView.findViewById(R.id.tv_book_volumes);
-            tvNick = (TextView) itemView.findViewById(R.id.tv_nick);
+            sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_bs_cover);
+            tvTitle = WidgetUtil.obtainViewById(itemView, R.id.tv_bs_title);
+            tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_book_volumes);
+            tvNick = WidgetUtil.obtainViewById(itemView, R.id.tv_nick);
+            btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
             itemView.setOnClickListener(this);
+            btnDel.setOnClickListener(this);
         }
 
-        public void showNick(long createTime) {
-            if (createTime <= 0) {
+        public void showNick(long userId) {
+            User user = BaseApp.getInstance().getUser();
+            if (user != null && user.getUserId() == userId) {
                 tvNick.setVisibility(View.GONE);
             } else {
                 tvNick.setVisibility(View.VISIBLE);
@@ -118,6 +139,12 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         public void onClick(View view) {
             if (view == itemView && onItemClickListener != null) {
                 onItemClickListener.onItemClick(view, position, data.get(position));
+                return;
+            }
+            if (view.getId() == R.id.btn_delete) {
+                if (deleteListener != null) {
+                    deleteListener.onItemDelete(position, data.get(position));
+                }
             }
         }
     }
@@ -130,5 +157,19 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
 
     public interface OnItemClickListener {
         void onItemClick(View v, int position, BookSheet bookSheet);
+    }
+
+    private OnItemDeleteListener deleteListener;
+
+    public OnItemDeleteListener getDeleteListener() {
+        return deleteListener;
+    }
+
+    public void setDeleteListener(OnItemDeleteListener deleteListener) {
+        this.deleteListener = deleteListener;
+    }
+
+    public interface OnItemDeleteListener {
+        void onItemDelete(int position, BookSheet bookSheet);
     }
 }

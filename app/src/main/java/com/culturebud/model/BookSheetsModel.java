@@ -6,6 +6,7 @@ import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.contract.BookSheetsContract;
+import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.net.ApiCollectedInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
@@ -19,6 +20,7 @@ import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
+import rx.functions.Action1;
 
 /**
  * Created by XieWei on 2016/12/13.
@@ -62,6 +64,39 @@ public class BookSheetsModel extends BookSheetsContract.Model {
                                 }
                                 res.put(key, bookSheets);
                                 subscriber.onNext(res);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> deleteBookSheet(String token, long sheetId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("sheetId", sheetId);
+            initRetrofit().create(ApiBookHomeInterface.class).deleteBookSheet(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));
                             }

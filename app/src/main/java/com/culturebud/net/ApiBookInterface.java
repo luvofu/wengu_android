@@ -79,11 +79,11 @@ public interface ApiBookInterface {
 
     @POST(CommonConst.PATH_COLLECT_ADD)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonObject>> collcetAdd(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<JsonObject>> collectAdd(@FieldMap Map<String, Object> params);
 
     @POST(CommonConst.PATH_COLLECT_DELETE)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonObject>> collcetDel(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<JsonObject>> collectDel(@FieldMap Map<String, Object> params);
 
     /**
      * userBookId

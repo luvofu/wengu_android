@@ -239,4 +239,8 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.IMPORT_BOOK_ENTRY)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> addSearchBook(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_BOOK_SHEET_DELETE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> deleteBookSheet(@FieldMap Map<String, Object> params);
 }

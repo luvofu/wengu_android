@@ -33,7 +33,7 @@ public abstract class BookBaseModel extends BaseModel {
             }
             params.put("collectType", collectType);
             params.put("collectObjId", collectObjId);
-            initRetrofit().create(ApiBookInterface.class).collcetAdd(params)
+            initRetrofit().create(ApiBookInterface.class).collectAdd(params)
                     .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                         @Override
                         public void onCompleted() {
@@ -67,11 +67,11 @@ public abstract class BookBaseModel extends BaseModel {
             }
             params.put("collectType", collectType);
             params.put("collectObjId", collectObjId);
-            initRetrofit().create(ApiBookInterface.class).collcetDel(params)
+            initRetrofit().create(ApiBookInterface.class).collectDel(params)
                     .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                         @Override
                         public void onCompleted() {
-
+                            subscriber.onCompleted();
                         }
 
                         @Override
