@@ -190,8 +190,11 @@ public class SettingItemView extends LinearLayout {
 
     private void setRawTextSize(TextView view, int size) {
         Class tvNameCls = view.getClass();
-        if (view instanceof AppCompatTextView) {
-            tvNameCls = view.getClass().getSuperclass();
+//        if (view instanceof AppCompatTextView) {
+//            tvNameCls = view.getClass().getSuperclass();
+//        }
+        if (tvNameCls != TextView.class) {
+            tvNameCls = getViewSupperCls(tvNameCls);
         }
         try {
             if(tvNameCls == TextView.class) {
@@ -203,6 +206,14 @@ public class SettingItemView extends LinearLayout {
             e.printStackTrace();
             Log.e(TAG, e.toString());
         }
+    }
+
+    private Class getViewSupperCls(Class<? extends View> cls) {
+        Class c = cls.getSuperclass();
+        if (c != null && c != TextView.class) {
+            getViewSupperCls(c);
+        }
+        return c;
     }
 
     public void setIconImage(@DrawableRes int resId) {
