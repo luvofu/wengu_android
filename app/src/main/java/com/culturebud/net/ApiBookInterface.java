@@ -50,7 +50,7 @@ public interface ApiBookInterface {
      * @param params
      * @return
      */
-    @POST(CommonConst.IMPORT_BOOK_SEARCH)
+    @POST(CommonConst.PATH_IMPORT_BOOK_SEARCH)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> importSearchBooks(@FieldMap Map<String, Object> params);
     /**
@@ -107,7 +107,7 @@ public interface ApiBookInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> deleteUserBooks(@FieldMap Map<String, Object> params);
 
-    @POST(CommonConst.BOOK_SEARCH_FILTER)
+    @POST(CommonConst.PATH_BOOK_SEARCH_FILTER)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> getBookFilters(@FieldMap Map<String, Object> params);
 

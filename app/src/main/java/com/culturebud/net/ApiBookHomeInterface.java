@@ -17,7 +17,6 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
-import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**
@@ -236,7 +235,7 @@ public interface ApiBookHomeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> addScanBook(@FieldMap Map<String, Object> params);
 
-    @POST(CommonConst.IMPORT_BOOK_ENTRY)
+    @POST(CommonConst.PATH_IMPORT_BOOK_ENTRY)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> addSearchBook(@FieldMap Map<String, Object> params);
 
