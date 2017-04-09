@@ -74,6 +74,8 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
             String[] tags = tagStr.split("\\|");
             StringTagsAdapter bstAdapter = new StringTagsAdapter(tags);
             tflTags.setAdapter(bstAdapter);
+        } else {
+            tflTags.setAdapter(new StringTagsAdapter());
         }
     }
 

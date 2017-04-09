@@ -104,6 +104,9 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
         Intent data = new Intent();
         String tags = "";
         for (Tag t : etAdapter.getTags()) {
+            if (TextUtils.isEmpty(t.getContent())) {
+                continue;
+            }
             tags = tags + t.getContent() + "|";
         }
         if (tags.endsWith("|")) {
