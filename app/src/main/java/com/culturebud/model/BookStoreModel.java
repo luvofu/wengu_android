@@ -156,10 +156,10 @@ public class BookStoreModel extends BookStoreContract.Model {
 
     @Override
     public Observable<List<String>> getBookSheetFilters() {
-
+        Map<String, Object> params = getCommonParams();
         return Observable.create(subscriber -> {
 
-            initRetrofit().create(ApiBookInterface.class).getBookSheetFilters().subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+            initRetrofit().create(ApiBookInterface.class).getBookSheetFilters(params).subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                 @Override
                 public void onCompleted() {
 
@@ -194,8 +194,8 @@ public class BookStoreModel extends BookStoreContract.Model {
     @Override
     public Observable<List<String>> getBookFilters() {
         return Observable.create(subscriber -> {
-
-            initRetrofit().create(ApiBookInterface.class).getBookFilters().subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+            Map<String, Object> params = getCommonParams();
+            initRetrofit().create(ApiBookInterface.class).getBookFilters(params).subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                 @Override
                 public void onCompleted() {
 

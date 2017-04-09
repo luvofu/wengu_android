@@ -108,9 +108,11 @@ public interface ApiBookInterface {
     Observable<ApiResultBean<JsonObject>> deleteUserBooks(@FieldMap Map<String, Object> params);
 
     @POST(CommonConst.BOOK_SEARCH_FILTER)
-    Observable<ApiResultBean<JsonObject>> getBookFilters();
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> getBookFilters(@FieldMap Map<String, Object> params);
 
-    @POST(CommonConst.BOOKSHEET_SEARCH_FILTER)
-    Observable<ApiResultBean<JsonObject>> getBookSheetFilters();
+    @POST(CommonConst.PATH_BOOK_SHEET_TAGS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> getBookSheetFilters(@FieldMap Map<String, Object> params);
 }
 

@@ -193,8 +193,6 @@ public final class CommonConst {
 
     public static final String BOOK_SEARCH_FILTER = "api/common/bookClass";
 
-    public static final String BOOKSHEET_SEARCH_FILTER = "api/common/bookSheetTag";
-
     public final class UploadImgType {
         public static final int TYPE_USER_AVATAR = 0;
         public static final int TYPE_USER_BG = 1;
