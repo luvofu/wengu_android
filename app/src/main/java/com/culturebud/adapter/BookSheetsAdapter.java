@@ -87,6 +87,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             return res;
         }
     }
+
     class BookSheetsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvCount, tvNick;
@@ -100,7 +101,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_book_volumes);
             tvNick = WidgetUtil.obtainViewById(itemView, R.id.tv_nick);
             btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
-            itemView.setOnClickListener(this);
+            itemView.findViewById(R.id.rl_parent).setOnClickListener(this);
             btnDel.setOnClickListener(this);
             if (!canDel) {
                 ((ViewGroup) itemView).removeView(btnDel);
@@ -150,10 +151,20 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
                 onItemClickListener.onItemClick(view, position, data.get(position));
                 return;
             }
+            switch (view.getId()) {
+                case R.id.rl_parent:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(view, position, data.get(position));
+                    }
+                    break;
+                case R.id.btn_delete:
+                    if (deleteListener != null) {
+                        deleteListener.onItemDelete(position, data.get(position));
+                    }
+                    break;
+            }
             if (view.getId() == R.id.btn_delete) {
-                if (deleteListener != null) {
-                    deleteListener.onItemDelete(position, data.get(position));
-                }
+
             }
         }
     }
