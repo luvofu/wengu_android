@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.adapter.BookSheetsAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookSheet;
+import com.culturebud.bean.User;
 import com.culturebud.contract.BookSheetsContract;
 import com.culturebud.presenter.BookSheetsPresenter;
 import com.culturebud.ui.front.BookSheetDetailActivity;
@@ -74,13 +76,22 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         rvFavorite.addItemDecoration(divider);
 
         BookSheetsAdapter createdAdapter = new BookSheetsAdapter();
+        User user = BaseApp.getInstance().getUser();
+        if (user == null || (userId != -1 && user.getUserId() != userId)) {
+            createdAdapter.disableDel();
+        }
         createdAdapter.setOnItemClickListener(this);
         createdAdapter.setDeleteListener(this);
         rvCreated.setAdapter(createdAdapter);
+
         BookSheetsAdapter favoriteAdapter = new BookSheetsAdapter();
+        if (user == null || (userId != -1 && user.getUserId() != userId)) {
+            favoriteAdapter.disableDel();
+        }
         favoriteAdapter.setOnItemClickListener(this);
         favoriteAdapter.setDeleteListener(this);
         rvFavorite.setAdapter(favoriteAdapter);
+
         presenter.getUserCreatedSheets(userId);
         presenter.getUserFavoriteSheets(userId);
     }

@@ -14,6 +14,7 @@ import com.culturebud.adapter.BookSheetsAdapter.BookSheetsViewHolder;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.User;
 import com.culturebud.util.WidgetUtil;
+import com.culturebud.widget.SwipeMenuView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -25,6 +26,11 @@ import java.util.List;
 
 public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder> {
     private List<BookSheet> data;
+    private boolean canDel = true;
+
+    public void disableDel() {
+        canDel = false;
+    }
 
     public BookSheetsAdapter() {
         data = new ArrayList<>();
@@ -96,6 +102,9 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
             itemView.setOnClickListener(this);
             btnDel.setOnClickListener(this);
+            if (!canDel) {
+                ((ViewGroup) itemView).removeView(btnDel);
+            }
         }
 
         public void showNick(long userId) {
