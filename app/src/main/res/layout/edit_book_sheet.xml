@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_add_cover"
@@ -27,7 +27,7 @@
             android:gravity="center_vertical"
             android:text="@string/book_sheet_cover"
             android:textColor="@color/title_font_default"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_bs_cover"
@@ -36,14 +36,14 @@
             android:layout_marginRight="15dp"
             fresco:actualImageScaleType="fitXY"
             fresco:placeholderImage="@mipmap/pic_add"
-            fresco:placeholderImageScaleType="fitXY" />
+            fresco:placeholderImageScaleType="fitXY"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/right_arrow" />
+            android:src="@mipmap/right_arrow"/>
     </LinearLayout>
 
     <com.culturebud.widget.SettingItemView
@@ -55,7 +55,7 @@
         android:onClick="onClick"
         app:background="@drawable/setting_item_bg_selector"
         app:has_icon="false"
-        app:name="@string/book_sheet_name" />
+        app:name="@string/book_sheet_name"/>
 
     <RelativeLayout
         android:id="@+id/rl_tags"
@@ -75,7 +75,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:scaleType="centerInside"
-            android:src="@mipmap/right_arrow" />
+            android:src="@mipmap/right_arrow"/>
 
         <TextView
             android:id="@+id/tv_tags"
@@ -85,14 +85,14 @@
             android:gravity="center_vertical"
             android:text="标签"
             android:textColor="@color/title_font_default"
-            android:textSize="14sp" />
+            android:textSize="14sp"/>
 
         <com.culturebud.widget.TagFlowLayout
             android:id="@+id/tfl_tags"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/tv_tags"
-            android:layout_toLeftOf="@id/iv_tags" />
+            android:layout_toLeftOf="@id/iv_tags"/>
 
     </RelativeLayout>
 
@@ -104,8 +104,10 @@
         android:clickable="true"
         android:onClick="onClick"
         app:background="@drawable/setting_item_bg_selector"
+        app:desc_color="@color/font_black_light"
         app:has_icon="false"
-        app:name="@string/book_sheet_desc" />
+        app:name="@string/book_sheet_desc"
+        app:show_desc="true"/>
 
 
 </LinearLayout>

@@ -27,6 +27,8 @@ import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.presenter.BookSheetDetailPresenter;
 import com.culturebud.ui.bhome.BookSheetEditRecommendActivity;
 import com.culturebud.ui.bhome.EditBookSheetActivity;
+import com.culturebud.ui.search.SearchBookActivity;
+import com.culturebud.ui.search.SelectBookActivity;
 import com.culturebud.util.ShareHelper;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
@@ -55,6 +57,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     private BottomSheetDialog bsdOperas;
     private RecyclerView rvBookSheets;
     private long userId = -1;
+    private long sheetId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,9 +89,12 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
     private void initData() {
         Intent intent = getIntent();
-        long sheetId = intent.getLongExtra("sheetId", -1);
+        sheetId = intent.getLongExtra("sheetId", -1);
         if (sheetId > 0) {
             presenter.getBookSheetDetail(sheetId);
+        } else {
+            onErrorTip("非法操作");
+            finish();
         }
     }
 
@@ -216,11 +222,13 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         User user = BaseApp.getInstance().getUser();
         if (user != null && bookSheetDetail.getUserId() == user.getUserId()) {
             showOperas();
+            if (bookSheetDetail.getSheetBookList() != null && !bookSheetDetail.getSheetBookList().isEmpty()) {
+
+            }
         } else {
             hideOpears();
         }
         ((BookSheetDetailAdapter) rvDetail.getAdapter()).setData(detail);
-
     }
 
     @Override
@@ -277,6 +285,11 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             case 1://分享
                 ShareHelper.share(this, detail.getName(), detail.getName(), null);
                 break;
+            case 2: {//添加书目到书单
+//                Intent intent = new Intent(this, SearchBookActivity.class);
+
+                break;
+            }
         }
     }
 
@@ -300,7 +313,8 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 //                }
 //                int[] locs = new int[2];
 //                v.getLocationOnScreen(locs);
-//                int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v.getHeight() / 2;
+//                int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v
+// .getHeight() / 2;
 //                pwItemMenu.showAtLocation(v, Gravity.NO_GRAVITY, locs[0], y);
                 showBsdOperas();
                 tvBsdOperaBookName.setText(sheetBook.getTitle());
@@ -315,7 +329,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         switch (requestCode) {
             case REQUEST_CODE_BOOK_SHEET_EDIT:
                 if (resultCode == RESULT_OK) {
-
+                    presenter.getBookSheetDetail(sheetId);
                 }
                 break;
             case REQUEST_CODE_BS_EDIT_RECOMMEND: {

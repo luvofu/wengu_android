@@ -1,12 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_root"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:orientation="vertical">
+              android:background="@color/common_bg"
+              android:clickable="true"
+              android:orientation="vertical"
+              android:padding="@dimen/common_padding_middle">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="标签"
+        android:textColor="@color/font_black_dark"
+        android:textSize="@dimen/font_default"/>
 
     <com.culturebud.widget.TagFlowLayout
         android:id="@+id/tfl_tags"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:minHeight="72dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/white"/>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="推荐标签（使用推荐标签，更容易被检索哦）"
+                android:textColor="@color/font_black_dark"
+                android:textSize="@dimen/font_default"/>
+
+            <com.culturebud.widget.TagFlowLayout
+                android:id="@+id/tfl_recommend_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:minHeight="48dp"
+                    android:text="历史标签"
+                    android:textColor="@color/font_black_dark"
+                    android:textSize="@dimen/font_default"/>
+
+                <TextView
+                    android:id="@+id/tv_clear_history"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center_vertical|right"
+                    android:minHeight="48dp"
+                    android:text="清除历史记录"
+                    android:textColor="@color/tabar_font_checked"
+                    android:textSize="@dimen/font_default"/>
+            </LinearLayout>
+
+            <com.culturebud.widget.TagFlowLayout
+                android:id="@+id/tfl_history_tags"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </LinearLayout>

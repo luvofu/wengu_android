@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/light_gray"
-    android:orientation="vertical">
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/light_gray"
+              android:orientation="vertical">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -20,7 +20,7 @@
             android:layout_marginLeft="20dp"
             fresco:actualImageScaleType="fitXY"
             fresco:placeholderImage="@mipmap/img_placeholder"
-            fresco:placeholderImageScaleType="fitXY" />
+            fresco:placeholderImageScaleType="fitXY"/>
 
         <TextView
             android:id="@+id/tv_book_name"
@@ -32,7 +32,7 @@
             android:gravity="center_vertical"
             android:textColor="@color/title_font_default"
             android:textSize="16sp"
-            tools:text="跟习总学读书" />
+            tools:text="跟习总学读书"/>
 
         <TextView
             android:id="@+id/tv_nick"
@@ -44,7 +44,7 @@
             android:gravity="center_vertical"
             android:textColor="@color/title_font_default"
             android:textSize="14sp"
-            tools:text="不止步的风" />
+            tools:text="不止步的风"/>
 
         <TextView
             android:id="@+id/tv_create_time"
@@ -56,7 +56,7 @@
             android:gravity="center_vertical"
             android:textColor="@color/title_font_default"
             android:textSize="14sp"
-            tools:text="2016.10.15" />
+            tools:text="2016.10.15"/>
 
         <ImageView
             android:id="@+id/iv_share"
@@ -71,7 +71,7 @@
             android:paddingRight="10dp"
             android:paddingTop="5dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/share_icon" />
+            android:src="@mipmap/share_icon"/>
 
         <TextView
             android:id="@+id/tv_collect"
@@ -88,7 +88,7 @@
             android:paddingTop="5dp"
             android:textColor="@color/title_font_default"
             android:textSize="12sp"
-            tools:text="15" />
+            tools:text="15"/>
     </RelativeLayout>
 
     <com.culturebud.widget.TagFlowLayout
@@ -98,7 +98,7 @@
         android:background="@color/litter_gray_bg_border"
         android:paddingLeft="15dp"
         android:paddingRight="15dp"
-        android:paddingTop="8dp" />
+        android:paddingTop="8dp"/>
 
     <TextView
         android:id="@+id/tv_desc"
@@ -112,18 +112,43 @@
         android:paddingTop="2dp"
         android:textColor="@color/title_font_default"
         android:textSize="12sp"
-        tools:text="连枝带叶且西畴县色两个 i 哦楝色公里相爱不容易饿哦 i 根深蒂固老色鬼 i 额收到了背井离乡善良的空管局 iiu 基本后日记本欧文日不落" />
+        tools:text="连枝带叶且西畴县色两个 i 哦楝色公里相爱不容易饿哦 i 根深蒂固老色鬼 i 额收到了背井离乡善良的空管局 iiu 基本后日记本欧文日不落"/>
 
-    <TextView
-        android:id="@+id/tv_book_num"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:background="@android:color/white"
-        android:paddingBottom="5dp"
-        android:paddingLeft="20dp"
-        android:paddingTop="5dp"
-        android:textColor="@color/font_more"
-        android:textSize="14sp"
-        tools:text="共21本" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tv_book_num"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:gravity="center_vertical|left"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/font_more"
+            android:textSize="14sp"
+            tools:text="共21本"/>
+
+        <TextView
+            android:id="@+id/tv_add_book"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:clickable="true"
+            android:gravity="center_vertical|right"
+            android:paddingBottom="5dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:paddingTop="5dp"
+            android:text="+添加书目"
+            android:textColor="@color/font_more"
+            android:textSize="14sp"/>
+    </LinearLayout>
 </LinearLayout>
