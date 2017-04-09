@@ -98,8 +98,11 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                     isOpen = false;
                 }
                 break;
-            case R.id.tv_search:
+            case R.id.tv_search:{
+                Intent intent = new Intent(this, ImportBookFromSearchActivity.class);
+                startActivity(intent);
                 break;
+            }
             case R.id.tv_manual: {
                 Intent intent = new Intent(this, ManualAddBookActivity.class);
                 startActivityForResult(intent, REQUEST_CODE_ADD_BOOK_MANUAL);

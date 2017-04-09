@@ -235,4 +235,8 @@ public interface ApiBookHomeInterface {
     @POST(CommonConst.PATH_SCAN_BOOK_ADD)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> addScanBook(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.IMPORT_BOOK_ENTRY)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> addSearchBook(@FieldMap Map<String, Object> params);
 }

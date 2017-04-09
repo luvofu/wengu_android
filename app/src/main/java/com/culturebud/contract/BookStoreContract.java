@@ -19,12 +19,18 @@ public interface BookStoreContract {
         public abstract Observable<List<BookSheet>> getBookSheets(String token, int page, int sortType, String filterType);
 
         public abstract Observable<Boolean> cacheBooks(List<Book> books);
+
+        public abstract Observable<List<String>> getBookSheetFilters();
+
+        public abstract Observable<List<String>> getBookFilters();
     }
 
     interface View extends BaseView {
         void onShowBooks(List<Book> books);
 
         void onShowBookSheets(List<BookSheet> sheets);
+
+        void initFilters(List<String> filters);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -33,5 +39,7 @@ public interface BookStoreContract {
         public abstract void getBookSheets(int page, int sortType, String filterType);
 
         public abstract void cacheBooks(List<Book> books);
+
+        public abstract  void getFiltersByIsBookSheets(boolean isBookSheets);
     }
 }

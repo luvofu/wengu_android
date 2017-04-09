@@ -186,7 +186,9 @@
             android:name=".ui.search.SearchUserActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
-
+        <activity android:name=".ui.bhome.ImportBookFromSearchActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.me.FriendDetailActivity"
             android:screenOrientation="portrait"/>

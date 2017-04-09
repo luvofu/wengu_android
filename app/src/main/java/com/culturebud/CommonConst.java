@@ -183,6 +183,14 @@ public final class CommonConst {
 
     public static final String PATH_DEL_BOOK_MARK = "api/bookmark/delete";
 
+    public static final String IMPORT_BOOK_SEARCH = "api/userBook/bookSearch";
+
+    public static final String IMPORT_BOOK_ENTRY = "api/userBook/entry";
+
+    public static final String BOOK_SEARCH_FILTER = "api/common/bookClass";
+
+    public static final String BOOKSHEET_SEARCH_FILTER = "api/common/bookSheetTag";
+
     public final class UploadImgType {
         public static final int TYPE_USER_AVATAR = 0;
         public static final int TYPE_USER_BG = 1;

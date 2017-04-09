@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="15dp">
+
+    <com.facebook.drawee.view.SimpleDraweeView
+        android:layout_alignParentLeft="true"
+        android:id="@+id/sdv_book_sheet_cover"
+        android:layout_width="60dp"
+        android:layout_height="80dp"
+        android:layout_gravity="center_vertical"
+        fresco:actualImageScaleType="fitXY"
+        fresco:placeholderImage="@mipmap/img_placeholder"
+        fresco:placeholderImageScaleType="fitXY" />
+
+
+    <Button
+        android:id="@+id/add_book"
+        android:layout_width="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_height="35dp"
+        android:background="@drawable/import_book_bg"
+        android:text="加到书架"
+        />
+    <LinearLayout
+        android:layout_toLeftOf="@id/add_book"
+        android:layout_toRightOf="@id/sdv_book_sheet_cover"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="80dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_centerVertical="true"
+        android:gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:textColor="@color/title_font_default"
+            android:textSize="14sp" />
+
+
+
+        <TextView
+            android:id="@+id/tv_publisher_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/front_more_font"
+            android:textSize="12sp" />
+    </LinearLayout>
+</RelativeLayout>

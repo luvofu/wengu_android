@@ -44,6 +44,16 @@ public interface ApiBookInterface {
     Observable<ApiResultBean<JsonObject>> searchBooks(@FieldMap Map<String, Object> params);
 
     /**
+     * int page;页
+     * String keyword;关键字
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.IMPORT_BOOK_SEARCH)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> importSearchBooks(@FieldMap Map<String, Object> params);
+    /**
      * String token;用户令牌
      * long bookId;书籍id
      *
@@ -96,5 +106,11 @@ public interface ApiBookInterface {
     @POST(CommonConst.PATH_USER_BOOK_DELETE)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> deleteUserBooks(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.BOOK_SEARCH_FILTER)
+    Observable<ApiResultBean<JsonObject>> getBookFilters();
+
+    @POST(CommonConst.BOOKSHEET_SEARCH_FILTER)
+    Observable<ApiResultBean<JsonObject>> getBookSheetFilters();
 }
 

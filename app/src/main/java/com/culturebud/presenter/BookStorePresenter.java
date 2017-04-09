@@ -105,4 +105,45 @@ public class BookStorePresenter extends BookStoreContract.Presenter {
             }
         });
     }
+
+    @Override
+    public void getFiltersByIsBookSheets(boolean isBookSheets) {
+        if(isBookSheets){
+            model.getBookSheetFilters().subscribeOn(Schedulers.io())
+                    .subscribe(new Subscriber<List<String>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onNext(List<String> filters) {
+                            view.initFilters(filters);
+                        }
+                    });
+        }else{
+            model.getBookFilters().subscribeOn(Schedulers.io())
+                    .subscribe(new Subscriber<List<String>>() {
+                        @Override
+                        public void onCompleted() {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            e.printStackTrace();
+                        }
+
+                        @Override
+                        public void onNext(List<String> filters) {
+                            view.initFilters(filters);
+                        }
+                    });
+        }
+    }
 }

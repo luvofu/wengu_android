@@ -20,7 +20,6 @@ import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
-import rx.functions.Action1;
 
 /**
  * Created by XieWei on 2016/11/3.
@@ -152,6 +151,79 @@ public class BookStoreModel extends BookStoreContract.Model {
                 subscriber.onError(e);
             }
             subscriber.onCompleted();
+        });
+    }
+
+    @Override
+    public Observable<List<String>> getBookSheetFilters() {
+
+        return Observable.create(subscriber -> {
+
+            initRetrofit().create(ApiBookInterface.class).getBookSheetFilters().subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code != 200) {
+                        subscriber.onError(new Exception("请求错误"));
+                        return;
+                    }
+                    JsonObject jobj = bean.getData();
+                    if (jobj.has("bookSheetTagList")) {
+                        JsonArray jarr = jobj.getAsJsonArray("bookSheetTagList");
+                        Gson gson = new Gson();
+                        String[] filters = gson.fromJson(jarr, new TypeToken<String[]>() {
+                        }.getType());
+                        subscriber.onNext(java.util.Arrays.asList(filters));
+                    }
+                }
+
+            });
+        });
+    }
+
+    @Override
+    public Observable<List<String>> getBookFilters() {
+        return Observable.create(subscriber -> {
+
+            initRetrofit().create(ApiBookInterface.class).getBookFilters().subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                @Override
+                public void onCompleted() {
+
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    e.printStackTrace();
+                }
+
+                @Override
+                public void onNext(ApiResultBean<JsonObject> bean) {
+                    int code = bean.getCode();
+                    if (code != 200) {
+                        subscriber.onError(new Exception("请求错误"));
+                        return;
+                    }
+                    JsonObject jobj = bean.getData();
+                    if (jobj.has("bookClassList")) {
+                        JsonArray jarr = jobj.getAsJsonArray("bookClassList");
+                        Gson gson = new Gson();
+                        String[] filters = gson.fromJson(jarr, new TypeToken<String[]>() {
+                        }.getType());
+                        subscriber.onNext(java.util.Arrays.asList(filters));
+                    }
+                }
+
+            });
         });
     }
 }
