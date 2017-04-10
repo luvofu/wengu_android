@@ -147,10 +147,6 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
 
         @Override
         public void onClick(View view) {
-            if (view == itemView && onItemClickListener != null) {
-                onItemClickListener.onItemClick(view, position, data.get(position));
-                return;
-            }
             switch (view.getId()) {
                 case R.id.rl_parent:
                     if (onItemClickListener != null) {
@@ -162,9 +158,6 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
                         deleteListener.onItemDelete(position, data.get(position));
                     }
                     break;
-            }
-            if (view.getId() == R.id.btn_delete) {
-
             }
         }
     }
