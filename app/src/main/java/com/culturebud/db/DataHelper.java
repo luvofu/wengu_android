@@ -9,6 +9,7 @@ import com.culturebud.bean.Book;
 import com.culturebud.bean.BookDetail;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.Comment;
+import com.culturebud.bean.HistoryTag;
 import com.culturebud.bean.SearchKeyword;
 import com.culturebud.bean.User;
 import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
@@ -24,7 +25,7 @@ import java.sql.SQLException;
 public class DataHelper extends OrmLiteSqliteOpenHelper {
     private static final String TAG = "DataHelper";
     private static final String DB_NAME = "culturebud.db3";
-    private static final int VERSION_CODE = 1;
+    private static final int VERSION_CODE = 2;
 
     public DataHelper() {
         this(BaseApp.getInstance(), DB_NAME, null, VERSION_CODE);
@@ -39,6 +40,7 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
     public void onCreate(SQLiteDatabase database, ConnectionSource connectionSource) {
         try {
             createVersionOneTables(connectionSource);
+            createVersionTwoTables(connectionSource);
         } catch (SQLException e) {
             e.printStackTrace();
             Log.i(TAG, "onCreate() --> error");
@@ -54,6 +56,10 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
         TableUtils.createTable(connectionSource, BookDetail.class);
     }
 
+    private void createVersionTwoTables(ConnectionSource connectionSource) throws SQLException {
+        TableUtils.createTable(connectionSource, HistoryTag.class);
+    }
+
     @Override
     public void onUpgrade(SQLiteDatabase database, ConnectionSource connectionSource, int oldVersion, int newVersion) {
 
@@ -61,7 +67,7 @@ public class DataHelper extends OrmLiteSqliteOpenHelper {
             database.beginTransaction();
             switch (oldVersion) {
                 case 0:
-                    createVersionOneTables(connectionSource);
+                    createVersionTwoTables(connectionSource);
             }
             database.setTransactionSuccessful();
         } catch (SQLException e) {

@@ -14,7 +14,6 @@ import com.culturebud.adapter.BookSheetsAdapter.BookSheetsViewHolder;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.User;
 import com.culturebud.util.WidgetUtil;
-import com.culturebud.widget.SwipeMenuView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;

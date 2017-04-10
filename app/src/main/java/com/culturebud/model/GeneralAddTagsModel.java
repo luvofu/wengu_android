@@ -4,7 +4,9 @@ import android.text.TextUtils;
 
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
+import com.culturebud.bean.HistoryTag;
 import com.culturebud.contract.GeneralAddTagsContract;
+import com.culturebud.db.dao.HistoryTagDAO;
 import com.culturebud.net.ApiBookInterface;
 import com.culturebud.net.ApiBookSheetInterface;
 import com.culturebud.util.ApiException;
@@ -12,6 +14,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
@@ -23,6 +26,22 @@ import rx.Subscriber;
  */
 
 public class GeneralAddTagsModel extends GeneralAddTagsContract.Model {
+    private HistoryTagDAO historyTagDAO;
+
+    private void initHistoryTagDao() {
+        if (historyTagDAO == null) {
+            synchronized (GeneralAddTagsModel.class) {
+                if (historyTagDAO == null) {
+                    try {
+                        historyTagDAO = new HistoryTagDAO();
+                    } catch (SQLException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
     @Override
     public Observable<List<String>> getBookTags(String token) {
         return Observable.create(subscriber -> {
@@ -100,6 +119,35 @@ public class GeneralAddTagsModel extends GeneralAddTagsContract.Model {
                             }
                         }
                     });
+        });
+    }
+
+    @Override
+    public Observable<List<HistoryTag>> getLocalHistory(byte type, long userId) {
+        return Observable.create(subscriber -> {
+            initHistoryTagDao();
+            try {
+                List<HistoryTag> tags = historyTagDAO.findByTypeAndUserId(type, userId);
+                subscriber.onNext(tags);
+                subscriber.onCompleted();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> saveHistoryToLocal(HistoryTag tag) {
+        return Observable.create(subscriber -> {
+           initHistoryTagDao();
+            try {
+                subscriber.onNext(historyTagDAO.addTag(tag));
+                subscriber.onCompleted();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                subscriber.onError(e);
+            }
         });
     }
 }

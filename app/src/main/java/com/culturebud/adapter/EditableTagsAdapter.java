@@ -92,9 +92,15 @@ public class EditableTagsAdapter extends TagAdapter<Tag> implements View.OnClick
                     Tag t = new Tag();
                     t.setContent(v.getText().toString());
                     addTag(t, getCount() - 1);
+                    if (onTagClickListener != null) {
+                        onTagClickListener.onTagAdded(v, t);
+                    }
                 } else {
                     Tag t = (Tag) v.getTag();
                     t.setContent(v.getText().toString());
+                    if (onTagClickListener != null) {
+                        onTagClickListener.onTagAdded(v, t);
+                    }
                 }
                 notifyDataChanged();
                 return true;
@@ -104,5 +110,8 @@ public class EditableTagsAdapter extends TagAdapter<Tag> implements View.OnClick
 
     public interface OnTagClickListener {
         void onTagClick(View v, Tag tag);
+
+        void onTagAdded(View v, Tag tag);
     }
+
 }

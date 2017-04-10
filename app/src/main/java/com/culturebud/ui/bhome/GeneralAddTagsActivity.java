@@ -62,11 +62,6 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
         Intent intent = getIntent();
         type = intent.getIntExtra("type", 0);
         String tmp = intent.getStringExtra("tag");
-        if (type == 0) {
-            presenter.getBookTags();
-        } else {
-            presenter.getBookSheetTags();
-        }
         if (!TextUtils.isEmpty(tmp)) {
             tags = tmp.split("\\|");
         }
@@ -83,6 +78,13 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
         }
         if (etAdapter.getCount() < 3) {
             etAdapter.addTag(new Tag());
+        }
+        if (type == 0) {
+            presenter.getBookTags();
+            presenter.getHistoryTag((byte) 0);
+        } else {
+            presenter.getBookSheetTags();
+            presenter.getHistoryTag((byte) 1);
         }
     }
 
@@ -134,7 +136,17 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
 
     @Override
     public void onHistoryTags(List<String> tags) {
-
+        TagAdapter<String> adapter = new TagAdapter<String>(tags) {
+            @Override
+            public View getView(FlowLayout parent, int position, String tag) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.book_category_item, null);
+                TextView tvTag = (TextView) view;
+                tvTag.setText(tag);
+                return view;
+            }
+        };
+        tflHistoryTags.setAdapter(adapter);
     }
 
     @Override
@@ -144,6 +156,26 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
                 .getContent())) {
             etAdapter.addTag(new Tag());
         }
+    }
+
+    @Override
+    public void onTagAdded(View v, Tag tag) {
+        presenter.recordHistory((byte) type, tag.getContent());
+        TagAdapter<String> adapter = tflHistoryTags.getAdapter();
+        if (adapter == null) {
+            adapter = new TagAdapter<String>() {
+                @Override
+                public View getView(FlowLayout parent, int position, String tag) {
+                    View view = LayoutInflater.from(parent.getContext())
+                            .inflate(R.layout.book_category_item, null);
+                    TextView tvTag = (TextView) view;
+                    tvTag.setText(tag);
+                    return view;
+                }
+            };
+            tflHistoryTags.setAdapter(adapter);
+        }
+        adapter.addTag(tag.getContent());
     }
 
     @Override
