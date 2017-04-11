@@ -13,6 +13,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -96,6 +100,15 @@ public class MyDynamicsModel extends MyDynamicsContract.Model {
                                                     new TypeToken<List<BookCircleDynamicRelationMe>>() {
                                                     }.getType());
                                     subscriber.onNext(dynamics);
+                                    try {
+                                        FileOutputStream fis = new FileOutputStream("/mnt/sdcard/relation.json");
+                                        fis.write(bean.toString().getBytes());
+                                        fis.close();
+                                    } catch (FileNotFoundException e) {
+                                        e.printStackTrace();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));

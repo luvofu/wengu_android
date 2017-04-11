@@ -1,0 +1,240 @@
+{
+  "code": 200,
+  "msg": "成功！",
+  "data": {
+    "dynamicRelativeToMeList": [
+      {
+        "dynamic": {
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+          "dynamicType": 1,
+          "userId": 100009,
+          "good": false,
+          "content": "添加了1本书籍:《李陵碑》",
+          "linkId": 0,
+          "dynamicId": 292,
+          "replyNum": 0,
+          "nickname": "坏猫",
+          "createdTime": 1491798436000,
+          "linkType": 0,
+          "goodNum": 1
+        },
+        "dynamicReplyList": [],
+        "newReply": {
+          "nickname": "小书生",
+          "replyId": 843,
+          "createdTime": 1491828095000,
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100005_1491811179229_300x300.jpg",
+          "userId": 100005,
+          "content": "赞了你的动态"
+        }
+      },
+      {
+        "dynamic": {
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+          "dynamicType": 1,
+          "userId": 100009,
+          "good": true,
+          "content": "添加了1本书籍:《广陵剑》",
+          "linkId": 0,
+          "dynamicId": 293,
+          "replyNum": 0,
+          "nickname": "坏猫",
+          "createdTime": 1491798438000,
+          "linkType": 0,
+          "goodNum": 2
+        },
+        "dynamicReplyList": [],
+        "newReply": {
+          "nickname": "小书生",
+          "replyId": 842,
+          "createdTime": 1491828094000,
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100005_1491811179229_300x300.jpg",
+          "userId": 100005,
+          "content": "赞了你的动态"
+        }
+      },
+      {
+        "dynamic": {
+          "image": "https://mywengu.com/img/dynamic/content/lpic/0/207_1491731813290_750x1000.jpg",
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+          "dynamicType": 0,
+          "userId": 100009,
+          "good": false,
+          "content": "123456",
+          "linkId": 0,
+          "dynamicId": 207,
+          "replyNum": 1,
+          "nickname": "坏猫",
+          "createdTime": 1491731813000,
+          "linkType": 0,
+          "goodNum": 0
+        },
+        "dynamicReplyList": [],
+        "newReply": {
+          "nickname": "魂过也，正徘徊，却是乌云遮蔽日",
+          "replyId": 383,
+          "createdTime": 1491731836000,
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100030_1491808588887_300x300.jpg",
+          "userId": 100030,
+          "content": "不错"
+        }
+      },
+      {
+        "dynamic": {
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+          "dynamicType": 0,
+          "userId": 100009,
+          "good": false,
+          "content": "我发现了一个好的书单《进化论与文明与爱情》，都来瞧瞧哦！",
+          "bookSheetCover": "https://mywengu.com/img/booksheet/cover/lpic/0/54_1477478245810_600x600.jpg",
+          "linkId": 54,
+          "dynamicId": 206,
+          "replyNum": 1,
+          "nickname": "坏猫",
+          "name": "进化论与文明与爱情",
+          "createdTime": 1491731560000,
+          "linkType": 2,
+          "goodNum": 0
+        },
+        "dynamicReplyList": [],
+        "newReply": {
+          "nickname": "魂过也，正徘徊，却是乌云遮蔽日",
+          "replyId": 382,
+          "createdTime": 1491731570000,
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100030_1491808588887_300x300.jpg",
+          "userId": 100030,
+          "content": "不错"
+        }
+      },
+      {
+        "dynamic": {
+          "image": "https://mywengu.com/img/dynamic/content/lpic/0/114_1484218499099_640x1136.jpg",
+          "author": "古吴轩出版社",
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+          "dynamicType": 0,
+          "title": "唐张旭古诗四帖",
+          "userId": 100009,
+          "bookCover": "https://mywengu.com/img/book/cover/lpic/59/591727_273x465.jpg",
+          "good": false,
+          "content": "@不止步的风2 这数字",
+          "linkId": 591727,
+          "dynamicId": 114,
+          "replyNum": 4,
+          "nickname": "坏猫",
+          "createdTime": 1484218499000,
+          "linkType": 1,
+          "goodNum": 0
+        },
+        "dynamicReplyList": [
+          {
+            "replyType": 0,
+            "nickname": "坏猫",
+            "replyId": 222,
+            "createdTime": 1484623222000,
+            "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+            "userId": 100009,
+            "content": "d烧了!鳭 @不止步的风2 "
+          },
+          {
+            "replyType": 1,
+            "nickname": "坏猫",
+            "replyId": 234,
+            "createdTime": 1484633688000,
+            "replyObj": {
+              "replyObjId": 222,
+              "nickname": "坏猫",
+              "userId": 100009
+            },
+            "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+            "userId": 100009,
+            "content": "😚😜😭😂😚😉😁😳"
+          },
+          {
+            "replyType": 0,
+            "nickname": "坏猫",
+            "replyId": 235,
+            "createdTime": 1484633716000,
+            "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+            "userId": 100009,
+            "content": "门票子 @不止步的风2 "
+          }
+        ],
+        "newReply": {
+          "nickname": "魂过也，正徘徊，却是乌云遮蔽日",
+          "replyId": 381,
+          "createdTime": 1491731352000,
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100030_1491808588887_300x300.jpg",
+          "userId": 100030,
+          "content": "不错"
+        }
+      },
+      {
+        "dynamic": {
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+          "dynamicType": 1,
+          "userId": 100009,
+          "good": true,
+          "content": "添加了1本书籍:《基于Material Design的Android用户界面设计》",
+          "linkId": 0,
+          "dynamicId": 181,
+          "replyNum": 5,
+          "nickname": "坏猫",
+          "createdTime": 1491403341000,
+          "linkType": 0,
+          "goodNum": 2
+        },
+        "dynamicReplyList": [
+          {
+            "replyType": 0,
+            "nickname": "魂过也，正徘徊，却是乌云遮蔽日",
+            "replyId": 374,
+            "createdTime": 1491489794000,
+            "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100030_1491808588887_300x300.jpg",
+            "userId": 100030,
+            "content": "不错"
+          },
+          {
+            "replyType": 0,
+            "nickname": "坏猫",
+            "replyId": 377,
+            "createdTime": 1491625534000,
+            "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+            "userId": 100009,
+            "content": "丂"
+          },
+          {
+            "replyType": 0,
+            "nickname": "坏猫",
+            "replyId": 378,
+            "createdTime": 1491625552000,
+            "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+            "userId": 100009,
+            "content": "4685867888"
+          },
+          {
+            "replyType": 1,
+            "nickname": "坏猫",
+            "replyId": 379,
+            "createdTime": 1491626098000,
+            "replyObj": {
+              "replyObjId": 374,
+              "nickname": "魂过也，正徘徊，却是乌云遮蔽日",
+              "userId": 100030
+            },
+            "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100009_1491362008834_300x300.jpg",
+            "userId": 100009,
+            "content": "123"
+          }
+        ],
+        "newReply": {
+          "nickname": "魂过也，正徘徊，却是乌云遮蔽日",
+          "replyId": 380,
+          "createdTime": 1491627543000,
+          "avatar": "https://mywengu.com/img/user/avatar/lpic/10/100030_1491808588887_300x300.jpg",
+          "userId": 100030,
+          "content": "这书圈有时间真想重构下"
+        }
+      }
+    ]
+  }
+}

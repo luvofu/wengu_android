@@ -1,6 +1,5 @@
 package com.culturebud.adapter;
 
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +20,7 @@ import com.culturebud.R;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.BookCircleDynamicRelationMe;
 import com.culturebud.bean.DynamicReply;
+import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -34,7 +34,8 @@ import java.util.Locale;
  * Created by XieWei on 2016/10/29.
  */
 
-public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<RelationMeBookCircleDynamicAdapter.DynamicViewHolder> {
+public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<RelationMeBookCircleDynamicAdapter
+        .DynamicViewHolder> {
     private List<BookCircleDynamicRelationMe> data;
     private static SimpleDateFormat sdf = new SimpleDateFormat("MM-dd kk:mm", Locale.getDefault());
 
@@ -76,7 +77,7 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
             hasImg = 1;
         }
         int hasComments = 0; //0：没有评论， 1：有评论
-        List<DynamicReply> rs = bcd.getDynamicReplies();
+        List<DynamicReply> rs = data.get(position).getReplies();
         if (rs != null && rs.size() > 0) {
             hasComments = 1;
         }
@@ -91,22 +92,23 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
     @Override
     public DynamicViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         DynamicViewHolder holder = new DynamicViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.book_circle_item, parent, false));
+                .inflate(R.layout.book_circle_relation_me_item, parent, false));
         int linkType = viewType & 0xFF;
         int hasImg = (viewType & 0xFF00) >> 8;
         int hasComments = (viewType & 0xFF0000) >> 16;
         Log.e("xwlljj", "linkType is " + linkType);
         switch (linkType) {
             case CommonConst.LinkType.TYPE_COMMON://普通
+                //none
                 break;
             case CommonConst.LinkType.TYPE_BOOK://书
-                holder.infalteBookView();
+                holder.inflateBookView();
                 break;
             case CommonConst.LinkType.TYPE_BOOK_SHEET://书单
-                holder.infalteBookSheetView();
+                holder.inflateBookSheetView();
                 break;
             case CommonConst.LinkType.TYPE_COMMENT://评论
-                holder.infalteCommentView();
+                holder.inflateCommentView();
                 break;
             case CommonConst.LinkType.TYPE_DELETED:
                 holder.inflateDeletedView();
@@ -114,7 +116,8 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
         }
 
         switch (hasImg) {
-            case 0://没图片
+            case 0://没有图片
+                holder.inflateCommonView();
                 break;
             case 1://有图片
                 holder.inflateImageView();
@@ -134,53 +137,55 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
 
     @Override
     public void onBindViewHolder(DynamicViewHolder holder, int position) {
-        BookCircleDynamicRelationMe bcd = data.get(position);
-        holder.bcd = bcd;
-        holder.setFace(bcd.getNewReply().getAvatar());
-        holder.setNick(bcd.getNewReply().getNickname());
-        holder.setContent(bcd.getNewReply().getContent());
+        BookCircleDynamicRelationMe bcdrm = data.get(position);
+        holder.bcd = bcdrm;
+        holder.setFace(bcdrm.getNewReply().getAvatar());
+        holder.setNick(bcdrm.getNewReply().getNickname());
+        holder.setContent(bcdrm.getNewReply().getContent());
 
-        holder.setCreateTime(bcd.getDynamic().getCreatedTime());
-        holder.setGoodNum(bcd.getDynamic().getGoodNum());
-        holder.setGoodOfMe(bcd.getDynamic().isGood());
-        holder.setReplyNum(bcd.getDynamic().getReplyNum());
+        holder.setCreateTime(bcdrm.getDynamic().getCreatedTime());
+        holder.setReplyNum(bcdrm.getDynamic().getReplyNum());
 
-        if (!TextUtils.isEmpty(bcd.getDynamic().getImage())) {
-            holder.setImage(bcd.getDynamic().getImage());
+        if (!TextUtils.isEmpty(bcdrm.getDynamic().getImage())) {
+            holder.setImage(bcdrm.getDynamic().getImage());
+            holder.setCommonContent(bcdrm.getDynamic().getNickname(), bcdrm.getDynamic().getContent());
+        } else {
+            holder.setCommonContent(bcdrm.getDynamic().getNickname(), bcdrm.getDynamic().getContent());
         }
 
-        int linkType = bcd.getDynamic().getLinkType();
-        if (bcd.getDynamic().getLinkId() == -1) {
+        int linkType = bcdrm.getDynamic().getLinkType();
+        if (bcdrm.getDynamic().getLinkId() == -1) {
             linkType = 255;
         }
         switch (linkType) {
             case CommonConst.LinkType.TYPE_COMMON:
+                //none
                 break;
             case CommonConst.LinkType.TYPE_BOOK:
-                holder.setBookCover(bcd.getDynamic().getBookCover());
-                holder.setBookTitle(bcd.getDynamic().getTitle());
+                holder.setBookCover(bcdrm.getDynamic().getBookCover());
+                holder.setBookTitle(bcdrm.getDynamic().getTitle());
                 break;
             case CommonConst.LinkType.TYPE_BOOK_SHEET:
-                holder.setSheetCover(bcd.getDynamic().getBookSheetCover());
-                holder.setSheetName(bcd.getDynamic().getName());
+                holder.setSheetCover(bcdrm.getDynamic().getBookSheetCover());
+                holder.setSheetName(bcdrm.getDynamic().getName());
                 break;
             case CommonConst.LinkType.TYPE_COMMENT:
-                String cnick = bcd.getDynamic().getCommentNickname();
+                String cnick = bcdrm.getDynamic().getCommentNickname();
                 if (TextUtils.isEmpty(cnick)) {
                     cnick = "";
                 }
-                String cconten = bcd.getDynamic().getCommentContent();
+                String cconten = bcdrm.getDynamic().getCommentContent();
                 if (TextUtils.isEmpty(cconten)) {
                     cconten = "";
                 }
                 holder.setCommentNickAndContent(cnick, cconten);
-                holder.setCommunityTitle(bcd.getDynamic().getCommunityTitle());
+                holder.setCommunityTitle(bcdrm.getDynamic().getCommunityTitle());
                 break;
         }
 
-        if (bcd.getReplies() != null
-                && bcd.getReplies().size() > 0) {
-            holder.setCommentReplies(bcd.getReplies());
+        if (bcdrm.getReplies() != null
+                && bcdrm.getReplies().size() > 0) {
+            holder.setCommentReplies(bcdrm.getReplies());
         }
     }
 
@@ -210,6 +215,9 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
         private SimpleDraweeView sdvBookCover;
 
         //linkType = 0
+        private TextView tvCommon;
+
+        //hasImg
         private SimpleDraweeView sdvImg;
 
         //hasComments;
@@ -220,6 +228,7 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
         public DynamicViewHolder(View itemView) {
             super(itemView);
             vsImage = (ViewStub) itemView.findViewById(R.id.vs_image);
+
             vsLinkTypeItem = (ViewStub) itemView.findViewById(R.id.vs_type_holder);
             vsComments = (ViewStub) itemView.findViewById(R.id.vs_comments);
 
@@ -230,8 +239,10 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
             tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
             tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);
             tvReplyNum = (TextView) itemView.findViewById(R.id.tv_reply_num);
+
+            tvGoodNum.setVisibility(View.GONE);
+
             itemView.setOnClickListener(this);
-            tvGoodNum.setOnClickListener(this);
             tvReplyNum.setOnClickListener(this);
             sdvFace.setOnClickListener(this);
         }
@@ -261,21 +272,6 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
             tvCreateTime.setText(str);
         }
 
-        public void setGoodNum(long goodNum) {
-            tvGoodNum.setText(String.valueOf(goodNum));
-        }
-
-        public void setGoodOfMe(boolean isMe) {
-            Drawable drawable = null;
-            if (isMe) {
-                drawable = BaseApp.getInstance().getResources().getDrawable(R.mipmap.good_true);
-            } else {
-                drawable = BaseApp.getInstance().getResources().getDrawable(R.mipmap.good_false);
-            }
-            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-            tvGoodNum.setCompoundDrawables(drawable, null, null, null);
-        }
-
         public void setReplyNum(long replyNum) {
             tvReplyNum.setText(String.valueOf(replyNum));
         }
@@ -285,7 +281,7 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
             View view = vsLinkTypeItem.inflate();
         }
 
-        public void infalteCommentView() {
+        public void inflateCommentView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_comment);
             View view = vsLinkTypeItem.inflate();
             tvCommentContent = (TextView) view.findViewById(R.id.tv_comment);
@@ -305,7 +301,7 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
             tvCommunityTitle.setText(title);
         }
 
-        public void infalteBookView() {
+        public void inflateBookView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_book);
             View view = vsLinkTypeItem.inflate();
             sdvBookCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_cover);
@@ -325,7 +321,7 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
             }
         }
 
-        public void infalteBookSheetView() {
+        public void inflateBookSheetView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_sheet);
             View view = vsLinkTypeItem.inflate();
             sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_sheet_cover);
@@ -343,6 +339,26 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
 
         public void setSheetName(CharSequence name) {
             tvSheet.setText(name);
+        }
+
+        public void inflateCommonView() {
+            vsImage.setLayoutResource(R.layout.book_circle_item_common);
+            View view = vsImage.inflate();
+            view.setBackgroundResource(R.color.litter_gray_bg_border);
+            tvCommon = WidgetUtil.obtainViewById(view, R.id.tv_type_common);
+        }
+
+        public void setCommonContent(String nick, String content) {
+            if (!TextUtils.isEmpty(nick)) {
+                if (TextUtils.isEmpty(content)) {
+                    content = "";
+                }
+                SpannableString ss = new SpannableString(nick + "：" + content);
+                ss.setSpan(new ForegroundColorSpan(BaseApp.getInstance()
+                                .getResources().getColor(R.color.front_hot_font)),
+                        0, nick.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                tvCommon.setText(ss);
+            }
         }
 
         public void inflateCommentsView() {
@@ -369,18 +385,18 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
 
 
         public void inflateImageView() {
-            vsImage.setLayoutResource(R.layout.book_circle_item_img);
+            vsImage.setLayoutResource(R.layout.book_circle_item_img_2);
             View view = vsImage.inflate();
+            view.setBackgroundResource(R.color.litter_gray_bg_border);
             sdvImg = (SimpleDraweeView) view.findViewById(R.id.sdv_img);
-            sdvImg.setOnClickListener(this);
+            tvCommon = WidgetUtil.obtainViewById(view, R.id.tv_dynamic_content);
         }
 
         public void setImage(String url) {
-            ViewGroup.LayoutParams params = sdvImg.getLayoutParams();
-            params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            sdvImg.setLayoutParams(params);
-            Uri uri = Uri.parse(url);
-            sdvImg.setImageURI(uri);
+            if (!TextUtils.isEmpty(url)) {
+                Uri uri = Uri.parse(url);
+                sdvImg.setImageURI(uri);
+            }
         }
 
         @Override
