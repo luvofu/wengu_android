@@ -7,6 +7,7 @@
     <color name="orange">#FF8200</color>
     <color name="yellow">#ffC200</color>
     <color name="common_bg">#F3ECE6</color>
+    <color name="blur_scrim">#A8BBBBBB</color>
 
     <color name="title_bg_color">#26B8F2</color>
     <color name="scan_corner_color">#26B8F2</color>

@@ -8,6 +8,7 @@ import android.view.View;
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
 import com.culturebud.adapter.BookCircleDynamicAdapter;
+import com.culturebud.adapter.RelationMeBookCircleDynamicAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.BookCircleDynamicRelationMe;
@@ -24,9 +25,11 @@ import java.util.List;
 
 @PresenterInject(MyDynamicsPresenter.class)
 public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter>
-        implements MyDynamicsContract.View, BookCircleDynamicAdapter.OnItemClickListener {
+        implements MyDynamicsContract.View, BookCircleDynamicAdapter.OnItemClickListener,
+        RelationMeBookCircleDynamicAdapter.OnItemClickListener {
     private RecyclerView rvDynamics;
     private BookCircleDynamicAdapter adapter;
+    private RelationMeBookCircleDynamicAdapter rmbcdAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,16 +39,20 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
         rvDynamics = obtainViewById(R.id.rv_my_dynamics);
         rvDynamics.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvDynamics.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL));
-        adapter = new BookCircleDynamicAdapter();
-        adapter.setOnItemClickListener(this);
-        rvDynamics.setAdapter(adapter);
+
         showTitlebar();
         showBack();
         int type = getIntent().getIntExtra("type", 0);//0表示我发布的 1表示与我相关的
         if (type == 0) {
+            adapter = new BookCircleDynamicAdapter();
+            adapter.setOnItemClickListener(this);
+            rvDynamics.setAdapter(adapter);
             setTitle(R.string.my_published_dynamic);
             presenter.myPublished(0);
         } else {
+            rmbcdAdapter = new RelationMeBookCircleDynamicAdapter();
+            rmbcdAdapter.setOnItemClickListener(this);
+            rvDynamics.setAdapter(rmbcdAdapter);
             setTitle(R.string.related_me);
             presenter.myRelations(0);
         }
@@ -59,12 +66,16 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
 
     @Override
     public void onDynamics(List<BookCircleDynamic> dynamics) {
-        adapter.addItems(dynamics);
+        if (adapter != null) {
+            adapter.addItems(dynamics);
+        }
     }
 
     @Override
     public void onRelations(List<BookCircleDynamicRelationMe> dynamics) {
-
+        if (rmbcdAdapter != null) {
+            rmbcdAdapter.addItems(dynamics);
+        }
     }
 
     @Override

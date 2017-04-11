@@ -3,7 +3,9 @@ package com.culturebud.util;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
@@ -14,6 +16,7 @@ import android.renderscript.ScriptIntrinsicBlur;
 import android.support.annotation.RequiresApi;
 
 import com.culturebud.BaseApp;
+import com.culturebud.R;
 
 /**
  * Created by XieWei on 2016/11/10.
@@ -25,8 +28,10 @@ public class ImgUtil {
     public static Bitmap blurBitmap(Bitmap bitmap) {
 
         //Let's create an empty bitmap with the same size of the bitmap we want to blur
-        Bitmap outBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
-
+        int y = bitmap.getHeight() / 3;
+        int h = bitmap.getHeight() / 3;
+        final Bitmap portionToBlur = Bitmap.createBitmap(bitmap, 0, y, bitmap.getWidth(), h);
+        final Bitmap blurredBitmap = portionToBlur.copy(Bitmap.Config.ARGB_8888, true);
         //Instantiate a new Renderscript
         RenderScript rs = RenderScript.create(BaseApp.getInstance());
 
@@ -34,18 +39,24 @@ public class ImgUtil {
         ScriptIntrinsicBlur blurScript = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
 
         //Create the Allocations (in/out) with the Renderscript and the in/out bitmaps
-        Allocation allIn = Allocation.createFromBitmap(rs, bitmap);
-        Allocation allOut = Allocation.createFromBitmap(rs, outBitmap);
+        Allocation allIn = Allocation.createFromBitmap(rs, portionToBlur);
+        Allocation allOut = Allocation.createFromBitmap(rs, blurredBitmap);
 
         //Set the radius of the blur
-        blurScript.setRadius(8F);
+        blurScript.setRadius(25F);
 
         //Perform the Renderscript
         blurScript.setInput(allIn);
         blurScript.forEach(allOut);
+        allOut.copyTo(blurredBitmap);
+        new Canvas(blurredBitmap).drawColor(BaseApp.getInstance().getResources()
+                .getColor(R.color.blur_scrim));
 
+        final Bitmap newBitmap = portionToBlur.copy(Bitmap.Config.ARGB_8888, true);
+        final Canvas canvas = new Canvas(newBitmap);
+        canvas.drawBitmap(blurredBitmap, 0, h, new Paint());
         //Copy the final bitmap created by the out Allocation to the outBitmap
-        allOut.copyTo(outBitmap);
+        //allOut.copyTo(outBitmap);
 
         //recycle the original bitmap
         bitmap.recycle();
@@ -53,7 +64,7 @@ public class ImgUtil {
         //After finishing everything, we destroy the Renderscript.
         rs.destroy();
 
-        return outBitmap;
+        return newBitmap;
     }
 
     public static Bitmap doBlur(Bitmap sentBitmap, int radius, boolean canReuseInBitmap) {
