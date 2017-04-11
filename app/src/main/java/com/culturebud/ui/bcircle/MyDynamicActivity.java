@@ -3,6 +3,7 @@ package com.culturebud.ui.bcircle;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import com.culturebud.BaseActivity;
@@ -30,6 +31,7 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
     private RecyclerView rvDynamics;
     private BookCircleDynamicAdapter adapter;
     private RelationMeBookCircleDynamicAdapter rmbcdAdapter;
+    private int type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +44,10 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
 
         showTitlebar();
         showBack();
-        int type = getIntent().getIntExtra("type", 0);//0表示我发布的 1表示与我相关的
+
+        rvDynamics.setOnScrollListener(listener);
+
+        type = getIntent().getIntExtra("type", 0);//0表示我发布的 1表示与我相关的
         if (type == 0) {
             adapter = new BookCircleDynamicAdapter();
             adapter.setOnItemClickListener(this);
@@ -56,6 +61,7 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
             setTitle(R.string.related_me);
             presenter.myRelations(0);
         }
+
     }
 
     @Override
@@ -66,14 +72,30 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
 
     @Override
     public void onDynamics(List<BookCircleDynamic> dynamics) {
+        if (dynamics == null || dynamics.isEmpty()) {
+            Log.d("bCircle", "没有更多了");
+            return;
+        }
+        loading = false;
         if (adapter != null) {
+            if (currentPage == 0) {
+                adapter.clearData();
+            }
             adapter.addItems(dynamics);
         }
     }
 
     @Override
     public void onRelations(List<BookCircleDynamicRelationMe> dynamics) {
+        if (dynamics == null || dynamics.isEmpty()) {
+            Log.d("bCircle", "没有更多了");
+            return;
+        }
+        loading = false;
         if (rmbcdAdapter != null) {
+            if (currentPage == 0) {
+                rmbcdAdapter.clearData();
+            }
             rmbcdAdapter.addItems(dynamics);
         }
     }
@@ -82,4 +104,34 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
     public void onItemClick(View v, int type, BookCircleDynamic bcd, DynamicReply dy) {
 
     }
+
+    private int currentPage;
+    private boolean loading = true;
+    private RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {
+
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (dy > 0) {
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
+                int total = recyclerView.getLayoutManager().getItemCount();
+                if (dy > 0 && (lastPosition + 1 >= total) && !loading) {
+                    loading = true;
+                    if (type == 0) {
+                        presenter.myPublished(++currentPage);
+                    } else {
+                        presenter.myRelations(++currentPage);
+                    }
+                }
+            } else {
+
+            }
+        }
+    };
 }
