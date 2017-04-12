@@ -66,6 +66,8 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_dynamics);
         presenter.setView(this);
+        showTitlebar();
+        showBack();
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -75,9 +77,6 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
         rvDynamics = obtainViewById(R.id.rv_my_dynamics);
         rvDynamics.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvDynamics.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL));
-
-        showTitlebar();
-        showBack();
 
         rvDynamics.setOnScrollListener(listener);
         addSoftKeyboardChangedListener(this);
@@ -308,7 +307,7 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
     public void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight) {
         if (isKeyBoardShow) {
             pwReply.update(0, screenHeight - (keyboardHeight + pwReply.getContentView()
-                            .getMeasuredHeight() + getTitleBarHeight()),
+                            .getMeasuredHeight()/* + getTitleBarHeight()*/),
                     pwReply.getWidth(), pwReply.getHeight(), true);
         } else {
             pwReply.update(0, screenHeight - pwReply.getContentView().getMeasuredHeight(),

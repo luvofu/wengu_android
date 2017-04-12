@@ -221,7 +221,8 @@
 
         <activity
             android:name=".ui.bcircle.MyDynamicActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 
         <activity
             android:name=".ui.search.SelectUserActivity"
