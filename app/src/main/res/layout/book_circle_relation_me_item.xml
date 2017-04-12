@@ -52,14 +52,13 @@
         <ViewStub
             android:id="@+id/vs_image"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/common_margin_small"/>
+            android:layout_height="wrap_content"/>
 
         <ViewStub
             android:id="@+id/vs_type_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            />
+            android:layout_marginTop="@dimen/common_margin_small"/>
     </LinearLayout>
 
     <LinearLayout

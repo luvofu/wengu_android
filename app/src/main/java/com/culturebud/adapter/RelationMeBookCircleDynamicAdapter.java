@@ -398,7 +398,6 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
                 ViewGroup.LayoutParams params = sdvImg.getLayoutParams();
                 params.width = sdvImg.getResources().getDimensionPixelSize(R.dimen.comment_detail_face_size);
                 sdvImg.setLayoutParams(params);
-                sdvImg.setScaleType(ImageView.ScaleType.FIT_XY);
                 Uri uri = Uri.parse(url);
                 sdvImg.setImageURI(uri);
             }
@@ -445,7 +444,7 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
                     break;
                 case R.id.tv_reply_num:
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_REPLY, bcd.getDynamic(), null);
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_REPLY, bcd.getDynamic(), bcd.getNewReply());
                     }
                     break;
             }
