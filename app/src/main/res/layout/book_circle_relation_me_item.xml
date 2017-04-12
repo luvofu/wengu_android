@@ -53,16 +53,13 @@
             android:id="@+id/vs_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_nick_name"
-            android:layout_below="@id/tv_content"
-            android:layout_marginBottom="10dp"/>
+            android:layout_marginBottom="@dimen/common_margin_small"/>
 
         <ViewStub
             android:id="@+id/vs_type_holder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@id/tv_nick_name"
-            android:layout_below="@id/vs_image"/>
+            />
     </LinearLayout>
 
     <LinearLayout

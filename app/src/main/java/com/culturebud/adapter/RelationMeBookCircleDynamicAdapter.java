@@ -396,7 +396,7 @@ public class RelationMeBookCircleDynamicAdapter extends RecyclerView.Adapter<Rel
         public void setImage(String url) {
             if (!TextUtils.isEmpty(url)) {
                 ViewGroup.LayoutParams params = sdvImg.getLayoutParams();
-                params.width = sdvImg.getResources().getDimensionPixelSize(R.dimen.item_book_cover_width_small);
+                params.width = sdvImg.getResources().getDimensionPixelSize(R.dimen.comment_detail_face_size);
                 sdvImg.setLayoutParams(params);
                 sdvImg.setScaleType(ImageView.ScaleType.FIT_XY);
                 Uri uri = Uri.parse(url);
