@@ -196,6 +196,11 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
                     presenter.getUserFavoriteSheets(userId);
                 }
                 break;
+            case REQUEST_CODE_BOOK_SHEET_CREATE:
+                if (resultCode == RESULT_OK) {
+                    presenter.getUserCreatedSheets(userId);
+                }
+                break;
         }
     }
 

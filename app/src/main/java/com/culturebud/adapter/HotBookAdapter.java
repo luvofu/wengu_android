@@ -114,7 +114,7 @@ public class HotBookAdapter extends RecyclerView.Adapter<HotBookAdapter.HotBookV
         @Override
         public void onClick(View v) {
             if (v == itemView && itemClickListener != null) {
-                itemClickListener.onItemClick(v, data.get(position));
+                itemClickListener.onItemClick(v, data.get(position), 0);
             }
         }
     }

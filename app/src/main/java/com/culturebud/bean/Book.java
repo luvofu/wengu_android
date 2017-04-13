@@ -58,6 +58,8 @@ public class Book {
     @DatabaseField(columnName = "updated_time")
     private long updatedTime;// "updatedTime": 1477107737000
 
+    @SerializedName("contain")
+    @DatabaseField(columnName = "contain")
     private boolean contain; //被收藏状态
 
     public String getAuthor() {

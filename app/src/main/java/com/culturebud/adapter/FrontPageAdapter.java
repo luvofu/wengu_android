@@ -32,7 +32,9 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
  * Created by XieWei on 2016/10/31.
  */
 
-public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.FrontPageViewHolder> implements BooksAdapter.OnItemClickListener, CommentAdapter.OnItemClickListener, BookSheetAdapter.OnItemClickListener, CommentAdapter.OnBookCommunityClickListener, CommentAdapter.OnShareListener {
+public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.FrontPageViewHolder> implements
+        BooksAdapter.OnItemClickListener, CommentAdapter.OnItemClickListener, BookSheetAdapter.OnItemClickListener,
+        CommentAdapter.OnBookCommunityClickListener, CommentAdapter.OnShareListener {
     private List<Map<String, Object>> data;
     private Map<String, Object> hotBook;
     private Map<String, Object> hotSheet;
@@ -187,10 +189,12 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.Fron
     private OnMoreListener onMoreListener;
 
     @Override
-    public void onItemClick(View v, Book book) {
-        Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
-        intent.putExtra("bookId", book.getBookId());
-        v.getContext().startActivity(intent);
+    public void onItemClick(View v, Book book, int operaType) {
+        if (operaType == 0) {
+            Intent intent = new Intent(v.getContext(), BookDetailActivity.class);
+            intent.putExtra("bookId", book.getBookId());
+            v.getContext().startActivity(intent);
+        }
     }
 
     @Override
@@ -257,7 +261,8 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.Fron
             vsData.setLayoutResource(R.layout.vertical_list);
             View view = vsData.inflate();
             rvItems = (RecyclerView) view.findViewById(R.id.rv_items);
-            LinearLayoutManager llm = new LinearLayoutManager(rvItems.getContext(), LinearLayoutManager.VERTICAL, false);
+            LinearLayoutManager llm = new LinearLayoutManager(rvItems.getContext(), LinearLayoutManager.VERTICAL,
+                    false);
             rvItems.setLayoutManager(llm);
             RecyclerViewDivider divider = new RecyclerViewDivider(rvItems.getContext(), LinearLayoutManager.HORIZONTAL);
             rvItems.addItemDecoration(divider);
@@ -267,7 +272,8 @@ public class FrontPageAdapter extends RecyclerView.Adapter<FrontPageAdapter.Fron
             vsData.setLayoutResource(R.layout.horizontal_list);
             View view = vsData.inflate();
             rvItems = (RecyclerView) view.findViewById(R.id.rv_items);
-            LinearLayoutManager llm = new LinearLayoutManager(rvItems.getContext(), LinearLayoutManager.HORIZONTAL, false);
+            LinearLayoutManager llm = new LinearLayoutManager(rvItems.getContext(), LinearLayoutManager.HORIZONTAL,
+                    false);
             rvItems.setLayoutManager(llm);
             RecyclerViewDivider divider = new RecyclerViewDivider(rvItems.getContext(), LinearLayoutManager.VERTICAL);
             divider.setDividerHeight(20);

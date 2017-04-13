@@ -32,7 +32,11 @@ import com.culturebud.presenter.SearchBookPresenter;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by XieWei on 2016/11/4.
@@ -50,6 +54,8 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
     private String keyword;
     private InputMethodManager imm;
     private SearchKeywordHistoryAdapter historyAdapter;
+    private int operaType;
+    public static final int OPERA_TYPE_ADD_TO_BOOK_SHEET = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +63,7 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
         setContentView(R.layout.search_book);
         presenter.setView(this);
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        operaType = getIntent().getIntExtra("opera_type", 0);
         initView();
         setListeners();
         initList();
@@ -71,7 +78,17 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
         rvSearchedBooks.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
         rvSearchedBooks.addItemDecoration(divider);
-        BooksAdapter adapter = new BooksAdapter();
+        BooksAdapter adapter = new BooksAdapter(operaType);
+        if (operaType == OPERA_TYPE_ADD_TO_BOOK_SHEET) {
+            long[] ids = getIntent().getLongArrayExtra("book_ids");
+            if (ids != null) {
+                List<Long> tmp = new ArrayList<>();
+                for (long id : ids) {
+                    tmp.add(id);
+                }
+                adapter.addIds(tmp);
+            }
+        }
         rvSearchedBooks.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
     }
@@ -114,6 +131,8 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
         switch (v.getId()) {
             case R.id.btn_cancel:
                 finish();
+                break;
+            case R.id.iv_scan:
                 break;
         }
     }
@@ -212,7 +231,8 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
             if (dy > 0) {
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 if (dy > 0 && (lastPosition + 1 >= total) && !loading) {
                     loading = true;
@@ -223,11 +243,17 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
     };
 
     @Override
-    public void onItemClick(View v, Book book) {
-        if (book != null && book.getBookId() >= 0) {
-            Intent intent = new Intent(this, BookDetailActivity.class);
-            intent.putExtra("bookId", book.getBookId());
-            startActivity(intent);
+    public void onItemClick(View v, Book book, int operaType) {
+        switch (operaType) {
+            case 0:
+                if (book != null && book.getBookId() >= 0) {
+                    Intent intent = new Intent(this, BookDetailActivity.class);
+                    intent.putExtra("bookId", book.getBookId());
+                    startActivity(intent);
+                }
+                break;
+            case 1:
+                break;
         }
     }
 }

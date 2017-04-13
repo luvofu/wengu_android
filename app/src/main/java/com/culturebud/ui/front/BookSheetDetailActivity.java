@@ -41,6 +41,7 @@ import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_EDIT;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BS_EDIT_RECOMMEND;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SEARCH_BOOK_ADD_TO_BOOK_SHEET;
 
 /**
  * Created by XieWei on 2016/11/7.
@@ -290,8 +291,19 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 ShareHelper.share(this, detail.getName(), detail.getName(), null);
                 break;
             case 2: {//添加书目到书单
-//                Intent intent = new Intent(this, SearchBookActivity.class);
-
+                Intent intent = new Intent(this, SearchBookActivity.class);
+                intent.putExtra("opera_type", SearchBookActivity.OPERA_TYPE_ADD_TO_BOOK_SHEET);
+                List<SheetBook> books = detail.getSheetBookList();
+                if (books != null && !books.isEmpty()) {
+                    long[] ids = new long[books.size()];
+                    int i = 0;
+                    for (SheetBook sheetBook : books) {
+                        ids[i] = sheetBook.getBookId();
+                        i++;
+                    }
+                    intent.putExtra("book_ids", ids);
+                }
+                startActivityForResult(intent, REQUEST_CODE_SEARCH_BOOK_ADD_TO_BOOK_SHEET);
                 break;
             }
         }

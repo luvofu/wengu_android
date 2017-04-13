@@ -31,7 +31,8 @@ import java.util.List;
  */
 
 @PresenterInject(MyFavoritesPresenter.class)
-public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> implements MyFavoritesContract.View, BooksAdapter.OnItemClickListener {
+public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> implements MyFavoritesContract.View,
+        BooksAdapter.OnItemClickListener {
     private static final String TAG = BooksFragment.class.getSimpleName();
     private RecyclerView rvBooks;
     private int currentPage;
@@ -51,7 +52,7 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
         rvBooks.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL);
         rvBooks.addItemDecoration(divider);
-        BooksAdapter adapter = new BooksAdapter();
+        BooksAdapter adapter = new BooksAdapter(0);
         rvBooks.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         return view;
@@ -77,9 +78,11 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
     }
 
     @Override
-    public void onItemClick(View v, Book book) {
-        Intent intent = new Intent(getActivity(), BookDetailActivity.class);
-        intent.putExtra("bookId", book.getBookId());
-        startActivity(intent);
+    public void onItemClick(View v, Book book, int operaType) {
+        if (operaType == 0) {
+            Intent intent = new Intent(getActivity(), BookDetailActivity.class);
+            intent.putExtra("bookId", book.getBookId());
+            startActivity(intent);
+        }
     }
 }

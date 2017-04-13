@@ -37,12 +37,14 @@ import java.util.List;
  */
 
 @PresenterInject(BookStorePresenter.class)
-public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter> implements BookStoreContract.View, RadioGroup.OnCheckedChangeListener, BookSheetAdapter.OnItemClickListener, BooksAdapter.OnItemClickListener,View.OnClickListener {
+public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter> implements BookStoreContract.View,
+        RadioGroup.OnCheckedChangeListener, BookSheetAdapter.OnItemClickListener, BooksAdapter.OnItemClickListener,
+        View.OnClickListener {
     private RecyclerView rvBooks;
     private RadioGroup rgSortType;
     private RadioButton rbScore, rbColNum;
     private boolean isBookSheets;
-    private TextView filterBtn,filterDisplayView;
+    private TextView filterBtn, filterDisplayView;
     private RecyclerView bookFilterView;
     private int sortType = 0;
 
@@ -121,7 +123,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
             divider.setDividerHeight(15);
             rvBooks.addItemDecoration(divider);
-            BooksAdapter adapter = new BooksAdapter();
+            BooksAdapter adapter = new BooksAdapter(0);
             adapter.setOnItemClickListener(this);
             rvBooks.setAdapter(adapter);
         }
@@ -192,7 +194,8 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             super.onScrolled(recyclerView, dx, dy);
             Log.d("bCircle", "dx = " + dx + ", dy = " + dy);
             if (dy > 0) {
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                        .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 Log.d("bCircle", "lastPosition = " + lastPosition);
                 Log.d("bCircle", "total = " + total);
@@ -216,7 +219,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
     @Override
     public void onClick(View v) {
         super.onClick(v);
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.filter_display:
                 filterType = null;
                 currentPage = 0;
@@ -244,20 +247,24 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
     }
 
     @Override
-    public void onItemClick(View v, Book book) {
-        Intent intent = new Intent(this, BookDetailActivity.class);
-        intent.putExtra("bookId", book.getBookId());
-        startActivity(intent);
+    public void onItemClick(View v, Book book, int operaType) {
+        if (operaType == 0) {
+            Intent intent = new Intent(this, BookDetailActivity.class);
+            intent.putExtra("bookId", book.getBookId());
+            startActivity(intent);
+        }
     }
 
 
     private PopupWindow popWindow;
-    private void showPopupWindow(View parent){
+
+    private void showPopupWindow(View parent) {
         if (popWindow == null) {
             LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-            View view =layoutInflater.inflate(R.layout.book_store_filter,null);
-            popWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            View view = layoutInflater.inflate(R.layout.book_store_filter, null);
+            popWindow = new PopupWindow(view, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams
+                    .WRAP_CONTENT);
 
             bookFilterView = (RecyclerView) view.findViewById(R.id.filters);
 
@@ -285,20 +292,21 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         popWindow.setOutsideTouchable(true);
         popWindow.setBackgroundDrawable(new BitmapDrawable());
         popWindow.showAsDropDown(parent, Gravity.CENTER, -parent.getHeight());
-        WindowManager.LayoutParams lp=getWindow().getAttributes();
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
         lp.alpha = 0.7f;
         getWindow().setAttributes(lp);
 
-        popWindow.setOnDismissListener(new PopupWindow.OnDismissListener(){
-            public void onDismiss(){
-                WindowManager.LayoutParams lp=getWindow().getAttributes();
+        popWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            public void onDismiss() {
+                WindowManager.LayoutParams lp = getWindow().getAttributes();
                 lp.alpha = 1f;
                 getWindow().setAttributes(lp);
             }
         });
 
     }
-    private BookFilterAdapter.OnItemClickListener clickListener = new BookFilterAdapter.OnItemClickListener(){
+
+    private BookFilterAdapter.OnItemClickListener clickListener = new BookFilterAdapter.OnItemClickListener() {
         @Override
         public void onItemClick(View v, String filter) {
             currentPage = 0;

@@ -13,21 +13,36 @@ import android.widget.TextView;
 
 import com.culturebud.R;
 import com.culturebud.bean.Book;
+import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 /**
  * Created by XieWei on 2016/11/3.
  */
 
-public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHolder> {
+public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private List<Book> data;
+    private int operaType;
+    private List<Long> addedIds;
 
-    public BooksAdapter() {
+    public BooksAdapter(int operaType) {
         data = new ArrayList<>();
+        this.operaType = operaType;
+        if (operaType == 1) {
+            addedIds = new ArrayList<>();
+        }
+    }
+
+    public void addIds(List<Long> addedIds) {
+        if (addedIds != null && !addedIds.isEmpty()) {
+            addedIds.addAll(addedIds);
+        }
     }
 
     public void clearData() {
@@ -47,27 +62,115 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
     }
 
     @Override
-    public BooksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new BooksViewHolder(LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.books_item, parent, false));
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (operaType == 0) {
+            return new BooksViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.books_item, parent, false));
+        } else {
+            return new BooksAddToBookSheetViewHolder(LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.books_operas_item, parent, false));
+        }
     }
 
     @Override
-    public void onBindViewHolder(BooksViewHolder holder, int position) {
-        Book book = data.get(position);
-        holder.setPosition(position);
-        holder.setBookCover(book.getCover());
-        holder.setBookName(book.getTitle());
-        holder.setPublisherInfo((TextUtils.isEmpty(book.getAuthor()) ? "" : (book.getAuthor() + " 著 / "))
-                + (TextUtils.isEmpty(book.getTranslator()) ? "" : (book.getTranslator() + " 译 / "))
-                + (TextUtils.isEmpty(book.getPublisher()) ? "" : (book.getPublisher() + " / "))
-                + (TextUtils.isEmpty(book.getPubDate()) ? "" : book.getPubDate()));
-        holder.setGoodRating(book.getRating());
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (operaType == 0) {
+            BooksViewHolder holder1 = (BooksViewHolder) holder;
+            Book book = data.get(position);
+            holder1.setPosition(position);
+            holder1.setBookCover(book.getCover());
+            holder1.setBookName(book.getTitle());
+            holder1.setPublisherInfo((TextUtils.isEmpty(book.getAuthor()) ? "" : (book.getAuthor() + " 著 / "))
+                    + (TextUtils.isEmpty(book.getTranslator()) ? "" : (book.getTranslator() + " 译 / "))
+                    + (TextUtils.isEmpty(book.getPublisher()) ? "" : (book.getPublisher() + " / "))
+                    + (TextUtils.isEmpty(book.getPubDate()) ? "" : book.getPubDate()));
+            holder1.setGoodRating(book.getRating());
+        } else if (operaType == 1) {
+            BooksAddToBookSheetViewHolder holder1 = (BooksAddToBookSheetViewHolder) holder;
+            Book book = data.get(position);
+            holder1.setPosition(position);
+            holder1.setBookCover(book.getCover());
+            holder1.setBookName(book.getTitle());
+            holder1.setPublisherInfo((TextUtils.isEmpty(book.getAuthor()) ? "" : (book.getAuthor() + " 著 / "))
+                    + (TextUtils.isEmpty(book.getTranslator()) ? "" : (book.getTranslator() + " 译 / "))
+                    + (TextUtils.isEmpty(book.getPublisher()) ? "" : (book.getPublisher() + " / "))
+                    + (TextUtils.isEmpty(book.getPubDate()) ? "" : book.getPubDate()));
+            holder1.hasAdded(book.getBookId());
+        }
     }
 
     @Override
     public int getItemCount() {
         return data.size();
+    }
+
+    class BooksAddToBookSheetViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private int position;
+        private SimpleDraweeView sdvBookCover;
+        private TextView tvBookName, tvPublisherInfo, tvAdd;
+
+        public BooksAddToBookSheetViewHolder(View itemView) {
+            super(itemView);
+            sdvBookCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_sheet_cover);
+            tvBookName = WidgetUtil.obtainViewById(itemView, R.id.tv_book_name);
+            tvPublisherInfo = WidgetUtil.obtainViewById(itemView, R.id.tv_publisher_info);
+            tvAdd = WidgetUtil.obtainViewById(itemView, R.id.tv_add);
+            tvAdd.setOnClickListener(this);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.tv_add:
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(v, data.get(position), 1);
+                    }
+                    break;
+                default:
+                    if (itemClickListener != null) {
+                        itemClickListener.onItemClick(v, data.get(position), 0);
+                    }
+                    break;
+            }
+        }
+
+        public void setPosition(int position) {
+            this.position = position;
+        }
+
+        public void setBookCover(String url) {
+            if (TextUtils.isEmpty(url)) {
+                return;
+            }
+            sdvBookCover.setImageURI(url);
+        }
+
+        public void setBookName(String bookName) {
+            if (TextUtils.isEmpty(bookName)) {
+                return;
+            }
+            tvBookName.setText(bookName);
+        }
+
+        public void setPublisherInfo(String publisherInfo) {
+            if (TextUtils.isEmpty(publisherInfo)) {
+                return;
+            }
+            tvPublisherInfo.setText(publisherInfo);
+        }
+
+        public void hasAdded(long bookId) {
+            if (addedIds.contains(bookId)) {
+                tvAdd.setText("已存在");
+                tvAdd.setEnabled(false);
+                tvAdd.setBackgroundResource(R.drawable.black_circle_bg_dark);
+            } else {
+                tvAdd.setText("添加");
+                tvAdd.setEnabled(true);
+                tvAdd.setBackgroundResource(R.drawable.blue_black_round_bg);
+            }
+        }
     }
 
     class BooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -86,9 +189,12 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
             itemView.setOnClickListener(this);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
                 LayerDrawable ld = (LayerDrawable) rbGoodRating.getProgressDrawable();
-                ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.font_black_light), PorterDuff.Mode.SRC_ATOP);
-                ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
-                ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
+                ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.font_black_light),
+                        PorterDuff.Mode.SRC_ATOP);
+                ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode
+                        .SRC_ATOP);
+                ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode
+                        .SRC_ATOP);
             }
         }
 
@@ -125,7 +231,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
         @Override
         public void onClick(View v) {
             if (itemClickListener != null) {
-                itemClickListener.onItemClick(v, data.get(position));
+                itemClickListener.onItemClick(v, data.get(position), 0);
             }
         }
     }
@@ -137,6 +243,6 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BooksViewHol
     }
 
     public interface OnItemClickListener {
-        void onItemClick(View v, Book book);
+        void onItemClick(View v, Book book, int operaType);
     }
 }
