@@ -453,7 +453,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             pwDeleteDynamic.setOutsideTouchable(true);
             tvDeleteDynamic.setOnClickListener(v -> {
                 pwDeleteDynamic.dismiss();
-                presenter.deleteDynamicOrReply(currClickBcd.getDynamicId(), currDeleteType, currClickBcd.getDynamicId());
+                presenter.deleteDynamicOrReply(currClickBcd.getDynamicId(), currDeleteType, currClickBcd.getDynamicId
+                        ());
             });
             pwDeleteDynamic.setWidth(getResources().getDimensionPixelSize(R.dimen.dynamic_del_pw_width));
             pwDeleteDynamic.setHeight(getResources().getDimensionPixelSize(R.dimen.dynamic_del_pw_height));
@@ -465,9 +466,10 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             return;
         }
         initDelDynamicDlg();
-        if (!pwDeleteDynamic.isShowing()) {
-            pwDeleteDynamic.showAsDropDown(view, -(view.getWidth() * 2), -view.getHeight());
+        if (pwDeleteDynamic.isShowing()) {
+            pwDeleteDynamic.dismiss();
         }
+        pwDeleteDynamic.showAsDropDown(view, -(view.getWidth() * 2), -view.getHeight());
     }
 
     @Override
