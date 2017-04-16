@@ -344,12 +344,13 @@ public class ImgUtil {
         return bitmap;
     }
 
-    public static void cropImageUri(Activity activity, Uri uri, int outputX, int outputY, int requestCode) {
+    public static void cropImageUri(Activity activity, Uri uri, int aspectX, int aspectY, int outputX, int outputY, int
+            requestCode) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 4);
-        intent.putExtra("aspectY", 4);
+        intent.putExtra("aspectX", aspectX);
+        intent.putExtra("aspectY", aspectY);
         intent.putExtra("outputX", outputX);
         intent.putExtra("outputY", outputY);
         intent.putExtra("scale", true);
@@ -360,12 +361,13 @@ public class ImgUtil {
         activity.startActivityForResult(intent, requestCode);
     }
 
-    public static void cropImageUri(Activity activity, Uri uri, Uri output, int outputX, int outputY, int requestCode) {
+    public static void cropImageUri(Activity activity, Uri uri, Uri output, int aspectX, int aspectY, int outputX,
+                                    int outputY, int requestCode) {
         Intent intent = new Intent("com.android.camera.action.CROP");
         intent.setDataAndType(uri, "image/*");
         intent.putExtra("crop", "true");
-        intent.putExtra("aspectX", 4);
-        intent.putExtra("aspectY", 4);
+        intent.putExtra("aspectX", aspectX);
+        intent.putExtra("aspectY", aspectY);
         intent.putExtra("outputX", outputX);
         intent.putExtra("outputY", outputY);
         intent.putExtra("scale", true);

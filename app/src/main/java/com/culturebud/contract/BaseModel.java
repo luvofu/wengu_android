@@ -133,8 +133,8 @@ public abstract class BaseModel {
                 FileOutputStream fos = new FileOutputStream(imgPath);
                 int bsize = bitmap.getByteCount() / 1024;
                 int scale = 1;
-                if (bsize > 45) {
-                    scale = bsize / 45;
+                if (bsize > 160) {
+                    scale = bsize / 160;
                 }
                 if (scale > 100) {
                     scale = 100;

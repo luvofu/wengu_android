@@ -57,6 +57,10 @@ public class CreateBookSheetActivity extends BaseActivity<CreateBookSheetContrac
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ll_add_cover:
+                aspectX = 5;
+                aspectY = 8;
+                outX = 480;
+                outY = 720;
                 showPhotoDialog();
                 break;
         }

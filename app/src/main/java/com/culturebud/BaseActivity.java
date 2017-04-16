@@ -54,6 +54,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     private BottomSheetDialog editImgDialog;
     private TextView tvAlbum, tvPhoto, tvCancel;
     protected Uri photoUri;
+    protected int aspectX = 1, aspectY = 1, outX = 480, outY = 720;
 
     public interface OnSoftKeyboardStateChangedListener {
         void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight);
@@ -275,13 +276,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
                 break;
             case REQUEST_CODE_SELECT_IMAGE: {
                 if (RESULT_OK == resultCode) {
-                    ImgUtil.cropImageUri(this, data.getData(), photoUri, 300, 300, REQUEST_CODE_PHOTO_CROP);
+                    ImgUtil.cropImageUri(this, data.getData(), photoUri, aspectX, aspectY, outX, outY,
+                            REQUEST_CODE_PHOTO_CROP);
                 }
             }
             break;
             case REQUEST_CODE_TAKE_PHOTO:
                 if (resultCode == RESULT_OK) {
-                    ImgUtil.cropImageUri(this, photoUri, 300, 300, REQUEST_CODE_PHOTO_CROP);
+                    ImgUtil.cropImageUri(this, photoUri, aspectX, aspectY, outX, outY, REQUEST_CODE_PHOTO_CROP);
                 }
                 break;
         }

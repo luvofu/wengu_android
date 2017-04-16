@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/content"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/content"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
@@ -40,7 +40,7 @@
             android:padding="6dp"
             android:textColor="@color/title_font_white"
             android:textSize="16sp"
-            tools:text="返回" />
+            tools:text="返回"/>
 
         <EditText
             android:id="@+id/et_title"
@@ -57,7 +57,7 @@
             android:textColor="@color/title_font_white"
             android:textColorHint="@color/tabar_font_normal"
             android:textSize="16sp"
-            tools:text="标题" />
+            tools:text="标题"/>
 
         <TextView
             android:id="@+id/tv_operas"
@@ -72,7 +72,7 @@
             android:paddingTop="6dp"
             android:textColor="@color/title_font_white"
             android:textSize="16sp"
-            android:visibility="visible" />
+            android:visibility="visible"/>
 
     </android.support.v7.widget.Toolbar>
 

@@ -7,6 +7,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -64,10 +65,9 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener {
     private RecyclerView rvDynamics;
     private SimpleDraweeView sdvFace;
+    private AppBarLayout abl;
     private TextView tvNick;
-    private ImageView ivPublish;
     private RelativeLayout rlBg;
-    private ImageView ivBack;
     private PopupWindow pwReply;
     private EditText etReplyInput;
     private TextView tvSend;
@@ -79,11 +79,24 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_circle_activity);
         presenter.setView(this);
+        showTitlebar();
+        showBack();
+        showOperas();
+        setOperasDrawable(R.drawable.titlebar_add_selector);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         screenHeight = dm.heightPixels;
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+
+        abl = obtainViewById(R.id.abl);
+        abl.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            if (verticalOffset == 0) {
+                rvDynamics.setEnabled(true);
+            } else {
+                rvDynamics.setEnabled(false);
+            }
+        });
 
         rlBg = obtainViewById(R.id.rl_bc_bg);
         sdvFace = obtainViewById(R.id.sdv_face);
@@ -215,6 +228,19 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     };
 
     @Override
+    protected void onBack() {
+        super.onBack();
+        finish();
+    }
+
+    @Override
+    protected void onOptions(View view) {
+        super.onOptions(view);
+        Intent intent = new Intent(this, PublishDynamicActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
@@ -227,6 +253,10 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 finish();
                 break;
             case R.id.rl_bc_bg:
+                aspectX = 8;
+                aspectY = 5;
+                outX = 720;
+                outY = 480;
                 showPhotoDialog();
                 break;
             case R.id.tv_my_publish: {

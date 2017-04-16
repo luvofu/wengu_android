@@ -4,17 +4,22 @@
                                                  xmlns:fresco="http://schemas.android.com/apk/res-auto"
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
-                                                 android:layout_height="match_parent">
+                                                 android:layout_height="match_parent"
+                                                 android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
+        android:id="@+id/abl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:fitsSystemWindows="true"
+        android:theme="@style/TitlebarTheme">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="226dp"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@color/colorPrimary"
             app:expandedTitleMarginEnd="960dp"
             app:expandedTitleMarginStart="960dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
@@ -51,85 +56,85 @@
                     android:textSize="16sp"
                     tools:text="坏猫"/>
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:background="@color/my_transact"
-                    android:gravity="center"
-                    android:minHeight="36dp"
-                    android:orientation="horizontal"
-                    android:padding="4dp"
-                    app:layout_collapseMode="pin">
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_back"-->
+                    <!--android:layout_width="48dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:layout_marginTop="@dimen/common_margin_big"-->
+                    <!--android:clickable="true"-->
+                    <!--android:onClick="onClick"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/titlebar_back_selector"/>-->
 
-                    <TextView
-                        android:id="@+id/tv_my_publish"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:drawableLeft="@mipmap/book_circle_my_publish"
-                        android:drawablePadding="5dp"
-                        android:gravity="center"
-                        android:onClick="onClick"
-                        android:padding="8dp"
-                        android:text="@string/my_published"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"/>
-
-                    <View
-                        android:layout_width="0.5dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="5dp"
-                        android:layout_marginLeft="30dp"
-                        android:layout_marginRight="30dp"
-                        android:layout_marginTop="5dp"
-                        android:background="@android:color/white"/>
-
-                    <TextView
-                        android:id="@+id/tv_related_me"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:clickable="true"
-                        android:drawableLeft="@mipmap/book_circle_related_me"
-                        android:drawablePadding="5dp"
-                        android:gravity="center"
-                        android:onClick="onClick"
-                        android:padding="8dp"
-                        android:text="@string/related_me"
-                        android:textColor="@android:color/white"
-                        android:textSize="14sp"/>
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="@dimen/common_margin_big"
-                    android:clickable="true"
-                    android:onClick="onClick"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/titlebar_back_selector"/>
-
-                <ImageView
-                    android:id="@+id/iv_publish"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="2dp"
-                    android:layout_marginTop="@dimen/common_margin_big"
-                    android:clickable="true"
-                    android:onClick="onClick"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/titlebar_add_selector"/>
+                <!--<ImageView-->
+                    <!--android:id="@+id/iv_publish"-->
+                    <!--android:layout_width="48dp"-->
+                    <!--android:layout_height="48dp"-->
+                    <!--android:layout_alignParentRight="true"-->
+                    <!--android:layout_marginRight="2dp"-->
+                    <!--android:layout_marginTop="@dimen/common_margin_big"-->
+                    <!--android:clickable="true"-->
+                    <!--android:onClick="onClick"-->
+                    <!--android:scaleType="centerInside"-->
+                    <!--android:src="@drawable/titlebar_add_selector"/>-->
             </RelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_gravity="bottom"
+            android:background="@color/my_transact"
+            android:gravity="center"
+            android:minHeight="36dp"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            app:layout_collapseMode="pin">
+
+            <TextView
+                android:id="@+id/tv_my_publish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/book_circle_my_publish"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:padding="8dp"
+                android:text="@string/my_published"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"/>
+
+            <View
+                android:layout_width="0.5dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginTop="5dp"
+                android:background="@android:color/white"/>
+
+            <TextView
+                android:id="@+id/tv_related_me"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:drawableLeft="@mipmap/book_circle_related_me"
+                android:drawablePadding="5dp"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:padding="8dp"
+                android:text="@string/related_me"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"/>
+        </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fillViewport="true"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 </android.support.design.widget.CoordinatorLayout>

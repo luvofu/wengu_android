@@ -18,10 +18,11 @@
     </style>
 
     <style name="TitlebarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="android:colorBackground">@color/transparent</item>
     </style>
 
     <style name="TitlebarPopupTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="android:colorBackground">#BB111111</item>
+        <item name="android:colorBackground">@color/transparent</item>
     </style>
 
     <style name="PopupWindow">

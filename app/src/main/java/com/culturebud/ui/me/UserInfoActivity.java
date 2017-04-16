@@ -114,6 +114,10 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ll_face:
+                aspectX = 1;
+                aspectY = 1;
+                outX = 480;
+                outY = 480;
                 showPhotoDialog();
                 break;
             case R.id.siv_nick://修改昵称
