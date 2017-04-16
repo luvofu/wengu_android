@@ -53,6 +53,7 @@ import java.util.List;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PUBLISH_DYNAMIC;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
 
 /**
@@ -115,7 +116,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         setListeners();
         currentPage = 0;
         presenter.downloadBgImg();
-        presenter.loadDynamics(0);
+        presenter.loadDynamics(currentPage);
     }
 
     private BottomSheetDialog deleteDialog;
@@ -237,7 +238,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     protected void onOptions(View view) {
         super.onOptions(view);
         Intent intent = new Intent(this, PublishDynamicActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_CODE_PUBLISH_DYNAMIC);
     }
 
     @Override
@@ -246,7 +247,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         switch (v.getId()) {
             case R.id.iv_publish: {
                 Intent intent = new Intent(this, PublishDynamicActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_PUBLISH_DYNAMIC);
                 break;
             }
             case R.id.iv_back:
@@ -447,6 +448,12 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     presenter.uploadBgImg(photoUri, true);
+                }
+                break;
+            case REQUEST_CODE_PUBLISH_DYNAMIC:
+                if (resultCode == RESULT_OK) {
+                    currentPage = 0;
+                    presenter.loadDynamics(currentPage);
                 }
                 break;
         }

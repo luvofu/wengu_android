@@ -336,6 +336,8 @@ public final class CommonConst {
         public static final int REQUEST_CODE_EDIT_BOOK_SHEET_TAG = 1033;
 
         public static final int REQUEST_CODE_SEARCH_BOOK_ADD_TO_BOOK_SHEET = 1034;
+
+        public static final int REQUEST_CODE_PUBLISH_DYNAMIC = 1035;
     }
 
     public static String getRootPath() {
