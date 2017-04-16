@@ -45,12 +45,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="@dimen/common_margin_middle"
-        android:background="@drawable/blue_black_round_bg"
+        android:background="@drawable/blue_round_bg"
         android:gravity="center"
+        android:minWidth="64dp"
         android:paddingBottom="@dimen/common_padding_small"
-        android:paddingLeft="@dimen/common_padding_middle"
-        android:paddingRight="@dimen/common_padding_middle"
+        android:paddingLeft="@dimen/common_padding_default"
+        android:paddingRight="@dimen/common_padding_default"
         android:paddingTop="@dimen/common_padding_small"
         android:text="@string/add"
-        android:textColor="@color/title_font_white"/>
+        android:textColor="@color/title_font_white"
+        android:textSize="@dimen/font_default"/>
 </LinearLayout>

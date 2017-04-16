@@ -33,10 +33,7 @@ import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by XieWei on 2016/11/4.
@@ -56,6 +53,8 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
     private SearchKeywordHistoryAdapter historyAdapter;
     private int operaType;
     public static final int OPERA_TYPE_ADD_TO_BOOK_SHEET = 1;
+    private long sheetId = -1;
+    private boolean hasAddedBook2Sheet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +79,7 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
         rvSearchedBooks.addItemDecoration(divider);
         BooksAdapter adapter = new BooksAdapter(operaType);
         if (operaType == OPERA_TYPE_ADD_TO_BOOK_SHEET) {
+            sheetId = getIntent().getLongExtra("sheet_id", -1);
             long[] ids = getIntent().getLongArrayExtra("book_ids");
             if (ids != null) {
                 List<Long> tmp = new ArrayList<>();
@@ -130,11 +130,32 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
         }
         switch (v.getId()) {
             case R.id.btn_cancel:
+                if (hasAddedBook2Sheet) {
+                    setResult(RESULT_OK);
+                }
                 finish();
                 break;
             case R.id.iv_scan:
                 break;
         }
+    }
+
+    @Override
+    protected void onBack() {
+        super.onBack();
+        if (hasAddedBook2Sheet) {
+            setResult(RESULT_OK);
+        }
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (hasAddedBook2Sheet) {
+            setResult(RESULT_OK);
+        }
+        super.onBackPressed();
+        finish();
     }
 
     @Override
@@ -169,6 +190,14 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
     }
 
     @Override
+    public void onSheetAddBook(long bookSheetId, long bookId, boolean result) {
+        if (result && bookSheetId == sheetId) {
+            hasAddedBook2Sheet = true;
+            ((BooksAdapter) rvSearchedBooks.getAdapter()).addId(bookId);
+        }
+    }
+
+    @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         switch (v.getId()) {
             case R.id.et_search_book:
@@ -180,7 +209,7 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
                         pbLoading.setVisibility(View.VISIBLE);
                         lvSearchHistory.setVisibility(View.GONE);
                         rvSearchedBooks.setVisibility(View.GONE);
-                        presenter.cacheKeyworkd(searchKey);
+                        presenter.cacheKeyword(searchKey);
                         presenter.searchBook(searchKey, 0);
                     }
                 }
@@ -253,6 +282,7 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
                 }
                 break;
             case 1:
+                presenter.bookSheetAddBook(sheetId, book.getBookId());
                 break;
         }
     }

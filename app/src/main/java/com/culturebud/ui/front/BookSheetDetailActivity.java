@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -28,16 +27,12 @@ import com.culturebud.presenter.BookSheetDetailPresenter;
 import com.culturebud.ui.bhome.BookSheetEditRecommendActivity;
 import com.culturebud.ui.bhome.EditBookSheetActivity;
 import com.culturebud.ui.search.SearchBookActivity;
-import com.culturebud.ui.search.SelectBookActivity;
 import com.culturebud.util.ShareHelper;
-import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.SettingItemView;
 import com.google.gson.Gson;
 
 import java.util.List;
-
-import cn.sharesdk.onekeyshare.OnekeyShare;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_EDIT;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BS_EDIT_RECOMMEND;
@@ -293,6 +288,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             case 2: {//添加书目到书单
                 Intent intent = new Intent(this, SearchBookActivity.class);
                 intent.putExtra("opera_type", SearchBookActivity.OPERA_TYPE_ADD_TO_BOOK_SHEET);
+                intent.putExtra("sheet_id", detail.getSheetId());
                 List<SheetBook> books = detail.getSheetBookList();
                 if (books != null && !books.isEmpty()) {
                     long[] ids = new long[books.size()];
@@ -355,6 +351,11 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                     ((BookSheetDetailAdapter) rvDetail.getAdapter()).updateBySheetBookId(sheetBookId, recommend);
                 }
                 break;
+            }
+            case REQUEST_CODE_SEARCH_BOOK_ADD_TO_BOOK_SHEET: {
+                if (resultCode == RESULT_OK) {
+                    presenter.getBookSheetDetail(sheetId);
+                }
             }
         }
     }

@@ -2,6 +2,7 @@ package com.culturebud.contract;
 
 import com.culturebud.bean.Book;
 import com.culturebud.bean.SearchKeyword;
+import com.culturebud.model.BookBaseModel;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -13,7 +14,7 @@ import rx.Observable;
  */
 
 public interface SearchBookContract {
-    abstract class Model extends BaseModel {
+    abstract class Model extends BookBaseModel {
         public abstract void initDAO() throws SQLException;
 
         public abstract Observable<SearchKeyword> saveKeyword(SearchKeyword keyword);
@@ -36,6 +37,8 @@ public interface SearchBookContract {
         void onKeyword(SearchKeyword keyword);
 
         void onClearHistory();
+
+        void onSheetAddBook(long bookSheetId, long bookId, boolean result);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -43,8 +46,10 @@ public interface SearchBookContract {
 
         public abstract void getHistorySearchKeyword();
 
-        public abstract void cacheKeyworkd(String keyword);
+        public abstract void cacheKeyword(String keyword);
 
         public abstract void clearHistory(List<SearchKeyword> keywords);
+
+        public abstract void bookSheetAddBook(long bookSheetId, long bookId);
     }
 }

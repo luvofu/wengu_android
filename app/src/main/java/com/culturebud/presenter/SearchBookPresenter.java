@@ -1,9 +1,11 @@
 package com.culturebud.presenter;
 
+import com.culturebud.BaseApp;
 import com.culturebud.bean.Book;
 import com.culturebud.bean.SearchKeyword;
 import com.culturebud.contract.SearchBookContract;
 import com.culturebud.model.SearchBookModel;
+import com.culturebud.util.ApiException;
 
 import java.util.List;
 
@@ -88,7 +90,7 @@ public class SearchBookPresenter extends SearchBookContract.Presenter {
     }
 
     @Override
-    public void cacheKeyworkd(String keyword) {
+    public void cacheKeyword(String keyword) {
         SearchKeyword sk = new SearchKeyword();
         sk.setType(SearchKeyword.SKType.TYPE_BOOK);
         sk.setKeyword(keyword);
@@ -136,5 +138,33 @@ public class SearchBookPresenter extends SearchBookContract.Presenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void bookSheetAddBook(long bookSheetId, long bookId) {
+        if (!validateToken()) {
+            return;
+        }
+        model.bookSheetAddBook(BaseApp.getInstance().getUser().getToken(), bookSheetId, bookId)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onSheetAddBook(bookSheetId, bookId, aBoolean);
+            }
+        });
     }
 }

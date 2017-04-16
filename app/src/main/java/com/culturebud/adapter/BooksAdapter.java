@@ -17,10 +17,8 @@ import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 /**
  * Created by XieWei on 2016/11/3.
@@ -41,7 +39,14 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     public void addIds(List<Long> addedIds) {
         if (addedIds != null && !addedIds.isEmpty()) {
-            addedIds.addAll(addedIds);
+            this.addedIds.addAll(addedIds);
+        }
+    }
+
+    public void addId(long bookId) {
+        if (bookId > 0) {
+            addedIds.add(bookId);
+            notifyDataSetChanged();
         }
     }
 
@@ -164,11 +169,11 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             if (addedIds.contains(bookId)) {
                 tvAdd.setText("已存在");
                 tvAdd.setEnabled(false);
-                tvAdd.setBackgroundResource(R.drawable.black_circle_bg_dark);
+                tvAdd.setBackgroundResource(R.drawable.gray_round_bg);
             } else {
                 tvAdd.setText("添加");
                 tvAdd.setEnabled(true);
-                tvAdd.setBackgroundResource(R.drawable.blue_black_round_bg);
+                tvAdd.setBackgroundResource(R.drawable.blue_round_bg);
             }
         }
     }
