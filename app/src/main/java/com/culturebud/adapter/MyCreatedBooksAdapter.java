@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.bean.CheckedBook;
 import com.culturebud.util.WidgetUtil;
@@ -99,7 +100,17 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
         }
 
         public void setStatus(int status) {
-            tvStatus.setText("审核中");
+            switch (status) {
+                case CommonConst.BookVerifyStatus.STATUS_VERIFY:
+                    tvStatus.setText("审核中");
+                    break;
+                case CommonConst.BookVerifyStatus.STATUS_NO_PASS:
+                    tvStatus.setText("审核未通过");
+                    break;
+                case CommonConst.BookVerifyStatus.STATUS_PASS:
+                    tvStatus.setText("审核通过");
+                    break;
+            }
         }
     }
 }

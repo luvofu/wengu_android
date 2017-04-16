@@ -291,6 +291,12 @@ public final class CommonConst {
         public static final String CATEGORY_PRIVACY = "私密";
     }
 
+    public final class BookVerifyStatus {
+        public static final int STATUS_VERIFY = 0;
+        public static final int STATUS_NO_PASS = 1;
+        public static final int STATUS_PASS = 2;
+    }
+
     public final class RequestCode {
         public static final int REQUEST_CODE_ALTER_NICK = 101;
         public static final int REQUEST_CODE_ALTER_EMAIL = 102;

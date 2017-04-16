@@ -67,4 +67,7 @@
 
     <dimen name="item_horizontal_divider_width">12dp</dimen>
 
+    <dimen name="dynamic_del_pw_width">48dp</dimen>
+    <dimen name="dynamic_del_pw_height">26dp</dimen>
+
 </resources>

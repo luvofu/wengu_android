@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -425,6 +426,47 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             case BookCircleDynamicAdapter.ONCLICK_TYPE_THUMB:
                 presenter.thumbUp(bcd.getDynamicId());
                 break;
+            case BookCircleDynamicAdapter.ONCLICK_TYPE_DELETE_DYNAMIC:
+                currClickBcd = bcd;
+                currDeleteType = DeleteType.TYPE_DYNAMIC;
+                showDelDynamicDlg(v);
+                break;
+        }
+    }
+
+    private PopupWindow pwDeleteDynamic;
+    private TextView tvDeleteDynamic;
+
+    private void initDelDynamicDlg() {
+        if (pwDeleteDynamic == null) {
+            pwDeleteDynamic = new PopupWindow(this, null, R.style.PopupWindow);
+            tvDeleteDynamic = new TextView(this);
+            tvDeleteDynamic.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup
+                    .LayoutParams.WRAP_CONTENT));
+            tvDeleteDynamic.setBackgroundResource(R.drawable.popup_menu_bg);
+            tvDeleteDynamic.setText("删除");
+            tvDeleteDynamic.setGravity(Gravity.CENTER);
+            WidgetUtil.setRawTextSize(tvDeleteDynamic, getResources().getDimensionPixelSize(R.dimen.font_default));
+            tvDeleteDynamic.setTextColor(getResources().getColor(R.color.title_font_white));
+            pwDeleteDynamic.setContentView(tvDeleteDynamic);
+            pwDeleteDynamic.setBackgroundDrawable(new BitmapDrawable());
+            pwDeleteDynamic.setOutsideTouchable(true);
+            tvDeleteDynamic.setOnClickListener(v -> {
+                pwDeleteDynamic.dismiss();
+                presenter.deleteDynamicOrReply(currClickBcd.getDynamicId(), currDeleteType, currClickBcd.getDynamicId());
+            });
+            pwDeleteDynamic.setWidth(getResources().getDimensionPixelSize(R.dimen.dynamic_del_pw_width));
+            pwDeleteDynamic.setHeight(getResources().getDimensionPixelSize(R.dimen.dynamic_del_pw_height));
+        }
+    }
+
+    public void showDelDynamicDlg(View view) {
+        if (view == null) {
+            return;
+        }
+        initDelDynamicDlg();
+        if (!pwDeleteDynamic.isShowing()) {
+            pwDeleteDynamic.showAsDropDown(view, -(view.getWidth() * 2), -view.getHeight());
         }
     }
 

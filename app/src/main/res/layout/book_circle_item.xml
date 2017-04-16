@@ -21,12 +21,22 @@
         fresco:roundingBorderColor="@android:color/transparent"
         fresco:roundingBorderWidth="0.5dp"/>
 
+    <ImageView
+        android:id="@+id/iv_del_dynamic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@id/sdv_face"
+        android:scaleType="centerInside"
+        android:src="@mipmap/more_operas"/>
+
     <TextView
         android:id="@+id/tv_nick_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@id/iv_del_dynamic"
         android:layout_toRightOf="@id/sdv_face"
         android:gravity="center_vertical"
         android:textSize="12sp"

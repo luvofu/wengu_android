@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.culturebud.BaseApp;
@@ -20,6 +21,8 @@ import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
+import com.culturebud.bean.User;
+import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -172,6 +175,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
     public void onBindViewHolder(DynamicViewHolder holder, int position) {
         BookCircleDynamic bcd = data.get(position);
         holder.bcd = bcd;
+        holder.canDelete(bcd.getUserId());
         holder.setFace(bcd.getAvatar());
         holder.setNick(bcd.getNickname());
         holder.setContent(bcd.getContent());
@@ -234,6 +238,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
 
         private SimpleDraweeView sdvFace;
         private TextView tvNick, tvContent;
+        private ImageView ivDelete;
 
         private TextView tvCreateTime, tvGoodNum, tvReplyNum;
 
@@ -258,21 +263,23 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
 
         public DynamicViewHolder(View itemView) {
             super(itemView);
-            vsImage = (ViewStub) itemView.findViewById(R.id.vs_image);
-            vsLinkTypeItem = (ViewStub) itemView.findViewById(R.id.vs_type_holder);
-            vsComments = (ViewStub) itemView.findViewById(R.id.vs_comments);
+            vsImage = WidgetUtil.obtainViewById(itemView, R.id.vs_image);
+            vsLinkTypeItem = WidgetUtil.obtainViewById(itemView, R.id.vs_type_holder);
+            vsComments = WidgetUtil.obtainViewById(itemView, R.id.vs_comments);
 
-            sdvFace = (SimpleDraweeView) itemView.findViewById(R.id.sdv_face);
-            tvNick = (TextView) itemView.findViewById(R.id.tv_nick_name);
-            tvContent = (TextView) itemView.findViewById(R.id.tv_content);
+            sdvFace = WidgetUtil.obtainViewById(itemView, R.id.sdv_face);
+            tvNick = WidgetUtil.obtainViewById(itemView, R.id.tv_nick_name);
+            tvContent = WidgetUtil.obtainViewById(itemView, R.id.tv_content);
+            ivDelete = WidgetUtil.obtainViewById(itemView, R.id.iv_del_dynamic);
 
-            tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
-            tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);
-            tvReplyNum = (TextView) itemView.findViewById(R.id.tv_reply_num);
+            tvCreateTime = WidgetUtil.obtainViewById(itemView, R.id.tv_create_time);
+            tvGoodNum = WidgetUtil.obtainViewById(itemView, R.id.tv_good_num);
+            tvReplyNum = WidgetUtil.obtainViewById(itemView, R.id.tv_reply_num);
             itemView.setOnClickListener(this);
             tvGoodNum.setOnClickListener(this);
             tvReplyNum.setOnClickListener(this);
             sdvFace.setOnClickListener(this);
+            ivDelete.setOnClickListener(this);
         }
 
         public void setFace(String url) {
@@ -281,6 +288,15 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
             }
             Uri uri = Uri.parse(url);
             sdvFace.setImageURI(uri);
+        }
+
+        public void canDelete(long userId) {
+            User user = BaseApp.getInstance().getUser();
+            if (user == null || user.getUserId() != userId) {
+                ivDelete.setVisibility(View.GONE);
+            } else {
+                ivDelete.setVisibility(View.VISIBLE);
+            }
         }
 
         public void setNick(CharSequence nick) {
@@ -320,6 +336,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         }
 
         public void inflateDeletedView() {
+            //链接内容被删除后，显示用户已经删除
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_deleted);
             View view = vsLinkTypeItem.inflate();
         }
@@ -327,8 +344,8 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         public void infalteCommentView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_comment);
             View view = vsLinkTypeItem.inflate();
-            tvCommentContent = (TextView) view.findViewById(R.id.tv_comment);
-            tvCommunityTitle = (TextView) view.findViewById(R.id.tv_community_title);
+            tvCommentContent = WidgetUtil.obtainViewById(view, R.id.tv_comment);
+            tvCommunityTitle = WidgetUtil.obtainViewById(view, R.id.tv_community_title);
             view.setOnClickListener(this);
         }
 
@@ -347,8 +364,8 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         public void infalteBookView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_book);
             View view = vsLinkTypeItem.inflate();
-            sdvBookCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_cover);
-            tvBookTitle = (TextView) view.findViewById(R.id.tv_type_book);
+            sdvBookCover = WidgetUtil.obtainViewById(view, R.id.sdv_book_cover);
+            tvBookTitle = WidgetUtil.obtainViewById(view, R.id.tv_type_book);
             view.setOnClickListener(this);
         }
 
@@ -367,8 +384,8 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         public void infalteBookSheetView() {
             vsLinkTypeItem.setLayoutResource(R.layout.book_circle_item_sheet);
             View view = vsLinkTypeItem.inflate();
-            sdvSheetCover = (SimpleDraweeView) view.findViewById(R.id.sdv_book_sheet_cover);
-            tvSheet = (TextView) view.findViewById(R.id.tv_type_sheet);
+            sdvSheetCover = WidgetUtil.obtainViewById(view, R.id.sdv_book_sheet_cover);
+            tvSheet = WidgetUtil.obtainViewById(view, R.id.tv_type_sheet);
             view.setOnClickListener(this);
         }
 
@@ -410,7 +427,7 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
         public void inflateImageView() {
             vsImage.setLayoutResource(R.layout.book_circle_item_img);
             View view = vsImage.inflate();
-            sdvImg = (SimpleDraweeView) view.findViewById(R.id.sdv_img);
+            sdvImg = WidgetUtil.obtainViewById(view, R.id.sdv_img);
             sdvImg.setOnClickListener(this);
         }
 
@@ -466,6 +483,11 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
                         onItemClickListener.onItemClick(v, ONCLICK_TYPE_REPLY, bcd, null);
                     }
                     break;
+                case R.id.iv_del_dynamic:
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(v, ONCLICK_TYPE_DELETE_DYNAMIC, bcd, null);
+                    }
+                    break;
             }
         }
 
@@ -500,4 +522,5 @@ public class BookCircleDynamicAdapter extends RecyclerView.Adapter<BookCircleDyn
     public static final int ONCLICK_TYPE_THUMB = 6;
     public static final int ONCLICK_TYPE_REPLY_REPLY = 7;
     public static final int ONCLICK_TYPE_FACE = 8;
+    public static final int ONCLICK_TYPE_DELETE_DYNAMIC = 9;
 }
