@@ -138,7 +138,8 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.bcircle.BookCircleActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
         <activity
             android:name=".ui.bhome.NotebookActivity"
             android:screenOrientation="portrait"/>

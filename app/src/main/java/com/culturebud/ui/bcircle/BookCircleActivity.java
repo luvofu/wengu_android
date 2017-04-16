@@ -536,7 +536,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     public void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight) {
         if (isKeyBoardShow) {
             pwReply.update(0, screenHeight - (keyboardHeight + pwReply.getContentView()
-                            .getMeasuredHeight() + getTitleBarHeight()),
+                            .getMeasuredHeight()/* + getTitleBarHeight()*/),
                     pwReply.getWidth(), pwReply.getHeight(), true);
         } else {
             pwReply.update(0, screenHeight - pwReply.getContentView().getMeasuredHeight(),
