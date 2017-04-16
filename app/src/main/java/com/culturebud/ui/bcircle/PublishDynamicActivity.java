@@ -110,10 +110,10 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
                 }
                 break;
             case R.id.sdv_img:
-                aspectX = 8;
-                aspectY = 5;
+                aspectX = 3;
+                aspectY = 4;
                 outX = 720;
-                outY = 480;
+                outY = 1080;
                 showPhotoDialog();
                 break;
             case R.id.iv_del:
