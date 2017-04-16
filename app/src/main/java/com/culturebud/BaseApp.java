@@ -13,6 +13,7 @@ import com.culturebud.db.DataHelper;
 import com.culturebud.util.CrashHandler;
 import com.facebook.common.logging.FLog;
 import com.facebook.drawee.backends.pipeline.Fresco;
+import com.tencent.bugly.crashreport.CrashReport;
 
 import java.util.UUID;
 
@@ -104,6 +105,7 @@ public class BaseApp extends Application {
         dataHelper = getDataHelper();//初始化数据库
         dataHelper.getWritableDatabase();
         ShareSDK.initSDK(this);
+        CrashReport.initCrashReport(getApplicationContext(), "bc70bcc814", true);
     }
 
     public static String getDeviceId(Context context) {

@@ -100,4 +100,5 @@ dependencies {
     compile 'com.belerweb:pinyin4j:2.5.1'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.9.3@aar'
+    compile 'com.tencent.bugly:crashreport:2.1.5'
 }
