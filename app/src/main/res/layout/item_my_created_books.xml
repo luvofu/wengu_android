@@ -41,6 +41,14 @@
             android:textColor="@color/font_more"
             android:textSize="@dimen/font_web"/>
 
+        <TextView
+            android:id="@+id/tv_check_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/common_margin_small"
+            android:textColor="@color/red"
+            android:textSize="@dimen/font_web"/>
+
     </LinearLayout>
 
     <TextView

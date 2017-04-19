@@ -87,6 +87,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            String FRAGMENTS_TAG = "Android:support:fragments";
+            savedInstanceState.remove(FRAGMENTS_TAG);
+        }
         progressDialog = new ProgressDialog(this);
         progressDialog.setIndeterminate(false);
         progressDialog.setCancelable(true);

@@ -62,6 +62,7 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
         holder.setBookTitle(item.getTitle());
         holder.setBookAuthor(item.getAuthor());
         holder.setStatus(item.getCheckStatus());
+        holder.setCheckInfo(item.getCheckInfo());
     }
 
     @Override
@@ -71,7 +72,7 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
 
     class MyCreatedBooksViewHolder extends RecyclerView.ViewHolder {
         private SimpleDraweeView sdvCover;
-        private TextView tvTitle, tvAuthor, tvStatus;
+        private TextView tvTitle, tvAuthor, tvStatus, tvInfo;
 
         public MyCreatedBooksViewHolder(View itemView) {
             super(itemView);
@@ -79,6 +80,7 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
             tvTitle = WidgetUtil.obtainViewById(itemView, R.id.tv_book_title);
             tvAuthor = WidgetUtil.obtainViewById(itemView, R.id.tv_book_author);
             tvStatus = WidgetUtil.obtainViewById(itemView, R.id.tv_status);
+            tvInfo = WidgetUtil.obtainViewById(itemView, R.id.tv_check_info);
         }
 
         public void setCover(String url) {
@@ -110,6 +112,15 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
                 case CommonConst.BookVerifyStatus.STATUS_PASS:
                     tvStatus.setText("审核通过");
                     break;
+            }
+        }
+
+        public void setCheckInfo(String info) {
+            if (TextUtils.isEmpty(info)) {
+                tvInfo.setVisibility(View.GONE);
+            } else {
+                tvInfo.setText("未通过原因：" + info);
+                tvInfo.setVisibility(View.VISIBLE);
             }
         }
     }
