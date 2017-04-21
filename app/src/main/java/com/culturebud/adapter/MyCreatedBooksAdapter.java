@@ -58,6 +58,8 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
     @Override
     public void onBindViewHolder(MyCreatedBooksViewHolder holder, int position) {
         CheckedBook item = data.get(position);
+        holder.position = position;
+        holder.book = item;
         holder.setCover(item.getCover());
         holder.setBookTitle(item.getTitle());
         holder.setBookAuthor(item.getAuthor());
@@ -70,9 +72,11 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
         return data.size();
     }
 
-    class MyCreatedBooksViewHolder extends RecyclerView.ViewHolder {
+    class MyCreatedBooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvAuthor, tvStatus, tvInfo;
+        private int position;
+        private CheckedBook book;
 
         public MyCreatedBooksViewHolder(View itemView) {
             super(itemView);
@@ -81,6 +85,7 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
             tvAuthor = WidgetUtil.obtainViewById(itemView, R.id.tv_book_author);
             tvStatus = WidgetUtil.obtainViewById(itemView, R.id.tv_status);
             tvInfo = WidgetUtil.obtainViewById(itemView, R.id.tv_check_info);
+            itemView.setOnClickListener(this);
         }
 
         public void setCover(String url) {
@@ -123,5 +128,28 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
                 tvInfo.setVisibility(View.VISIBLE);
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v == itemView) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, book, position);
+                }
+            }
+        }
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public OnItemClickListener getOnItemClickListener() {
+        return onItemClickListener;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View v, CheckedBook book, int position);
     }
 }

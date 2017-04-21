@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/ll_face"
@@ -22,7 +21,7 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:text="@string/face"
-            android:textColor="@color/title_font_default" />
+            android:textColor="@color/title_font_default"/>
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/sdv_face"
@@ -32,7 +31,7 @@
             android:clickable="true"
             fresco:actualImageScaleType="fitXY"
             fresco:placeholderImage="@mipmap/me_default_icon"
-            fresco:placeholderImageScaleType="fitCenter" />
+            fresco:placeholderImageScaleType="fitCenter"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -40,7 +39,7 @@
             android:layout_gravity="center_vertical"
             android:layout_margin="20dp"
             android:scaleType="centerInside"
-            android:src="@mipmap/right_arrow" />
+            android:src="@mipmap/right_arrow"/>
     </LinearLayout>
 
     <com.culturebud.widget.SettingItemView
@@ -52,7 +51,7 @@
         android:minHeight="48dp"
         app:has_icon="false"
         app:info="@string/no_fill"
-        app:name="@string/nick" />
+        app:name="@string/nick"/>
 
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_culturebud_name"
@@ -64,7 +63,7 @@
         app:has_arrow="false"
         app:has_icon="false"
         app:info="share_"
-        app:name="@string/culturebud_name" />
+        app:name="@string/culturebud_name"/>
 
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_sex"
@@ -75,7 +74,7 @@
         android:minHeight="48dp"
         app:has_icon="false"
         app:info="@string/no_fill"
-        app:name="@string/sex" />
+        app:name="@string/sex"/>
 
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_email"
@@ -86,7 +85,7 @@
         android:minHeight="48dp"
         app:has_icon="false"
         app:info="yuanyuan756@126.com"
-        app:name="@string/email" />
+        app:name="@string/email"/>
 
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_region"
@@ -96,7 +95,7 @@
         android:clickable="true"
         android:minHeight="48dp"
         app:has_icon="false"
-        app:name="@string/region" />
+        app:name="@string/region"/>
 
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_profile"
@@ -108,6 +107,6 @@
         app:desc="@string/no_fill"
         app:has_icon="false"
         app:name="@string/profile"
-        app:show_desc="true" />
+        app:show_desc="true"/>
 
 </LinearLayout>

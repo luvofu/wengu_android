@@ -15,10 +15,12 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
+import com.culturebud.bean.CheckedBook;
 import com.culturebud.contract.ManualAddBookContract;
 import com.culturebud.presenter.ManualAddBookPresenter;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -51,6 +53,8 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
 
     private BottomSheetDialog pubDateDlg;
     private OptionsPickerView<String> bindingDlg;
+    private int type;
+    private CheckedBook checkedBook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +93,87 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
         etAuthorSummary = obtainViewById(R.id.et_author_summary);
 
         setListeners();
+        initData();
+    }
+
+    private void initData() {
+        Intent intent = getIntent();
+        type = intent.getIntExtra("type", 0);
+        if (type == 1) {
+            String json = intent.getStringExtra("book");
+            if (TextUtils.isEmpty(json)) {
+                finish();
+            }
+            checkedBook = new Gson().fromJson(json, CheckedBook.class);
+            if (checkedBook != null) {
+                if (!TextUtils.isEmpty(checkedBook.getCover())) {
+                    sdvBookCover.setImageURI(checkedBook.getCover());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getTitle())) {
+                    etBookName.setText(checkedBook.getTitle());
+                    etBookName.setSelection(etBookName.getText().length());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getOriginTitle())) {
+                    etNameOrign.setText(checkedBook.getOriginTitle());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getSubTitle())) {
+                    etSubtitle.setText(checkedBook.getSubTitle());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getIsbn13())) {
+                    etIsbn.setText(checkedBook.getIsbn13());
+                }
+                String authors = checkedBook.getAuthor();
+                if (!TextUtils.isEmpty(authors)) {
+                    String[] aths = authors.split("\\|");
+                    if (aths != null) {
+                        for (int i = 0; i < aths.length; i++) {
+                            if (i == 0) {
+                                etAuthors.get(i).setText(aths[i]);
+                            } else {
+                                addAuthorView(aths[i]);
+                            }
+                        }
+                    }
+                }
+                String tras = checkedBook.getTranslator();
+                if (!TextUtils.isEmpty(tras)) {
+                    String[] trsArr = tras.split("\\|");
+                    if (trsArr != null) {
+                        for (int i = 0; i < trsArr.length; i++) {
+                            if (i == 0) {
+                                etTranslators.get(i).setText(trsArr[i]);
+                            } else {
+                                addTranslatorView(trsArr[i]);
+                            }
+                        }
+                    }
+                }
+                if (!TextUtils.isEmpty(checkedBook.getPrice())) {
+                    etPrice.setText(checkedBook.getPrice());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getPublisher())) {
+                    etPublisher.setText(checkedBook.getPublisher());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getPubDate())) {
+                    sivPubDate.setRightInfo(checkedBook.getPubDate());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getBinding())) {
+                    sivBinding.setRightInfo(checkedBook.getBinding());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getPages())) {
+                    etPages.setText(checkedBook.getPages());
+                    etPages.setSelection(etPages.getText().length());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getSummary())) {
+                    etContentSummary.setText(checkedBook.getSummary());
+                    etContentSummary.setSelection(etContentSummary.getText().length());
+                }
+                if (!TextUtils.isEmpty(checkedBook.getAuthorInfo())) {
+                    etAuthorSummary.setText(checkedBook.getAuthorInfo());
+                    etAuthorSummary.setText(etAuthorSummary.getText().length());
+                }
+            }
+        }
     }
 
     private void setListeners() {
@@ -160,11 +245,15 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
                 translators.add(et.getText().toString());
             }
         }
-        presenter.submitBook(photoUri, etBookName.getText().toString(), etNameOrign.getText().toString(),
-                etSubtitle.getText().toString(), etIsbn.getText().toString(), authors, translators,
-                etPrice.getText().toString(), etPublisher.getText().toString(), sivPubDate.getInfo(),
-                sivBinding.getInfo(), etPages.getText().toString(), etContentSummary.getText().toString(),
-                etAuthorSummary.getText().toString());
+        if (type == 0) {
+            presenter.submitBook(photoUri, etBookName.getText().toString(), etNameOrign.getText().toString(),
+                    etSubtitle.getText().toString(), etIsbn.getText().toString(), authors, translators,
+                    etPrice.getText().toString(), etPublisher.getText().toString(), sivPubDate.getInfo(),
+                    sivBinding.getInfo(), etPages.getText().toString(), etContentSummary.getText().toString(),
+                    etAuthorSummary.getText().toString());
+        } else {
+
+        }
     }
 
     @Override
@@ -179,33 +268,11 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
                 showPhotoDialog();
                 break;
             case R.id.iv_add_author: {
-                View view = getLayoutInflater().inflate(R.layout.add_author, null);
-                TextView tvAut = obtainViewById(view, R.id.tv_author);
-                tvAut.setText("");
-                etAuthors.add(obtainViewById(view, R.id.et_author));
-                ImageView ivSub = obtainViewById(view, R.id.iv_add_author);
-                ivSub.setImageResource(R.drawable.author_sub_selector);
-                ivSub.setOnClickListener(sub -> {
-                    llParent.removeView(view);
-                });
-                ivSubAuthors.add(ivSub);
-                int index = llParent.indexOfChild(llAddAuthor);
-                llParent.addView(view, index + 1);
+                addAuthorView(null);
                 break;
             }
             case R.id.iv_add_translator: {
-                View view = getLayoutInflater().inflate(R.layout.add_translator, null);
-                TextView tvTan = obtainViewById(view, R.id.tv_translator);
-                tvTan.setText("");
-                etTranslators.add(obtainViewById(view, R.id.et_translator));
-                ImageView ivSub = obtainViewById(view, R.id.iv_add_translator);
-                ivSub.setImageResource(R.drawable.author_sub_selector);
-                ivSub.setOnClickListener(sub -> {
-                    llParent.removeView(view);
-                });
-                ivSubTranslators.add(ivSub);
-                int index = llParent.indexOfChild(llAddTranslator);
-                llParent.addView(view, index + 1);
+                addTranslatorView(null);
                 break;
             }
             case R.id.siv_binding: {
@@ -223,6 +290,32 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
                 break;
             }
         }
+    }
+
+    private void addTranslatorView(String tra) {
+        View view = getLayoutInflater().inflate(R.layout.add_translator, null);
+        TextView tvTan = obtainViewById(view, R.id.tv_translator);
+        tvTan.setText("");
+        etTranslators.add(obtainViewById(view, R.id.et_translator));
+        ImageView ivSub = obtainViewById(view, R.id.iv_add_translator);
+        ivSub.setImageResource(R.drawable.author_sub_selector);
+        ivSub.setOnClickListener(sub -> llParent.removeView(view));
+        ivSubTranslators.add(ivSub);
+        int index = llParent.indexOfChild(llAddTranslator);
+        llParent.addView(view, index + 1);
+    }
+
+    private void addAuthorView(String author) {
+        View view = getLayoutInflater().inflate(R.layout.add_author, null);
+        TextView tvAut = obtainViewById(view, R.id.tv_author);
+        tvAut.setText(author == null ? "" : author);
+        etAuthors.add(obtainViewById(view, R.id.et_author));
+        ImageView ivSub = obtainViewById(view, R.id.iv_add_author);
+        ivSub.setImageResource(R.drawable.author_sub_selector);
+        ivSub.setOnClickListener(sub -> llParent.removeView(view));
+        ivSubAuthors.add(ivSub);
+        int index = llParent.indexOfChild(llAddAuthor);
+        llParent.addView(view, index + 1);
     }
 
     @Override
