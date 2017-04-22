@@ -34,34 +34,35 @@ public class MyCreatedBooksModel extends MyCreatedBooksContract.Model {
             }
             params.put("page", page);
             initRetrofit().create(ApiBookHomeInterface.class).myCreatedBooks(params)
-            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                @Override
-                public void onCompleted() {
-                    subscriber.onCompleted();
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    subscriber.onError(e);
-                }
-
-                @Override
-                public void onNext(ApiResultBean<JsonObject> bean) {
-                    int code = bean.getCode();
-                    if (code == ApiErrorCode.CODE_SUCCESS) {
-                        if (bean.getData().has("bookCheckList")) {
-                            JsonArray jarr = bean.getData().getAsJsonArray("bookCheckList");
-                            List<CheckedBook> books = new Gson().fromJson(jarr, new TypeToken<List<CheckedBook>>() {
-                            }.getType());
-                            subscriber.onNext(books);
-                        } else {
-                            subscriber.onNext(null);
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
                         }
-                    } else {
-                        subscriber.onError(new ApiException(code, bean.getMsg()));
-                    }
-                }
-            });
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                if (bean.getData().has("bookCheckList")) {
+                                    JsonArray jarr = bean.getData().getAsJsonArray("bookCheckList");
+                                    List<CheckedBook> books = new Gson().fromJson(jarr, new
+                                            TypeToken<List<CheckedBook>>() {
+                                    }.getType());
+                                    subscriber.onNext(books);
+                                } else {
+                                    subscriber.onNext(null);
+                                }
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 }

@@ -19,6 +19,7 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import static com.culturebud.CommonConst.BookVerifyStatus.STATUS_NO_PASS;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_MANUAL_BOOK_CHECK;
 
 /**
  * Created by XieWei on 2017/3/30.
@@ -68,7 +69,20 @@ public class MyCreatedBooksActivity extends BaseActivity<MyCreatedBooksContract.
             Intent intent = new Intent(this, ManualAddBookActivity.class);
             intent.putExtra("book", new Gson().toJson(book));
             intent.putExtra("type", 1);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_CODE_MANUAL_BOOK_CHECK);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_MANUAL_BOOK_CHECK:
+                if (resultCode == RESULT_OK) {
+                    currentPage = 0;
+                    presenter.myCreatedBooks(currentPage);
+                }
+                break;
         }
     }
 }

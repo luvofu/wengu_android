@@ -16,6 +16,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.culturebud.CommonConst.BookVerifyStatus.STATUS_NO_PASS;
+
 /**
  * Created by XieWei on 2017/3/30.
  */
@@ -64,7 +66,7 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
         holder.setBookTitle(item.getTitle());
         holder.setBookAuthor(item.getAuthor());
         holder.setStatus(item.getCheckStatus());
-        holder.setCheckInfo(item.getCheckInfo());
+        holder.setCheckInfo(item.getCheckInfo(), item.getCheckStatus());
     }
 
     @Override
@@ -111,7 +113,7 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
                 case CommonConst.BookVerifyStatus.STATUS_VERIFY:
                     tvStatus.setText("审核中");
                     break;
-                case CommonConst.BookVerifyStatus.STATUS_NO_PASS:
+                case STATUS_NO_PASS:
                     tvStatus.setText("审核未通过");
                     break;
                 case CommonConst.BookVerifyStatus.STATUS_PASS:
@@ -120,12 +122,12 @@ public class MyCreatedBooksAdapter extends RecyclerView.Adapter<MyCreatedBooksAd
             }
         }
 
-        public void setCheckInfo(String info) {
-            if (TextUtils.isEmpty(info)) {
-                tvInfo.setVisibility(View.GONE);
-            } else {
+        public void setCheckInfo(String info, int status) {
+            if (!TextUtils.isEmpty(info) && status == STATUS_NO_PASS) {
                 tvInfo.setText("未通过原因：" + info);
                 tvInfo.setVisibility(View.VISIBLE);
+            } else {
+                tvInfo.setVisibility(View.GONE);
             }
         }
 

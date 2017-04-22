@@ -252,7 +252,34 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
                     sivBinding.getInfo(), etPages.getText().toString(), etContentSummary.getText().toString(),
                     etAuthorSummary.getText().toString());
         } else {
-
+            checkedBook.setTitle(etBookName.getText().toString());
+            checkedBook.setOriginTitle(etNameOrign.getText().toString());
+            checkedBook.setSubTitle(etSubtitle.getText().toString());
+            checkedBook.setIsbn13(etIsbn.getText().toString());
+            String author = "";
+            for (String s : authors) {
+                author = author + s + "|";
+            }
+            if (author.endsWith("|")) {
+                author = author.substring(0, author.lastIndexOf("|"));
+            }
+            checkedBook.setAuthor(author);
+            String translator = "";
+            for (String s : translators) {
+                translator = translator + s + "|";
+            }
+            if (translator.endsWith("|")) {
+                translator = translator.substring(0, translator.lastIndexOf("|"));
+            }
+            checkedBook.setTranslator(translator);
+            checkedBook.setPrice(etPrice.getText().toString());
+            checkedBook.setPublisher(etPublisher.getText().toString());
+            checkedBook.setPubDate(sivPubDate.getInfo());
+            checkedBook.setBinding(sivBinding.getInfo());
+            checkedBook.setPages(etPages.getText().toString());
+            checkedBook.setSummary(etContentSummary.getText().toString());
+            checkedBook.setAuthorInfo(etAuthorSummary.getText().toString());
+            presenter.checkBook(checkedBook, photoUri);
         }
     }
 
@@ -295,7 +322,7 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
     private void addTranslatorView(String tra) {
         View view = getLayoutInflater().inflate(R.layout.add_translator, null);
         TextView tvTan = obtainViewById(view, R.id.tv_translator);
-        tvTan.setText("");
+        tvTan.setText(tra == null ? "" : tra);
         etTranslators.add(obtainViewById(view, R.id.et_translator));
         ImageView ivSub = obtainViewById(view, R.id.iv_add_translator);
         ivSub.setImageResource(R.drawable.author_sub_selector);
@@ -322,11 +349,6 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-//            case REQUEST_CODE_SELECT_IMAGE:
-//                if (resultCode == RESULT_OK) {
-//                    sdvBookCover.setImageURI(photoUri);
-//                }
-//                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvBookCover.setImageURI(photoUri);
@@ -343,6 +365,14 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
 
     @Override
     public void onAddResult(boolean res) {
+        if (res) {
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
+    @Override
+    public void onCheckResult(boolean res) {
         if (res) {
             setResult(RESULT_OK);
             finish();

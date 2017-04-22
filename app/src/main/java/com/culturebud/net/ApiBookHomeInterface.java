@@ -5,6 +5,7 @@ import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.Book;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
@@ -178,6 +179,11 @@ public interface ApiBookHomeInterface {
     @Multipart
     Observable<ApiResultBean<JsonObject>> manualAddBook(@PartMap Map<String, RequestBody> params, @Part MultipartBody
             .Part file);
+
+    @POST(CommonConst.PATH_MANUAL_BOOK_CHECK)
+    @Multipart
+    Observable<ApiResultBean<JsonObject>> manualBookCheck(@PartMap Map<String, RequestBody> params, @Part
+            MultipartBody.Part file);
 
     /**
      * @param params token

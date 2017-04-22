@@ -7,6 +7,7 @@ import android.text.TextUtils;
 
 import com.culturebud.BaseApp;
 import com.culturebud.bean.ApiResultBean;
+import com.culturebud.bean.CheckedBook;
 import com.culturebud.contract.ManualAddBookContract;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.util.ApiException;
@@ -133,6 +134,109 @@ public class ManualAddBookModel extends ManualAddBookContract.Model {
                     }
                 }
             });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> checkBook(String token, CheckedBook checkedBook, Uri imgUri) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("bookCheckId", checkedBook.getBcId());
+            if (!TextUtils.isEmpty(checkedBook.getTitle())) {
+                params.put("title", checkedBook.getTitle());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getOriginTitle())) {
+                params.put("originTitle", checkedBook.getOriginTitle());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getSubTitle())) {
+                params.put("subTitle", checkedBook.getSubTitle());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getIsbn13())) {
+                params.put("isbn", checkedBook.getIsbn13());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getAuthor())) {
+                params.put("author", checkedBook.getAuthor());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getTranslator())) {
+                params.put("translator", checkedBook.getTranslator());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getPrice())) {
+                params.put("price", checkedBook.getPrice());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getPublisher())) {
+                params.put("publisher", checkedBook.getPublisher());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getPubDate())) {
+                params.put("pubDate", checkedBook.getPubDate());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getBinding())) {
+                params.put("binding", checkedBook.getBinding());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getPages())) {
+                params.put("pages", checkedBook.getPages());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getSummary())) {
+                params.put("summary", checkedBook.getSummary());
+            }
+            if (!TextUtils.isEmpty(checkedBook.getAuthorInfo())) {
+                params.put("authorInfo", checkedBook.getAuthorInfo());
+            }
+
+            MultipartBody.Part body = null;
+            String imgCachePath = BaseApp.getInstance().getCacheDir() + "/" + UUID.randomUUID().toString() + ".jpg";
+            if (imgUri != null) {
+                try {
+                    InputStream is = BaseApp.getInstance().getContentResolver().openInputStream(imgUri);
+                    Bitmap bitmap = BitmapFactory.decodeStream(is);
+                    FileOutputStream fos = new FileOutputStream(imgCachePath);
+                    int bsize = bitmap.getByteCount() / 1024;
+                    int scale = 1;
+                    if (bsize > 230) {
+                        scale = bsize / 230;
+                    }
+                    if (scale > 100) {
+                        scale = 100;
+                    }
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 / scale, fos);
+                    File file = new File(imgCachePath);
+                    RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
+                    body = MultipartBody.Part.createFormData("imageFile", file.getName(), requestBody);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), new byte[0]);
+                body = MultipartBody.Part.createFormData("null", "null", requestBody);
+            }
+            Map<String, RequestBody> realParams = new HashMap<>();
+            for (String key : params.keySet()) {
+                realParams.put(key, RequestBody.create(null, params.get(key).toString()));
+            }
+            initRetrofit().create(ApiBookHomeInterface.class).manualBookCheck(realParams, body)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == 200) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 }

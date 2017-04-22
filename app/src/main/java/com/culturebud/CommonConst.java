@@ -179,6 +179,8 @@ public final class CommonConst {
 
     public static final String PATH_MANUAL_BOOK_ENTRY = "api/bookCheck/entry";
 
+    public static final String PATH_MANUAL_BOOK_CHECK = "api/bookCheck/edit";
+
     public static final String PATH_BOOK_SHEET_CREATE = "/api/bookSheet/add_v101";
 
     public static final String PATH_MY_BOOK_MARKS = "api/bookmark/personal_v103";
@@ -344,6 +346,7 @@ public final class CommonConst {
         public static final int REQUEST_CODE_SEARCH_BOOK_ADD_TO_BOOK_SHEET = 1034;
 
         public static final int REQUEST_CODE_PUBLISH_DYNAMIC = 1035;
+        public static final int REQUEST_CODE_MANUAL_BOOK_CHECK = 1036;
     }
 
     public static String getRootPath() {

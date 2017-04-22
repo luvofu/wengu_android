@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.culturebud.BaseApp;
+import com.culturebud.bean.CheckedBook;
 import com.culturebud.contract.ManualAddBookContract;
 import com.culturebud.model.ManualAddBookModel;
 import com.culturebud.util.ApiException;
@@ -74,6 +75,38 @@ public class ManualAddBookPresenter extends ManualAddBookContract.Presenter {
             @Override
             public void onNext(Boolean aBoolean) {
                 view.onAddResult(aBoolean);
+            }
+        });
+    }
+
+    @Override
+    public void checkBook(CheckedBook checkedBook, Uri imgUri) {
+        if (!validateToken()) {
+            return;
+        }
+        if (checkedBook == null) {
+            view.onErrorTip("书籍信息为空");
+            return;
+        }
+        model.checkBook(BaseApp.getInstance().getUser().getToken(), checkedBook, imgUri)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean res) {
+                view.onCheckResult(res);
             }
         });
     }
