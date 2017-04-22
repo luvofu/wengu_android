@@ -34,7 +34,7 @@
     <!-- zxing end -->
 
     <!-- bugly start -->
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
     <!-- bugly end -->
 
     <application
@@ -258,6 +258,11 @@
 
         <activity
             android:name=".ui.bhome.CustomCategoriesActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
+
+        <activity
+            android:name=".ui.bhome.BookInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateAlwaysHidden"/>
 

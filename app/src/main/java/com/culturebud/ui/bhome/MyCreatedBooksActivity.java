@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 import java.util.List;
 
 import static com.culturebud.CommonConst.BookVerifyStatus.STATUS_NO_PASS;
+import static com.culturebud.CommonConst.BookVerifyStatus.STATUS_PASS;
+import static com.culturebud.CommonConst.BookVerifyStatus.STATUS_VERIFY;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_MANUAL_BOOK_CHECK;
 
 /**
@@ -65,11 +67,24 @@ public class MyCreatedBooksActivity extends BaseActivity<MyCreatedBooksContract.
     @Override
     public void onItemClick(View v, CheckedBook book, int position) {
         int status = book.getCheckStatus();
-        if (status == STATUS_NO_PASS) {
-            Intent intent = new Intent(this, ManualAddBookActivity.class);
-            intent.putExtra("book", new Gson().toJson(book));
-            intent.putExtra("type", 1);
-            startActivityForResult(intent, REQUEST_CODE_MANUAL_BOOK_CHECK);
+        switch (status) {
+            case STATUS_NO_PASS: {
+                Intent intent = new Intent(this, ManualAddBookActivity.class);
+                intent.putExtra("book", new Gson().toJson(book));
+                intent.putExtra("type", 1);
+                startActivityForResult(intent, REQUEST_CODE_MANUAL_BOOK_CHECK);
+            }
+            break;
+            case STATUS_VERIFY: {
+                Intent intent = new Intent(this, BookInfoActivity.class);
+                intent.putExtra("checked_book", new Gson().toJson(book));
+                startActivity(intent);
+            }
+            break;
+            case STATUS_PASS: {
+
+            }
+            break;
         }
     }
 
