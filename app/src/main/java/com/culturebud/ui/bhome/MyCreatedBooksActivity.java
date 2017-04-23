@@ -13,6 +13,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.CheckedBook;
 import com.culturebud.contract.MyCreatedBooksContract;
 import com.culturebud.presenter.MyCreatedBooksPresenter;
+import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.widget.DividerItemDecoration;
 import com.google.gson.Gson;
 
@@ -82,7 +83,9 @@ public class MyCreatedBooksActivity extends BaseActivity<MyCreatedBooksContract.
             }
             break;
             case STATUS_PASS: {
-
+                Intent intent = new Intent(this, BookDetailActivity.class);
+                intent.putExtra("bookId", book.getBookId());
+                startActivity(intent);
             }
             break;
         }

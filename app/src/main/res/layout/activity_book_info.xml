@@ -1,114 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:fresco="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_cover"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/common_padding_default">
 
-        <TextView
-            android:layout_width="0dp"
+        <LinearLayout
+            android:id="@+id/ll_cover"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="封面"
-            android:textColor="@color/font_black_light"
-            android:textSize="@dimen/font_default"/>
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:orientation="horizontal">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_cover"
-            android:layout_width="80dp"
-            android:layout_height="100dp"
-            fresco:actualImageScaleType="fitXY"
-            fresco:placeholderImage="@mipmap/img_placeholder"
-            fresco:placeholderImageScaleType="fitXY"/>
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="封面"
+                android:textColor="@color/font_black_light"
+                android:textSize="@dimen/font_default"/>
 
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_cover"
+                android:layout_width="80dp"
+                android:layout_height="100dp"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImage="@mipmap/img_placeholder"
+                fresco:placeholderImageScaleType="fitXY"/>
+
+        </LinearLayout>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_book_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="书名"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_org_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="原作名"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_sub_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="副标题"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_isbn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="ISBN"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_author"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="作者"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_translator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="译者"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="定价"/>
+
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_publisher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="出版社"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_pub_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="出版日期"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_binding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="装帧"/>
+
+        <com.culturebud.widget.FormItemView
+            android:id="@+id/fiv_pages"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:item_background="@drawable/setting_item_only_last_bg_selector"
+            app:label="页数"/>
     </LinearLayout>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_book_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="书名"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_org_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="原作名"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_sub_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="副标题"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_isbn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="ISBN"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_author"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="作者"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_translator"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="译者"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="定价"/>
-
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_publisher"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="出版社"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_pub_date"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="出版日期"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_binding"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="装帧"/>
-
-    <com.culturebud.widget.FormItemView
-        android:id="@+id/fiv_pages"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:item_background="@drawable/setting_item_only_last_bg_selector"
-        app:label="页数"/>
-
-</LinearLayout>
+</ScrollView>

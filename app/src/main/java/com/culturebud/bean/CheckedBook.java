@@ -41,6 +41,8 @@ public class CheckedBook {
     private String isbn13;//13位isbn
     @SerializedName("binding")
     private String binding;//装订方式
+    @SerializedName("bookId")
+    private long bookId;
 
     public long getBcId() {
         return bcId;
@@ -178,6 +180,14 @@ public class CheckedBook {
         this.binding = binding;
     }
 
+    public long getBookId() {
+        return bookId;
+    }
+
+    public void setBookId(long bookId) {
+        this.bookId = bookId;
+    }
+
     @Override
     public String toString() {
         return "CheckedBook{" +
@@ -198,6 +208,7 @@ public class CheckedBook {
                 ", pubDate='" + pubDate + '\'' +
                 ", isbn13='" + isbn13 + '\'' +
                 ", binding='" + binding + '\'' +
+                ", bookId=" + bookId +
                 '}';
     }
 }
