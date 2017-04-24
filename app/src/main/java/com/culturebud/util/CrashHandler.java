@@ -6,6 +6,10 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.util.Log;
 
+import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
+
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,9 +52,19 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             } catch (InterruptedException ex) {
                 Log.e(TAG, ex.toString());
             }
+            BaseActivity.finishAll();
             //退出程序
             android.os.Process.killProcess(android.os.Process.myPid());
-            System.exit(1);
+            System.exit(0);
+//            int pid = android.os.Process.myPid();
+//            String command = "kill -9 "+ pid;
+//
+//            try {
+//                Runtime.getRuntime().exec(command);
+//            } catch (IOException e1) {
+//                // TODO Auto-generated catch block
+//                e1.printStackTrace();
+//            }
         }
     }
 
@@ -97,6 +111,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     /**
      * 写日志文件
      * 同时上传到服务器
+     *
      * @param ex
      */
     public void saveCrashLog(Throwable ex) {

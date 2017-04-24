@@ -78,6 +78,7 @@ public class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d("LoginActivity", "BaseApp ==>> " + this);
         app = this;
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/FangZhengLanTingZhunHei_GBK.TTF")
@@ -101,7 +102,7 @@ public class BaseApp extends Application {
 
 //        Fresco.initialize(this, imgPipelineCfg);
         FLog.setMinimumLoggingLevel(FLog.VERBOSE);
-        CrashHandler.getInstance().init(this);
+        CrashHandler.getInstance().init(getApplicationContext());
         dataHelper = getDataHelper();//初始化数据库
         dataHelper.getWritableDatabase();
         ShareSDK.initSDK(this);

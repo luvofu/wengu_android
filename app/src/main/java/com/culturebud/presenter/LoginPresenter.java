@@ -114,6 +114,34 @@ public class LoginPresenter extends LoginContract.Presenter {
         });
     }
 
+    @Override
+    public void loadLocalUser() {
+        Log.d("LoginActivity", "loadLocalUser()");
+        model.loadLastUser().subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<User>() {
+            @Override
+            public void onCompleted() {
+                Log.d("LoginActivity", "loadLocalUser() ==>> onCompleted()");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                Log.d("LoginActivity", "loadLocalUser() ==>> onError()" + e.getMessage());
+            }
+
+            @Override
+            public void onNext(User user) {
+                Log.d("LoginActivity", "loadLocalUser() ==>> onNext()" + user);
+                if (user != null) {
+                    BaseApp.getInstance().setUser(user);
+                    view.loginSuccess(user);
+                }
+            }
+        });
+    }
+
     private boolean validate(String userName, String password) {
         if (TextUtils.isEmpty(userName)) {
             view.onErrorTip("用户名和密码不能为空");

@@ -18,6 +18,16 @@ public class UserDAO {
         dao = BaseApp.getInstance().getDataHelper().getDao(User.class);
     }
 
+    private void reinitDao() throws SQLException {
+        if (dao == null) {
+            synchronized (UserDAO.class) {
+                if (dao == null) {
+                    dao = BaseApp.getInstance().getDataHelper().getDao(User.class);
+                }
+            }
+        }
+    }
+
     public boolean addUser(User user) throws SQLException {
         return dao.create(user) == 1;
     }
@@ -40,6 +50,7 @@ public class UserDAO {
     }
 
     public List<User> findAll() throws SQLException {
+        reinitDao();
         return dao.queryForAll();
     }
 }

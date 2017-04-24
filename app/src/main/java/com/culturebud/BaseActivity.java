@@ -1,6 +1,7 @@
 package com.culturebud;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
@@ -35,6 +36,7 @@ import com.tbruyelle.rxpermissions.RxPermissions;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.UUID;
+import java.util.WeakHashMap;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
@@ -55,6 +57,16 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     private TextView tvAlbum, tvPhoto, tvCancel;
     protected Uri photoUri;
     protected int aspectX = 1, aspectY = 1, outX = 480, outY = 720;
+    private static WeakHashMap<String, Activity> acts = new WeakHashMap<>();
+
+    public static void finishAll() {
+        for (Activity a : acts.values()) {
+            if (a != null && !a.isFinishing()) {
+                a.finish();
+            }
+        }
+        acts.clear();
+    }
 
     public interface OnSoftKeyboardStateChangedListener {
         void onSoftKeyboardStateChanged(boolean isKeyBoardShow, int keyboardHeight);
@@ -87,6 +99,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        acts.put(getClass().getName(), this);
         if (savedInstanceState != null) {
             String FRAGMENTS_TAG = "Android:support:fragments";
             savedInstanceState.remove(FRAGMENTS_TAG);
@@ -266,6 +279,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         } else {
             getWindow().getDecorView().getViewTreeObserver().removeGlobalOnLayoutListener(mLayoutChangeListener);
         }
+        acts.remove(getClass().getName());
         super.onDestroy();
     }
 

@@ -1,5 +1,7 @@
 package com.culturebud.model;
 
+import android.util.Log;
+
 import com.culturebud.bean.User;
 import com.culturebud.contract.MeContract;
 import com.culturebud.db.dao.UserDAO;
@@ -17,8 +19,16 @@ public class MeModel extends MeContract.Model {
     private UserDAO userDAO;
 
     public void initDAO() throws SQLException {
+        Log.d("LoginActivity", "userDao 1 = " + userDAO);
         if (userDAO == null) {
-            userDAO = new UserDAO();
+            Log.d("LoginActivity", "userDao 2 = " + userDAO);
+            synchronized (MeModel.class) {
+                Log.d("LoginActivity", "userDao 3 = " + userDAO);
+                if (userDAO == null) {
+                    Log.d("LoginActivity", "userDao 4 = " + userDAO);
+                    userDAO = new UserDAO();
+                }
+            }
         }
     }
 
@@ -42,7 +52,8 @@ public class MeModel extends MeContract.Model {
         return Observable.create(subscriber -> {
             try {
                 initDAO();
-                List<User> users = userDAO.findAll();
+//                Log.d("LoginActivity", "userDao = " + userDAO);
+                List<User> users = new UserDAO().findAll();
                 if (users != null && users.size() > 0) {
                     subscriber.onNext(users.get(0));
                 } else {

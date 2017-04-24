@@ -2,23 +2,28 @@ package com.culturebud.ui.me;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.LoginContract;
 import com.culturebud.presenter.LoginPresenter;
+import com.culturebud.ui.WelcomeActivity;
+import com.culturebud.vo.Tag;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_REGIST;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_RETRIEVE_PASSWORD;
@@ -28,7 +33,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_RETRIEVE_PASSW
  */
 
 @PresenterInject(LoginPresenter.class)
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View {
+public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View {
     private static final String TAG = "LoginActivity";
     private EditText etUserName, etPassword;
     private TextView tvRegist;
@@ -36,6 +41,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "onCreate ==>> " + BaseApp.getInstance());
         setContentView(R.layout.login);
         presenter.setView(this);
         showTitlebar();
@@ -44,6 +50,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         etPassword = obtainViewById(R.id.et_password);
         tvRegist = obtainViewById(R.id.tv_regist);
         initData();
+        presenter.loadLocalUser();
+    }
+
+    @Override
+    protected void onResume() {
+        Log.d(TAG, "onResume ==>> " + BaseApp.getInstance());
+        super.onResume();
     }
 
     private void initData() {
@@ -79,7 +92,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 presenter.login(userName, password);
                 break;
             case R.id.tv_forget_pwd:
-                startActivityForResult(new Intent(this, RetrievePasswordActivity.class), REQUEST_CODE_RETRIEVE_PASSWORD);
+                startActivityForResult(new Intent(this, RetrievePasswordActivity.class),
+                        REQUEST_CODE_RETRIEVE_PASSWORD);
                 break;
         }
     }
@@ -133,4 +147,5 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 break;
         }
     }
+
 }

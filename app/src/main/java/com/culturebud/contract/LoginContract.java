@@ -2,6 +2,7 @@ package com.culturebud.contract;
 
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.User;
+import com.culturebud.model.MeModel;
 import com.culturebud.net.ApiMeInterface;
 
 import rx.Observable;
@@ -16,15 +17,18 @@ public interface LoginContract {
         void loginSuccess(User user);
 
         void onLogout(boolean success);
+
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void login(String userName, String password);
 
         public abstract void logout();
+
+        public abstract void loadLocalUser();
     }
 
-    abstract class Model extends BaseModel {
+    abstract class Model extends MeModel {
         protected ApiMeInterface getMeInterface() {
             return initRetrofit().create(ApiMeInterface.class);
         }
