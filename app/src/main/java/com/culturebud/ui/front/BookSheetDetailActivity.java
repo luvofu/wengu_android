@@ -49,7 +49,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     private RecyclerView rvDetail;
     private int relationType;
     private PopupWindow pwItemMenu;
-    private BottomSheetDialog bsdDailog;
+    private BottomSheetDialog bsdDialog;
     private BottomSheetDialog bsdOperas;
     private RecyclerView rvBookSheets;
     private long userId = -1;
@@ -110,16 +110,16 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
     private void showBottomDialog() {
         initBottomDialog();
-        if (!bsdDailog.isShowing()) {
-            bsdDailog.show();
+        if (!bsdDialog.isShowing()) {
+            bsdDialog.show();
         }
     }
 
     private void initBottomDialog() {
-        if (bsdDailog == null) {
-            bsdDailog = new BottomSheetDialog(this);
-            bsdDailog.setContentView(R.layout.add_to_book_sheet);
-            rvBookSheets = (RecyclerView) bsdDailog.getWindow().findViewById(R.id.rv_book_sheets);
+        if (bsdDialog == null) {
+            bsdDialog = new BottomSheetDialog(this);
+            bsdDialog.setContentView(R.layout.add_to_book_sheet);
+            rvBookSheets = (RecyclerView) bsdDialog.getWindow().findViewById(R.id.rv_book_sheets);
             LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             rvBookSheets.setLayoutManager(llm);
             RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
@@ -127,7 +127,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             MyBookSheetAdapter mbsAdapter = new MyBookSheetAdapter();
             mbsAdapter.setOnItemClickListener(this);
             rvBookSheets.setAdapter(mbsAdapter);
-            bsdDailog.setCancelable(true);
+            bsdDialog.setCancelable(true);
         }
     }
 
@@ -362,8 +362,8 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
     @Override
     public void onItemClick(View v, BookSheet bookSheet) {
-        if (bsdDailog != null && bsdDailog.isShowing()) {
-            bsdDailog.dismiss();
+        if (bsdDialog != null && bsdDialog.isShowing()) {
+            bsdDialog.dismiss();
         }
         if (bookSheet != null && currClickSheetBook != null) {
             presenter.bookSheetAddBook(bookSheet.getSheetId(), currClickSheetBook.getBookId());

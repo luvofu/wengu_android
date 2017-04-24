@@ -7,8 +7,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
@@ -16,15 +20,19 @@ import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
+import com.culturebud.adapter.MyBookSheetAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookDetail;
+import com.culturebud.bean.BookSheet;
 import com.culturebud.contract.BookDetailContract;
 import com.culturebud.presenter.BookDetailPresenter;
 import com.culturebud.ui.community.BookCommunityActivity;
+import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 
+import java.util.List;
 import java.util.Locale;
 
 /**
@@ -32,7 +40,8 @@ import java.util.Locale;
  */
 
 @PresenterInject(BookDetailPresenter.class)
-public class BookDetailActivity extends BaseActivity<BookDetailContract.Presenter> implements BookDetailContract.View {
+public class BookDetailActivity extends BaseActivity<BookDetailContract.Presenter> implements BookDetailContract
+        .View, MyBookSheetAdapter.OnItemClickListener {
     private SimpleDraweeView sdvCover;
     private TextView tvBookName, tvRating, tvPublisherInfo;
     private RatingBar rbRating;
@@ -41,6 +50,9 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
     private ImageView ivOpenSummary, ivOpenAuthorInfo;
     private SettingItemView sivMore;
     private RelativeLayout rlDetailTop;
+
+    private BottomSheetDialog bsdDialog;
+    private RecyclerView rvBookSheets;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +104,35 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
             return;
         }
         presenter.getBookDetail(bookId);
+    }
+
+    private void initBottomDialog() {
+        if (bsdDialog == null) {
+            bsdDialog = new BottomSheetDialog(this);
+            bsdDialog.setContentView(R.layout.add_to_book_sheet);
+            rvBookSheets = (RecyclerView) bsdDialog.getWindow().findViewById(R.id.rv_book_sheets);
+            LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+            rvBookSheets.setLayoutManager(llm);
+            RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
+            rvBookSheets.addItemDecoration(divider);
+            MyBookSheetAdapter mbsAdapter = new MyBookSheetAdapter();
+            mbsAdapter.setOnItemClickListener(this);
+            rvBookSheets.setAdapter(mbsAdapter);
+            bsdDialog.setCancelable(true);
+        }
+    }
+
+    private void showBottomDialog() {
+        initBottomDialog();
+        if (!bsdDialog.isShowing()) {
+            bsdDialog.show();
+        }
+    }
+
+    private void hideBottomDialog() {
+        if (bsdDialog != null && bsdDialog.isShowing()) {
+            bsdDialog.dismiss();
+        }
     }
 
     @Override
@@ -157,6 +198,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
                 startActivity(intent);
                 break;
             }
+            case R.id.tv_add: {
+                showBottomDialog();
+                presenter.getMySheets();
+                break;
+            }
         }
 
     }
@@ -190,7 +236,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
     }
 
     private void refreshCollectView() {
-        Drawable collDrawable = null;
+        Drawable collDrawable;
         if (bookDetail.isCollect()) {
             collDrawable = getResources().getDrawable(R.mipmap.collect_icon_checked);
         } else {
@@ -216,6 +262,31 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         refreshCollectView();
     }
 
+    @Override
+    public void onMySheets(List<BookSheet> bookSheets) {
+        if (rvBookSheets != null && rvBookSheets.getAdapter() != null) {
+            ((MyBookSheetAdapter) rvBookSheets.getAdapter()).clearData();
+            if (bookSheets.size() > 3) {
+                ViewGroup.LayoutParams params = rvBookSheets.getLayoutParams();
+                params.height = getResources().getDimensionPixelSize(R.dimen.my_sheet_max_height);
+                rvBookSheets.setLayoutParams(params);
+            }
+            ((MyBookSheetAdapter) rvBookSheets.getAdapter()).addItems(bookSheets);
+        }
+    }
+
+    @Override
+    public void onSheetAddBook(long sheetId, long bookId, boolean success) {
+
+    }
+
     private BookDetail bookDetail;
 
+    @Override
+    public void onItemClick(View v, BookSheet bookSheet) {
+        hideBottomDialog();
+        if (bookSheet != null && bookDetail != null) {
+            presenter.bookSheetAddBook(bookSheet.getSheetId(), bookDetail.getBookId());
+        }
+    }
 }
