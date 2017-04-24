@@ -68,7 +68,6 @@ public class MyCreatedBooksActivity extends BaseActivity<MyCreatedBooksContract.
     @Override
     public void onItemClick(View v, CheckedBook book, int position) {
         int status = book.getCheckStatus();
-        book = null;
         switch (status) {
             case STATUS_NO_PASS: {
                 Intent intent = new Intent(this, ManualAddBookActivity.class);
