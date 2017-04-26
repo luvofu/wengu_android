@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -38,6 +39,7 @@ public class MyFavoritesActivity extends BaseActivity {
         tlTabs.setupWithViewPager(vpFavorites, true);
         tlTabs.setTabMode(TabLayout.MODE_FIXED);
         ivBack.setOnClickListener(this);
+        vpFavorites.setOnTouchListener((v, event) -> true);
     }
 
     @Override

@@ -61,7 +61,7 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
     @Override
     public void onResume() {
         super.onResume();
-        presenter.getMyFavoriteBooks(0);
+        presenter.getMyFavoriteBooks(currentPage);
     }
 
     @Override
@@ -78,11 +78,20 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
     }
 
     @Override
+    public void onDelMyFavorite(int type, long id, boolean success) {
+        if (success) {
+            ((BooksAdapter) rvBooks.getAdapter()).deleteItem(id);
+        }
+    }
+
+    @Override
     public void onItemClick(View v, Book book, int operaType) {
         if (operaType == 0) {
             Intent intent = new Intent(getActivity(), BookDetailActivity.class);
             intent.putExtra("bookId", book.getBookId());
             startActivity(intent);
+        } else if (operaType == 1) {
+            presenter.deleteMyFavorite(0, book.getBookId());
         }
     }
 }

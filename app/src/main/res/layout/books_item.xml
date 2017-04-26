@@ -1,71 +1,91 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="15dp">
-
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_book_sheet_cover"
-        android:layout_width="60dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center_vertical"
-        fresco:actualImageScaleType="fitXY"
-        fresco:placeholderImage="@mipmap/img_placeholder"
-        fresco:placeholderImageScaleType="fitXY" />
+<com.culturebud.widget.SwipeMenuView xmlns:android="http://schemas.android.com/apk/res/android"
+                                     xmlns:fresco="http://schemas.android.com/apk/res-auto"
+                                     android:layout_width="match_parent"
+                                     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        android:padding="@dimen/common_padding_default">
 
-        <TextView
-            android:id="@+id/tv_book_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:textColor="@color/title_font_default"
-            android:textSize="14sp" />
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_book_sheet_cover"
+            android:layout_width="50dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_vertical"
+            fresco:actualImageScaleType="fitXY"
+            fresco:placeholderImage="@mipmap/img_placeholder"
+            fresco:placeholderImageScaleType="fitXY"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <RatingBar
-                android:id="@+id/rb_good_rating"
-                style="?android:attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:isIndicator="true"
-                android:max="10"
-                android:numStars="5"
-                android:progressBackgroundTint="@color/font_black_light"
-                android:progressTint="@color/orange"
-                android:secondaryProgressTint="@color/yellow"
-                android:stepSize="0.05" />
+            android:layout_marginLeft="@dimen/common_padding_default"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tv_good_num"
+                android:id="@+id/tv_book_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="8dp"
+                android:ellipsize="end"
                 android:gravity="center_vertical"
-                android:textColor="@color/font_more"
-                android:textSize="12sp" />
-        </LinearLayout>
+                android:lines="1"
+                android:textColor="@color/title_font_default"
+                android:textSize="14sp"/>
 
-        <TextView
-            android:id="@+id/tv_publisher_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textColor="@color/font_more"
-            android:textSize="12sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <RatingBar
+                    android:id="@+id/rb_good_rating"
+                    style="?android:attr/ratingBarStyleSmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:isIndicator="true"
+                    android:max="10"
+                    android:numStars="5"
+                    android:progressBackgroundTint="@color/font_black_light"
+                    android:progressTint="@color/orange"
+                    android:secondaryProgressTint="@color/yellow"
+                    android:stepSize="0.05"/>
+
+                <TextView
+                    android:id="@+id/tv_good_num"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="8dp"
+                    android:gravity="center_vertical"
+                    android:textColor="@color/font_more"
+                    android:textSize="12sp"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tv_publisher_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:lines="2"
+                android:textColor="@color/font_more"
+                android:textSize="12sp"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/common_margin_small"
+        android:layout_marginRight="@dimen/common_margin_small"
+        android:background="@color/red"
+        android:text="@string/delete"
+        android:textColor="@color/title_font_white"
+        android:textSize="@dimen/font_default"/>
+</com.culturebud.widget.SwipeMenuView>

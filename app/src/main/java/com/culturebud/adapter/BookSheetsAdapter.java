@@ -44,6 +44,22 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         notifyItemChanged(position, items.size());
     }
 
+    public void deleteItem(long id) {
+        BookSheet tmp = null;
+        int idx = 0;
+        for (BookSheet bs : data) {
+            if (bs.getSheetId() == id) {
+                tmp = bs;
+                break;
+            }
+            idx++;
+        }
+        if (tmp != null) {
+            data.remove(tmp);
+            notifyItemRemoved(idx);
+        }
+    }
+
     public void clearData() {
         if (!data.isEmpty()) {
             data.clear();

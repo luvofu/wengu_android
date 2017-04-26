@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -47,6 +48,22 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (bookId > 0) {
             addedIds.add(bookId);
             notifyDataSetChanged();
+        }
+    }
+
+    public void deleteItem(long id) {
+        Book tmp = null;
+        int idx = 0;
+        for (Book b : data) {
+            if (b.getBookId() == id) {
+                tmp = b;
+                break;
+            }
+            idx++;
+        }
+        if (tmp != null) {
+            data.remove(tmp);
+            notifyItemRemoved(idx);
         }
     }
 
@@ -191,6 +208,8 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             tvPublisherInfo = (TextView) itemView.findViewById(R.id.tv_publisher_info);
             rbGoodRating = (RatingBar) itemView.findViewById(R.id.rb_good_rating);
             tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);
+            Button btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
+            btnDel.setOnClickListener(this);
             itemView.setOnClickListener(this);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
                 LayerDrawable ld = (LayerDrawable) rbGoodRating.getProgressDrawable();
@@ -236,7 +255,11 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         @Override
         public void onClick(View v) {
             if (itemClickListener != null) {
-                itemClickListener.onItemClick(v, data.get(position), 0);
+                if (v == itemView) {
+                    itemClickListener.onItemClick(v, data.get(position), 0);
+                } else if (v.getId() == R.id.btn_delete) {
+                    itemClickListener.onItemClick(v, data.get(position), 1);
+                }
             }
         }
     }

@@ -27,7 +27,8 @@ import java.util.List;
  */
 
 @PresenterInject(MyFavoritesPresenter.class)
-public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Presenter> implements MyFavoritesContract.View, BookSheetsAdapter.OnItemClickListener {
+public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Presenter> implements MyFavoritesContract.View,
+        BookSheetsAdapter.OnItemClickListener, BookSheetsAdapter.OnItemDeleteListener {
     private static final String TAG = BookSheetsFragment.class.getSimpleName();
     private RecyclerView rvBookSheets;
     private int currentPage;
@@ -49,6 +50,7 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
         rvBookSheets.addItemDecoration(divider);
         BookSheetsAdapter adapter = new BookSheetsAdapter();
         adapter.setOnItemClickListener(this);
+        adapter.setDeleteListener(this);
         rvBookSheets.setAdapter(adapter);
         return view;
     }
@@ -73,9 +75,21 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
     }
 
     @Override
+    public void onDelMyFavorite(int type, long id, boolean success) {
+        if (success) {
+            ((BookSheetsAdapter) rvBookSheets.getAdapter()).deleteItem(id);
+        }
+    }
+
+    @Override
     public void onItemClick(View v, int position, BookSheet bookSheet) {
         Intent intent = new Intent(getActivity(), BookSheetDetailActivity.class);
         intent.putExtra("sheetId", bookSheet.getSheetId());
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemDelete(int position, BookSheet bookSheet) {
+        presenter.deleteMyFavorite(1, bookSheet.getSheetId());
     }
 }

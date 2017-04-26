@@ -6,6 +6,7 @@ import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.User;
 import com.culturebud.contract.MyFavoritesContract;
 import com.culturebud.model.MyFavoritesModel;
+import com.culturebud.util.ApiException;
 
 import java.util.List;
 import java.util.Map;
@@ -75,6 +76,36 @@ public class MyFavoritesPresenter extends MyFavoritesContract.Presenter {
                         view.onBookSheets(map.get(key));
                     }
                 }
+            }
+        });
+    }
+
+    @Override
+    public void deleteMyFavorite(int type, long id) {
+        if (!validateToken()) {
+            return;
+        }
+        view.showProDialog();
+        model.collectDel(BaseApp.getInstance().getUser().getToken(), type, id)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+                view.hideProDialog();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                view.hideProDialog();
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onDelMyFavorite(type, id, aBoolean);
             }
         });
     }

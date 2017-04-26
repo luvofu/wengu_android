@@ -83,7 +83,7 @@ public abstract class BookBaseModel extends BaseModel {
                         public void onNext(ApiResultBean<JsonObject> bean) {
                             int code = bean.getCode();
                             if (code == ApiErrorCode.CODE_SUCCESS) {
-                                subscriber.onNext(false);
+                                subscriber.onNext(true);
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));
                             }
