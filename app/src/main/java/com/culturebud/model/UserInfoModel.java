@@ -30,7 +30,7 @@ public class UserInfoModel extends UserInfoContract.Model {
     }
 
     @Override
-    public Observable<Boolean> updateLocelUser(User user) {
+    public Observable<Boolean> updateLocalUser(User user) {
         return Observable.create(subscriber -> {
             try {
                 initUserDAO();
@@ -117,6 +117,39 @@ public class UserInfoModel extends UserInfoContract.Model {
                 params.put(TOKEN_KEY, token);
             }
             params.put("autograph", autograph);
+            initRetrofit().create(ApiMeInterface.class).editProfile(params)
+                    .subscribe(new Subscriber<ApiResultBean<User>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<User> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(bean.getData());
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    @Override
+    public Observable<User> alterSex(String token, int sex) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("sex", sex);
             initRetrofit().create(ApiMeInterface.class).editProfile(params)
                     .subscribe(new Subscriber<ApiResultBean<User>>() {
                         @Override

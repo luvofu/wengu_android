@@ -15,13 +15,15 @@ public interface UserInfoContract {
 
     abstract class Model extends BaseModel {
 
-        public abstract Observable<Boolean> updateLocelUser(User user);
+        public abstract Observable<Boolean> updateLocalUser(User user);
 
         public abstract Observable<User> alterNick(String token, String nick);
 
         public abstract Observable<User> alterEmail(String token, String email);
 
         public abstract Observable<User> alterAutograph(String token, String autograph);
+
+        public abstract Observable<User> alterSex(String token, int sex);
 
     }
 
@@ -34,6 +36,8 @@ public interface UserInfoContract {
         void onEmail(String email);
 
         void onAutograph(String autograph);
+
+        void onSex(int sex);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -44,5 +48,7 @@ public interface UserInfoContract {
         public abstract void editEmail(String email);
 
         public abstract void editAutograph(String autograph);
+
+        public abstract void editSex(int sex);
     }
 }

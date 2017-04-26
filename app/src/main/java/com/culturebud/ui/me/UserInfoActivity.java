@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
 import com.culturebud.R;
@@ -15,6 +16,8 @@ import com.culturebud.contract.UserInfoContract;
 import com.culturebud.presenter.UserInfoPresenter;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
+
+import java.util.ArrayList;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_EMAIL;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_NICK;
@@ -27,11 +30,12 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 
 @PresenterInject(UserInfoPresenter.class)
 public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
-        implements UserInfoContract.View {
+        implements UserInfoContract.View, OptionsPickerView.OnOptionsSelectListener {
     private static final String TAG = UserInfoActivity.class.getSimpleName();
     private SimpleDraweeView sdvFace;
     private LinearLayout llFace;
     private SettingItemView sivNick, sivCulturebudName, sivSex, sivEmail, sivRegion, sivProfile;
+    private OptionsPickerView opvSex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +55,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         setListeners();
 
         initData();
+        sivRegion.setVisibility(View.GONE);//暂隐藏
     }
 
     private void setListeners() {
@@ -60,6 +65,30 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         sivEmail.setOnClickListener(this);
         sivRegion.setOnClickListener(this);
         sivProfile.setOnClickListener(this);
+    }
+
+    private void initSexOpera() {
+        if (opvSex == null) {
+            opvSex = new OptionsPickerView(this);
+            ArrayList<String> items = new ArrayList<>();
+            items.add("男");
+            items.add("女");
+            items.add("保密");
+            opvSex.setPicker(items);
+            opvSex.setOnoptionsSelectListener(this);
+            opvSex.setCyclic(false);
+        }
+    }
+
+    private void showSexOpera() {
+        initSexOpera();
+        if (!opvSex.isShowing()) {
+            User user = BaseApp.getInstance().getUser();
+            if (user != null) {
+                opvSex.setSelectOptions(user.getSex());
+            }
+            opvSex.show();
+        }
     }
 
     @Override
@@ -87,7 +116,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 sivCulturebudName.setRightInfo(R.string.no_fill);
             }
             int sex = user.getSex();
-            sivSex.setRightInfo(sex == 0 ? "男" : "女");
+            sivSex.setRightInfo(sex == 0 ? "男" : sex == 1 ? "女" : "保密");
             String email = user.getMailbox();
             if (!TextUtils.isEmpty(email)) {
                 sivEmail.setRightInfo(email);
@@ -145,6 +174,11 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 intent.putExtra("content", BaseApp.getInstance().getUser().getAutograph());
                 intent.putExtra("type", 2);
                 startActivityForResult(intent, REQUEST_CODE_ALTER_PROFILE);
+                break;
+            }
+            case R.id.siv_sex://性别
+            {
+                showSexOpera();
                 break;
             }
         }
@@ -220,5 +254,28 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
     @Override
     public void onAutograph(String autograph) {
 
+    }
+
+    @Override
+    public void onSex(int sex) {
+        if (opvSex != null && opvSex.isShowing()) {
+            opvSex.setSelectOptions(sex);
+        }
+    }
+
+    @Override
+    public void onOptionsSelect(int options1, int option2, int options3) {
+        switch (options1) {
+            case 0://男
+                sivSex.setRightInfo("男");
+                break;
+            case 1://女
+                sivSex.setRightInfo("女");
+                break;
+            case 2://保密
+                sivSex.setRightInfo("保密");
+                break;
+        }
+        presenter.editSex(options1);
     }
 }

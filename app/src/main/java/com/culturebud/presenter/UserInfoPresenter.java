@@ -1,8 +1,6 @@
 package com.culturebud.presenter;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.text.TextUtils;
 import android.util.Log;
 
 import com.culturebud.BaseApp;
@@ -139,8 +137,35 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
                 });
     }
 
+    @Override
+    public void editSex(int sex) {
+        if (!validateToken()) {
+            return;
+        }
+        model.alterSex(BaseApp.getInstance().getUser().getToken(), sex)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        view.onSex(user.getSex());
+                        BaseApp.getInstance().getUser().setSex(user.getSex());
+                        updateLocalUser();
+                    }
+                });
+    }
+
     private void updateLocalUser() {
-        model.updateLocelUser(BaseApp.getInstance().getUser()).subscribeOn(Schedulers.io())
+        model.updateLocalUser(BaseApp.getInstance().getUser()).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
