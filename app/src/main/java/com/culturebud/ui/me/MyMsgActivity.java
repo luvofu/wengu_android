@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.MyMsgsAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -22,7 +23,7 @@ import java.util.List;
 
 @PresenterInject(MyMsgsPresenter.class)
 public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
-        implements MyMsgsContract.View {
+        implements MyMsgsContract.View, MyMsgsAdapter.OnAgreeListener {
     private static final String TAG = MyMsgActivity.class.getSimpleName();
     private RecyclerView rvMyMsgs;
     private int currentPage;
@@ -39,7 +40,9 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
         rvMyMsgs.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
         rvMyMsgs.addItemDecoration(divider);
-        rvMyMsgs.setAdapter(new MyMsgsAdapter());
+        MyMsgsAdapter adapter = new MyMsgsAdapter();
+        adapter.setOnAgreeListener(this);
+        rvMyMsgs.setAdapter(adapter);
     }
 
     @Override
@@ -66,5 +69,18 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
             ((MyMsgsAdapter) rvMyMsgs.getAdapter()).clearData();
         }
         ((MyMsgsAdapter) rvMyMsgs.getAdapter()).addItems(msgs);
+    }
+
+    @Override
+    public void onAgreeInvite(long messageId, boolean success) {
+        if (success) {
+            ((MyMsgsAdapter) rvMyMsgs.getAdapter()).updateItemStatus(messageId, CommonConst.MessageDealStatus
+                    .STATUS_ACCEPT);
+        }
+    }
+
+    @Override
+    public void onAgree(View v, UserMessage userMessage) {
+        presenter.agreeInvite(userMessage.getMessageId());
     }
 }

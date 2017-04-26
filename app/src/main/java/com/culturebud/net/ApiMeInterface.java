@@ -160,4 +160,8 @@ public interface ApiMeInterface {
     @POST(CommonConst.PATH_USER_MSG_INVITE_FRIEND)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> inviteFriend(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_USER_MSG_AGREE_INVITE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> agreeInvite(@FieldMap Map<String, Object> params);
 }

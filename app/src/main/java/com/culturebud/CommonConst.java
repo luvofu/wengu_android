@@ -53,6 +53,8 @@ public final class CommonConst {
 
     public static final String PATH_USER_MSG_INVITE_FRIEND = "api/userMessage/friendInvite";
 
+    public static final String PATH_USER_MSG_AGREE_INVITE = "api/userMessage/agreeFriendInvite";
+
     public static final String PATH_EDIT_IMG = "api/common/editIMG";
 
     public static final String PATH_DELETE_IMG = "api/common/deleteIMG";
