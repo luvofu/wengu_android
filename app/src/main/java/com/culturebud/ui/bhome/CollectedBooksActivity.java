@@ -14,6 +14,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -314,21 +316,37 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
     }
 
+    private static long lastClickTime;
+
     private void switchCategoryDlg() {
+        Log.d("category", "switchCategoryDlg()");
+        long tmp = System.currentTimeMillis() - lastClickTime;
+        Log.d("category", "tmp = " + tmp);
+        if (tmp < 1000) {
+            return;
+        }
+        Log.d("category", "is showing " + lastClickTime);
+        lastClickTime = System.currentTimeMillis();
         if (ppwCategory == null || !ppwCategory.isShowing()) {
             showCategoryDlg();
+            Log.d("category", "is showing " + ppwCategory.isShowing());
             presenter.getCategoryStatistics();
         } else {
+            Log.d("category", "is showing " + ppwCategory.isShowing());
             hideCategoryDlg();
         }
     }
 
     private void showCategoryDlg() {
         setTitleRightIcon(R.mipmap.ic_arrow_white_up);
+        Log.d("category", "ppw = " + ppwCategory);
         initCategoryDlg();
+        Log.d("category", "category is showing " + ppwCategory.isShowing());
         if (!ppwCategory.isShowing()) {
-            ppwCategory.showAsDropDown(getToolbar());
+//            ppwCategory.showAsDropDown(getToolbar());
+            ppwCategory.showAtLocation(getToolbar(), Gravity.NO_GRAVITY, 0, getToolbar().getBottom());
         }
+        Log.d("category", "ppw = " + ppwCategory);
     }
 
     private void hideCategoryDlg() {
