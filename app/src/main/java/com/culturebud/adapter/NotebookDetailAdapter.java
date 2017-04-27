@@ -37,9 +37,14 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
 
     private NotebookDetail nbDetail;
     private List<Note> data;
+    private boolean hasHeader = true;
 
     public NotebookDetailAdapter() {
         data = new ArrayList<>();
+    }
+
+    public void setHasHeader(boolean hasHeader) {
+        this.hasHeader = hasHeader;
     }
 
     public void clearData() {
@@ -66,6 +71,10 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
                 return;
             }
         }
+        deleteNote(noteId);
+    }
+
+    public void deleteNote(long noteId) {
         for (int i = 0; i < data.size(); i++) {
             Note note = data.get(i);
             if (note.getNoteId() == noteId) {
@@ -78,7 +87,7 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
 
     @Override
     public int getItemViewType(int position) {
-        if (position == 0) {
+        if (position == 0 && hasHeader) {
             return TYPE_NOTEBOOK_DETAIL;
         } else {
             return TYPE_NOTE;
@@ -98,7 +107,7 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        if (position == 0) {
+        if (position == 0 && hasHeader) {
             NotebookDetailViewHolder nbdHolder = (NotebookDetailViewHolder) holder;
             nbdHolder.position = position;
             nbdHolder.setNotebookCover(nbDetail.getCover());
@@ -107,8 +116,9 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
             nbdHolder.setNotePermission(nbDetail.getPermission());
             nbdHolder.setNotebookCreateTime(nbDetail.getCreatedTime());
         } else {
+            int idx = hasHeader ? position - 1 : position;
             NoteViewHolder noteHolder = (NoteViewHolder) holder;
-            Note item = data.get(position - 1);
+            Note item = data.get(idx);
             noteHolder.note = item;
             noteHolder.setNoteContent(item.getContent());
             noteHolder.setImage(item.getImage());
@@ -119,10 +129,14 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
 
     @Override
     public int getItemCount() {
-        if (nbDetail == null) {
-            return 0;
+        if (hasHeader) {
+            if (nbDetail == null) {
+                return 0;
+            }
+            return data.size() + 1;
+        } else {
+            return data.size();
         }
-        return data.size() + 1;
     }
 
     public void setNotebookDetail(NotebookDetail notebookDetail) {
@@ -223,6 +237,9 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
             tvUpdateTime = (TextView) itemView.findViewById(R.id.tv_update_time);
             ivOperas.setOnClickListener(this);
             sdvImg.setOnClickListener(this);
+            if (!hasHeader) {
+                ivOperas.setVisibility(View.INVISIBLE);
+            }
         }
 
         public void setImage(String url) {

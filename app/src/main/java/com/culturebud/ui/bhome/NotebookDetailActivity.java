@@ -55,7 +55,8 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         super.onCreate(savedInstanceState);
         presenter.setView(this);
         rvNotes = new RecyclerView(this);
-        rvNotes.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        rvNotes.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup
+                .LayoutParams.MATCH_PARENT));
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvNotes.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
@@ -67,25 +68,20 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         rvNotes.setAdapter(adapter);
         showTitlebar();
         setTitle(R.string.detail);
-        showOperas();
-        setOperasDrawable(R.drawable.titlebar_add_selector);
         long notebookId = getIntent().getLongExtra("notebookId", -1);
         userId = getIntent().getLongExtra("user_id", -1);
         if (notebookId == -1) {
             return;
         }
-        presenter.notebookDetail(notebookId);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
         User user = BaseApp.getInstance().getUser();
         if (user != null && user.getUserId() == userId) {
             showOperas();
             setOperasDrawable(R.drawable.titlebar_add_selector);
+            presenter.notebookDetail(notebookId);
         } else {
             hideOpears();
+            adapter.setHasHeader(false);
+            presenter.notesForNotebook(notebookId, currentPage);
         }
     }
 
@@ -220,7 +216,8 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
                 }
                 int[] locs = new int[2];
                 v.getLocationOnScreen(locs);
-                int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v.getHeight() / 2;
+                int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v.getHeight
+                        () / 2;
                 pwItemMenu.showAtLocation(v, Gravity.NO_GRAVITY, locs[0], y);
                 break;
             case NotebookDetailAdapter.OPERA_TYPE_NOTE_PREVIEW_PIC: {
