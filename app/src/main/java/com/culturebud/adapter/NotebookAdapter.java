@@ -10,8 +10,10 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.Notebook;
+import com.culturebud.bean.User;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.SwipeMenuView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -29,6 +31,11 @@ import java.util.Locale;
 public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder> {
     private List<Notebook> data;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm", Locale.getDefault());
+    private long userId;
+
+    public void setUserId(long userId) {
+        this.userId = userId;
+    }
 
     public NotebookAdapter() {
         data = new ArrayList<>();
@@ -74,6 +81,7 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         holder.setBookName(item.getTitle()/* + "." + item.getName()*/);
         holder.setBookNum(item.getNoteNum());
         holder.setCreateTime(item.getCreatedTime());
+        holder.canDelete();
     }
 
     @Override
@@ -99,6 +107,15 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
             btnDel.setOnClickListener(this);
             rlItem = WidgetUtil.obtainViewById(itemView, R.id.rl_item);
             rlItem.setOnClickListener(this);
+        }
+
+        public void canDelete() {
+            User user = BaseApp.getInstance().getUser();
+            if (user != null && user.getUserId() == userId) {
+                btnDel.setVisibility(View.VISIBLE);
+            } else {
+                btnDel.setVisibility(View.GONE);
+            }
         }
 
         public void setBookCover(String url) {

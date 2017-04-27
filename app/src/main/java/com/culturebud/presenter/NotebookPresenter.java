@@ -24,12 +24,12 @@ public class NotebookPresenter extends NotebookContract.Presenter {
     }
 
     @Override
-    public void myNotebooks(int page) {
+    public void userNotebooks(int page, long userId) {
         if (!validateToken()) {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        model.myNotebooks(user.getToken(), user.getUserId(), page)
+        model.userNotebooks(user.getToken(), userId, page)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<List<Notebook>>() {
             @Override

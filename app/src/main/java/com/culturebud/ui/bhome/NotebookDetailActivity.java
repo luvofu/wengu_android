@@ -14,12 +14,14 @@ import android.widget.PopupWindow;
 
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.CommonConst.ContentPermission;
 import com.culturebud.R;
 import com.culturebud.adapter.NotebookDetailAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Note;
 import com.culturebud.bean.NotebookDetail;
+import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookDetailContract;
 import com.culturebud.presenter.NotebookDetailPresenter;
 import com.culturebud.ui.image.PreviewBigImgActivity;
@@ -46,6 +48,7 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
     private NotebookDetail notebookDetail;
     private int currentPage;
     private PopupWindow pwItemMenu;
+    private long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +70,23 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         showOperas();
         setOperasDrawable(R.drawable.titlebar_add_selector);
         long notebookId = getIntent().getLongExtra("notebookId", -1);
+        userId = getIntent().getLongExtra("user_id", -1);
         if (notebookId == -1) {
             return;
         }
         presenter.notebookDetail(notebookId);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        User user = BaseApp.getInstance().getUser();
+        if (user != null && user.getUserId() == userId) {
+            showOperas();
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+        } else {
+            hideOpears();
+        }
     }
 
     private void initItemMenu() {

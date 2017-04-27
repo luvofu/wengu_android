@@ -12,7 +12,7 @@ import rx.Observable;
 
 public interface NotebookContract {
     abstract class Model extends BaseModel {
-        public abstract Observable<List<Notebook>> myNotebooks(String token, long userId, int page);
+        public abstract Observable<List<Notebook>> userNotebooks(String token, long userId, int page);
 
         public abstract Observable<Boolean> deleteNotebook(String token, long notebookId);
     }
@@ -24,7 +24,7 @@ public interface NotebookContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void myNotebooks(int page);
+        public abstract void userNotebooks(int page, long userId);
 
         public abstract void deleteNotebook(Notebook notebook);
     }

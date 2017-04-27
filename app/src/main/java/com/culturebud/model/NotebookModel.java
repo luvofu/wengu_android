@@ -25,7 +25,7 @@ import rx.Subscriber;
 
 public class NotebookModel extends NotebookContract.Model {
     @Override
-    public Observable<List<Notebook>> myNotebooks(String token, long userId, int page) {
+    public Observable<List<Notebook>> userNotebooks(String token, long userId, int page) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             if (!TextUtils.isEmpty(token)) {

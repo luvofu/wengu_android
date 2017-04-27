@@ -6,18 +6,16 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Toast;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
-import com.culturebud.adapter.CollectedBooksAdapter;
 import com.culturebud.adapter.NotebookAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Notebook;
+import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookContract;
 import com.culturebud.presenter.NotebookPresenter;
 import com.culturebud.widget.RecyclerViewDivider;
@@ -36,6 +34,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     private RecyclerView rvNotebooks;
     private int currentPage;
     private boolean loading = true;
+    private long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +54,6 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         setContentView(rvNotebooks);
         showTitlebar();
         setTitle(R.string.note);
-        showOperas();
-        setOperasDrawable(R.drawable.titlebar_add_selector);
     }
 
     @Override
@@ -68,7 +65,18 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.myNotebooks(currentPage);
+        Intent intent = getIntent();
+        User user = BaseApp.getInstance().getUser();
+        long defaultId = user != null ? user.getUserId() : -1;
+        userId = intent.getLongExtra("user_id", defaultId);
+        if (user != null && userId == user.getUserId()) {
+            showOperas();
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+        } else {
+            hideOpears();
+        }
+        ((NotebookAdapter) rvNotebooks.getAdapter()).setUserId(userId);
+        presenter.userNotebooks(currentPage, userId);
     }
 
     @Override
@@ -106,7 +114,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
             case REQUEST_CREATE_NOTEBOOK:
                 if (resultCode == RESULT_OK) {
                     currentPage = 0;
-                    presenter.myNotebooks(currentPage);
+                    presenter.userNotebooks(currentPage, userId);
                 }
                 break;
         }
@@ -122,7 +130,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
 // .findLastVisibleItemPosition();
 //                int total = recyclerView.getLayoutManager().getItemCount();
 //                if (!loading && (lastPosition + 1 >= total)) {
-//                    presenter.myNotebooks(++currentPage);
+//                    presenter.userNotebooks(++currentPage);
 //                    loading = true;
 //                }
 //            } else {
@@ -137,6 +145,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
             case 0:
                 Intent intent = new Intent(this, NotebookDetailActivity.class);
                 intent.putExtra("notebookId", notebook.getNotebookId());
+                intent.putExtra("user_id", userId);
                 startActivity(intent);
                 break;
             case 1://删除
