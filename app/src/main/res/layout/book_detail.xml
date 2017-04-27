@@ -12,86 +12,107 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:id="@+id/rl_book_detail_top"
+        <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/litter_gray_bg_border"
-            android:gravity="center_vertical">
+            android:layout_height="180dp"
+            app:theme="@style/TitlebarTheme">
 
-            <View
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/ctl"
                 android:layout_width="match_parent"
-                android:layout_height="120dp"
-                android:background="@color/blur_scrim"/>
+                android:layout_height="match_parent"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <com.facebook.drawee.view.SimpleDraweeView
-                android:id="@+id/sdv_book_sheet_cover"
-                android:layout_width="80dp"
-                android:layout_height="100dp"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                fresco:actualImageScaleType="fitXY"
-                fresco:placeholderImage="@mipmap/img_placeholder"
-                fresco:placeholderImageScaleType="fitXY"/>
-
-            <TextView
-                android:id="@+id/tv_book_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_toRightOf="@id/sdv_book_sheet_cover"
-                android:gravity="center_vertical"
-                android:textColor="@color/title_font_default"
-                android:textSize="14sp"
-                tools:text="夏日启示录"/>
-
-            <LinearLayout
-                android:id="@+id/ll_rating_c"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/tv_book_name"
-                android:layout_below="@id/tv_book_name"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <RatingBar
-                    android:id="@+id/rb_rating"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:layout_width="wrap_content"
+                <RelativeLayout
+                    android:id="@+id/rl_book_detail_top"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:max="5"
-                    android:progressBackgroundTint="@color/font_black_light"
-                    android:progressTint="@color/orange"
-                    android:rating="3"
-                    android:secondaryProgressTint="@color/yellow"
-                    android:stepSize="0.1"/>
+                    android:background="@color/litter_gray_bg_border"
+                    android:gravity="center_vertical">
 
-                <TextView
-                    android:id="@+id/tv_rating_num"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    android:gravity="center"
-                    android:text="@string/fill_score"
-                    android:textColor="@color/title_font_default"
-                    android:textSize="12sp"/>
-            </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="180dp"
+                        android:background="@color/blur_scrim"/>
 
-            <TextView
-                android:id="@+id/tv_publisher_info"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@id/tv_book_name"
-                android:layout_below="@id/ll_rating_c"
-                android:layout_marginTop="8dp"
-                android:gravity="center_vertical"
-                android:textColor="@color/title_font_default"
-                android:textSize="12sp"
-                tools:text="[日]笠井洁 著 / 简之 译 / 新星出版社 / 2016-8 "/>
-        </RelativeLayout>
+                    <com.facebook.drawee.view.SimpleDraweeView
+                        android:id="@+id/sdv_book_sheet_cover"
+                        android:layout_width="80dp"
+                        android:layout_height="100dp"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:layout_marginTop="?attr/actionBarSize"
+                        fresco:actualImageScaleType="fitXY"
+                        fresco:placeholderImage="@mipmap/img_placeholder"
+                        fresco:placeholderImageScaleType="fitXY"/>
+
+                    <TextView
+                        android:id="@+id/tv_book_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="?attr/actionBarSize"
+                        android:layout_toRightOf="@id/sdv_book_sheet_cover"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/title_font_default"
+                        android:textSize="14sp"
+                        tools:text="夏日启示录"/>
+
+                    <LinearLayout
+                        android:id="@+id/ll_rating_c"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/tv_book_name"
+                        android:layout_below="@id/tv_book_name"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <RatingBar
+                            android:id="@+id/rb_rating"
+                            style="?android:attr/ratingBarStyleSmall"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:max="5"
+                            android:progressBackgroundTint="@color/font_black_light"
+                            android:progressTint="@color/orange"
+                            android:rating="3"
+                            android:secondaryProgressTint="@color/yellow"
+                            android:stepSize="0.1"/>
+
+                        <TextView
+                            android:id="@+id/tv_rating_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:gravity="center"
+                            android:text="@string/fill_score"
+                            android:textColor="@color/title_font_default"
+                            android:textSize="12sp"/>
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tv_publisher_info"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignLeft="@id/tv_book_name"
+                        android:layout_below="@id/ll_rating_c"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:textColor="@color/title_font_default"
+                        android:textSize="12sp"
+                        tools:text="[日]笠井洁 著 / 简之 译 / 新星出版社 / 2016-8 "/>
+                </RelativeLayout>
+
+                <android.support.v7.widget.Toolbar
+                    android:id="@+id/tlb"
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    app:layout_collapseMode="parallax"
+                    app:popupTheme="@style/TitlebarPopupTheme"
+                    app:theme="@style/TitlebarTheme"/>
+            </android.support.design.widget.CollapsingToolbarLayout>
+        </android.support.design.widget.AppBarLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
