@@ -13,13 +13,19 @@ import rx.Observable;
 public interface NotebookContract {
     abstract class Model extends BaseModel {
         public abstract Observable<List<Notebook>> myNotebooks(String token, long userId, int page);
+
+        public abstract Observable<Boolean> deleteNotebook(String token, long notebookId);
     }
 
     interface View extends BaseView {
         void onNotebooks(List<Notebook> notebooks);
+
+        void onDeleteNotebook(Notebook notebook, boolean success);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
         public abstract void myNotebooks(int page);
+
+        public abstract void deleteNotebook(Notebook notebook);
     }
 }

@@ -165,6 +165,8 @@ public final class CommonConst {
 
     public static final String PATH_NOTEBOOK_CREATE = "api/notebook/add";
 
+    public static final String PATH_NOTEBOOK_DELETE = "api/notebook/delete";
+
     public static final String PATH_NOTEBOOK_PERMISSION_EDIT = "api/notebook/editPermission";
 
     public static final String PATH_NOTEBOOK_EDIT = "api/notebook/edit";

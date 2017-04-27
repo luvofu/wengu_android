@@ -92,6 +92,10 @@ public interface ApiBookHomeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> createNoteBook(@FieldMap Map<String, Object> params);
 
+    @POST(CommonConst.PATH_NOTEBOOK_DELETE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> deleteNotebook(@FieldMap Map<String, Object> params);
+
     /**
      * String token;令牌
      * long notebookId;笔记本id

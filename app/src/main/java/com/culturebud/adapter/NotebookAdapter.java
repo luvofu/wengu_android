@@ -6,10 +6,14 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.culturebud.R;
 import com.culturebud.bean.Notebook;
+import com.culturebud.util.WidgetUtil;
+import com.culturebud.widget.SwipeMenuView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.SimpleDateFormat;
@@ -45,6 +49,17 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         }
     }
 
+    public void deleteItem(Notebook notebook) {
+        if (notebook == null) {
+            return;
+        }
+        int idx = data.indexOf(notebook);
+        if (idx >= 0) {
+            data.remove(notebook);
+            notifyItemRemoved(idx);
+        }
+    }
+
     @Override
     public NotebookViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new NotebookViewHolder(LayoutInflater.from(parent.getContext())
@@ -71,14 +86,19 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         private TextView tvBookName, tvNoteNum;
         private TextView tvCreateTime;
         private int position;
+        private Button btnDel;
+        private RelativeLayout rlItem;
 
         public NotebookViewHolder(View itemView) {
             super(itemView);
-            itemView.setOnClickListener(this);
             sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvNoteNum = (TextView) itemView.findViewById(R.id.tv_note_num);
             tvCreateTime = (TextView) itemView.findViewById(R.id.tv_create_time);
+            btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
+            btnDel.setOnClickListener(this);
+            rlItem = WidgetUtil.obtainViewById(itemView, R.id.rl_item);
+            rlItem.setOnClickListener(this);
         }
 
         public void setBookCover(String url) {
@@ -105,8 +125,12 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
 
         @Override
         public void onClick(View view) {
-            if (view == itemView && onItemClickListener != null) {
-                onItemClickListener.onItemClick(position, view, data.get(position));
+            if (onItemClickListener != null) {
+                if (view == rlItem) {
+                    onItemClickListener.onItemClick(position, view, data.get(position), 0);
+                } else if (view == btnDel) {
+                    onItemClickListener.onItemClick(position, view, data.get(position), 1);
+                }
             }
         }
     }
@@ -116,7 +140,8 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
     public void setOnItemClickListener(OnItemClickListener listener) {
         onItemClickListener = listener;
     }
+
     public interface OnItemClickListener {
-        void onItemClick(int position, View v, Notebook notebook);
+        void onItemClick(int position, View v, Notebook notebook, int operaType);
     }
 }
