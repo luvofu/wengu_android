@@ -25,6 +25,14 @@ import com.culturebud.presenter.LoginPresenter;
 import com.culturebud.ui.WelcomeActivity;
 import com.culturebud.vo.Tag;
 
+import java.util.HashMap;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.friends.Wechat;
+
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_REGIST;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_RETRIEVE_PASSWORD;
 
@@ -33,7 +41,8 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_RETRIEVE_PASSW
  */
 
 @PresenterInject(LoginPresenter.class)
-public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View {
+public class LoginActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View,
+        PlatformActionListener {
     private static final String TAG = "LoginActivity";
     private EditText etUserName, etPassword;
     private TextView tvRegist;
@@ -95,7 +104,36 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 startActivityForResult(new Intent(this, RetrievePasswordActivity.class),
                         REQUEST_CODE_RETRIEVE_PASSWORD);
                 break;
+            case R.id.iv_weibo:
+                Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
+                authorize(weibo);
+                break;
+            case R.id.iv_wechat:
+                    Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+                authorize(wechat);
+                break;
         }
+    }
+    private void authorize(Platform plat) {
+        if (plat == null) {
+//            popupOthers();
+            onErrorTip("平台为空");
+            return;
+        }
+
+        if(plat.isAuthValid()) {
+            String userId = plat.getDb().getUserId();
+            if (userId != null) {
+                Log.d(TAG, userId + ", " + plat.getDb().getUserName());
+                return;
+            }
+        }
+
+        plat.setPlatformActionListener(this);
+        //关闭SSO授权
+        plat.SSOSetting(true);
+        plat.showUser(null);
+//        plat.authorize();
     }
 
     @Override
@@ -148,4 +186,20 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         }
     }
 
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        Log.i(TAG, platform.getName() + "");
+        Log.i(TAG, hashMap + "");
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+        Log.e(TAG, "onError()");
+        Log.e(TAG, throwable.getMessage());
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+        Log.e(TAG, "onCancel()");
+    }
 }
