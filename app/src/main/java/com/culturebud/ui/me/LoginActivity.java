@@ -84,6 +84,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     private void showBindingDlg() {
         initBindingDlg();
+        etPhone.setText("");
+        etValidCode.setText("");
         ppwBinding.show();
         WindowManager.LayoutParams params = ppwBinding.getWindow().getAttributes();
         DisplayMetrics dm = new DisplayMetrics();
@@ -158,9 +160,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
                 authorize(wechat);
                 break;
             case R.id.btn_confirm:
-                presenter.thirdBindLogin(etValidCode.getText().toString(), etPhone.getText().toString(), 0, uid,
+                presenter.thirdBindLogin(etValidCode.getText().toString(), etPhone.getText().toString(), thirdType, uid,
                         nickname, sex, null, null, avatar);
-                hideBindingDlg();
                 break;
             case R.id.tv_obtain_code:
                 presenter.getSecurityCode(etPhone.getText().toString(), thirdType);
@@ -202,6 +203,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     @Override
     public void loginSuccess(User user) {
+        hideBindingDlg();
         Intent intent = getIntent();
         intent.putExtra("res", true);
         setResult(RESULT_OK, intent);
@@ -276,11 +278,9 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         Log.i(TAG, hashMap + "");
         Log.i(TAG, platform.getDb().getUserId() + ", " + platform.getDb().getUserName() + ", " + platform.getDb()
                 .getUserGender());
-        switch (action) {
-            case Platform.ACTION_USER_INFOR:
-
-                break;
-        }
+        uid = null;
+        nickname = null;
+        avatar = null;
 
         if (Wechat.NAME.equalsIgnoreCase(platform.getName())) {
             thirdType = CommonConst.ThirdType.TYPE_WECHAT;
@@ -291,6 +291,9 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             runOnUiThread(() -> presenter.thirdLogin(uid, nickname, 0));
         } else if (SinaWeibo.NAME.equalsIgnoreCase(platform.getName())) {
             thirdType = CommonConst.ThirdType.TYPE_SINA_WEIBO;
+            uid = platform.getDb().getUserId();
+            nickname = platform.getDb().getUserName();
+            runOnUiThread(() -> presenter.thirdLogin(uid, nickname, 1));
         }
     }
 
