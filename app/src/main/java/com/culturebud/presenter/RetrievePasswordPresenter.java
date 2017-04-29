@@ -3,6 +3,7 @@ package com.culturebud.presenter;
 import android.text.TextUtils;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.CommonConst.SucrityCodeType;
 import com.culturebud.bean.User;
 import com.culturebud.contract.RetrievePasswordContract;
@@ -74,7 +75,7 @@ public class RetrievePasswordPresenter extends RetrievePasswordContract.Presente
             view.onErrorTip("手机号不合法");
             return;
         }
-        model.getSucrityCode(null, phoneNumber, SucrityCodeType.TYPE_FORGOT_PWD)
+        model.getSucrityCode(null, phoneNumber, SucrityCodeType.TYPE_FORGOT_PWD, CommonConst.ThirdType.TYPE_NONE)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override

@@ -275,7 +275,7 @@ public abstract class BaseModel {
      *
      * @return
      */
-    public Observable<Boolean> getSucrityCode(String token, String phoneNumber, int useCondition) {
+    public Observable<Boolean> getSucrityCode(String token, String phoneNumber, int useCondition, int thirdType) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             if (!TextUtils.isEmpty(token)) {
@@ -283,6 +283,9 @@ public abstract class BaseModel {
             }
             params.put("regMobile", phoneNumber);
             params.put("useCondition", useCondition);
+            if (thirdType >= 0) {
+                params.put("thirdType", thirdType);
+            }
             initRetrofit().create(ApiMeInterface.class).getSucrityCode(params)
                     .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                         @Override

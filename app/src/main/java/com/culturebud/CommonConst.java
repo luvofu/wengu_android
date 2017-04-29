@@ -33,6 +33,10 @@ public final class CommonConst {
 
     public static final String PATH_REGIST = "api/user/signup";
 
+    public static final String PATH_THIRD_LOGIN = "api/user/thirdLogin_v103";
+
+    public static final String PATH_THIRD_BIND_LOGIN = "api/user/thirdBindLogin";
+
     public static final String PATH_RETRIEVE_PWD = "api/user/forgotpsw";
 
     public static final String PATH_SECURITY_CODE = "api/user/sendValidcode";
@@ -259,6 +263,13 @@ public final class CommonConst {
         public static final int TYPE_FORGOT_PWD = 1;
         public static final int TYPE_CHECK_MOBILE = 2;
         public static final int TYPE_BIND_MOBILE = 3;
+        public static final int TYPE_THIRD_BIND = 4;
+    }
+
+    public final class ThirdType {
+        public static final int TYPE_NONE = -1;
+        public static final int TYPE_WECHAT = 0;
+        public static final int TYPE_SINA_WEIBO = 1;
     }
 
     public final class ContentPermission {

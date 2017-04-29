@@ -18,6 +18,11 @@ public interface LoginContract {
 
         void onLogout(boolean success);
 
+        void onNeedBindPhone();
+
+        void onObtainedCode(boolean success);
+
+        void onCountDown(int count);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -26,6 +31,13 @@ public interface LoginContract {
         public abstract void logout();
 
         public abstract void loadLocalUser();
+
+        public abstract void thirdLogin(String uid, String nick, int thirdType);
+
+        public abstract void thirdBindLogin(String validCode, String regMobile, int thirdType, String uid, String
+                nickname, int sex, String autograph, String birthday, String avatar);
+
+        public abstract void getSecurityCode(String phoneNumber, int thirdType);
     }
 
     abstract class Model extends MeModel {
@@ -39,6 +51,12 @@ public interface LoginContract {
         public abstract Observable<Boolean> saveUser(User user);
 
         public abstract Observable<Boolean> logout(User user);
+
+        public abstract Observable<User> thirdLogin(String uid, String nickname, int thirdType);
+
+        public abstract Observable<User> thirdBindLogin(String validCode, String regMobile, int thirdType, String uid,
+                                                        String nickname, int sex, String autograph, String birthday,
+                                                        String avatar);
 
     }
 }

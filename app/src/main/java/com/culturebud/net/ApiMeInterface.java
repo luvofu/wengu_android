@@ -33,6 +33,14 @@ public interface ApiMeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<User>> autoLogin(@FieldMap Map<String, Object> params);
 
+    @POST(CommonConst.PATH_THIRD_LOGIN)
+    @FormUrlEncoded
+    Observable<ApiResultBean<User>> thirdLogin(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_THIRD_BIND_LOGIN)
+    @FormUrlEncoded
+    Observable<ApiResultBean<User>> thirdBindLogin(@FieldMap Map<String, Object> params);
+
     /**
      * String deviceToken;设备标识
      * String regMobile;注册手机号
