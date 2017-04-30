@@ -2,20 +2,20 @@ package com.culturebud.ui.bhome;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Toast;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.adapter.NotebookAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Notebook;
+import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookContract;
 import com.culturebud.presenter.NotebookPresenter;
 import com.culturebud.widget.RecyclerViewDivider;
@@ -29,10 +29,12 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CREATE_NOTEBOOK;
  */
 
 @PresenterInject(NotebookPresenter.class)
-public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> implements NotebookContract.View, NotebookAdapter.OnItemClickListener {
+public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> implements NotebookContract.View,
+        NotebookAdapter.OnItemClickListener {
     private RecyclerView rvNotebooks;
     private int currentPage;
     private boolean loading = true;
+    private long userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,28 +57,26 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.notebook_operas, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.menu_notebook_create:
-                startActivityForResult(new Intent(this, CreateNotebookActivity.class), REQUEST_CREATE_NOTEBOOK);
-                return true;
-            case R.id.menu_notebook_managment:
-                Toast.makeText(this, "管理", Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    protected void onOptions(View view) {
+        super.onOptions(view);
+        startActivityForResult(new Intent(this, CreateNotebookActivity.class), REQUEST_CREATE_NOTEBOOK);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        presenter.myNotebooks(currentPage);
+        Intent intent = getIntent();
+        User user = BaseApp.getInstance().getUser();
+        long defaultId = user != null ? user.getUserId() : -1;
+        userId = intent.getLongExtra("user_id", defaultId);
+        if (user != null && userId == user.getUserId()) {
+            showOperas();
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+        } else {
+            hideOpears();
+        }
+        ((NotebookAdapter) rvNotebooks.getAdapter()).setUserId(userId);
+        presenter.userNotebooks(currentPage, userId);
     }
 
     @Override
@@ -86,6 +86,13 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         }
         ((NotebookAdapter) rvNotebooks.getAdapter()).addItems(notebooks);
         loading = false;
+    }
+
+    @Override
+    public void onDeleteNotebook(Notebook notebook, boolean success) {
+        if (success) {
+            ((NotebookAdapter) rvNotebooks.getAdapter()).deleteItem(notebook);
+        }
     }
 
     @Override
@@ -107,7 +114,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
             case REQUEST_CREATE_NOTEBOOK:
                 if (resultCode == RESULT_OK) {
                     currentPage = 0;
-                    presenter.myNotebooks(currentPage);
+                    presenter.userNotebooks(currentPage, userId);
                 }
                 break;
         }
@@ -119,10 +126,11 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);//接口暂没有实现分页
 //            if (dy > 0) {
-//                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+//                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+// .findLastVisibleItemPosition();
 //                int total = recyclerView.getLayoutManager().getItemCount();
 //                if (!loading && (lastPosition + 1 >= total)) {
-//                    presenter.myNotebooks(++currentPage);
+//                    presenter.userNotebooks(++currentPage);
 //                    loading = true;
 //                }
 //            } else {
@@ -132,9 +140,25 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     };
 
     @Override
-    public void onItemClick(int position, View v, Notebook notebook) {
-        Intent intent = new Intent(this, NotebookDetailActivity.class);
-        intent.putExtra("notebookId", notebook.getNotebookId());
-        startActivity(intent);
+    public void onItemClick(int position, View v, Notebook notebook, int operaType) {
+        switch (operaType) {
+            case 0:
+                Intent intent = new Intent(this, NotebookDetailActivity.class);
+                intent.putExtra("notebookId", notebook.getNotebookId());
+                intent.putExtra("user_id", userId);
+                startActivity(intent);
+                break;
+            case 1://删除
+                new AlertDialog.Builder(this).setMessage("确定删除《" + notebook.getTitle() + "》下的所有笔记？")
+                        .setPositiveButton("删除", (dialog, which) -> {
+                            setOperasText(null);
+                            setOperasDrawable(R.drawable.titlebar_add_selector);
+                            presenter.deleteNotebook(notebook);
+                        })
+                        .setNegativeButton("取消", null)
+                        .show();
+                break;
+        }
+
     }
 }

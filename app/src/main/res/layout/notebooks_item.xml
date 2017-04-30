@@ -1,59 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.culturebud.widget.SwipeMenuView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="90dp"
-    android:orientation="vertical"
-    android:paddingBottom="7.5dp"
-    android:paddingLeft="15dp"
-    android:paddingRight="15dp"
-    android:paddingTop="7.5dp">
+    android:layout_height="90dp">
 
-    <com.facebook.drawee.view.SimpleDraweeView
-        android:id="@+id/sdv_book_sheet_cover"
-        android:layout_width="48dp"
-        android:layout_height="75dp"
-        android:layout_marginRight="10dp"
-        fresco:actualImageScaleType="fitXY"
-        fresco:placeholderImage="@mipmap/img_placeholder"
-        fresco:placeholderImageScaleType="fitXY" />
-
-    <TextView
-        android:id="@+id/tv_note_num"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:gravity="center"
-        android:textColor="@color/font_more"
-        android:textSize="14sp"
-        tools:text="0" />
-
-    <TextView
-        android:id="@+id/tv_book_name"
+    <RelativeLayout
+        android:id="@+id/rl_item"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/tv_note_num"
-        android:layout_toRightOf="@id/sdv_book_sheet_cover"
-        android:ellipsize="end"
-        android:gravity="center_vertical"
-        android:maxLines="2"
-        android:textColor="@color/title_font_default"
-        android:textSize="16sp"
-        tools:text="Android 开发艺术探索.我喜欢" />
+        android:layout_height="90dp"
+        android:orientation="vertical"
+        android:paddingBottom="7.5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="7.5dp">
 
-    <TextView
-        android:id="@+id/tv_create_time"
+        <com.facebook.drawee.view.SimpleDraweeView
+            android:id="@+id/sdv_book_sheet_cover"
+            android:layout_width="48dp"
+            android:layout_height="75dp"
+            android:layout_marginRight="10dp"
+            fresco:actualImageScaleType="fitXY"
+            fresco:placeholderImage="@mipmap/img_placeholder"
+            fresco:placeholderImageScaleType="fitXY"/>
+
+        <TextView
+            android:id="@+id/tv_note_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:gravity="center"
+            android:textColor="@color/font_more"
+            android:textSize="14sp"
+            tools:text="0"/>
+
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@id/tv_note_num"
+            android:layout_toRightOf="@id/sdv_book_sheet_cover"
+            android:ellipsize="end"
+            android:gravity="center_vertical"
+            android:maxLines="2"
+            android:textColor="@color/title_font_default"
+            android:textSize="16sp"
+            tools:text="Android 开发艺术探索.我喜欢"/>
+
+        <TextView
+            android:id="@+id/tv_create_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@id/tv_book_name"
+            android:layout_alignParentBottom="true"
+            android:layout_alignRight="@id/tv_book_name"
+            android:layout_below="@id/tv_book_name"
+            android:gravity="center_vertical"
+            android:textColor="@color/font_more"
+            android:textSize="14sp"
+            tools:text="今天 21:52"/>
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_delete"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/tv_book_name"
-        android:layout_alignParentBottom="true"
-        android:layout_alignRight="@id/tv_book_name"
-        android:layout_below="@id/tv_book_name"
-        android:gravity="center_vertical"
-        android:textColor="@color/font_more"
-        android:textSize="14sp"
-        tools:text="今天 21:52" />
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/common_margin_small"
+        android:layout_marginRight="@dimen/common_margin_small"
+        android:background="@color/red"
+        android:text="@string/delete"
+        android:textColor="@color/title_font_white"
+        android:textSize="@dimen/font_default"/>
+</com.culturebud.widget.SwipeMenuView>

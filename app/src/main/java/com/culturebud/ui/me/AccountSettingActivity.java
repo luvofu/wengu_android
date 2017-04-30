@@ -102,6 +102,21 @@ public class AccountSettingActivity extends BaseActivity<LoginContract.Presenter
     }
 
     @Override
+    public void onNeedBindPhone() {
+
+    }
+
+    @Override
+    public void onObtainedCode(boolean success) {
+
+    }
+
+    @Override
+    public void onCountDown(int count) {
+
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {

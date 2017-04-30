@@ -4,6 +4,7 @@ import com.culturebud.BaseApp;
 import com.culturebud.bean.UserMessage;
 import com.culturebud.contract.MyMsgsContract;
 import com.culturebud.model.MyMsgsModel;
+import com.culturebud.util.ApiException;
 
 import java.util.List;
 
@@ -45,5 +46,33 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void agreeInvite(long messageId) {
+        if (!validateToken()) {
+            return;
+        }
+        model.agreeInvite(BaseApp.getInstance().getUser().getToken(), messageId)
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onAgreeInvite(messageId, aBoolean);
+            }
+        });
     }
 }

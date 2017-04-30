@@ -5,6 +5,7 @@ import com.culturebud.bean.Notebook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookContract;
 import com.culturebud.model.NotebookModel;
+import com.culturebud.util.ApiException;
 
 import java.util.List;
 
@@ -23,12 +24,12 @@ public class NotebookPresenter extends NotebookContract.Presenter {
     }
 
     @Override
-    public void myNotebooks(int page) {
+    public void userNotebooks(int page, long userId) {
         if (!validateToken()) {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        model.myNotebooks(user.getToken(), user.getUserId(), page)
+        model.userNotebooks(user.getToken(), userId, page)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<List<Notebook>>() {
             @Override
@@ -44,6 +45,34 @@ public class NotebookPresenter extends NotebookContract.Presenter {
             @Override
             public void onNext(List<Notebook> notebooks) {
                 view.onNotebooks(notebooks);
+            }
+        });
+    }
+
+    @Override
+    public void deleteNotebook(Notebook notebook) {
+        if (!validateToken()) {
+            return;
+        }
+        model.deleteNotebook(BaseApp.getInstance().getUser().getToken(), notebook.getNotebookId())
+        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+                if (e instanceof ApiException) {
+                    view.onErrorTip(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                view.onDeleteNotebook(notebook, aBoolean);
             }
         });
     }

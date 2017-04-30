@@ -3,6 +3,7 @@ package com.culturebud.presenter;
 import android.text.TextUtils;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.CommonConst.SucrityCodeType;
 import com.culturebud.bean.User;
 import com.culturebud.contract.RegistContract;
@@ -74,7 +75,7 @@ public class RegistPresenter extends RegistContract.Presenter {
             view.onInvalidate("手机号不合法");
             return;
         }
-        model.getSucrityCode(null, phoneNumber, SucrityCodeType.TYPE_REGIST)
+        model.getSucrityCode(null, phoneNumber, SucrityCodeType.TYPE_REGIST, CommonConst.ThirdType.TYPE_NONE)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override

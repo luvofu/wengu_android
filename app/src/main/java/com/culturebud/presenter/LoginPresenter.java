@@ -58,30 +58,7 @@ public class LoginPresenter extends LoginContract.Presenter {
                                @Override
                                public void onNext(User user) {
                                    Log.d(TAG, "onNext()--> " + user);
-                                   model.saveUser(user).subscribeOn(Schedulers.io())
-                                           .observeOn(AndroidSchedulers.mainThread())
-                                           .subscribe(new Subscriber<Boolean>() {
-                                               @Override
-                                               public void onCompleted() {
-
-                                               }
-
-                                               @Override
-                                               public void onError(Throwable e) {
-                                                   view.onErrorTip("登录失败");
-                                               }
-
-                                               @Override
-                                               public void onNext(Boolean res) {
-                                                   Log.d(TAG, "onNext() --> onNext()" + res);
-                                                   if (res) {
-                                                       BaseApp.getInstance().setUser(user);
-                                                       view.loginSuccess(user);
-                                                   } else {
-                                                       view.onErrorTip("登录失败");
-                                                   }
-                                               }
-                                           });
+                                   processLoginRes(user);
                                }
                            }
 
@@ -95,51 +72,200 @@ public class LoginPresenter extends LoginContract.Presenter {
         }
         User user = BaseApp.getInstance().getUser();
         model.logout(user).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                view.onLogout(false);
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.onLogout(false);
+                    }
 
-            @Override
-            public void onNext(Boolean res) {
-                view.onLogout(res);
-            }
-        });
+                    @Override
+                    public void onNext(Boolean res) {
+                        view.onLogout(res);
+                    }
+                });
     }
 
     @Override
     public void loadLocalUser() {
         Log.d("LoginActivity", "loadLocalUser()");
         model.loadLastUser().subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<User>() {
-            @Override
-            public void onCompleted() {
-                Log.d("LoginActivity", "loadLocalUser() ==>> onCompleted()");
-            }
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        Log.d("LoginActivity", "loadLocalUser() ==>> onCompleted()");
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                Log.d("LoginActivity", "loadLocalUser() ==>> onError()" + e.getMessage());
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        Log.d("LoginActivity", "loadLocalUser() ==>> onError()" + e.getMessage());
+                    }
 
-            @Override
-            public void onNext(User user) {
-                Log.d("LoginActivity", "loadLocalUser() ==>> onNext()" + user);
-                if (user != null) {
-                    BaseApp.getInstance().setUser(user);
-                    view.loginSuccess(user);
-                }
-            }
-        });
+                    @Override
+                    public void onNext(User user) {
+                        Log.d("LoginActivity", "loadLocalUser() ==>> onNext()" + user);
+                        if (user != null) {
+                            BaseApp.getInstance().setUser(user);
+                            view.loginSuccess(user);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void thirdLogin(String uid, String nick, int thirdType) {
+        if (TextUtils.isEmpty(uid)) {
+            view.onErrorTip("uid不能为空");
+            return;
+        }
+        view.showProDialog();
+        model.thirdLogin(uid, nick, thirdType)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hideProDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProDialog();
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            switch (((ApiException) e).getCode()) {
+                                case 10121:
+                                    view.onNeedBindPhone();
+                                    break;
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        processLoginRes(user);
+                    }
+                });
+    }
+
+    public void processLoginRes(final User user) {
+        model.saveUser(user).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.onErrorTip("登录失败");
+                    }
+
+                    @Override
+                    public void onNext(Boolean res) {
+                        Log.d(TAG, "onNext() --> onNext()" + res);
+                        if (res) {
+                            BaseApp.getInstance().setUser(user);
+                            view.loginSuccess(user);
+                        } else {
+                            view.onErrorTip("登录失败");
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void thirdBindLogin(String validCode, String regMobile, int thirdType, String uid, String nickname, int
+            sex, String autograph, String birthday, String avatar) {
+        if (TextUtils.isEmpty("regMobile")) {
+            view.onErrorTip("手机号不能为空");
+            return;
+        }
+        if (TextUtils.isEmpty(validCode)) {
+            view.onErrorTip("验证码不能为空");
+            return;
+        }
+        view.showProDialog();
+        model.thirdBindLogin(validCode, regMobile, thirdType, uid, nickname, sex, autograph, birthday, avatar)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hideProDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProDialog();
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        processLoginRes(user);
+                    }
+                });
+    }
+
+    @Override
+    public void getSecurityCode(String phoneNumber, int thirdType) {
+        if (TextUtils.isEmpty(phoneNumber) || phoneNumber.length() != 11) {
+            view.onErrorTip("手机号不合法");
+            return;
+        }
+        model.getSucrityCode(null, phoneNumber, CommonConst.SucrityCodeType.TYPE_THIRD_BIND, thirdType)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onObtainedCode(aBoolean);
+                    }
+                });
+    }
+
+    @Override
+    public void countDown() {
+        model.countDown(60).subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        view.onCountDown(-1);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        view.onCountDown(integer);
+                    }
+                });
     }
 
     private boolean validate(String userName, String password) {

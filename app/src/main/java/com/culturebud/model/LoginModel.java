@@ -1,5 +1,7 @@
 package com.culturebud.model;
 
+import android.text.TextUtils;
+
 import com.culturebud.ApiErrorCode;
 import com.culturebud.BaseApp;
 import com.culturebud.bean.ApiResultBean;
@@ -91,4 +93,91 @@ public class LoginModel extends LoginContract.Model {
             }
         });
     }
+
+    @Override
+    public Observable<User> thirdLogin(String uid, String nickname, int thirdType) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            params.put("uid", uid);
+            params.put("nickname", nickname);
+            params.put("thirdType", thirdType);
+            getMeInterface().thirdLogin(params)
+                    .subscribe(new Subscriber<ApiResultBean<User>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<User> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(bean.getData());
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    @Override
+    public Observable<User> thirdBindLogin(String validCode, String regMobile, int thirdType, String uid, String
+            nickname, int sex, String autograph, String birthday, String avatar) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(validCode)) {
+                params.put("validcode", validCode);
+            }
+            if (!TextUtils.isEmpty(regMobile)) {
+                params.put("regMobile", regMobile);
+            }
+            params.put("thirdType", thirdType);
+            if (!TextUtils.isEmpty(uid)) {
+                params.put("uid", uid);
+            }
+            if (!TextUtils.isEmpty(nickname)) {
+                params.put("nickname", nickname);
+            }
+            params.put("sex", sex);
+            if (!TextUtils.isEmpty(autograph)) {
+                params.put("autograph", autograph);
+            }
+            if (!TextUtils.isEmpty(birthday)) {
+                params.put("birthday", birthday);
+            }
+            if (!TextUtils.isEmpty(avatar)) {
+                params.put("avatar", avatar);
+            }
+            getMeInterface().thirdBindLogin(params)
+                    .subscribe(new Subscriber<ApiResultBean<User>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<User> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(bean.getData());
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    ;
 }

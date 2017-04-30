@@ -84,10 +84,10 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ll_add_cover:
-                aspectX = 8;
-                aspectY = 5;
+                aspectX = 1;
+                aspectY = 1;
                 outX = 720;
-                outY = 480;
+                outY = 720;
                 showPhotoDialog();
                 break;
             case R.id.siv_bs_name: {

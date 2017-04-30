@@ -8,9 +8,12 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -53,17 +56,38 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
 
     private BottomSheetDialog bsdDialog;
     private RecyclerView rvBookSheets;
+    private Toolbar tlb;
+    private CollapsingToolbarLayout ctl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_detail);
-        showTitlebar();
+        tlb = obtainViewById(R.id.tlb);
+        tlb.setTitle("");
+        ctl = obtainViewById(R.id.ctl);
+        ctl.setTitle("");
+        setSupportActionBar(tlb);
+//        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.titlebar_back_selector);
+//        showTitlebar();
         setBackGroundColor(getResources().getColor(R.color.light_gray));
         presenter.setView(this);
         initView();
         setListeners();
         initData();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+            finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initView() {

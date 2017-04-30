@@ -64,7 +64,19 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
         return data.size();
     }
 
-    class MyMsgsViewHolder extends RecyclerView.ViewHolder {
+    public void updateItemStatus(long messageId, int statusAccept) {
+        int idx = 0;
+        for (UserMessage um : data) {
+            if (um.getMessageId() == messageId) {
+                um.setDealStatus(statusAccept);
+                notifyItemChanged(idx);
+                return;
+            }
+            idx++;
+        }
+    }
+
+    class MyMsgsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvFace;
         private TextView tvNick, tvDesc;
         private Button btnOpera;
@@ -76,6 +88,7 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
             tvNick = (TextView) itemView.findViewById(R.id.tv_nick);
             tvDesc = (TextView) itemView.findViewById(R.id.tv_content);
             btnOpera = (Button) itemView.findViewById(R.id.btn_agree);
+            btnOpera.setOnClickListener(this);
         }
 
         public void setFace(String url) {
@@ -127,5 +140,26 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
                     break;
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v == btnOpera && onAgreeListener != null) {
+                onAgreeListener.onAgree(v, data.get(position));
+            }
+        }
+    }
+
+    private OnAgreeListener onAgreeListener;
+
+    public OnAgreeListener getOnAgreeListener() {
+        return onAgreeListener;
+    }
+
+    public void setOnAgreeListener(OnAgreeListener onAgreeListener) {
+        this.onAgreeListener = onAgreeListener;
+    }
+
+    public interface OnAgreeListener {
+        void onAgree(View v, UserMessage userMessage);
     }
 }

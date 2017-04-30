@@ -217,7 +217,7 @@
 -keep class com.j256.ormlite.** { *; }
 
 #shareSDK
--keep class com.wxapi.** { *; }
+-keep class com.culturebud.wxapi.** { *; }
 -keep class cn.sharesdk.** { *; }
 
 #okhttp3
