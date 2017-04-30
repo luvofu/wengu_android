@@ -1,8 +1,12 @@
 package com.culturebud.presenter;
 
+import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
+import com.culturebud.R;
 import com.culturebud.contract.MobileBindingContract;
 import com.culturebud.model.MobileBindingModel;
 import com.culturebud.util.ApiException;
+import com.culturebud.util.TxtUtil;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -16,8 +20,12 @@ public class MobileBindingPresenter extends MobileBindingContract.Presenter {
 
 
     @Override
-    public void getValidcode(String token,String mobile,int type) {
-        model.getSucrityCode(token, mobile, type).subscribeOn(Schedulers.io())
+    public void getValidCode(String mobile, int type) {
+        if (!validateToken()) {
+            return;
+        }
+        model.getSucrityCode(BaseApp.getInstance().getUser().getToken(), mobile, type, CommonConst.ThirdType.TYPE_NONE)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
@@ -41,8 +49,11 @@ public class MobileBindingPresenter extends MobileBindingContract.Presenter {
     }
 
     @Override
-    public void checkMobile(String token, String mobile, String validcode) {
-        model.checkMobile(token, mobile, validcode).subscribeOn(Schedulers.io())
+    public void checkMobile(String mobile, String validcode) {
+        if (!validateToken()) {
+            return;
+        }
+        model.checkMobile(BaseApp.getInstance().getUser().getToken(), mobile, validcode).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
@@ -66,8 +77,11 @@ public class MobileBindingPresenter extends MobileBindingContract.Presenter {
     }
 
     @Override
-    public void changeMobile(String token, String mobile, String validcode) {
-        model.changeMobile(token, mobile, validcode).subscribeOn(Schedulers.io())
+    public void changeMobile(String mobile, String validcode) {
+        if (!validateToken()) {
+            return;
+        }
+        model.changeMobile(BaseApp.getInstance().getUser().getToken(), mobile, validcode).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override

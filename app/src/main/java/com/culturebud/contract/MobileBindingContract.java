@@ -24,10 +24,10 @@ public interface MobileBindingContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void  getValidcode(String token,String mobile,int type);
+        public abstract void getValidCode(String mobile, int type);
 
-        public abstract void checkMobile(String token, String mobile, String validcode);
+        public abstract void checkMobile(String mobile, String validcode);
 
-        public abstract void changeMobile(String token, String mobile, String validcode);
+        public abstract void changeMobile(String mobile, String validcode);
     }
 }

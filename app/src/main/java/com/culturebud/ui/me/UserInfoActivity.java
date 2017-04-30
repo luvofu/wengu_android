@@ -30,11 +30,12 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 
 @PresenterInject(UserInfoPresenter.class)
 public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
-        implements UserInfoContract.View {
+        implements UserInfoContract.View, OptionsPickerView.OnOptionsSelectListener {
     private static final String TAG = UserInfoActivity.class.getSimpleName();
     private SimpleDraweeView sdvFace;
     private LinearLayout llFace;
     private SettingItemView sivNick, sivCulturebudName, sivSex, sivEmail, sivRegion, sivProfile;
+    private OptionsPickerView<String> opvSex;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -194,13 +195,6 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-//            case REQUEST_CODE_SELECT_IMAGE:
-//                if (resultCode == RESULT_OK) {
-//                    sdvFace.setImageURI(photoUri);
-//                    User user = BaseApp.getInstance().getUser();
-//                    presenter.editAvatar(user.getUserId(), photoUri, false);
-//                }
-//                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
                     sdvFace.setImageURI(photoUri);

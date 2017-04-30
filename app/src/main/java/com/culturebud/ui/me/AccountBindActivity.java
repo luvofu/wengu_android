@@ -4,25 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.LinearLayout;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
 import com.culturebud.R;
-import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
-import com.culturebud.contract.UserInfoContract;
-import com.culturebud.presenter.UserInfoPresenter;
 import com.culturebud.widget.SettingItemView;
-import com.facebook.drawee.view.SimpleDraweeView;
-import com.tencent.mm.opensdk.modelmsg.SendAuth;
-import com.tencent.mm.opensdk.openapi.IWXAPI;
-import com.tencent.mm.opensdk.openapi.WXAPIFactory;
-
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_EMAIL;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_NICK;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_PROFILE;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 
 
 public class AccountBindActivity extends BaseActivity {

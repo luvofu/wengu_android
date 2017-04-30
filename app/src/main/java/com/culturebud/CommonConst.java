@@ -42,6 +42,10 @@ public final class CommonConst {
 
     public static final String PATH_SECURITY_CODE = "api/user/sendValidcode";
 
+    public static final String PATH_CHANGE_MOBILE = "api/user/changeMobilephone";
+
+    public static final String PATH_CHECK_MOBILE = "api/user/checkMobilephone";
+
     public static final String PATH_USER_EDIT_PROFILE = "api/user/editProfile";
 
     public static final String PATH_MY_FRIENDS = "api/user/myFriends";
@@ -206,11 +210,6 @@ public final class CommonConst {
 
     public static final String PATH_BOOK_SEARCH_FILTER = "api/common/bookClass";
 
-    public static final String PATH_THIRD_BIND_LOGIN = "api/user/thirdBindLogin";
-
-    public static final String PATH_CHANGE_MOBILE = "api/user/changeMobilephone";
-
-    public static final String PATH_CHECK_MOBILE = "api/user/checkMobilephone";
     public final class UploadImgType {
         public static final int TYPE_USER_AVATAR = 0;
         public static final int TYPE_USER_BG = 1;
