@@ -29,6 +29,12 @@
     <string name="version">版本 v1.0</string>
     <string name="user_info">个人信息</string>
     <string name="binding_account">账号绑定</string>
+    <string name="change_binding_mobile">更换绑定手机号</string>
+    <string name="binding_mobile">绑定手机号</string>
+    <string name="have_binding_mobile">已绑定手机号：%1$s</string>
+    <string name="incorrect_phone_num">非法手机号</string>
+
+
     <string name="alter_pwd">修改密码</string>
     <string name="clear_buffer">清除缓存</string>
     <string name="logout">登出账号</string>
@@ -45,6 +51,7 @@
     <string name="about">关于文芽</string>
     <string name="settings">设置</string>
     <string name="no_fill">未填写</string>
+    <string name="no_binding">未绑定</string>
     <string name="face">头像</string>
     <string name="nick">昵称</string>
     <string name="culturebud_name">文芽号</string>
@@ -147,4 +154,7 @@
     <string name="txt_custom_categories_count">自定义分类（%1$d）</string>
     <string name="find_none_wanted">没有找到您想要的书籍，<a color='red'>尝试亲手创建吧</a></string>
     <string name="add">添加</string>
+
+    <string name="mobile">手机号</string>
+    <string name="weixin">微信</string>
 </resources>

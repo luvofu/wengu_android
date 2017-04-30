@@ -28,7 +28,6 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_margin="5dp"
-            android:clickable="true"
             fresco:actualImageScaleType="fitXY"
             fresco:placeholderImage="@mipmap/me_default_icon"
             fresco:placeholderImageScaleType="fitCenter"/>

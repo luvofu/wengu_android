@@ -60,6 +60,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         sivEmail.setOnClickListener(this);
         sivRegion.setOnClickListener(this);
         sivProfile.setOnClickListener(this);
+        sivCulturebudName.setOnClickListener(this);
     }
 
     @Override
@@ -147,6 +148,9 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 startActivityForResult(intent, REQUEST_CODE_ALTER_PROFILE);
                 break;
             }
+            case R.id.siv_culturebud_name: //修改文芽号
+
+
         }
     }
 

@@ -3,6 +3,7 @@ package com.culturebud.ui.me;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
@@ -11,6 +12,8 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.LoginContract;
 import com.culturebud.presenter.LoginPresenter;
+import com.culturebud.util.DataCleanManager;
+import com.culturebud.widget.SettingItemView;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_CHANGE_PWD;
 
@@ -21,14 +24,29 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_CHANGE_PWD;
 @PresenterInject(LoginPresenter.class)
 public class AccountSettingActivity extends BaseActivity<LoginContract.Presenter> implements LoginContract.View {
 
+    private  String cacheSize;
+    private SettingItemView cleanView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_setting);
+        cleanView = obtainViewById(R.id.siv_clear_buffer);
+
         presenter.setView(this);
         showTitlebar();
         setBgColor(R.color.litter_gray_bg_border);
         setTitle(R.string.account_setting);
+        initCacheSize();
+    }
+
+    private void initCacheSize() {
+        try {
+           cacheSize = DataCleanManager.getCacheSize(getCacheDir());
+           cleanView.setRightInfo(cacheSize);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -42,11 +60,16 @@ public class AccountSettingActivity extends BaseActivity<LoginContract.Presenter
                 break;
             }
             case R.id.siv_binding:
+                startActivity(new Intent(this,AccountBindActivity.class));
                 break;
             case R.id.siv_alter_pwd:
                 startActivityForResult(new Intent(this, ChangePasswordActivity.class), REQUEST_CODE_CHANGE_PWD);
                 break;
             case R.id.siv_clear_buffer:
+                //TODO
+                DataCleanManager.cleanInternalCache(this);
+                cleanView.setRightInfo("0.00M");
+                Toast.makeText(this, "清理缓存成功，本次共为您清理了"+cacheSize, Toast.LENGTH_SHORT).show();
                 break;
             case R.id.btn_logout:
                 presenter.logout();

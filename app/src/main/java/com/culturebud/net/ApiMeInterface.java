@@ -160,4 +160,38 @@ public interface ApiMeInterface {
     @POST(CommonConst.PATH_USER_MSG_INVITE_FRIEND)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> inviteFriend(@FieldMap Map<String, Object> params);
+
+    /**
+     * 绑定第三方信息（手机号）
+     * validcode 验证码
+     * regMobile 手机号
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_THIRD_BIND_LOGIN)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> thirdbind(@FieldMap Map<String, Object> params);
+
+    /**
+     * 验证绑定手机（手机号）
+     * validcode 验证码
+     * regMobile 手机号
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_CHECK_MOBILE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> checkMobile(@FieldMap Map<String, Object> params);
+
+    /**
+     * 更换绑定手机（手机号）
+     * validcode 验证码
+     * regMobile 手机号
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_CHANGE_MOBILE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> changeMobile(@FieldMap Map<String, Object> params);
+
 }

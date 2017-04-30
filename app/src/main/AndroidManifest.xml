@@ -75,6 +75,12 @@
             android:name=".ui.me.AboutActivity"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".ui.me.AccountBindActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.me.MobileBindingActivity"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".ui.me.FeedbackActivity"
             android:screenOrientation="portrait"/>
         <activity

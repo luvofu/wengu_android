@@ -1,6 +1,7 @@
 package com.culturebud;
 
 import android.os.Environment;
+import android.os.StrictMode;
 import android.util.Log;
 
 /**
@@ -197,6 +198,11 @@ public final class CommonConst {
 
     public static final String PATH_BOOK_SEARCH_FILTER = "api/common/bookClass";
 
+    public static final String PATH_THIRD_BIND_LOGIN = "api/user/thirdBindLogin";
+
+    public static final String PATH_CHANGE_MOBILE = "api/user/changeMobilephone";
+
+    public static final String PATH_CHECK_MOBILE = "api/user/checkMobilephone";
     public final class UploadImgType {
         public static final int TYPE_USER_AVATAR = 0;
         public static final int TYPE_USER_BG = 1;
