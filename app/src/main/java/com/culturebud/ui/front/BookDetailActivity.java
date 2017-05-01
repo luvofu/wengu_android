@@ -30,6 +30,8 @@ import com.culturebud.bean.BookSheet;
 import com.culturebud.contract.BookDetailContract;
 import com.culturebud.presenter.BookDetailPresenter;
 import com.culturebud.ui.community.BookCommunityActivity;
+import com.culturebud.ui.image.PreviewBigImgActivity;
+import com.culturebud.ui.me.LoginActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
@@ -37,6 +39,8 @@ import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.List;
 import java.util.Locale;
+
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
 
 /**
  * Created by XieWei on 2016/11/7.
@@ -91,7 +95,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
     }
 
     private void initView() {
-        sdvCover = obtainViewById(R.id.sdv_book_sheet_cover);
+        sdvCover = obtainViewById(R.id.sdv_book_cover);
         rlDetailTop = obtainViewById(R.id.rl_book_detail_top);
         tvBookName = obtainViewById(R.id.tv_book_name);
         tvRating = obtainViewById(R.id.tv_rating_num);
@@ -120,6 +124,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         ivOpenSummary.setOnClickListener(this);
         ivOpenAuthorInfo.setOnClickListener(this);
         sivMore.setOnClickListener(this);
+        sdvCover.setOnClickListener(this);
     }
 
     private void initData() {
@@ -227,6 +232,13 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
                 presenter.getMySheets();
                 break;
             }
+            case R.id.sdv_book_cover: {
+                if (bookDetail != null && !TextUtils.isEmpty(bookDetail.getCover())) {
+                    Intent intent = new Intent(this, PreviewBigImgActivity.class);
+                    intent.putExtra("img_url", bookDetail.getCover());
+                    startActivity(intent);
+                }
+            }
         }
 
     }
@@ -282,8 +294,18 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
 
     @Override
     public void onCollect(boolean success) {
-        bookDetail.setCollect(success);
-        refreshCollectView();
+        if (success) {
+            bookDetail.setCollect(true);
+            refreshCollectView();
+        }
+    }
+
+    @Override
+    public void onCollectDel(boolean success) {
+        if (success) {
+            bookDetail.setCollect(false);
+            refreshCollectView();
+        }
     }
 
     @Override
@@ -312,5 +334,12 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         if (bookSheet != null && bookDetail != null) {
             presenter.bookSheetAddBook(bookSheet.getSheetId(), bookDetail.getBookId());
         }
+    }
+
+    @Override
+    public void onToLogin() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.putExtra("need_cancel_to_home", false);
+        startActivityForResult(intent, REQUEST_CODE_LOGIN);
     }
 }

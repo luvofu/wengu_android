@@ -49,6 +49,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     private static final String TAG = "LoginActivity";
     private EditText etUserName, etPassword;
     private TextView tvRegist;
+    private boolean needCancelToHome = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +103,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     }
 
     private void initData() {
+        needCancelToHome = getIntent().getBooleanExtra("need_cancel_to_home", true);
         SpannableString ss = new SpannableString(getString(R.string.register_now));
         ClickableSpan cspan = new ClickableSpan() {
             @Override
@@ -188,14 +190,18 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
     @Override
     protected void onBack() {
         super.onBack();
-        setResult(RESULT_CANCELED);
+        if (needCancelToHome) {
+            setResult(RESULT_CANCELED_CUSTOM);
+        }
         finish();
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        setResult(RESULT_CANCELED);
+        if (needCancelToHome) {
+            setResult(RESULT_CANCELED_CUSTOM);
+        }
         finish();
     }
 

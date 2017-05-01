@@ -51,6 +51,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_TAKE_PHOTO;
 
 public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActivity {
     private static final String TAG = BaseActivity.class.getSimpleName();
+    public static final int RESULT_CANCELED_CUSTOM = -2;
     protected P presenter;
     private ProgressDialog progressDialog;
     private BottomSheetDialog editImgDialog;
@@ -288,7 +289,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_LOGIN:
-                if (resultCode == RESULT_CANCELED && !(this instanceof MainActivity)) {
+                if (resultCode == RESULT_CANCELED_CUSTOM && !(this instanceof MainActivity)) {
                     finish();
                 }
                 break;

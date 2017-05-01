@@ -32,13 +32,15 @@
                     android:background="@color/blur_scrim"/>
 
                 <com.facebook.drawee.view.SimpleDraweeView
-                    android:id="@+id/sdv_book_sheet_cover"
+                    android:id="@+id/sdv_book_cover"
                     android:layout_width="80dp"
                     android:layout_height="100dp"
                     android:layout_marginBottom="10dp"
                     android:layout_marginLeft="20dp"
                     android:layout_marginRight="20dp"
                     android:layout_marginTop="?attr/actionBarSize"
+                    android:clickable="true"
+                    android:onClick="onClick"
                     fresco:actualImageScaleType="fitXY"
                     fresco:placeholderImage="@mipmap/img_placeholder"
                     fresco:placeholderImageScaleType="fitXY"/>
@@ -48,7 +50,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="?attr/actionBarSize"
-                    android:layout_toRightOf="@id/sdv_book_sheet_cover"
+                    android:layout_toRightOf="@id/sdv_book_cover"
                     android:gravity="center_vertical"
                     android:textColor="@color/title_font_default"
                     android:textSize="14sp"

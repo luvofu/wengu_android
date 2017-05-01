@@ -199,7 +199,7 @@ public class BookDetailPresenter extends BookDetailContract.Presenter {
 
                     @Override
                     public void onNext(Boolean res) {
-                        view.onCollect(res);
+                        view.onCollectDel(res);
                     }
                 });
     }

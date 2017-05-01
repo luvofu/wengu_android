@@ -29,7 +29,8 @@ public interface BookDetailContract {
 
         public abstract Observable<Bitmap> blurBitmap(Bitmap bitmap);
 
-        public abstract Observable<PipelineDraweeController> monitorImgDownload(String url, DraweeController oldController, Postprocessor postprocessor);
+        public abstract Observable<PipelineDraweeController> monitorImgDownload(String url, DraweeController
+                oldController, Postprocessor postprocessor);
 
     }
 
@@ -41,6 +42,8 @@ public interface BookDetailContract {
         void onBlurCover(Bitmap bitmap);
 
         void onCollect(boolean success);
+
+        void onCollectDel(boolean success);
 
         void onMySheets(List<BookSheet> bookSheets);
 
