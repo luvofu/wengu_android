@@ -51,7 +51,6 @@ public class LoginPresenter extends LoginContract.Presenter {
 
                                @Override
                                public void onNext(User user) {
-                                   Log.d(TAG, "onNext()--> " + user);
                                    processLoginRes(user);
                                }
                            }
@@ -87,7 +86,6 @@ public class LoginPresenter extends LoginContract.Presenter {
 
     @Override
     public void loadLocalUser() {
-        Log.d("LoginActivity", "loadLocalUser()");
         model.loadLastUser().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {
@@ -99,12 +97,10 @@ public class LoginPresenter extends LoginContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        Log.d("LoginActivity", "loadLocalUser() ==>> onError()" + e.getMessage());
                     }
 
                     @Override
                     public void onNext(User user) {
-                        Log.d("LoginActivity", "loadLocalUser() ==>> onNext()" + user);
                         if (user != null) {
                             BaseApp.getInstance().setUser(user);
                             view.loginSuccess(user);
@@ -164,7 +160,6 @@ public class LoginPresenter extends LoginContract.Presenter {
 
                     @Override
                     public void onNext(Boolean res) {
-                        Log.d(TAG, "onNext() --> onNext()" + res);
                         if (res) {
                             BaseApp.getInstance().setUser(user);
                             view.loginSuccess(user);

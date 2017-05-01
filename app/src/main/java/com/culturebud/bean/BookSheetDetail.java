@@ -65,6 +65,7 @@ public class BookSheetDetail {
     @DatabaseField(columnName = "collectAdd")
     private boolean collect;//收藏状态
 
+    @SerializedName("sheetBookList")
     @ForeignCollectionField(eager = true)
     private List<SheetBook> sheetBookList;//书单书籍列表
 

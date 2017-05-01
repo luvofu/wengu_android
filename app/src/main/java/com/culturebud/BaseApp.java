@@ -78,7 +78,6 @@ public class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.d("LoginActivity", "BaseApp ==>> " + this);
         app = this;
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/FangZhengLanTingZhunHei_GBK.TTF")
