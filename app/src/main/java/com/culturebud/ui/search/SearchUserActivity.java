@@ -97,7 +97,16 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         inputContent = getInputContent().toString();
         if (searchInLocal) {
-
+            List<User> tmp = new ArrayList<>();
+            for (User user : friends) {
+                if (user.getNickname().contains(inputContent)
+                        || (!TextUtils.isEmpty(user.getRegMobile()) && user.getRegMobile().equalsIgnoreCase
+                        (inputContent))) {
+                    tmp.add(user);
+                }
+            }
+            ((UsersAdapter) rvUsers.getAdapter()).clearData();
+            ((UsersAdapter) rvUsers.getAdapter()).addItems(tmp);
         } else {
             presenter.search(inputContent, 0);
         }
