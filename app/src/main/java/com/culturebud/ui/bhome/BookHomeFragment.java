@@ -200,6 +200,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     public void onBookMarks(List<BookMark> bookMarks) {
         ((BookMarkAdapter) rvBookMarks.getAdapter()).clearData();
         ((BookMarkAdapter) rvBookMarks.getAdapter()).addItems(bookMarks);
+        rvBookMarks.scrollToPosition(0);
     }
 
     @Override
@@ -226,6 +227,11 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                 presenter.getMyBookMarks();
             }
         }
+    }
+
+    @Override
+    public void onClearDisplayBookMarks() {
+        ((BookMarkAdapter)rvBookMarks.getAdapter()).clearData();
     }
 
     private SettingItemView sivBookName, sivPages;
@@ -313,6 +319,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             sivBookName.setRightInfo(currentBookMark.getName());
             sivPages.setRightInfo(currentBookMark.getTotalPage() + "");
             svPage.setStep(currentBookMark.getPages());
+            svPage.setMaxValue(currentBookMark.getTotalPage());
             sivBookName.setHasArrow(false);
             tvDel.setVisibility(View.VISIBLE);
         } else {
@@ -354,6 +361,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                     userBookId = data.getLongExtra("user_book_id", -1);
                     totalPage = data.getIntExtra("book_total_page", -1);
                     sivPages.setRightInfo(totalPage > 0 ? String.valueOf(totalPage) : "");
+                    svStepper.setMaxValue(totalPage);
                 }
                 break;
         }

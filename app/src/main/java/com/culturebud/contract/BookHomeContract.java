@@ -29,6 +29,8 @@ public interface BookHomeContract {
         void onAlterBookMark(boolean success);
 
         void onDelBookMark(boolean success, BookMark bookMark);
+
+        void onClearDisplayBookMarks();
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {

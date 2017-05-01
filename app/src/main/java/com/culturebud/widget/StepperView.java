@@ -185,6 +185,10 @@ public class StepperView extends LinearLayout implements View.OnClickListener, T
     public void afterTextChanged(Editable s) {
         if (!TextUtils.isEmpty(s.toString()) && s.length() <= 5) {
             int value = Integer.valueOf(s.toString());
+            if (value > maxValue) {
+                flushStepValue();
+                return;
+            }
             if (value < 1) {
                 value = 1;
                 etNum.setText(String.valueOf(value));

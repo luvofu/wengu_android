@@ -25,6 +25,7 @@ public class BookHomePresenter extends BookHomeContract.Presenter {
     @Override
     public void getMyBookMarks() {
         if (!validateToken(false)) {
+            view.onClearDisplayBookMarks();
             return;
         }
         model.getBookMarks(BaseApp.getInstance().getUser().getToken())
