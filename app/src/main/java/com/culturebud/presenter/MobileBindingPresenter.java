@@ -115,4 +115,25 @@ public class MobileBindingPresenter extends MobileBindingContract.Presenter {
                 });
     }
 
+    @Override
+    public void countDown() {
+        model.countDown(60).subscribeOn(Schedulers.computation())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+                        view.onCountDown(-1);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        view.onCountDown(integer);
+                    }
+                });
+    }
 }

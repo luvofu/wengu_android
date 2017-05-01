@@ -117,6 +117,8 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
     @Override
     public void onObtainedCode(boolean result) {
         if (result) {
+            tvGetVerifyCode.setEnabled(false);
+            tvGetVerifyCode.setClickable(false);
             presenter.countDown();
         }
     }
