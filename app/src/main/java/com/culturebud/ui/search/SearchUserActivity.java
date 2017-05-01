@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -17,7 +19,10 @@ import com.culturebud.contract.UserSearchContract;
 import com.culturebud.presenter.UserSearchPresenter;
 import com.culturebud.ui.me.FriendDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
@@ -30,6 +35,8 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
 public class SearchUserActivity extends BaseActivity<UserSearchContract.Presenter>
         implements UserSearchContract.View, TextView.OnEditorActionListener, UsersAdapter.OnItemClickListener {
     private RecyclerView rvUsers;
+    private boolean searchInLocal;
+    private List<User> friends = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +61,18 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
         adapter.setOnItemClickListener(this);
 
         enableSearch();
+        setSearchInputType(InputType.TYPE_CLASS_TEXT);
         setOnTitleEditorActionListener(this);
         setSearchHint(R.string.search_user_hint);
+
+        searchInLocal = getIntent().getBooleanExtra("search_in_local", false);
+        if (searchInLocal) {
+            String friJson = getIntent().getStringExtra("friends");
+            if (!TextUtils.isEmpty(friJson)) {
+                friends.addAll(new Gson().fromJson(friJson, new TypeToken<List<User>>() {
+                }.getType()));
+            }
+        }
     }
 
     @Override
@@ -79,7 +96,11 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         inputContent = getInputContent().toString();
-        presenter.search(inputContent, 0);
+        if (searchInLocal) {
+
+        } else {
+            presenter.search(inputContent, 0);
+        }
         return true;
     }
 

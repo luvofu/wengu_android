@@ -16,7 +16,9 @@ import com.culturebud.presenter.MyFriendsPresenter;
 import com.culturebud.ui.search.SearchUserActivity;
 import com.culturebud.widget.IndexsView;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SEARCH_USER;
@@ -30,6 +32,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
 public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View, IndexsView.OnIndexChangedListener, MyFriendsAdapter.OnItemClickListener {
     private RecyclerView rvFriends;
     private IndexsView ivIndexs;
+    private List<User> friends = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +77,9 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
 
     @Override
     public void onFriends(List<User> friends) {
+        if (friends != null && !friends.isEmpty()) {
+            this.friends.addAll(friends);
+        }
         ((MyFriendsAdapter) rvFriends.getAdapter()).addItems(friends);
         List<String> indexs = ((MyFriendsAdapter) rvFriends.getAdapter()).getIndexs();
         ivIndexs.setIndexs(indexs);
@@ -95,6 +101,14 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
             Intent intent = new Intent(this, FriendDetailActivity.class);
             intent.putExtra("user_id", user.getUserId());
             startActivityForResult(intent, REQUEST_CODE_USER_PROFILE);
+        } else if (item instanceof Integer) {
+            if (friends.isEmpty()) {
+                return;
+            }
+            Intent intent = new Intent(this, SearchUserActivity.class);
+            intent.putExtra("search_in_local", true);
+            intent.putExtra("friends", new Gson().toJson(friends));
+            startActivityForResult(intent, REQUEST_CODE_SEARCH_USER);
         }
     }
 

@@ -114,6 +114,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         etTitle.setPadding(padding, padding, padding, padding);
     }
 
+    public void setSearchInputType(int inputType) {
+        etTitle.setInputType(inputType);
+    }
+
     public void setSearchHint(CharSequence hint) {
         if (!TextUtils.isEmpty(hint)) {
             etTitle.setHint(hint);
