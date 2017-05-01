@@ -117,7 +117,7 @@ public class BookSheetDetailPresenter extends BookSheetDetailContract.Presenter 
 
                     @Override
                     public void onNext(Boolean res) {
-                        view.onCollect(res);
+                        view.onCollectDel(res);
                     }
                 });
     }

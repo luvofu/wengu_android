@@ -233,12 +233,21 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     }
 
     @Override
-    public void onCollect(boolean isCollected) {
-        bookSheetDetail.setCollect(isCollected);
-        bookSheetDetail.setCollectionNum(isCollected ?
-                bookSheetDetail.getCollectionNum() + 1 :
-                bookSheetDetail.getCollectionNum() - 1);
-        rvDetail.getAdapter().notifyItemChanged(0);
+    public void onCollect(boolean success) {
+        if (success) {
+            bookSheetDetail.setCollect(true);
+            bookSheetDetail.setCollectionNum(bookSheetDetail.getCollectionNum() + 1);
+            rvDetail.getAdapter().notifyItemChanged(0);
+        }
+    }
+
+    @Override
+    public void onCollectDel(boolean success) {
+        if (success) {
+            bookSheetDetail.setCollect(false);
+            bookSheetDetail.setCollectionNum(bookSheetDetail.getCollectionNum() - 1);
+            rvDetail.getAdapter().notifyItemChanged(0);
+        }
     }
 
     @Override

@@ -27,6 +27,8 @@ public interface BookSheetDetailContract {
 
         void onCollect(boolean isCollected);
 
+        void onCollectDel(boolean isCollected);
+
         void onMySheets(List<BookSheet> bookSheets);
 
         void onSheetAddBook(long bookSheetId, long bookId, boolean result);
