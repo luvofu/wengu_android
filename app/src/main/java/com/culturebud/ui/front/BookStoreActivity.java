@@ -28,6 +28,7 @@ import com.culturebud.bean.Book;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.contract.BookStoreContract;
 import com.culturebud.presenter.BookStorePresenter;
+import com.culturebud.ui.search.SearchBookActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -66,6 +67,8 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             rbColNum.setText("创建时间");
         } else {
             setTitle(R.string.book_store);
+            setOperasDrawable(R.drawable.titlebar_search_selector);
+            showOperas();
         }
         initList();
 
@@ -159,6 +162,13 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
     protected void onBack() {
         super.onBack();
         finish();
+    }
+
+    @Override
+    protected void onOptions(View view) {
+        super.onOptions(view);
+        Intent intent = new Intent(this, SearchBookActivity.class);
+        startActivity(intent);
     }
 
     @Override

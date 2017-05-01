@@ -52,7 +52,7 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = super.onCreateView(inflater, container, savedInstanceState);
         inflateView(R.layout.front_page);
-        initTitleRight(R.layout.titlebar_right_search);
+//        initTitleRight(R.layout.titlebar_right_search);
 
         initView(view);
 
@@ -74,7 +74,7 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
     }
 
     private void initView(View view) {
-        ivSearch = (ImageView) view.findViewById(R.id.iv_search);
+//        ivSearch = (ImageView) view.findViewById(R.id.iv_search);
         srlRefresh = (SwipeRefreshLayout) view.findViewById(R.id.srl_refresh);
         rvContent = (RecyclerView) view.findViewById(R.id.rv_content);
     }
@@ -82,7 +82,7 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
     private void setListeners() {
         rvContent.setOnScrollListener(listener);
         srlRefresh.setOnRefreshListener(this);
-        ivSearch.setOnClickListener(this);
+//        ivSearch.setOnClickListener(this);
     }
 
     @Override

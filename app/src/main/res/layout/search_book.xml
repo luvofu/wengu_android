@@ -18,6 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/common_margin_middle"
             android:clickable="true"
+            android:visibility="invisible"
             android:onClick="onClick"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_search_scan_white"/>
@@ -34,14 +35,13 @@
             android:background="@drawable/white_circle_bg"
             android:drawableLeft="@mipmap/search_icon"
             android:drawablePadding="8dp"
-            android:drawableRight="@mipmap/edittext_del"
             android:hint="书名、作者"
             android:imeOptions="actionSearch"
             android:inputType="text"
             android:padding="8dp"
             android:textColorHint="@color/tabar_font_normal"
             android:textSize="14sp"/>
-
+        <!--android:drawableRight="@mipmap/edittext_del"-->
         <Button
             android:id="@+id/btn_cancel"
             style="?android:attr/borderlessButtonStyle"
