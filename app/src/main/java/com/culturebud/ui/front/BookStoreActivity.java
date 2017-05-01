@@ -45,7 +45,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
     private RadioGroup rgSortType;
     private RadioButton rbScore, rbColNum;
     private boolean isBookSheets;
-    private TextView filterBtn, filterDisplayView;
+    private TextView btnFilter, tvFilterDisplay;
     private RecyclerView bookFilterView;
     private int sortType = 0;
 
@@ -84,13 +84,8 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
 
     private void setListeners() {
         rgSortType.setOnCheckedChangeListener(this);
-        filterDisplayView.setOnClickListener(this);
-        filterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showPopupWindow(view);
-            }
-        });
+        tvFilterDisplay.setOnClickListener(this);
+        btnFilter.setOnClickListener(view -> showPopupWindow(view));
         rvBooks.setOnScrollListener(listener);
     }
 
@@ -99,8 +94,8 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         rgSortType = obtainViewById(R.id.rg_sort_type);
         rbScore = obtainViewById(R.id.rb_score);
         rbColNum = obtainViewById(R.id.rb_collect_num);
-        filterBtn = obtainViewById(R.id.btn_filter);
-        filterDisplayView = obtainViewById(R.id.filter_display);
+        btnFilter = obtainViewById(R.id.btn_filter);
+        tvFilterDisplay = obtainViewById(R.id.tv_filter_display);
     }
 
     private void initList() {
@@ -173,6 +168,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
 
     @Override
     public void onCheckedChanged(RadioGroup group, int checkedId) {
+        currentPage = 0;
         switch (checkedId) {
             case R.id.rb_score:
                 sortType = 0;
@@ -182,10 +178,10 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
                 break;
         }
         if (isBookSheets) {
-            presenter.getBookSheets(0, sortType, filterType);
+            presenter.getBookSheets(currentPage, sortType, filterType);
             ((BookSheetAdapter) rvBooks.getAdapter()).clearData();
         } else {
-            presenter.getBooks(0, sortType, filterType);
+            presenter.getBooks(currentPage, sortType, filterType);
             ((BooksAdapter) rvBooks.getAdapter()).clearData();
         }
     }
@@ -230,7 +226,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.filter_display:
+            case R.id.tv_filter_display:
                 filterType = null;
                 currentPage = 0;
                 if (isBookSheets) {
@@ -240,7 +236,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
                     presenter.getBooks(0, sortType, filterType);
                     ((BooksAdapter) rvBooks.getAdapter()).clearData();
                 }
-                v.setVisibility(View.GONE);
+                tvFilterDisplay.setVisibility(View.GONE);
                 break;
             case R.id.btn_filter:
                 showPopupWindow(v);
@@ -322,8 +318,8 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             currentPage = 0;
             filterType = filter;
             popWindow.dismiss();
-            filterDisplayView.setText(filter);
-            filterDisplayView.setVisibility(View.VISIBLE);
+            tvFilterDisplay.setText(filter);
+            tvFilterDisplay.setVisibility(View.VISIBLE);
             if (isBookSheets) {
                 presenter.getBookSheets(0, sortType, filterType);
                 ((BookSheetAdapter) rvBooks.getAdapter()).clearData();
