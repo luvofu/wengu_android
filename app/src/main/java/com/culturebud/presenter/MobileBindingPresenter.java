@@ -21,20 +21,26 @@ public class MobileBindingPresenter extends MobileBindingContract.Presenter {
 
     @Override
     public void getValidCode(String mobile, int type) {
+        if (!TxtUtil.isChinaPhoneLegal(mobile)) {
+            view.onErrorTip(BaseApp.getInstance().getString(R.string.incorrect_phone_num));
+            return;
+        }
         if (!validateToken()) {
             return;
         }
+        view.showProDialog();
         model.getSucrityCode(BaseApp.getInstance().getUser().getToken(), mobile, type, CommonConst.ThirdType.TYPE_NONE)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
                     public void onCompleted() {
-
+                        view.hideProDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hideProDialog();
                         e.printStackTrace();
                         if (e instanceof ApiException) {
                             view.onInvalidate(e.getMessage());
@@ -77,11 +83,16 @@ public class MobileBindingPresenter extends MobileBindingContract.Presenter {
     }
 
     @Override
-    public void changeMobile(String mobile, String validcode) {
+    public void changeMobile(String mobile, String validCode) {
+        if (!TxtUtil.isChinaPhoneLegal(mobile)) {
+            view.onErrorTip(BaseApp.getInstance().getResources().getString(R.string.incorrect_phone_num));
+            return;
+        }
         if (!validateToken()) {
             return;
         }
-        model.changeMobile(BaseApp.getInstance().getUser().getToken(), mobile, validcode).subscribeOn(Schedulers.io())
+        model.changeMobile(BaseApp.getInstance().getUser().getToken(), mobile, validCode)
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override

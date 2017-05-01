@@ -106,7 +106,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
         ClickableSpan cspan = new ClickableSpan() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(LoginActivity.this, "请注册", Toast.LENGTH_SHORT).show();
                 startActivityForResult(new Intent(LoginActivity.this, RegistActivity.class), REQUEST_CODE_REGIST);
             }
 

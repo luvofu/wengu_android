@@ -15,10 +15,6 @@ import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.MobileBindingContract;
 import com.culturebud.presenter.MobileBindingPresenter;
-import com.culturebud.util.TxtUtil;
-
-import java.util.Timer;
-import java.util.TimerTask;
 
 @PresenterInject(MobileBindingPresenter.class)
 public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Presenter> implements
@@ -28,8 +24,6 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
     private Button btnSubmit;
 
     private String mobile;
-    private int recLen = 60;
-    private boolean unClickable;
     private String newMobile;
 
     @Override
@@ -81,20 +75,10 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
         switch (v.getId()) {
             case R.id.get_verify_code://获取验证码
             {
-                if (unClickable) {
-                    return;
-                } else {
-                    enableGetCode();
-                }
-
                 if (mobile != null) {
                     presenter.getValidCode(mobile, CommonConst.SucrityCodeType.TYPE_CHECK_MOBILE);
                 } else {
                     String newMobile = etNewMobile.getText().toString();
-                    if (!TxtUtil.isChinaPhoneLegal(newMobile)) {
-                        onErrorTip(getString(R.string.incorrect_phone_num));
-                        return;
-                    }
                     presenter.getValidCode(newMobile, CommonConst.SucrityCodeType.TYPE_BIND_MOBILE);
                 }
 
@@ -109,60 +93,20 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
                 }
 
                 if (mobile != null) {
-
                     presenter.checkMobile(mobile, verifyCode);
-
                 } else {
                     newMobile = etNewMobile.getText().toString();
-                    if (!TxtUtil.isChinaPhoneLegal(newMobile)) {
-                        onErrorTip(getResources().getString(R.string.incorrect_phone_num));
-                        return;
-                    }
                     presenter.changeMobile(newMobile, verifyCode);
-
                 }
                 break;
             }
         }
     }
 
-    private void enableGetCode() {
-        unClickable = true;
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-
-                runOnUiThread(new Runnable() {// UI thread    
-                    @Override
-                    public void run() {
-                        recLen--;
-                        tvGetVerifyCode.setText("重新获取(" + recLen + ")");
-                        if (recLen < 0) {
-                            timer.cancel();
-                            recLen = 60;
-                            unClickable = false;
-                            tvGetVerifyCode.setText("获取验证码");
-                        }
-                    }
-                });
-            }
-        };
-        timer.schedule(task, 1000, 1000);
-    }
-
     @Override
     protected void onBack() {
         super.onBack();
         finish();
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-
     }
 
     @Override
@@ -173,6 +117,7 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
     @Override
     public void onObtainedCode(boolean result) {
         if (result) {
+            presenter.countDown();
         }
     }
 
@@ -189,6 +134,17 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
         if (result) {
             Intent intent = new Intent(this, MobileBindingActivity.class);
             startActivity(intent);
+        }
+    }
+
+    @Override
+    public void onCountDown(int second) {
+        if (second < 0) {
+            tvGetVerifyCode.setText("获取验证码");
+            tvGetVerifyCode.setEnabled(true);
+            tvGetVerifyCode.setClickable(true);
+        } else {
+            tvGetVerifyCode.setText("重新获取（" + second + "）");
         }
     }
 }

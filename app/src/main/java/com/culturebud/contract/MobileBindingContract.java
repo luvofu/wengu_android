@@ -13,6 +13,7 @@ public interface MobileBindingContract {
 
         void onCheckMobile(boolean result);
 
+        void onCountDown(int count);
 
     }
 
