@@ -26,6 +26,7 @@ import com.culturebud.contract.NotebookDetailContract;
 import com.culturebud.presenter.NotebookDetailPresenter;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -174,7 +175,11 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
             }
             case R.id.tv_edit: {
                 pwItemMenu.dismiss();
+                if (currentOperaNote == null) {
+                    return;
+                }
                 Intent intent = new Intent(this, EditNoteActivity.class);
+                intent.putExtra("note", new Gson().toJson(currentOperaNote));
                 startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE);
                 break;
             }

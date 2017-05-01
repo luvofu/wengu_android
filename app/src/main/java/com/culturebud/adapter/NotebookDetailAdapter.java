@@ -210,7 +210,7 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
             switch (view.getId()) {
                 case R.id.tv_notebook_name:
                     if (onNotebookOperaListener != null) {
-                        onNotebookOperaListener.onNotebookOpera(view, nbDetail, OPERA_TYPE_NOTEBOOK_NAME, position);
+//                        onNotebookOperaListener.onNotebookOpera(view, nbDetail, OPERA_TYPE_NOTEBOOK_NAME, position);
                     }
                     break;
                 case R.id.tv_edit_permission:

@@ -24,13 +24,13 @@
         android:layout_toRightOf="@id/sdv_notebook_cover"
         android:clickable="true"
         android:drawablePadding="3dp"
-        android:drawableRight="@mipmap/right_arrow"
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:maxLines="1"
         android:textColor="@color/tabar_font_checked"
         android:textSize="16sp"
         tools:text="Android编程权威指南" />
+    <!--android:drawableRight="@mipmap/right_arrow"-->
 
     <TextView
         android:id="@+id/tv_note_num"

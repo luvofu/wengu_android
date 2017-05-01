@@ -33,6 +33,10 @@ public class NotePresenter extends NoteContract.Presenter {
             view.onErrorTip("客官，请写下笔记内容或者拍下图片");
             return;
         }
+        if (TextUtils.isEmpty(chapter) && page < 0) {
+            view.onErrorTip("章节或页码必须填至少一个");
+             return;
+        }
         view.showProDialog();
         model.createNote(BaseApp.getInstance().getUser().getToken(),
                 notebookId, content, chapter, page, otherLocation, imgUri)
