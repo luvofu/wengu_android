@@ -8,7 +8,7 @@
 
 
     <com.culturebud.widget.SettingItemView
-        android:id="@+id/binding_mobile"
+        android:id="@+id/siv_bind_mobile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/setting_item_only_last_bg_selector"
@@ -17,12 +17,12 @@
         app:icon="@mipmap/mobile_icon"
         app:has_icon="true"
         app:info="未绑定"
-        app:name="@string/mobile"/>
+        app:name="@string/txt_mobile"/>
 
 
 
     <com.culturebud.widget.SettingItemView
-        android:id="@+id/binding_wexin"
+        android:id="@+id/siv_bind_wechat"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/setting_item_only_last_bg_selector"
@@ -31,8 +31,18 @@
         app:icon="@drawable/ssdk_oks_classic_wechat"
         app:has_icon="true"
         app:info="未绑定"
-        app:name="@string/weixin"/>
+        app:name="@string/txt_wechat"/>
 
-
+    <com.culturebud.widget.SettingItemView
+        android:id="@+id/siv_bind_weibo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:clickable="true"
+        android:minHeight="48dp"
+        app:icon="@drawable/ssdk_oks_classic_sinaweibo"
+        app:has_icon="true"
+        app:info="未绑定"
+        app:name="@string/txt_weibo"/>
 
 </LinearLayout>

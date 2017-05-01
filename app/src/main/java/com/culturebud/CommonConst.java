@@ -38,6 +38,10 @@ public final class CommonConst {
 
     public static final String PATH_THIRD_BIND_LOGIN = "api/user/thirdBindLogin";
 
+    public static final String PATH_THIRD_BIND = "api/user/bindThird";
+
+    public static final String PATH_THIRD_UNBIND = "api/user/unbindThird";
+
     public static final String PATH_RETRIEVE_PWD = "api/user/forgotpsw";
 
     public static final String PATH_SECURITY_CODE = "api/user/sendValidcode";

@@ -170,7 +170,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     private void authorize(Platform plat) {
         if (plat == null) {
-//            popupOthers();
             onErrorTip("平台为空");
             return;
         }

@@ -7,29 +7,45 @@ import android.view.View;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
+import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
+import com.culturebud.contract.AccountBindingContract;
+import com.culturebud.presenter.AccountBindingPresenter;
 import com.culturebud.widget.SettingItemView;
 
+import java.util.HashMap;
 
-public class AccountBindActivity extends BaseActivity {
-    private SettingItemView bindingMobile, bindingWeXin;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.friends.Wechat;
+
+@PresenterInject(AccountBindingPresenter.class)
+public class AccountBindActivity extends BaseActivity<AccountBindingContract.Presenter> implements
+        PlatformActionListener, AccountBindingContract.View {
+    private SettingItemView sivBindMobile, sivBindWechat, sivBindSinaWeibo;
+    private long lastThirdBind;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.account_binding);
+        presenter.setView(this);
         showTitlebar();
-        bindingMobile = obtainViewById(R.id.binding_mobile);
-        bindingWeXin = obtainViewById(R.id.binding_wexin);
+        sivBindMobile = obtainViewById(R.id.siv_bind_mobile);
+        sivBindWechat = obtainViewById(R.id.siv_bind_wechat);
+        sivBindSinaWeibo = obtainViewById(R.id.siv_bind_weibo);
         setTitle(R.string.binding_account);
         setListeners();
 
     }
 
     private void setListeners() {
-        bindingMobile.setOnClickListener(this);
-        bindingWeXin.setOnClickListener(this);
+        sivBindMobile.setOnClickListener(this);
+        sivBindWechat.setOnClickListener(this);
     }
 
     @Override
@@ -43,18 +59,19 @@ public class AccountBindActivity extends BaseActivity {
         if (null != user) {
             String mobile = user.getRegMobile();
             if (!TextUtils.isEmpty(mobile)) {
-                bindingMobile.setRightInfo( mobile.replaceAll("(\\d{3})\\d{4}(\\d{4})","$1****$2"));
-            }else {
-                bindingMobile.setRightInfo(R.string.no_binding);
-            }
-            String wexinId = user.getWeixinId();
-            String nick = user.getNickname();
-            if (!TextUtils.isEmpty(wexinId)) {
-                bindingWeXin.setRightInfo(nick);
+                sivBindMobile.setRightInfo(mobile.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2"));
             } else {
-                bindingWeXin.setRightInfo(R.string.no_binding);
+                sivBindMobile.setRightInfo(R.string.no_binding);
             }
-
+            String wexinId = user.getWechatId();
+            if (!TextUtils.isEmpty(wexinId)) {
+                sivBindWechat.setRightInfo(user.getWechatNick());
+            } else {
+                sivBindWechat.setRightInfo(R.string.no_binding);
+            }
+            if (!TextUtils.isEmpty(user.getWeiboId())) {
+                sivBindSinaWeibo.setRightInfo(user.getWeiboNick());
+            }
         }
     }
 
@@ -62,20 +79,60 @@ public class AccountBindActivity extends BaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.binding_mobile://绑定手机号
+            case R.id.siv_bind_mobile://绑定手机号
             {
-                Intent intent = new Intent(this,MobileBindingActivity.class);
-                String mobile =  BaseApp.getInstance().getUser().getRegMobile();
-                intent.putExtra("mobile",mobile);
+                Intent intent = new Intent(this, MobileBindingActivity.class);
+                String mobile = BaseApp.getInstance().getUser().getRegMobile();
+                intent.putExtra("mobile", mobile);
                 startActivity(intent);
                 break;
             }
-            case R.id.binding_wexin://绑定微信
+            case R.id.siv_bind_wechat://绑定微信
             {
-
+                if (System.currentTimeMillis() - lastThirdBind < 3000) {
+                    return;
+                }
+                lastThirdBind = System.currentTimeMillis();
+                if (TextUtils.isEmpty(BaseApp.getInstance().getUser().getWechatId())) {
+                    Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
+                    authorize(wechat);
+                } else {
+                    presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWechatId(), CommonConst.ThirdType.TYPE_WECHAT);
+                }
+                break;
+            }
+            case R.id.siv_bind_weibo://bind sina weibo
+            {
+                if (System.currentTimeMillis() - lastThirdBind < 3000) {
+                    return;
+                }
+                lastThirdBind = System.currentTimeMillis();
+                if (TextUtils.isEmpty(BaseApp.getInstance().getUser().getWeiboId())) {
+                    Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
+                    authorize(weibo);
+                } else {
+                    presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWeiboId(), CommonConst.ThirdType.TYPE_SINA_WEIBO);
+                }
                 break;
             }
         }
+    }
+
+    private void authorize(Platform plat) {
+        if (plat == null) {
+            onErrorTip("平台为空");
+            return;
+        }
+
+        if (plat.isAuthValid()) {
+            plat.removeAccount(true);
+        }
+
+        plat.setPlatformActionListener(this);
+        //关闭SSO授权
+        plat.SSOSetting(true);
+        plat.authorize();
+        plat.showUser(null);
     }
 
     @Override
@@ -90,4 +147,49 @@ public class AccountBindActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    private String uid, nickname;
+
+    @Override
+    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+        if (Wechat.NAME.equalsIgnoreCase(platform.getName())) {
+            uid = hashMap.get("unionid").toString();
+            nickname = platform.getDb().getUserName();
+            runOnUiThread(() -> presenter.thirdBinding(uid, nickname, CommonConst.ThirdType.TYPE_WECHAT));
+        } else if (SinaWeibo.NAME.equalsIgnoreCase(platform.getName())) {
+            uid = platform.getDb().getUserId();
+            nickname = platform.getDb().getUserName();
+            runOnUiThread(() -> presenter.thirdBinding(uid, nickname, CommonConst.ThirdType.TYPE_SINA_WEIBO));
+        }
+    }
+
+    @Override
+    public void onError(Platform platform, int i, Throwable throwable) {
+
+    }
+
+    @Override
+    public void onCancel(Platform platform, int i) {
+
+    }
+
+    @Override
+    public void onBindingRes(boolean success, int thirdType) {
+        if (success) {
+            User user = BaseApp.getInstance().getUser();
+            if (user != null) {
+                switch (thirdType) {
+                    case CommonConst.ThirdType.TYPE_WECHAT:
+                        if (!TextUtils.isEmpty(user.getWechatId())) {
+                            sivBindWechat.setRightInfo(user.getWechatNick());
+                        }
+                        break;
+                    case CommonConst.ThirdType.TYPE_SINA_WEIBO:
+                        if (!TextUtils.isEmpty(user.getWeiboId())) {
+                            sivBindSinaWeibo.setRightInfo(user.getWeiboNick());
+                            break;
+                        }
+                }
+            }
+        }
+    }
 }

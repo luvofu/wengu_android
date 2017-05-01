@@ -46,12 +46,6 @@ public class LoginPresenter extends LoginContract.Presenter {
                                public void onError(Throwable e) {
                                    if (e instanceof ApiException) {
                                        view.onErrorTip(e.getMessage());
-//                                       ApiException ae = (ApiException) e;
-//                                       switch (ae.getCode()) {
-//                                           case ApiErrorCode.ERROR_LOGIN:
-//                                               view.showTip(ApiErrorCode.ERROR_LOGIN_INFO);
-//                                               break;
-//                                       }
                                    }
                                }
 

@@ -70,7 +70,7 @@ public class MobileBindingModel extends MobileBindingContract.Model {
             params.put("newRegMobile",mobile);
             params.put("validcode",validcode);
 
-            initRetrofit().create(ApiMeInterface.class).checkMobile(params)
+            initRetrofit().create(ApiMeInterface.class).changeMobile(params)
                     .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                         @Override
                         public void onCompleted() {

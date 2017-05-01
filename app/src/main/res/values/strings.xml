@@ -155,6 +155,7 @@
     <string name="find_none_wanted">没有找到您想要的书籍，<a color='red'>尝试亲手创建吧</a></string>
     <string name="add">添加</string>
 
-    <string name="mobile">手机号</string>
-    <string name="weixin">微信</string>
+    <string name="txt_mobile">手机号</string>
+    <string name="txt_wechat">微信</string>
+    <string name="txt_weibo">微博</string>
 </resources>

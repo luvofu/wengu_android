@@ -72,11 +72,19 @@ public class User {
 
     @SerializedName("weixinId")
     @DatabaseField(columnName = "weixin_id")
-    private String weixinId;//微信id
+    private String wechatId;//微信id
 
     @SerializedName("weiboId")
     @DatabaseField(columnName = "weibo_id")
     private String weiboId;//微博id
+
+    @SerializedName("weixinNickname")
+    @DatabaseField(columnName = "wechat_nick")
+    private String wechatNick;
+
+    @SerializedName("weiboNickname")
+    @DatabaseField(columnName = "weibo_nick")
+    private String weiboNick;
 
     @SerializedName("token")
     @DatabaseField(columnName = "token")
@@ -216,12 +224,12 @@ public class User {
         this.regMobile = regMobile;
     }
 
-    public String getWeixinId() {
-        return weixinId;
+    public String getWechatId() {
+        return wechatId;
     }
 
-    public void setWeixinId(String weixinId) {
-        this.weixinId = weixinId;
+    public void setWechatId(String wechatId) {
+        this.wechatId = wechatId;
     }
 
     public String getWeiboId() {
@@ -248,6 +256,22 @@ public class User {
         this.relationType = relationType;
     }
 
+    public String getWechatNick() {
+        return wechatNick;
+    }
+
+    public void setWechatNick(String wechatNick) {
+        this.wechatNick = wechatNick;
+    }
+
+    public String getWeiboNick() {
+        return weiboNick;
+    }
+
+    public void setWeiboNick(String weiboNick) {
+        this.weiboNick = weiboNick;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -257,30 +281,26 @@ public class User {
 
         if (userId != user.userId) return false;
         if (sex != user.sex) return false;
+        if (relationType != user.relationType) return false;
         if (mailbox != null ? !mailbox.equals(user.mailbox) : user.mailbox != null) return false;
-        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null)
-            return false;
+        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null) return false;
         if (avatar != null ? !avatar.equals(user.avatar) : user.avatar != null) return false;
-        if (background != null ? !background.equals(user.background) : user.background != null)
-            return false;
-        if (autograph != null ? !autograph.equals(user.autograph) : user.autograph != null)
-            return false;
+        if (background != null ? !background.equals(user.background) : user.background != null) return false;
+        if (autograph != null ? !autograph.equals(user.autograph) : user.autograph != null) return false;
         if (country != null ? !country.equals(user.country) : user.country != null) return false;
-        if (province != null ? !province.equals(user.province) : user.province != null)
-            return false;
+        if (province != null ? !province.equals(user.province) : user.province != null) return false;
         if (city != null ? !city.equals(user.city) : user.city != null) return false;
         if (county != null ? !county.equals(user.county) : user.county != null) return false;
-        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null)
-            return false;
+        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null) return false;
         if (tag != null ? !tag.equals(user.tag) : user.tag != null) return false;
-        if (userName != null ? !userName.equals(user.userName) : user.userName != null)
-            return false;
-        if (regMobile != null ? !regMobile.equals(user.regMobile) : user.regMobile != null)
-            return false;
-        if (weixinId != null ? !weixinId.equals(user.weixinId) : user.weixinId != null)
-            return false;
+        if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
+        if (regMobile != null ? !regMobile.equals(user.regMobile) : user.regMobile != null) return false;
+        if (wechatId != null ? !wechatId.equals(user.wechatId) : user.wechatId != null) return false;
         if (weiboId != null ? !weiboId.equals(user.weiboId) : user.weiboId != null) return false;
-        return token != null ? token.equals(user.token) : user.token == null;
+        if (wechatNick != null ? !wechatNick.equals(user.wechatNick) : user.wechatNick != null) return false;
+        if (weiboNick != null ? !weiboNick.equals(user.weiboNick) : user.weiboNick != null) return false;
+        if (token != null ? !token.equals(user.token) : user.token != null) return false;
+        return spellFirst != null ? spellFirst.equals(user.spellFirst) : user.spellFirst == null;
 
     }
 
@@ -301,9 +321,13 @@ public class User {
         result = 31 * result + (tag != null ? tag.hashCode() : 0);
         result = 31 * result + (userName != null ? userName.hashCode() : 0);
         result = 31 * result + (regMobile != null ? regMobile.hashCode() : 0);
-        result = 31 * result + (weixinId != null ? weixinId.hashCode() : 0);
+        result = 31 * result + (wechatId != null ? wechatId.hashCode() : 0);
         result = 31 * result + (weiboId != null ? weiboId.hashCode() : 0);
+        result = 31 * result + (wechatNick != null ? wechatNick.hashCode() : 0);
+        result = 31 * result + (weiboNick != null ? weiboNick.hashCode() : 0);
         result = 31 * result + (token != null ? token.hashCode() : 0);
+        result = 31 * result + relationType;
+        result = 31 * result + (spellFirst != null ? spellFirst.hashCode() : 0);
         return result;
     }
 
@@ -325,8 +349,10 @@ public class User {
                 ", tag='" + tag + '\'' +
                 ", userName='" + userName + '\'' +
                 ", regMobile='" + regMobile + '\'' +
-                ", weixinId='" + weixinId + '\'' +
+                ", wechatId='" + wechatId + '\'' +
                 ", weiboId='" + weiboId + '\'' +
+                ", wechatNick='" + wechatNick + '\'' +
+                ", weiboNick='" + weiboNick + '\'' +
                 ", token='" + token + '\'' +
                 ", relationType=" + relationType +
                 ", spellFirst='" + spellFirst + '\'' +
@@ -351,8 +377,10 @@ public class User {
         user.setTag(tag);
         user.setUserName(userName);
         user.setRegMobile(regMobile);
-        user.setWeixinId(weixinId);
+        user.setWechatId(wechatId);
         user.setWeiboId(weiboId);
+        user.setWechatNick(wechatNick);
+        user.setWeiboNick(weiboNick);
         user.setToken(token);
         user.setSpellFirst(spellFirst);
         user.setRelationType(relationType);

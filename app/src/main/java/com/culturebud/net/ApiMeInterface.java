@@ -169,16 +169,10 @@ public interface ApiMeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> inviteFriend(@FieldMap Map<String, Object> params);
 
-    /**
-     * 绑定第三方信息（手机号）
-     * validcode 验证码
-     * regMobile 手机号
-     * @param params
-     * @return
-     */
-    @POST(CommonConst.PATH_THIRD_BIND_LOGIN)
+    @POST(CommonConst.PATH_USER_MSG_AGREE_INVITE)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonObject>> thirdbind(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<JsonObject>> agreeInvite(@FieldMap Map<String, Object> params);
+
 
     /**
      * 验证绑定手机（手机号）
@@ -202,8 +196,12 @@ public interface ApiMeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> changeMobile(@FieldMap Map<String, Object> params);
 
-
-    @POST(CommonConst.PATH_USER_MSG_AGREE_INVITE)
+    @POST(CommonConst.PATH_THIRD_BIND)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonObject>> agreeInvite(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<User>> bindThird(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_THIRD_UNBIND)
+    @FormUrlEncoded
+    Observable<ApiResultBean<User>> unbindThird(@FieldMap Map<String, Object> params);
+
 }
