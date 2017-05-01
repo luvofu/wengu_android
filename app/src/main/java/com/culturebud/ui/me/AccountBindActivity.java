@@ -46,6 +46,7 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
     private void setListeners() {
         sivBindMobile.setOnClickListener(this);
         sivBindWechat.setOnClickListener(this);
+        sivBindSinaWeibo.setOnClickListener(this);
     }
 
     @Override
@@ -71,6 +72,8 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
             }
             if (!TextUtils.isEmpty(user.getWeiboId())) {
                 sivBindSinaWeibo.setRightInfo(user.getWeiboNick());
+            } else {
+                sivBindSinaWeibo.setRightInfo(R.string.no_binding);
             }
         }
     }
@@ -181,12 +184,16 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
                     case CommonConst.ThirdType.TYPE_WECHAT:
                         if (!TextUtils.isEmpty(user.getWechatId())) {
                             sivBindWechat.setRightInfo(user.getWechatNick());
+                        } else {
+                            sivBindWechat.setRightInfo(R.string.no_binding);
                         }
                         break;
                     case CommonConst.ThirdType.TYPE_SINA_WEIBO:
                         if (!TextUtils.isEmpty(user.getWeiboId())) {
                             sivBindSinaWeibo.setRightInfo(user.getWeiboNick());
                             break;
+                        } else {
+                            sivBindSinaWeibo.setRightInfo(R.string.no_binding);
                         }
                 }
             }

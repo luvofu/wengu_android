@@ -55,15 +55,18 @@ public class AccountBindingPresenter extends AccountBindingContract.Presenter {
         if (!validateToken()) {
             return;
         }
+        view.showProDialog();
         model.thirdUnbinding(BaseApp.getInstance().getUser().getToken(), uid, thirdType)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<User>() {
             @Override
             public void onCompleted() {
+                view.hideProDialog();
             }
 
             @Override
             public void onError(Throwable e) {
+                view.hideProDialog();
                 e.printStackTrace();
                 if (e instanceof ApiException) {
                     view.onErrorTip(e.getMessage());
