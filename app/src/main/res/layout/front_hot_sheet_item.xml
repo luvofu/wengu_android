@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fresco="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              xmlns:fresco="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="100dp"
@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:scaleType="fitXY"
             fresco:placeholderImage="@mipmap/img_placeholder"
-            fresco:placeholderImageScaleType="fitXY" />
+            fresco:placeholderImageScaleType="fitXY"/>
 
         <TextView
             android:id="@+id/tv_col_num"
@@ -34,7 +34,7 @@
             android:paddingTop="1dp"
             android:text="8"
             android:textColor="@android:color/white"
-            android:textSize="@dimen/front_item_more_font" />
+            android:textSize="@dimen/front_item_more_font"/>
 
         <TextView
             android:id="@+id/tv_nick_name"
@@ -42,10 +42,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:background="#55777777"
+            android:drawableLeft="@mipmap/ic_me_white"
+            android:drawablePadding="2dp"
+            android:ellipsize="end"
+            android:lines="1"
             android:padding="2dp"
             android:textColor="@android:color/white"
             android:textSize="@dimen/front_item_more_font"
-            tools:text="不止步的风" />
+            tools:text="不止步的风"/>
     </FrameLayout>
 
     <TextView
@@ -53,8 +57,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="5dp"
+        android:ellipsize="end"
+        android:maxLines="2"
         android:textColor="@color/title_font_default"
         android:textSize="@dimen/front_item_more_font"
-        tools:text="男人的世界" />
+        tools:text="男人的世界"/>
 
 </LinearLayout>
