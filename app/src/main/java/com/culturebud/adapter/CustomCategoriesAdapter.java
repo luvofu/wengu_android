@@ -59,7 +59,7 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         if (ITEM_TYPE_ADD == viewType) {
             return new AddCustomCategoryViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_custom_category_add, parent, false));
-        } else if(ITEM_TYPE_CATEGORY == viewType) {
+        } else if (ITEM_TYPE_CATEGORY == viewType) {
             return new CustomCategoriesViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_custom_category, parent, false));
         } else {
@@ -71,14 +71,14 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
     @Override
     public void onBindViewHolder(AddCustomCategoryViewHolder holder, int position) {
         holder.position = position;
-        if (holder.getClass() == AddCustomCategoryViewHolder.class) {
-            holder.category = null;
-        } else if (holder.getClass() == CustomCategoriesViewHolder.class) {
+        if (holder.getClass() == CustomCategoriesViewHolder.class) {
             Category item = data.get(position);
             CustomCategoriesViewHolder ccHolder = (CustomCategoriesViewHolder) holder;
             ccHolder.setCategory(item.getCategory());
             ccHolder.setCount(item.getStatis());
             ccHolder.category = item;
+        } else if (holder.getClass() == AddCustomCategoryViewHolder.class) {
+            holder.category = null;
         } else {
             Category item = data.get(position);
             CustomCategoriesSimpleViewHolder ccsHolder = (CustomCategoriesSimpleViewHolder) holder;
@@ -179,7 +179,7 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         }
     }
 
-    class CustomCategoriesSimpleViewHolder extends AddCustomCategoryViewHolder{
+    class CustomCategoriesSimpleViewHolder extends AddCustomCategoryViewHolder {
         private TextView tvCategory;
 
         public CustomCategoriesSimpleViewHolder(View itemView) {

@@ -1,13 +1,19 @@
 package com.culturebud.bean;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by XieWei on 2017/3/31.
  */
 
 public class Category {
+    @SerializedName("category")
     private String category;//"文学",
+    @SerializedName("categoryId")
     private long categoryId;//"51",
+    @SerializedName("statis")
     private int statis;//"0"
+    @SerializedName("type")
     private int type;
 
     public String getCategory() {
