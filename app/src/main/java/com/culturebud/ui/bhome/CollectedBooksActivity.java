@@ -396,6 +396,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     @Override
     public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
         if (success) {
+            currentPage = 0;
             presenter.getMyBooks(userId, currentPage, currentCategoryType, currentCategory);
         }
     }
