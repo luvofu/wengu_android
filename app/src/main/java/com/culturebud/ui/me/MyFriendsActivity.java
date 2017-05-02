@@ -87,7 +87,7 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
 
     @Override
     public void onIndexChanged(int index, String content) {
-        onErrorTip("index = " + index + ", char is " + content);
+//        onErrorTip("index = " + index + ", char is " + content);
         int position = ((MyFriendsAdapter) rvFriends.getAdapter()).indexAlph(content);
         if (position >= 0 && position < rvFriends.getAdapter().getItemCount() - 1) {
             rvFriends.smoothScrollToPosition(position);
