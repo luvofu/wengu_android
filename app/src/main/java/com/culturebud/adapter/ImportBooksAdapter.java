@@ -47,19 +47,21 @@ public class ImportBooksAdapter extends RecyclerView.Adapter<ImportBooksAdapter.
         data.addAll(books);
         notifyItemRangeChanged(position, books.size());
     }
-    public void afterAddBook(long bookId){
-        boolean change= false;
-        for(Book book:data){
-            if(book.getBookId() == bookId){
+
+    public void afterAddBook(long bookId) {
+        boolean change = false;
+        for (Book book : data) {
+            if (book.getBookId() == bookId) {
                 change = true;
                 book.setContain(true);
             }
         }
-        if(change){
+        if (change) {
             notifyDataSetChanged();
         }
 
     }
+
     @Override
     public BooksViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -76,7 +78,7 @@ public class ImportBooksAdapter extends RecyclerView.Adapter<ImportBooksAdapter.
         holder.setPublisherInfo(book.getAuthor() + " 著 / "
                 + book.getTranslator() + " 译 / "
                 + book.getPublisher() + " / " + book.getPubDate());
-       holder.setAddBookBtn(book.isContain());
+        holder.setAddBookBtn(book.isContain());
 
     }
 
@@ -91,10 +93,9 @@ public class ImportBooksAdapter extends RecyclerView.Adapter<ImportBooksAdapter.
         private TextView tvBookName, tvPublisherInfo, tvGoodNum;
         private RatingBar rbGoodRating;
         private Button addBook;
-        private View itemView;
+
         public BooksViewHolder(View itemView) {
             super(itemView);
-            this.itemView = itemView;
             sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvPublisherInfo = (TextView) itemView.findViewById(R.id.tv_publisher_info);
@@ -104,10 +105,16 @@ public class ImportBooksAdapter extends RecyclerView.Adapter<ImportBooksAdapter.
             itemView.setOnClickListener(this);
             addBook.setOnClickListener(this);
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
-                LayerDrawable ld = (LayerDrawable) rbGoodRating.getProgressDrawable();
-                ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black), PorterDuff.Mode.SRC_ATOP);
-                ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
-                ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
+                if (rbGoodRating.getProgressDrawable() != null && rbGoodRating.getProgressDrawable() instanceof
+                        LayerDrawable) {
+                    LayerDrawable ld = (LayerDrawable) rbGoodRating.getProgressDrawable();
+                    ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black),
+                            PorterDuff.Mode.SRC_ATOP);
+                    ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff
+                            .Mode.SRC_ATOP);
+                    ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff
+                            .Mode.SRC_ATOP);
+                }
             }
         }
 
@@ -135,12 +142,13 @@ public class ImportBooksAdapter extends RecyclerView.Adapter<ImportBooksAdapter.
             }
             tvPublisherInfo.setText(publisherInfo);
         }
-        public void setAddBookBtn(boolean contain){
-            if(contain){
-              //  addBook.setBackground(itemView.getResources().getDrawable(R.drawable.import_book_bg));
+
+        public void setAddBookBtn(boolean contain) {
+            if (contain) {
+                //  addBook.setBackground(itemView.getResources().getDrawable(R.drawable.import_book_bg));
                 addBook.setBackgroundResource(R.drawable.import_book_bg2);
                 addBook.setText("已在书架");
-            }else{
+            } else {
                 addBook.setBackgroundResource(R.drawable.import_book_bg);
                 addBook.setText("加入书架");
             }
