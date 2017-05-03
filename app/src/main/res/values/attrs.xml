@@ -56,4 +56,8 @@
         <attr name="left_swipe" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="ScaleRelativeLayout">
+        <attr name="ratio" format="float" />
+    </declare-styleable>
+
 </resources>

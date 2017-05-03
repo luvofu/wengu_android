@@ -108,7 +108,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvDynamics.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
-        divider.setDividerHeight(10);
+        divider.setDividerHeight(1);
         rvDynamics.addItemDecoration(divider);
         BookCircleDynamicAdapter adapter = new BookCircleDynamicAdapter();
         adapter.setOnItemClickListener(this);

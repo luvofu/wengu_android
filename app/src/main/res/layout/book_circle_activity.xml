@@ -17,18 +17,19 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="226dp"
+            android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
             app:expandedTitleMarginEnd="960dp"
             app:expandedTitleMarginStart="960dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <RelativeLayout
+            <com.culturebud.widget.ScaleRelativeLayout
                 android:id="@+id/rl_bc_bg"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@mipmap/book_circle_top_bg"
+                android:background="@android:color/white"
+                app:ratio="1.476"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.6">
 
@@ -77,7 +78,7 @@
                     <!--android:onClick="onClick"-->
                     <!--android:scaleType="centerInside"-->
                     <!--android:src="@drawable/titlebar_add_selector"/>-->
-            </RelativeLayout>
+            </com.culturebud.widget.ScaleRelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 
         <LinearLayout
@@ -86,7 +87,7 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_gravity="bottom"
-            android:background="@color/my_transact"
+            android:background="@android:color/white"
             android:gravity="center"
             android:minHeight="36dp"
             android:orientation="horizontal"
@@ -98,38 +99,40 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:drawableLeft="@mipmap/book_circle_my_publish"
-                android:drawablePadding="5dp"
-                android:gravity="center"
                 android:onClick="onClick"
-                android:padding="8dp"
                 android:text="@string/my_published"
-                android:textColor="@android:color/white"
+                android:textColor="@color/primary_blue"
+                android:layout_weight="1"
+                android:textAlignment="center"
                 android:textSize="14sp"/>
 
             <View
                 android:layout_width="0.5dp"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="5dp"
-                android:layout_marginLeft="30dp"
-                android:layout_marginRight="30dp"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
                 android:layout_marginTop="5dp"
-                android:background="@android:color/white"/>
+                android:background="@color/primary_blue"/>
 
             <TextView
                 android:id="@+id/tv_related_me"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                android:drawableLeft="@mipmap/book_circle_related_me"
-                android:drawablePadding="5dp"
-                android:gravity="center"
                 android:onClick="onClick"
-                android:padding="8dp"
                 android:text="@string/related_me"
-                android:textColor="@android:color/white"
+                android:textColor="@color/primary_blue"
+                android:layout_weight="1"
+                android:textAlignment="center"
                 android:textSize="14sp"/>
         </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@color/common_bg"/>
+
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
