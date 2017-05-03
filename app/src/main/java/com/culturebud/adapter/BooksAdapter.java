@@ -5,10 +5,12 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -200,6 +202,7 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         private SimpleDraweeView sdvBookCover;
         private TextView tvBookName, tvPublisherInfo, tvGoodNum;
         private RatingBar rbGoodRating;
+        private LinearLayout llItem;
 
         public BooksViewHolder(View itemView) {
             super(itemView);
@@ -220,6 +223,12 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode
                         .SRC_ATOP);
             }
+            llItem = WidgetUtil.obtainViewById(itemView, R.id.ll_item);
+            llItem.setOnClickListener(v -> {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(v, data.get(position), 0);
+                }
+            });
         }
 
         public void setPosition(int position) {
