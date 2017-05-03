@@ -143,7 +143,9 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
             tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_count);
             btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
             etCategory.setOnClickListener(v -> {
+                etCategory.requestFocus();
                 etCategory.setCursorVisible(true);
+                etCategory.setSelection(etCategory.getText().length());
             });
             etCategory.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
