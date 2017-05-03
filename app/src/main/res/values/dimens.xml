@@ -50,8 +50,8 @@
     <dimen name="min_search_width">260dp</dimen>
     <dimen name="min_search_height">36dp</dimen>
 
-    <dimen name="book_mark_item_width">96dp</dimen>
-    <dimen name="book_mark_item_height">140dp</dimen>
+    <dimen name="book_mark_item_width">95dp</dimen>
+    <dimen name="book_mark_item_height">134dp</dimen>
     <dimen name="book_mark_item_cover_width">92dp</dimen>
     <dimen name="book_mark_item_cover_height">130dp</dimen>
     <dimen name="item_book_cover_width_small">32dp</dimen>
