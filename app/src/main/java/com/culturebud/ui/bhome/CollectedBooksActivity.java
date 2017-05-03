@@ -113,9 +113,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     .setBackgroundResource(android.R.color.transparent);
             rvOperaItems = (RecyclerView) bsdMoreOperas.getWindow().findViewById(R.id.rv_opera_items);
             tvCancel = (TextView) bsdMoreOperas.getWindow().findViewById(R.id.tv_cancel);
-            tvCancel.setOnClickListener(v -> {
-                hideMoreOperas();
-            });
+            tvCancel.setOnClickListener(v -> hideMoreOperas());
             rvOperaItems.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
             rvOperaItems.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL));
         }

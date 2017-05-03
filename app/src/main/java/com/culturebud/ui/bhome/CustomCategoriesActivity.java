@@ -2,6 +2,7 @@ package com.culturebud.ui.bhome;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -26,7 +27,8 @@ import java.util.List;
 
 @PresenterInject(CustomCategoriesPresenter.class)
 public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContract.Presenter> implements
-        CustomCategoriesContract.View, CustomCategoriesAdapter.OnItemClickListener, CustomCategoriesAdapter.OnItemDeleteListener {
+        CustomCategoriesContract.View, CustomCategoriesAdapter.OnItemClickListener, CustomCategoriesAdapter
+        .OnItemDeleteListener {
     private RecyclerView rvCustomCategories;
 
     @Override
@@ -64,8 +66,8 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
 
     @Override
     public void onCustomCategories(List<Category> categories) {
-        ((CustomCategoriesAdapter)rvCustomCategories.getAdapter()).clearData();
-        ((CustomCategoriesAdapter)rvCustomCategories.getAdapter()).addItems(categories);
+        ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).clearData();
+        ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).addItems(categories);
     }
 
     @Override
@@ -106,8 +108,13 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     @Override
     public void onItemDelete(int position, Category category) {
         if (category != null) {
-            ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).deleteItem(category);
-            presenter.deleteCustomCategory(category.getCategoryId());
+            new AlertDialog.Builder(this).setMessage("删除分类将会连同分类里面的书籍一起删除，您确定要删除吗？")
+                    .setPositiveButton("删除", (dialog, which) -> {
+                        ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).deleteItem(category);
+                        presenter.deleteCustomCategory(category.getCategoryId());
+                    })
+                    .setNegativeButton("取消", null)
+                    .show();
         }
     }
 }
