@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -64,7 +65,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
 @PresenterInject(BookCirclePresenter.class)
 public class BookCircleActivity extends BaseActivity<BookCircleContract.Presenter>
         implements BookCircleContract.View, BookCircleDynamicAdapter.OnItemClickListener,
-        View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener {
+        View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView rvDynamics;
     private SimpleDraweeView sdvFace;
     private AppBarLayout abl;
@@ -75,6 +76,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     private TextView tvSend;
     private InputMethodManager imm;
     private int screenHeight;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,16 +95,16 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
         abl = obtainViewById(R.id.abl);
         abl.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            if (verticalOffset == 0) {
-                rvDynamics.setEnabled(true);
-            } else {
-                rvDynamics.setEnabled(false);
-            }
+            rvDynamics.setEnabled(verticalOffset == 0);
+            swipeRefreshLayout.setEnabled(verticalOffset == 0);
         });
 
         rlBg = obtainViewById(R.id.rl_bc_bg);
         sdvFace = obtainViewById(R.id.sdv_face);
         tvNick = obtainViewById(R.id.tv_nick_name);
+        swipeRefreshLayout = obtainViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setProgressViewOffset(true, -20, 100);
+
 
         rvDynamics = obtainViewById(R.id.rv_content);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -201,6 +203,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         rlBg.setOnClickListener(this);
         rvDynamics.setOnScrollListener(listener);
         addSoftKeyboardChangedListener(this);
+
+        swipeRefreshLayout.setOnRefreshListener(this);
     }
 
     private int currentPage;
@@ -215,10 +219,11 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
+
+            int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
+                    .findLastVisibleItemPosition();
             if (dy > 0) {
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
-                        .findLastVisibleItemPosition();
-                int total = recyclerView.getLayoutManager().getItemCount();
+                                int total = recyclerView.getLayoutManager().getItemCount();
                 if (dy > 0 && (lastPosition + 1 >= total) && !loading) {
                     loading = true;
                     presenter.loadDynamics(++currentPage);
@@ -226,6 +231,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             } else {
 
             }
+
+            swipeRefreshLayout.setEnabled(lastPosition == 0);
         }
     };
 
@@ -295,6 +302,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
     @Override
     public void onDynamics(List<BookCircleDynamic> dynamics) {
+        swipeRefreshLayout.setRefreshing(false);
+
         if (dynamics == null || dynamics.isEmpty()) {
             Log.d("bCircle", "没有更多了");
             return;
@@ -557,5 +566,12 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 });
             }, 100);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        currentPage = 0;
+        presenter.downloadBgImg();
+        presenter.loadDynamics(currentPage);
     }
 }
