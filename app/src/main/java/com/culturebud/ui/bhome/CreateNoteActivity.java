@@ -66,8 +66,8 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
             case R.id.sdv_add_img:
                 aspectX = 0;
                 aspectY = 0;
-                outX = 720;
-                outY = 480;
+                outX = 0;
+                outY = 0;
                 showPhotoDialog();
                 break;
             case R.id.iv_del_img:
