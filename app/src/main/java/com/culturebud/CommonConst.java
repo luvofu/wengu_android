@@ -375,6 +375,7 @@ public final class CommonConst {
         public static final int REQUEST_CODE_EDIT_NOTE_CONTNET= 1037;
         public static final int REQUEST_CODE_EDIT_NOTE_PAGE = 1038;
         public static final int REQUEST_CODE_EDIT_NOTE_CHAPTER = 1039;
+        public static final int REQUEST_CODE_CHANGEMOBILEBIND = 1040;
     }
 
     public static String getRootPath() {

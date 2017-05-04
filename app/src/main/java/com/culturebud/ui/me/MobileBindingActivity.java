@@ -16,6 +16,8 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.contract.MobileBindingContract;
 import com.culturebud.presenter.MobileBindingPresenter;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_CHANGEMOBILEBIND;
+
 @PresenterInject(MobileBindingPresenter.class)
 public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Presenter> implements
         MobileBindingContract.View {
@@ -128,6 +130,13 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
         if (result) {
             BaseApp.getInstance().getUser().setRegMobile(newMobile);
             onErrorTip("绑定成功");
+
+            //绑定成功，需要回到上级页面.
+            Intent intent = new Intent(this, AccountBindActivity.class);
+            intent.putExtra("requestcode", REQUEST_CODE_CHANGEMOBILEBIND);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
         }
     }
 

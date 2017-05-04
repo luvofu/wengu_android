@@ -23,6 +23,8 @@ import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
 import cn.sharesdk.wechat.friends.Wechat;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_CHANGEMOBILEBIND;
+
 @PresenterInject(AccountBindingPresenter.class)
 public class AccountBindActivity extends BaseActivity<AccountBindingContract.Presenter> implements
         PlatformActionListener, AccountBindingContract.View {
@@ -148,6 +150,18 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+
+        Bundle data = intent.getExtras();
+        int requestCode = data.getInt("requestcode");
+        if (requestCode == REQUEST_CODE_CHANGEMOBILEBIND) {
+            //换绑成功，刷新UI.
+            initData();
+        }
     }
 
     private String uid, nickname;
