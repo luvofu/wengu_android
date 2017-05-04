@@ -3,6 +3,7 @@ package com.culturebud.presenter;
 import com.culturebud.BaseApp;
 import com.culturebud.CommonConst;
 import com.culturebud.R;
+import com.culturebud.bean.User;
 import com.culturebud.contract.MobileBindingContract;
 import com.culturebud.model.MobileBindingModel;
 import com.culturebud.util.ApiException;
@@ -113,6 +114,29 @@ public class MobileBindingPresenter extends MobileBindingContract.Presenter {
                         view.onBindingMobile(aBoolean);
                     }
                 });
+    }
+
+    @Override
+    public void updateLocalUser(User user) {
+        model.updateLocalUser(user)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(new Subscriber<Boolean>() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+
+            }
+        });
     }
 
     @Override

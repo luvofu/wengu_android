@@ -1,5 +1,8 @@
 package com.culturebud.contract;
 
+import com.culturebud.bean.User;
+import com.culturebud.model.AccountBindingModel;
+
 import rx.Observable;
 
 public interface MobileBindingContract {
@@ -17,7 +20,7 @@ public interface MobileBindingContract {
 
     }
 
-    abstract class Model extends BaseModel {
+    abstract class Model extends AccountBindingModel {
 
         public abstract Observable<Boolean> checkMobile(String token, String mobile, String validcode);
 
@@ -30,5 +33,7 @@ public interface MobileBindingContract {
         public abstract void checkMobile(String mobile, String validcode);
 
         public abstract void changeMobile(String mobile, String validcode);
+
+        public abstract void updateLocalUser(User user);
     }
 }

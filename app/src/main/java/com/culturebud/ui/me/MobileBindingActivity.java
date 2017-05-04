@@ -89,7 +89,7 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
             case R.id.submit_btn://提交
             {
                 String verifyCode = etVerifyCode.getText().toString();
-                if (verifyCode == null || verifyCode.length() < 6) {
+                if (verifyCode.length() <= 0) {
                     Toast.makeText(this, "验证码错误", Toast.LENGTH_SHORT).show();
                     return;
                 }
@@ -129,6 +129,7 @@ public class MobileBindingActivity extends BaseActivity<MobileBindingContract.Pr
     public void onBindingMobile(boolean result) {
         if (result) {
             BaseApp.getInstance().getUser().setRegMobile(newMobile);
+            presenter.updateLocalUser(BaseApp.getInstance().getUser());
             onErrorTip("绑定成功");
 
             //绑定成功，需要回到上级页面.
