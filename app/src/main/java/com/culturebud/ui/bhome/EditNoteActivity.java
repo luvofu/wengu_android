@@ -91,10 +91,10 @@ public class EditNoteActivity extends BaseActivity<NoteContract.Presenter> imple
 
         switch (v.getId()) {
             case R.id.ll_change_img:
-                aspectX = 1;
-                aspectY = 1;
-                outX = 0;
-                outY = 0;
+                aspectX = 0;
+                aspectY = 0;
+                outX = 720;
+                outY = 480;
                 showPhotoDialog();
                 break;
             case R.id.siv_note_content: {

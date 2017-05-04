@@ -64,8 +64,8 @@ public class CreateNoteActivity extends BaseActivity<NoteContract.Presenter> imp
                         etOther.getText().toString(), photoUri);
                 break;
             case R.id.sdv_add_img:
-                aspectX = 8;
-                aspectY = 5;
+                aspectX = 0;
+                aspectY = 0;
                 outX = 720;
                 outY = 480;
                 showPhotoDialog();
