@@ -266,6 +266,7 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
                 break;
             case REQUEST_CODE_EDIT_NOTE:
                 if (resultCode == RESULT_OK) {
+                    currentPage = 0;
                     presenter.notesForNotebook(notebookDetail.getNotebookId(), currentPage);
                 }
                 break;

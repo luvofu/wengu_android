@@ -6,6 +6,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
@@ -18,10 +19,12 @@ import com.culturebud.bean.Notebook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookContract;
 import com.culturebud.presenter.NotebookPresenter;
+import com.culturebud.ui.search.SelectBookActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_BOOK;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CREATE_NOTEBOOK;
 
 /**
@@ -59,7 +62,11 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     @Override
     protected void onOptions(View view) {
         super.onOptions(view);
-        startActivityForResult(new Intent(this, CreateNotebookActivity.class), REQUEST_CREATE_NOTEBOOK);
+//        startActivityForResult(new Intent(this, CreateNotebookActivity.class), REQUEST_CREATE_NOTEBOOK);
+
+        //此处需要打开个人书籍列表页面，选一本即可创建笔记本.
+        Intent intent = new Intent(this, SelectBookActivity.class);
+        startActivityForResult(intent, REQUEST_CODE_SELECT_BOOK);
     }
 
     @Override
@@ -96,6 +103,15 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     }
 
     @Override
+    public void onCreateNotebook(boolean res, long bookId) {
+        if (res) {
+            //笔记本创建成功，需要刷新数据.
+            currentPage = 0;
+            presenter.userNotebooks(currentPage, userId);
+        }
+    }
+
+    @Override
     public void onClick(View v) {
         super.onClick(v);
 
@@ -111,10 +127,22 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CREATE_NOTEBOOK:
+//            case REQUEST_CREATE_NOTEBOOK:
+//                if (resultCode == RESULT_OK) {
+//                    currentPage = 0;
+//                    presenter.userNotebooks(currentPage, userId);
+//                }
+//                break;
+            case REQUEST_CODE_SELECT_BOOK:
+                //选择一本书后开始创建笔记本.
                 if (resultCode == RESULT_OK) {
-                    currentPage = 0;
-                    presenter.userNotebooks(currentPage, userId);
+                    long bookId = data.getLongExtra("book_id", -1);
+                    String bookTitle = data.getStringExtra("book_title");
+                    String bookCover = data.getStringExtra("book_cover");
+                    if (bookId != -1) {
+                        //获取到bookid，调用创建API.
+                        presenter.createNotebook(bookId);
+                    }
                 }
                 break;
         }

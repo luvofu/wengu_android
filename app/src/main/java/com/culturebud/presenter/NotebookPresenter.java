@@ -1,6 +1,9 @@
 package com.culturebud.presenter;
 
+import android.text.TextUtils;
+
 import com.culturebud.BaseApp;
+import com.culturebud.bean.CollectedBook;
 import com.culturebud.bean.Notebook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookContract;
@@ -75,5 +78,34 @@ public class NotebookPresenter extends NotebookContract.Presenter {
                 view.onDeleteNotebook(notebook, aBoolean);
             }
         });
+    }
+
+    @Override
+    public void createNotebook(long bookId) {
+        if (!validateToken()) {
+            return;
+        }
+
+        model.createNotebook(BaseApp.getInstance().getUser().getToken(), bookId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onCreateNotebook(aBoolean, bookId);
+                    }
+                });
     }
 }
