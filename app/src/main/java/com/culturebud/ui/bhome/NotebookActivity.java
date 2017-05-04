@@ -137,8 +137,6 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
                 //选择一本书后开始创建笔记本.
                 if (resultCode == RESULT_OK) {
                     long bookId = data.getLongExtra("book_id", -1);
-                    String bookTitle = data.getStringExtra("book_title");
-                    String bookCover = data.getStringExtra("book_cover");
                     if (bookId != -1) {
                         //获取到bookid，调用创建API.
                         presenter.createNotebook(bookId);
