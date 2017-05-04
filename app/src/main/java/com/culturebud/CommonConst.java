@@ -371,6 +371,10 @@ public final class CommonConst {
 
         public static final int REQUEST_CODE_PUBLISH_DYNAMIC = 1035;
         public static final int REQUEST_CODE_MANUAL_BOOK_CHECK = 1036;
+
+        public static final int REQUEST_CODE_EDIT_NOTE_CONTNET= 1037;
+        public static final int REQUEST_CODE_EDIT_NOTE_PAGE = 1038;
+        public static final int REQUEST_CODE_EDIT_NOTE_CHAPTER = 1039;
     }
 
     public static String getRootPath() {

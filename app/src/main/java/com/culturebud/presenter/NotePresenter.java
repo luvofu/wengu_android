@@ -4,6 +4,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.contract.NoteContract;
 import com.culturebud.model.NoteModel;
 import com.culturebud.util.ApiException;
@@ -117,6 +118,37 @@ public class NotePresenter extends NoteContract.Presenter {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         view.onNoteOpera(aBoolean, NoteContract.View.OPERA_TYPE_EDIT);
+                    }
+                });
+    }
+
+    @Override
+    public void editCover(Uri uri, long noteId) {
+        if (!validateToken()) {
+            return;
+        }
+        view.showProDialog();
+        model.uploadImage(BaseApp.getInstance().getUser().getToken(), CommonConst.UploadImgType
+                .TYPE_USER_NOTEBOOK_CONTENT, noteId, uri, true)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<String>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hideProDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProDialog();
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(String s) {
+
                     }
                 });
     }

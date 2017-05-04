@@ -160,10 +160,23 @@ public class NoteModel extends NoteContract.Model {
                 params.put(TOKEN_KEY, token);
             }
             params.put("noteId", noteId);
-            params.put("content", content);
-            params.put("chapter", chapter);
-            params.put("pages", pages);
-            params.put("otherLocation", otherLocation);
+
+            if (!TextUtils.isEmpty(content)) {
+                params.put("content", content);
+            }
+
+            if (!TextUtils.isEmpty(chapter)) {
+                params.put("chapter", chapter);
+            }
+
+            if (pages > -1) {
+                params.put("pages", pages);
+            }
+
+            if (!TextUtils.isEmpty(otherLocation)) {
+                params.put("otherLocation", otherLocation);
+            }
+
             initRetrofit().create(ApiBookHomeInterface.class).editNote(params)
                     .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                         @Override

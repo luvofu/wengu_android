@@ -79,7 +79,7 @@
         android:id="@+id/siv_note_pages"
         android:layout_width="match_parent"
         android:layout_height="54dp"
-        android:background="@drawable/setting_item_center_bg_selector"
+        android:background="@drawable/setting_item_last_bg_selector"
         android:clickable="true"
         android:onClick="onClick"
         app:has_icon="false"
@@ -89,19 +89,19 @@
         app:name_color="@color/title_font_default"
         app:name_size="14sp"/>
 
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_note_other"
-        android:layout_width="match_parent"
-        android:layout_height="54dp"
-        android:background="@drawable/setting_item_last_bg_selector"
-        android:clickable="true"
-        android:onClick="onClick"
-        app:has_icon="false"
-        app:info_color="@color/font_black_light"
-        app:info_size="12sp"
-        app:name="其他"
-        app:name_color="@color/title_font_default"
-        app:name_size="14sp"/>
+    <!--<com.culturebud.widget.SettingItemView-->
+        <!--android:id="@+id/siv_note_other"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="54dp"-->
+        <!--android:background="@drawable/setting_item_last_bg_selector"-->
+        <!--android:clickable="true"-->
+        <!--android:onClick="onClick"-->
+        <!--app:has_icon="false"-->
+        <!--app:info_color="@color/font_black_light"-->
+        <!--app:info_size="12sp"-->
+        <!--app:name="其他"-->
+        <!--app:name_color="@color/title_font_default"-->
+        <!--app:name_size="14sp"/>-->
 
 
 </LinearLayout>

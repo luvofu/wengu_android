@@ -264,6 +264,11 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
                     presenter.notesForNotebook(notebookDetail.getNotebookId(), currentPage);
                 }
                 break;
+            case REQUEST_CODE_EDIT_NOTE:
+                if (resultCode == RESULT_OK) {
+                    presenter.notesForNotebook(notebookDetail.getNotebookId(), currentPage);
+                }
+                break;
         }
     }
 }
