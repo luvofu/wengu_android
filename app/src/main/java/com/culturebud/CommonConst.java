@@ -174,7 +174,7 @@ public final class CommonConst {
 
     public static final String PATH_NOTEBOOK_DETAIL = "api/notebook/detail";
 
-    public static final String PATH_NOTES_FOR_NOTEBOOK = "api/notebook/note";
+    public static final String PATH_NOTES_FOR_NOTEBOOK = "api/notebook/note_v104";
 
     public static final String PATH_NOTEBOOK_CREATE = "api/notebook/add";
 
@@ -184,7 +184,7 @@ public final class CommonConst {
 
     public static final String PATH_NOTEBOOK_EDIT = "api/notebook/edit";
 
-    public static final String PATH_NOTE_CREATE = "api/notebook/addNote";
+    public static final String PATH_NOTE_CREATE = "api/notebook/addNote_v104";
 
     public static final String PATH_NOTE_EDIT = "api/notebook/editNote";
 
