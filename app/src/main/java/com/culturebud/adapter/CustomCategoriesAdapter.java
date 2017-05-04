@@ -16,6 +16,7 @@ import com.culturebud.bean.Category;
 import com.culturebud.util.WidgetUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -52,6 +53,33 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
             data.addAll(categories);
             notifyItemRangeChanged(position, categories.size());
         }
+    }
+
+    public void removeItem(int position) {
+        Category c = data.remove(position);
+        if (c != null) {
+            notifyItemRemoved(position);
+        }
+    }
+
+    public void onItemDragMoving(RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
+        int from = getViewHolderPosition(source);
+        int to = getViewHolderPosition(target);
+        if (from < to) {
+            for (int i = from; i < to; i++) {
+                Collections.swap(data, i, i + 1);
+            }
+        } else {
+            for (int i = from; i > to; i--) {
+                Collections.swap(data, i, i - 1);
+            }
+        }
+
+        notifyItemMoved(source.getAdapterPosition(), target.getAdapterPosition());
+    }
+
+    public int getViewHolderPosition(RecyclerView.ViewHolder viewHolder) {
+        return viewHolder.getAdapterPosition() - 1;
     }
 
     @Override

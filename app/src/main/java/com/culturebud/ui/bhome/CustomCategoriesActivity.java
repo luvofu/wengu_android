@@ -1,10 +1,13 @@
 package com.culturebud.ui.bhome;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -30,6 +33,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         CustomCategoriesContract.View, CustomCategoriesAdapter.OnItemClickListener, CustomCategoriesAdapter
         .OnItemDeleteListener {
     private RecyclerView rvCustomCategories;
+    CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +49,11 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         rvCustomCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         DividerItemDecoration divider = new DividerItemDecoration(this, LinearLayoutManager.VERTICAL, true);
         rvCustomCategories.addItemDecoration(divider);
-        CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
         adapter.setDeleteListener(this);
         adapter.setOnItemClickListener(this);
         rvCustomCategories.setAdapter(adapter);
+        ItemTouchHelper helper = new ItemTouchHelper(itemTouchCallback);
+        helper.attachToRecyclerView(rvCustomCategories);
         presenter.customCategories();
     }
 
@@ -117,4 +122,60 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
                     .show();
         }
     }
+
+    private ItemTouchHelper.Callback itemTouchCallback = new ItemTouchHelper.Callback() {
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return true;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = 0, swipeFlags = 0;
+            if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
+                dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
+            } else if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
+                dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+                //设置侧滑方向为从左到右和从右到左都可以
+                swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            }
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder
+                target) {
+            if (source.getItemViewType() != target.getItemViewType()) {
+                return false;
+            } else {
+                adapter.onItemDragMoving(source, target);
+                return true;//返回true表示执行拖动
+            }
+
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            int position = viewHolder.getAdapterPosition();
+            adapter.removeItem(position);
+        }
+
+        @Override
+        public void onChildDraw(Canvas c, RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, float dX,
+                                float dY, int actionState, boolean isCurrentlyActive) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive);
+            if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                //滑动时改变Item的透明度
+                final float alpha = 1 - Math.abs(dX) / (float) viewHolder.itemView.getWidth();
+                viewHolder.itemView.setAlpha(alpha);
+                viewHolder.itemView.setTranslationX(dX);
+            }
+        }
+    };
 }
