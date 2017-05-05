@@ -19,11 +19,15 @@ public interface CustomCategoriesContract {
         public abstract Observable<Boolean> deleteCategory(String token, long categoryId);
 
         public abstract Observable<Boolean> editCategory(String token, long categoryId, String category);
+
+        public abstract Observable<Boolean> sortCategory(String token, String categoryIds);
     }
     interface View extends BaseView {
         void onCustomCategories(List<Category> categories);
 
         void onCategoryChanged(boolean success);
+
+        void onCategorySorted(boolean success);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -34,5 +38,8 @@ public interface CustomCategoriesContract {
         public abstract void deleteCustomCategory(long categoryId);
 
         public abstract void editCustomCategory(long categoryId, String category);
+
+        public abstract void sortCustomCategory(String categoryIds);
+
     }
 }

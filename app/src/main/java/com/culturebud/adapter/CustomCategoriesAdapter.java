@@ -40,6 +40,8 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         model = MODEL_SIMPLE;
     }
 
+    public List<Category> getCategorys() { return data; }
+
     public void clearData() {
         if (!data.isEmpty()) {
             data.clear();
@@ -79,7 +81,7 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
     }
 
     public int getViewHolderPosition(RecyclerView.ViewHolder viewHolder) {
-        return viewHolder.getAdapterPosition() - 1;
+        return viewHolder.getAdapterPosition();
     }
 
     @Override

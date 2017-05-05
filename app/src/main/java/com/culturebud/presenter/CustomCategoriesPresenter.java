@@ -132,4 +132,35 @@ public class CustomCategoriesPresenter extends CustomCategoriesContract.Presente
             }
         });
     }
+
+    @Override
+    public void sortCustomCategory(String categoryIds) {
+        if (!validateToken()) {
+            return;
+        }
+
+        view.showProDialog();
+        model.sortCategory(BaseApp.getInstance().getUser().getToken(), categoryIds)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hideProDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProDialog();
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onCategorySorted(true);
+                    }
+                });
+    }
 }

@@ -150,6 +150,8 @@ public final class CommonConst {
 
     public static final String PATH_MOVE_BOOK_TO_CATEGORY = "api/userBook/moveToCategory";
 
+    public static final String PATH_MOVE_BOOK_SORT_CATEGORY = "api/userBook/sortCategory";
+
     public static final String PATH_BOOK_TAGS = "api/common/bookTag";
 
     public static final String PATH_BOOK_SHEET_TAGS = "api/common/bookSheetTag";

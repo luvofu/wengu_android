@@ -229,6 +229,11 @@ public interface ApiBookHomeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> editCustomCategory(@FieldMap Map<String, Object> params);
 
+    @POST(CommonConst.PATH_MOVE_BOOK_SORT_CATEGORY)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> sortCustomCategory(@FieldMap Map<String, Object> params);
+
+
     /**
      * String token;令牌
      * private String userBookIdList;;藏书ids(“1000|1002|10003”形式)

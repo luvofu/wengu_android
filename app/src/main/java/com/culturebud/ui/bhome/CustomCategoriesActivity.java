@@ -17,11 +17,13 @@ import com.culturebud.R;
 import com.culturebud.adapter.CustomCategoriesAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Category;
+import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CustomCategoriesContract;
 import com.culturebud.presenter.CustomCategoriesPresenter;
 import com.culturebud.ui.me.GeneralEditorActivity;
 import com.culturebud.widget.DividerItemDecoration;
 
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -34,6 +36,8 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         .OnItemDeleteListener {
     private RecyclerView rvCustomCategories;
     CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
+
+    private  boolean hasMoved = false; //是否排过序
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +70,31 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     @Override
     protected void onOptions(View view) {
         super.onOptions(view);
-        finish();
+
+        //是否有排序过
+        if (hasMoved) {
+            /*
+                提交新的排序.
+                1. 获取现在的数据.
+                2. 遍历，把categoryId通过|分割
+             */
+            List<Category> categories = adapter.getCategorys();
+            String categoryIdListString = "";
+
+            if (categories != null && categories.size() > 0) {
+                Iterator<Category> cgs = categories.iterator();
+                while (cgs.hasNext()) {
+                    Category cg = cgs.next();
+                    categoryIdListString = categoryIdListString + cg.getCategoryId() + "|";
+                }
+                categoryIdListString = categoryIdListString.substring(0, categoryIdListString.lastIndexOf("|"));
+            }
+
+            presenter.sortCustomCategory(categoryIdListString);
+        } else  {
+            //没有做改变
+            finish();
+        }
     }
 
     @Override
@@ -83,6 +111,14 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     }
 
     @Override
+    public void onCategorySorted(boolean success) {
+        if (success) {
+            //排序提交成功.返回书架页面.
+            finish();
+        }
+    }
+
+    @Override
     public void onItemClick(View view, Category category) {
         if (category == null) {
             Intent intent = new Intent(this, GeneralEditorActivity.class);
@@ -91,6 +127,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
             intent.putExtra("content_length", 8);
             startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ADD_CUSTOM_CATEGORY);
         } else {
+            //修改分类
 
         }
     }
@@ -142,8 +179,8 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
                 dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
             } else if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
                 dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-                //设置侧滑方向为从左到右和从右到左都可以
-                swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+                //j禁止侧滑功能
+                swipeFlags = 0;
             }
             return makeMovementFlags(dragFlags, swipeFlags);
         }
@@ -155,6 +192,9 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
                 return false;
             } else {
                 adapter.onItemDragMoving(source, target);
+
+                hasMoved = true; //置为排序
+
                 return true;//返回true表示执行拖动
             }
 
@@ -162,8 +202,9 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            int position = viewHolder.getAdapterPosition();
-            adapter.removeItem(position);
+//            int position = viewHolder.getAdapterPosition();
+//            adapter.removeItem(position);
+//            adapter.notifyItemRemoved(position);
         }
 
         @Override

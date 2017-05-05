@@ -52,7 +52,7 @@ public class CustomCategoriesModel extends CustomCategoriesContract.Model {
                                     JsonArray jarr = bean.getData().getAsJsonArray("categoryStatisList");
                                     List<Category> categories = new Gson().fromJson(jarr, new
                                             TypeToken<List<Category>>() {
-                                    }.getType());
+                                            }.getType());
                                     for (Category c : categories) {
                                         c.setType(2);
                                     }
@@ -110,27 +110,27 @@ public class CustomCategoriesModel extends CustomCategoriesContract.Model {
             }
             params.put("categoryId", categoryId);
             initRetrofit().create(ApiBookHomeInterface.class).deleteCustomCategory(params)
-            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                @Override
-                public void onCompleted() {
-                    subscriber.onCompleted();
-                }
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    subscriber.onError(e);
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
 
-                @Override
-                public void onNext(ApiResultBean<JsonObject> bean) {
-                    int code = bean.getCode();
-                    if (code == ApiErrorCode.CODE_SUCCESS) {
-                        subscriber.onNext(true);
-                    } else {
-                        subscriber.onError(new ApiException(code, bean.getMsg()));
-                    }
-                }
-            });
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 
@@ -144,27 +144,61 @@ public class CustomCategoriesModel extends CustomCategoriesContract.Model {
             params.put("categoryId", categoryId);
             params.put("category", category);
             initRetrofit().create(ApiBookHomeInterface.class).editCustomCategory(params)
-            .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
-                @Override
-                public void onCompleted() {
-                    subscriber.onCompleted();
-                }
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
 
-                @Override
-                public void onError(Throwable e) {
-                    subscriber.onError(e);
-                }
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
 
-                @Override
-                public void onNext(ApiResultBean<JsonObject> bean) {
-                    int code = bean.getCode();
-                    if (code == ApiErrorCode.CODE_SUCCESS) {
-                        subscriber.onNext(true);
-                    } else {
-                        subscriber.onError(new ApiException(code, bean.getMsg()));
-                    }
-                }
-            });
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> sortCategory(String token, String categoryIds) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("categoryIds", categoryIds);
+            initRetrofit().create(ApiBookHomeInterface.class).sortCustomCategory(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
         });
     }
 }
+
