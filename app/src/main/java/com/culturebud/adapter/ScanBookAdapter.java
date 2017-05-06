@@ -38,6 +38,12 @@ public class ScanBookAdapter extends Adapter<ScanBookAdapter.ScanBookViewHolder>
         }
     }
 
+    public List<Book> getBooks() {
+        List<Book> books = new ArrayList<>();
+        books.addAll(data);
+        return books;
+    }
+
     public boolean hasAdded(Book book) {
         return data.contains(book);
     }

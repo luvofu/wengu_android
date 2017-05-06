@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
+import java.util.List;
 import java.util.Locale;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_MANUAL;
@@ -41,6 +42,8 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
     private LinearLayout llOpera, llConfirm;
     private ScanBookAdapter adapter;
     private boolean isOpen;
+
+    private int scanMaxBookCount = 30; //最大有效扫描数为30
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,7 +123,10 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
     CodeUtils.AnalyzeCallback analyzeCallback = new CodeUtils.AnalyzeCallback() {
         @Override
         public void onAnalyzeSuccess(Bitmap mBitmap, String result) {
-            presenter.scanBook(result);
+            //需要限制识别书籍书目，达到最大有效书目，需要提示
+            if (couldAddBook()) {
+                presenter.scanBook(result);
+            }
         }
 
         @Override
@@ -138,6 +144,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                 onErrorTip("已扫描");
             } else {
                 adapter.addItem(book);
+                rvScanResults.smoothScrollToPosition(0);
                 tvScanCount.setText(String.format(Locale.getDefault(),
                         getString(R.string.scan_result_desc),
                         adapter.getItemCount(), adapter.getItemCount()));
@@ -147,7 +154,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                 }
             }
         }
-        captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 3000);
+        captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 1000);
     }
 
     private Toast toast;
@@ -159,7 +166,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
         }
         toast = Toast.makeText(this, tip, Toast.LENGTH_SHORT);
         toast.show();
-        captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 3000);
+        captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 1000);
     }
 
     @Override
@@ -169,7 +176,7 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
         }
         toast = Toast.makeText(this, "扫描失败", Toast.LENGTH_SHORT);
         toast.show();
-        captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 3000);
+        captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 2000);
     }
 
     @Override
@@ -190,5 +197,29 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                 }
                 break;
         }
+    }
+
+    //tool - 判断是否达到最大有效添加数.
+    private boolean couldAddBook() {
+        List<Book> books = adapter.getBooks();
+
+        //计算出当前有效数.
+        int validBookCount = 0;
+        for (int i = 0; i < books.size(); i++) {
+            Book book = books.get(i);
+            if (!book.isContain()) {
+                validBookCount++;
+            }
+        }
+
+        if (validBookCount < scanMaxBookCount) {
+            return true;
+        }
+
+        //需弹出提示框.
+        onErrorTip("已达到单次扫描最大有效数：" + String.valueOf(scanMaxBookCount));
+        captureFragment.getHandler().sendEmptyMessageDelayed(R.id.restart_preview, 3000);
+
+        return false;
     }
 }
