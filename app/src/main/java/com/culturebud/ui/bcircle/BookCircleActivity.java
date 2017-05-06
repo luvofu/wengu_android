@@ -232,7 +232,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
             }
 
-            swipeRefreshLayout.setEnabled(lastPosition == 0);
+            swipeRefreshLayout.setEnabled(dy == 0);
         }
     };
 
