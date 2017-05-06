@@ -90,8 +90,8 @@ public class ImportBooksAdapter extends RecyclerView.Adapter<ImportBooksAdapter.
     class BooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private int position;
         private SimpleDraweeView sdvBookCover;
-        private TextView tvBookName, tvPublisherInfo, tvGoodNum;
-        private RatingBar rbGoodRating;
+        private TextView tvBookName, tvPublisherInfo;
+//        private RatingBar rbGoodRating;
         private Button addBook;
 
         public BooksViewHolder(View itemView) {
@@ -99,23 +99,23 @@ public class ImportBooksAdapter extends RecyclerView.Adapter<ImportBooksAdapter.
             sdvBookCover = (SimpleDraweeView) itemView.findViewById(R.id.sdv_book_sheet_cover);
             tvBookName = (TextView) itemView.findViewById(R.id.tv_book_name);
             tvPublisherInfo = (TextView) itemView.findViewById(R.id.tv_publisher_info);
-            rbGoodRating = (RatingBar) itemView.findViewById(R.id.rb_good_rating);
-            tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);
+//            rbGoodRating = (RatingBar) itemView.findViewById(R.id.rb_good_rating);
+//            tvGoodNum = (TextView) itemView.findViewById(R.id.tv_good_num);
             addBook = (Button) itemView.findViewById(R.id.add_book);
             itemView.setOnClickListener(this);
             addBook.setOnClickListener(this);
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
-                if (rbGoodRating.getProgressDrawable() != null && rbGoodRating.getProgressDrawable() instanceof
-                        LayerDrawable) {
-                    LayerDrawable ld = (LayerDrawable) rbGoodRating.getProgressDrawable();
-                    ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black),
-                            PorterDuff.Mode.SRC_ATOP);
-                    ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff
-                            .Mode.SRC_ATOP);
-                    ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff
-                            .Mode.SRC_ATOP);
-                }
-            }
+//            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT_WATCH) {
+//                if (rbGoodRating.getProgressDrawable() != null && rbGoodRating.getProgressDrawable() instanceof
+//                        LayerDrawable) {
+//                    LayerDrawable ld = (LayerDrawable) rbGoodRating.getProgressDrawable();
+//                    ld.getDrawable(0).setColorFilter(itemView.getResources().getColor(R.color.light_font_black),
+//                            PorterDuff.Mode.SRC_ATOP);
+//                    ld.getDrawable(1).setColorFilter(itemView.getResources().getColor(R.color.yellow), PorterDuff
+//                            .Mode.SRC_ATOP);
+//                    ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff
+//                            .Mode.SRC_ATOP);
+//                }
+//            }
         }
 
         public void setPosition(int position) {
