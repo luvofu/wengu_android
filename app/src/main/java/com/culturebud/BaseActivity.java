@@ -89,7 +89,7 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
 
     private ArrayList<OnSoftKeyboardStateChangedListener> mKeyboardStateListeners;      //软键盘状态监听列表
     private ViewTreeObserver.OnGlobalLayoutListener mLayoutChangeListener;
-    private boolean mIsSoftKeyboardShowing;
+    public boolean mIsSoftKeyboardShowing;
     private int screenHeight;
 
     @Override

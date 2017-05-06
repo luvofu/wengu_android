@@ -1,5 +1,6 @@
 package com.culturebud.ui.bhome;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -10,6 +11,8 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.CommonConst;
@@ -33,11 +36,12 @@ import java.util.List;
 @PresenterInject(CustomCategoriesPresenter.class)
 public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContract.Presenter> implements
         CustomCategoriesContract.View, CustomCategoriesAdapter.OnItemClickListener, CustomCategoriesAdapter
-        .OnItemDeleteListener {
+        .OnItemDeleteListener, CustomCategoriesAdapter.OnItemEditCategoryListener {
     private RecyclerView rvCustomCategories;
     CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
 
     private  boolean hasMoved = false; //是否排过序
+    private  boolean shouldFinish = false; //是否应该结束页面.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         rvCustomCategories.addItemDecoration(divider);
         adapter.setDeleteListener(this);
         adapter.setOnItemClickListener(this);
+        adapter.setEditCategoryListener(this);
         rvCustomCategories.setAdapter(adapter);
         ItemTouchHelper helper = new ItemTouchHelper(itemTouchCallback);
         helper.attachToRecyclerView(rvCustomCategories);
@@ -71,6 +76,17 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     protected void onOptions(View view) {
         super.onOptions(view);
 
+        shouldFinish = true;
+
+        //关闭键盘.
+        Boolean hasEditingEditItem =  mIsSoftKeyboardShowing;
+        if (hasEditingEditItem) {
+            View view1 = rvCustomCategories.findFocus();
+            if (view1 != null) {
+                view1.clearFocus();
+            }
+        }
+
         //是否有排序过
         if (hasMoved) {
             /*
@@ -78,7 +94,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
                 1. 获取现在的数据.
                 2. 遍历，把categoryId通过|分割
              */
-            List<Category> categories = adapter.getCategorys();
+            List<Category> categories = adapter.getData();
             String categoryIdListString = "";
 
             if (categories != null && categories.size() > 0) {
@@ -91,8 +107,11 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
             }
 
             presenter.sortCustomCategory(categoryIdListString);
-        } else  {
-            //没有做改变
+        }
+
+        if (!hasEditingEditItem && !hasMoved) {
+            //没有做改变,直接退出.
+            shouldFinish = false;
             finish();
         }
     }
@@ -106,6 +125,24 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     @Override
     public void onCategoryChanged(boolean success) {
         if (success) {
+            if (shouldFinish) {
+                finish();
+            }
+        } else  {
+            shouldFinish = false;
+        }
+    }
+
+    @Override
+    public void onAddCategory(boolean success) {
+        if (success) {
+            presenter.customCategories();
+        }
+    }
+
+    @Override
+    public void onDeleteCategory(boolean success) {
+        if (success) {
             presenter.customCategories();
         }
     }
@@ -115,6 +152,9 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         if (success) {
             //排序提交成功.返回书架页面.
             finish();
+        } else  {
+            shouldFinish = false;
+            hasMoved = false;
         }
     }
 
@@ -219,4 +259,14 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
             }
         }
     };
+
+    @Override
+    public void onItemEditCategory(EditText editText, Category category) {
+        /*
+            修改分类名后，键盘消失调用此方法.
+            判断是否修改过分类名，没有修改则无需上传.
+         */
+        String newCategoryName = editText.getText().toString();
+        presenter.editCustomCategory(category.getCategoryId(), newCategoryName);
+    }
 }

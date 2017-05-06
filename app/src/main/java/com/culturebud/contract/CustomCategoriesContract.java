@@ -27,6 +27,10 @@ public interface CustomCategoriesContract {
 
         void onCategoryChanged(boolean success);
 
+        void onDeleteCategory(boolean success);
+
+        void onAddCategory(boolean success);
+
         void onCategorySorted(boolean success);
     }
 

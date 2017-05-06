@@ -1,12 +1,16 @@
 package com.culturebud.adapter;
 
+import android.app.Activity;
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -40,7 +44,11 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
         model = MODEL_SIMPLE;
     }
 
-    public List<Category> getCategorys() { return data; }
+    public List<Category> getData() {
+        List<Category> categories = new ArrayList<>();
+        categories.addAll(data);
+        return categories;
+    }
 
     public void clearData() {
         if (!data.isEmpty()) {
@@ -179,14 +187,65 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
             });
             etCategory.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    etCategory.setCursorVisible(true);
+//                    etCategory.setCursorVisible(false);
+                    etCategory.clearFocus();
+
+                    //隐藏键盘.
+                    InputMethodManager imm = (InputMethodManager)
+                            ((Activity)editCategoryListener).getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(etCategory.getWindowToken(), 0);
+
+                    int cposition =  getAdapterPosition();
+                    Category category = data.get(cposition);
+                    String newCategoryName = etCategory.getText().toString();
+
+                    if (newCategoryName.isEmpty()) {
+                        etCategory.setError("分类名不能为空");
+                        return false;
+                    }
+
+                    if (!category.getCategory().equals(newCategoryName) && editCategoryListener != null) {
+                        //上传.
+                        category.setCategory(newCategoryName);
+                        editCategoryListener.onItemEditCategory(etCategory, category);
+                    }
+
                     return true;
                 }
                 return false;
             });
+
+            etCategory.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View view, boolean b) {
+                    //失去焦点，提交更新.
+                    if (b) {
+
+                    } else  {
+                        int cposition =  getAdapterPosition();
+                        if (cposition >= 0 && data.size() > cposition) {
+                            Category category = data.get(cposition);
+
+                            String newCategoryName = etCategory.getText().toString();
+
+                            if (!newCategoryName.isEmpty()) {
+                                if (!category.getCategory().equals(newCategoryName) && editCategoryListener != null) {
+                                    //上传.
+                                    category.setCategory(newCategoryName);
+                                    editCategoryListener.onItemEditCategory(etCategory, category);
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
             btnDel.setOnClickListener(v -> {
                 if (deleteListener != null) {
-                    deleteListener.onItemDelete(position, category);
+                    int cposition =  getAdapterPosition();
+                    Category category = data.get(cposition);
+
+                    deleteListener.onItemDelete(cposition, category);
                 }
             });
         }
@@ -262,4 +321,17 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
     public interface OnItemDeleteListener {
         void onItemDelete(int position, Category category);
     }
+
+    private OnItemEditCategoryListener editCategoryListener;
+
+    public OnItemEditCategoryListener getEditCategoryListener() {return editCategoryListener; }
+
+    public void setEditCategoryListener(OnItemEditCategoryListener editCategoryListener) {
+        this.editCategoryListener = editCategoryListener;
+    }
+
+    public  interface OnItemEditCategoryListener {
+        void  onItemEditCategory(EditText editText, Category category);
+    }
+
 }
