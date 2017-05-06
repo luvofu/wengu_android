@@ -77,6 +77,9 @@ public class IndexsView extends View {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         int index = (int) ((event.getY() / getHeight()) * indexs.size());
+        if (index > indexs.size() - 1) {
+            return false;
+        }
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 if (onIndexChangedListener != null) {
