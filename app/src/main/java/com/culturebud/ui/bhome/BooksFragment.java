@@ -59,9 +59,11 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.getMyFavoriteBooks(currentPage);
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            presenter.getMyFavoriteBooks(currentPage);
+        }
     }
 
     @Override

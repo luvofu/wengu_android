@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.culturebud.BaseActivity;
@@ -73,6 +74,15 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
     protected void onOptions(View view) {
         super.onOptions(view);
         startActivityForResult(new Intent(this, SearchUserActivity.class), REQUEST_CODE_SEARCH_USER);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

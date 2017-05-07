@@ -3,6 +3,7 @@ package com.culturebud.ui.me;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
 
 import com.culturebud.BaseActivity;
@@ -58,9 +59,12 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
     }
 
     @Override
-    protected void onBack() {
-        super.onBack();
-        finish();
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            finish();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -65,7 +65,8 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
 @PresenterInject(BookCirclePresenter.class)
 public class BookCircleActivity extends BaseActivity<BookCircleContract.Presenter>
         implements BookCircleContract.View, BookCircleDynamicAdapter.OnItemClickListener,
-        View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener, SwipeRefreshLayout.OnRefreshListener {
+        View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener, SwipeRefreshLayout
+                .OnRefreshListener {
     private RecyclerView rvDynamics;
     private SimpleDraweeView sdvFace;
     private AppBarLayout abl;
@@ -223,7 +224,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager())
                     .findLastVisibleItemPosition();
             if (dy > 0) {
-                                int total = recyclerView.getLayoutManager().getItemCount();
+                int total = recyclerView.getLayoutManager().getItemCount();
                 if (dy > 0 && (lastPosition + 1 >= total) && !loading) {
                     loading = true;
                     presenter.loadDynamics(++currentPage);
@@ -528,8 +529,13 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 pwReply.dismiss();
                 return true;
             }
+            if (keyCode == KeyEvent.KEYCODE_BACK) {
+                finish();
+                return true;
+            }
         }
         return super.onKeyDown(keyCode, event);
+
     }
 
     @Override

@@ -198,9 +198,10 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         if (needCancelToHome) {
             setResult(RESULT_CANCELED_CUSTOM);
+        } else {
+            super.onBackPressed();
         }
         finish();
     }

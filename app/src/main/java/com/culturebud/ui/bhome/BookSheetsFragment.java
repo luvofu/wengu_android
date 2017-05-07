@@ -56,9 +56,11 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        presenter.getMyFavoriteBookSheets(0);
+    public void onHiddenChanged(boolean hidden) {
+        super.onHiddenChanged(hidden);
+        if (!hidden) {
+            presenter.getMyFavoriteBookSheets(0);
+        }
     }
 
     @Override
