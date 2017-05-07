@@ -32,6 +32,7 @@ import com.culturebud.util.ClassUtil;
 import com.culturebud.util.ImgUtil;
 import com.culturebud.util.WidgetUtil;
 import com.tbruyelle.rxpermissions.RxPermissions;
+import com.tendcloud.tenddata.TCAgent;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -274,6 +275,18 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
             toast = Toast.makeText(this, tip, Toast.LENGTH_SHORT);
             toast.show();
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        TCAgent.onPageStart(this, getPackageName());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        TCAgent.onPageEnd(this, getPackageName());
     }
 
     @Override

@@ -13,6 +13,10 @@ android {
         multiDexEnabled true
 //        jackOptions.enabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        manifestPlaceholders = [
+                TD_APP_ID: "ECBEDDD00F084DFE99B63A8B5959B297"
+        ]
     }
 
     signingConfigs {
@@ -42,6 +46,15 @@ android {
             signingConfig signingConfigs.debug
         }
 
+        develop {
+            minifyEnabled true
+            shrinkResources true
+            zipAlignEnabled true
+            buildConfigField("String", "HOST", project.DEVELOP_HOST)
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+
         release {
             minifyEnabled true
             shrinkResources true
@@ -49,6 +62,12 @@ android {
             buildConfigField("String", "HOST", project.RELEASE_HOST)
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+        }
+    }
+
+    productFlavors {
+        appstore_xiaomi {
+            manifestPlaceholders = [TD_CHANNEL_VALUE: "小米应用市场"]
         }
     }
 
@@ -80,6 +99,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':sharesdk')
     compile project(':lib-zxing')
+    compile files('libs/SaaS_AppAnalytics_Android_SDK_V4.0.2.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
