@@ -39,7 +39,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
 
         vgContent = obtainViewById(R.id.content);
         toolbar = obtainViewById(R.id.toolbar);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                     WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             toolbar.setMinimumHeight(getResources().getDimensionPixelSize(R.dimen.titlebar_height_large));

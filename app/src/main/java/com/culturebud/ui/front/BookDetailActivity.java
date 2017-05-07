@@ -6,6 +6,7 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -34,6 +35,7 @@ import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.ui.me.LoginActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.SettingItemView;
+import com.facebook.drawee.backends.pipeline.BuildConfig;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -72,11 +74,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         ctl = obtainViewById(R.id.ctl);
         ctl.setTitle("");
         setSupportActionBar(tlb);
-//        getSupportActionBar().setDisplayShowTitleEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.titlebar_back_selector);
-//        showTitlebar();
         setBackGroundColor(getResources().getColor(R.color.light_gray));
         presenter.setView(this);
         initView();
