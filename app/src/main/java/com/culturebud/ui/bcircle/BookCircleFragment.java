@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -108,9 +109,14 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
         super.onHiddenChanged(hidden);
         if (!hidden) {
             if (BaseApp.getInstance().getUser() != null) {
-                Log.d("bCircle", "onActivityCreated()");
                 currentPage = 0;
                 presenter.loadDynamics(0);
+                User user = BaseApp.getInstance().getUser();
+                if (user == null) {
+                    sdvFace.setImageURI(Uri.EMPTY);
+                    tvNick.setText("");
+                }
+                presenter.downloadBgImg();
             }
         }
     }
@@ -119,12 +125,6 @@ public class BookCircleFragment extends BaseFragment<BookCircleContract.Presente
     public void onResume() {
         super.onResume();
         showTitle("书圈");
-        User user = BaseApp.getInstance().getUser();
-        if (user != null) {
-            sdvFace.setImageURI(user.getAvatar());
-            tvNick.setText(user.getNickname());
-            presenter.downloadBgImg();
-        }
     }
 
     @Override

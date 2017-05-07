@@ -1,6 +1,5 @@
 package com.culturebud.ui.bhome;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -11,7 +10,6 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import com.culturebud.BaseActivity;
@@ -20,7 +18,6 @@ import com.culturebud.R;
 import com.culturebud.adapter.CustomCategoriesAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Category;
-import com.culturebud.bean.CollectedBook;
 import com.culturebud.contract.CustomCategoriesContract;
 import com.culturebud.presenter.CustomCategoriesPresenter;
 import com.culturebud.ui.me.GeneralEditorActivity;
@@ -40,8 +37,8 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     private RecyclerView rvCustomCategories;
     CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
 
-    private  boolean hasMoved = false; //是否排过序
-    private  boolean shouldFinish = false; //是否应该结束页面.
+    private boolean hasMoved = false; //是否排过序
+    private boolean shouldFinish = false; //是否应该结束页面.
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +76,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         shouldFinish = true;
 
         //关闭键盘.
-        Boolean hasEditingEditItem =  mIsSoftKeyboardShowing;
-        if (hasEditingEditItem) {
+        if (softKeyboardHasShowing()) {
             View view1 = rvCustomCategories.findFocus();
             if (view1 != null) {
                 view1.clearFocus();
@@ -109,7 +105,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
             presenter.sortCustomCategory(categoryIdListString);
         }
 
-        if (!hasEditingEditItem && !hasMoved) {
+        if (!softKeyboardHasShowing() && !hasMoved) {
             //没有做改变,直接退出.
             shouldFinish = false;
             finish();
@@ -128,7 +124,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
             if (shouldFinish) {
                 finish();
             }
-        } else  {
+        } else {
             shouldFinish = false;
         }
     }
@@ -152,7 +148,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         if (success) {
             //排序提交成功.返回书架页面.
             finish();
-        } else  {
+        } else {
             shouldFinish = false;
             hasMoved = false;
         }
@@ -242,9 +238,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
 
         @Override
         public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-//            int position = viewHolder.getAdapterPosition();
-//            adapter.removeItem(position);
-//            adapter.notifyItemRemoved(position);
+            //此方法在当前业务环境下不用实现
         }
 
         @Override

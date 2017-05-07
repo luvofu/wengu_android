@@ -488,6 +488,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             case REQUEST_CODE_LOGIN:
                 if (RESULT_OK == resultCode) {
                     presenter.loadDynamics(0);
+                    presenter.downloadBgImg();
                 }
                 break;
             case REQUEST_CODE_SELECT_USER: {

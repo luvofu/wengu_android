@@ -89,8 +89,12 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
 
     private ArrayList<OnSoftKeyboardStateChangedListener> mKeyboardStateListeners;      //软键盘状态监听列表
     private ViewTreeObserver.OnGlobalLayoutListener mLayoutChangeListener;
-    public boolean mIsSoftKeyboardShowing;
+    private boolean mIsSoftKeyboardShowing;
     private int screenHeight;
+
+    public boolean softKeyboardHasShowing() {
+        return mIsSoftKeyboardShowing;
+    }
 
     @Override
     protected void attachBaseContext(Context newBase) {

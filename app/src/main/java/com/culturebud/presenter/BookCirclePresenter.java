@@ -88,8 +88,11 @@ public class BookCirclePresenter extends BookCircleContract.Presenter {
 
     @Override
     public void downloadBgImg() {
+        if (!validateToken()) {
+            return;
+        }
         User user = BaseApp.getInstance().getUser();
-        if (user == null && TextUtils.isEmpty(user.getBackground())) {
+        if (TextUtils.isEmpty(user.getBackground())) {
             return;
         }
         String url = user.getBackground();

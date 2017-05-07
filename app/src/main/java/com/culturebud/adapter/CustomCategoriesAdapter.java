@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -180,22 +181,25 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
             etCategory = WidgetUtil.obtainViewById(itemView, R.id.et_category);
             tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_count);
             btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
-            etCategory.setOnClickListener(v -> {
-                etCategory.requestFocus();
-                etCategory.setCursorVisible(true);
-                etCategory.setSelection(etCategory.getText().length());
+            etCategory.setOnTouchListener((v, event) -> {
+                if (MotionEvent.ACTION_DOWN == event.getAction()) {
+                    etCategory.requestFocus();
+                    etCategory.setCursorVisible(true);
+                    etCategory.setSelection(etCategory.getText().length());
+                }
+                return false;
             });
             etCategory.setOnEditorActionListener((v, actionId, event) -> {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
-//                    etCategory.setCursorVisible(false);
+                    etCategory.setCursorVisible(false);
                     etCategory.clearFocus();
 
                     //隐藏键盘.
                     InputMethodManager imm = (InputMethodManager)
-                            ((Activity)editCategoryListener).getSystemService(Context.INPUT_METHOD_SERVICE);
+                            ((Activity) editCategoryListener).getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(etCategory.getWindowToken(), 0);
 
-                    int cposition =  getAdapterPosition();
+                    int cposition = getAdapterPosition();
                     Category category = data.get(cposition);
                     String newCategoryName = etCategory.getText().toString();
 
@@ -215,25 +219,20 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
                 return false;
             });
 
-            etCategory.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                @Override
-                public void onFocusChange(View view, boolean b) {
-                    //失去焦点，提交更新.
-                    if (b) {
+            etCategory.setOnFocusChangeListener((view, b) -> {
+                //失去焦点，提交更新.
+                if (!b) {
+                    int cPosition = getAdapterPosition();
+                    if (cPosition >= 0 && data.size() > cPosition) {
+                        Category category1 = data.get(cPosition);
 
-                    } else  {
-                        int cposition =  getAdapterPosition();
-                        if (cposition >= 0 && data.size() > cposition) {
-                            Category category = data.get(cposition);
+                        String newCategoryName = etCategory.getText().toString();
 
-                            String newCategoryName = etCategory.getText().toString();
-
-                            if (!newCategoryName.isEmpty()) {
-                                if (!category.getCategory().equals(newCategoryName) && editCategoryListener != null) {
-                                    //上传.
-                                    category.setCategory(newCategoryName);
-                                    editCategoryListener.onItemEditCategory(etCategory, category);
-                                }
+                        if (!newCategoryName.isEmpty()) {
+                            if (!category1.getCategory().equals(newCategoryName) && editCategoryListener != null) {
+                                //上传.
+                                category1.setCategory(newCategoryName);
+                                editCategoryListener.onItemEditCategory(etCategory, category1);
                             }
                         }
                     }
@@ -242,10 +241,10 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
 
             btnDel.setOnClickListener(v -> {
                 if (deleteListener != null) {
-                    int cposition =  getAdapterPosition();
-                    Category category = data.get(cposition);
+                    int cPosition = getAdapterPosition();
+                    Category category = data.get(cPosition);
 
-                    deleteListener.onItemDelete(cposition, category);
+                    deleteListener.onItemDelete(cPosition, category);
                 }
             });
         }
@@ -324,14 +323,16 @@ public class CustomCategoriesAdapter extends RecyclerView.Adapter<CustomCategori
 
     private OnItemEditCategoryListener editCategoryListener;
 
-    public OnItemEditCategoryListener getEditCategoryListener() {return editCategoryListener; }
+    public OnItemEditCategoryListener getEditCategoryListener() {
+        return editCategoryListener;
+    }
 
     public void setEditCategoryListener(OnItemEditCategoryListener editCategoryListener) {
         this.editCategoryListener = editCategoryListener;
     }
 
-    public  interface OnItemEditCategoryListener {
-        void  onItemEditCategory(EditText editText, Category category);
+    public interface OnItemEditCategoryListener {
+        void onItemEditCategory(EditText editText, Category category);
     }
 
 }
