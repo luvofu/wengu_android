@@ -38,6 +38,7 @@ android {
     buildTypes {
         debug {
 //            minifyEnabled true
+            buildConfigField("String", "HOST", project.DEVELOP_HOST)
             signingConfig signingConfigs.debug
         }
 
@@ -45,6 +46,7 @@ android {
             minifyEnabled true
             shrinkResources true
             zipAlignEnabled true
+            buildConfigField("String", "HOST", project.RELEASE_HOST)
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }

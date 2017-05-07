@@ -73,7 +73,7 @@ public abstract class BaseModel {
                             .build();
 
                     retrofit = new Retrofit.Builder()
-                            .baseUrl(CommonConst.API_HOST)
+                            .baseUrl(CommonConst.getHost())
                             .client(client)
                             .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                             .addConverterFactory(GsonConverterFactory.create())

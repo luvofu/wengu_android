@@ -2,6 +2,7 @@ package com.culturebud;
 
 import android.os.Environment;
 import android.os.StrictMode;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -26,7 +27,17 @@ public final class CommonConst {
 
 //    public static final String API_HOST = "http://192.168.1.26:8080/";
 
-    public static final String API_HOST = "http://mywengu.com:80/";
+//    public static final String API_HOST = getHost();
+
+    public static String getHost() {
+        Log.i(TAG, "_url = " + _URL);
+        return TextUtils.isEmpty(_URL) ? "http://mywengu.com:80/" : _URL;
+    }
+    private static String _URL;
+
+    public static void initHost() {
+        _URL = BuildConfig.HOST;
+    }
 
     public static final String PATH_HOME = "api/common/home";
 
