@@ -14,9 +14,9 @@ android {
 //        jackOptions.enabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        manifestPlaceholders = [
-                TD_APP_ID: "ECBEDDD00F084DFE99B63A8B5959B297"
-        ]
+//        manifestPlaceholders = [
+//                TD_APP_ID: "ECBEDDD00F084DFE99B63A8B5959B297"
+//        ]
     }
 
     signingConfigs {

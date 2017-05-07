@@ -50,6 +50,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!--TD_APP_ID: "ECBEDDD00F084DFE99B63A8B5959B297"-->
+
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="ECBEDDD00F084DFE99B63A8B5959B297"/>
         <meta-data
             android:name="TD_CHANNEL_ID"
             android:value="${TD_CHANNEL_VALUE}"/>
