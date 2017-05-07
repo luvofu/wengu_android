@@ -26,6 +26,8 @@ import com.culturebud.widget.DividerItemDecoration;
 import java.util.Iterator;
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_CUSTOMCATEGORY;
+
 /**
  * Created by XieWei on 2017/3/31.
  */
@@ -39,6 +41,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
 
     private boolean hasMoved = false; //是否排过序
     private boolean shouldFinish = false; //是否应该结束页面.
+    private boolean hasChanged = false; //是否编辑过（用于返回是否通知刷新）
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,9 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     @Override
     protected void onBack() {
         super.onBack();
+        if (hasChanged) {
+            setResult(RESULT_OK);
+        }
         finish();
     }
 
@@ -108,6 +114,10 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         if (!softKeyboardHasShowing() && !hasMoved) {
             //没有做改变,直接退出.
             shouldFinish = false;
+            if (hasChanged) {
+                setResult(RESULT_OK);
+            }
+
             finish();
         }
     }
@@ -121,7 +131,9 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     @Override
     public void onCategoryChanged(boolean success) {
         if (success) {
+            hasChanged = true;
             if (shouldFinish) {
+                setResult(RESULT_OK);
                 finish();
             }
         } else {
@@ -132,6 +144,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     @Override
     public void onAddCategory(boolean success) {
         if (success) {
+            hasChanged = true;
             presenter.customCategories();
         }
     }
@@ -139,6 +152,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     @Override
     public void onDeleteCategory(boolean success) {
         if (success) {
+            hasChanged = true;
             presenter.customCategories();
         }
     }
@@ -147,6 +161,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     public void onCategorySorted(boolean success) {
         if (success) {
             //排序提交成功.返回书架页面.
+            setResult(RESULT_OK);
             finish();
         } else {
             shouldFinish = false;

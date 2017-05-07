@@ -134,7 +134,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     }
                     case 2: {
                         Intent intent = new Intent(this, CustomCategoriesActivity.class);
-                        startActivity(intent);
+                        startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_EDIT_CUSTOMCATEGORY);
                         break;
                     }
                 }
@@ -598,6 +598,17 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                         presenter.moveBook2CustomCategory(((CollectedBooksAdapter) rvBooks.getAdapter())
                                 .getCheckedBooks(), content);
                     }
+                }
+                break;
+            case CommonConst.RequestCode.REQUEST_CODE_EDIT_CUSTOMCATEGORY:
+                if (RESULT_OK == resultCode) {
+                    //编辑了分类，需要刷新数据.(因为无法获知编辑的具体项，所以回来刷新全部数据）
+                    currentPage = 0;
+                    setTitle(btnAll.getText());
+                    currentPage = 0;
+                    currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
+                    currentCategory = "全部";
+                    presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
                 }
                 break;
         }
