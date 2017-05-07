@@ -17,6 +17,7 @@ import com.culturebud.db.dao.UserDAO;
 import com.culturebud.net.ApiCommonInterface;
 import com.culturebud.net.ApiFileInterface;
 import com.culturebud.net.ApiMeInterface;
+import com.culturebud.net.TrustAllCerts;
 import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -25,11 +26,18 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.SecureRandom;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
+
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -58,6 +66,8 @@ public abstract class BaseModel {
 
     protected static final String DEVICE_TOKEN_KEY = CommonConst.DEVICE_TOKEN_KEY;
     protected static final String DEVICE_TOKEN = CommonConst.DEVICE_TOKEN;
+
+    protected static final String VERSION_NAME_KEY = CommonConst.VERSION_NAME_KEY;
     private static final int DEFAULT_TIMEOUT = 20;
 
     private Retrofit retrofit;
@@ -70,6 +80,8 @@ public abstract class BaseModel {
                             .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                             .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                             .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                            .sslSocketFactory(createSSLSocketFactory())
+                            .hostnameVerifier((hostname, session) -> true)
                             .build();
 
                     retrofit = new Retrofit.Builder()
@@ -84,10 +96,23 @@ public abstract class BaseModel {
         return retrofit;
     }
 
+    private static SSLSocketFactory createSSLSocketFactory() {
+        SSLSocketFactory ssfFactory = null;
+        try {
+            SSLContext sc = SSLContext.getInstance("TLS");
+            sc.init(null, new TrustManager[]{new TrustAllCerts()}, new SecureRandom());
+            ssfFactory = sc.getSocketFactory();
+        } catch (Exception e) {
+        }
+
+        return ssfFactory;
+    }
+
     protected Map<String, Object> getCommonParams() {
         Map<String, Object> params = new HashMap<>();
         params.put(PLATFORM_KEY, PLATFORM);
         params.put(DEVICE_TOKEN_KEY, DEVICE_TOKEN);
+        params.put(VERSION_NAME_KEY, BaseApp.getInstance().getVersionName());
         return params;
     }
 

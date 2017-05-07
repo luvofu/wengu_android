@@ -312,12 +312,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
         <!-- talking data -->
-        <service android:name="com.talkingdata.sdk.TDAntiCheatingService"
-                 android:process="com.talkingdata.sdk.TDAntiCheatingService">  <!--用户质量评估Service可以配置在主进程或者单独进程-->
-            <intent-filter>
-                <action android:name="com.talkingdata.sdk.TDAntiCheatingService" />
-            </intent-filter>
-        </service>
+        <!--<service android:name="com.talkingdata.sdk.TDAntiCheatingService"-->
+                 <!--android:process="com.talkingdata.sdk.TDAntiCheatingService">  &lt;!&ndash;用户质量评估Service可以配置在主进程或者单独进程&ndash;&gt;-->
+            <!--<intent-filter>-->
+                <!--<action android:name="com.talkingdata.sdk.TDAntiCheatingService" />-->
+            <!--</intent-filter>-->
+        <!--</service>-->
     </application>
 
 </manifest>

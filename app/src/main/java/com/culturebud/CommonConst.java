@@ -22,6 +22,8 @@ public final class CommonConst {
 
     public static final String DEVICE_TOKEN = BaseApp.getDeviceId(BaseApp.getInstance());
 
+    public static final String VERSION_NAME_KEY = "version";
+
     public static final String USER_AVATAR_DEFAULT_URL = "http://www.mywengu.com/img/user/avatar/lpic/default/default" +
             ".jpg";
 

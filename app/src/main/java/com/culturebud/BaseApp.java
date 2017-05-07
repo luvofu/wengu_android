@@ -2,6 +2,8 @@ package com.culturebud;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.multidex.MultiDex;
@@ -171,5 +173,21 @@ public class BaseApp extends Application {
         TelephonyManager tm = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
         String imei = tm.getDeviceId();
         return imei;
+    }
+
+    public String getVersionName() {
+        PackageManager pm = getPackageManager();
+        PackageInfo pi;
+        try {
+            pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return "unknown";
+        }
+        String versionName = "unknown";
+        if (pi != null) {
+            versionName = pi.versionName == null ? versionName : pi.versionName;
+        }
+        return versionName;
     }
 }
