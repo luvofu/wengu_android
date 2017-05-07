@@ -262,7 +262,9 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
     }
 
     public void onToLogin() {
-        startActivityForResult(new Intent(this, LoginActivity.class), REQUEST_CODE_LOGIN);
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivityForResult(intent, REQUEST_CODE_LOGIN);
     }
 
     private Toast toast;
