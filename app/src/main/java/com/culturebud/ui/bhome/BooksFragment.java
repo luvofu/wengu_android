@@ -59,12 +59,19 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            presenter.getMyFavoriteBooks(currentPage);
-        }
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        presenter.getMyFavoriteBooks(0);
     }
+
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        if (!hidden) {
+//            presenter.getMyFavoriteBooks(currentPage);
+//        }
+//    }
 
     @Override
     public void onBooks(List<Book> books) {

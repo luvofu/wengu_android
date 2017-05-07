@@ -56,12 +56,19 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
     }
 
     @Override
-    public void onHiddenChanged(boolean hidden) {
-        super.onHiddenChanged(hidden);
-        if (!hidden) {
-            presenter.getMyFavoriteBookSheets(0);
-        }
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        presenter.getMyFavoriteBookSheets(0);
     }
+
+//    @Override
+//    public void onHiddenChanged(boolean hidden) {
+//        super.onHiddenChanged(hidden);
+//        if (!hidden) {
+//            presenter.getMyFavoriteBookSheets(0);
+//        }
+//    }
 
     @Override
     public void onBooks(List<Book> books) {

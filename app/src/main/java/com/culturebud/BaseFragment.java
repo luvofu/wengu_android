@@ -75,7 +75,9 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     }
 
     public void onToLogin() {
-        startActivityForResult(new Intent(getActivity(), LoginActivity.class), REQUEST_LOGIN);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivityForResult(intent, REQUEST_LOGIN);
     }
 
     public void onErrorTip(String tip) {
@@ -89,7 +91,7 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_LOGIN:
-                if (resultCode == getActivity().RESULT_CANCELED
+                if (resultCode == BaseActivity.RESULT_CANCELED_CUSTOM
                         && !(getActivity() instanceof MainActivity)) {
                     getActivity().finish();
                 }
