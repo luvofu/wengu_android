@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
@@ -90,6 +91,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         rvBooks = obtainViewById(R.id.rv_collected_books);
         fabEditBooks = obtainViewById(R.id.fab_edit_books);
         bnvOperas = obtainViewById(R.id.bnv_operas);
+        switchRvMarginBottom(false);
 
         if (userId == -1) {
             setOperasDrawable(R.drawable.titlebar_add_selector);
@@ -192,12 +194,23 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
     }
 
+    private void switchRvMarginBottom(boolean flag) {
+        ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) rvBooks.getLayoutParams();
+        if (flag) {
+            int bm = getResources().getDimensionPixelSize(R.dimen.common_margin_bigger);
+            lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, bm);
+        } else {
+            lp.setMargins(lp.leftMargin, lp.topMargin, lp.rightMargin, 0);
+        }
+    }
+
     @Override
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
             case R.id.fab_edit_books:
                 fabEditBooks.hide();
+                switchRvMarginBottom(true);
                 bnvOperas.setVisibility(View.VISIBLE);
                 setOperasDrawable(null);
                 setOperasText("完成");
@@ -226,6 +239,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             setOperasText(null);
             setOperasDrawable(R.drawable.titlebar_add_selector);
             fabEditBooks.show();
+            switchRvMarginBottom(false);
             bnvOperas.setVisibility(View.GONE);
             ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
             ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
@@ -417,6 +431,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             setOperasText(null);
             setOperasDrawable(R.drawable.titlebar_add_selector);
             fabEditBooks.show();
+            switchRvMarginBottom(false);
             bnvOperas.setVisibility(View.GONE);
             ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
             ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
@@ -534,6 +549,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     setOperasText(null);
                     setOperasDrawable(R.drawable.titlebar_add_selector);
                     fabEditBooks.show();
+                    switchRvMarginBottom(false);
                     bnvOperas.setVisibility(View.GONE);
                     ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
                     ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();

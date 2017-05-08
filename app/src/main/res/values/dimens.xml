@@ -42,6 +42,7 @@
     <dimen name="common_margin_small">5dp</dimen>
     <dimen name="common_margin_middle">15dp</dimen>
     <dimen name="common_margin_big">25dp</dimen>
+    <dimen name="common_margin_bigger">56dp</dimen>
     <dimen name="common_padding_big">15dp</dimen>
     <dimen name="common_padding_small">6dp</dimen>
     <dimen name="common_padding_default">8dp</dimen>
