@@ -34,8 +34,8 @@ public class ImportBookPresenter extends ImportBookContract.Presenter {
 
                     @Override
                     public void onNext(List<Book> books) {
+                        view.onBooks(books);
                         if (books != null && books.size() > 0) {
-                            view.onBooks(books);
                             model.cacheBooks(books).subscribeOn(Schedulers.io())
                                     .subscribe(new Subscriber<Boolean>() {
                                         @Override

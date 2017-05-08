@@ -154,10 +154,16 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
         if (currentPage == 0) {
             ((ImportBooksAdapter) rvSearchedBooks.getAdapter()).clearData();
         }
+
         rvSearchedBooks.setVisibility(View.VISIBLE);
         lvSearchHistory.setVisibility(View.GONE);
         pbLoading.setVisibility(View.GONE);
-        ((ImportBooksAdapter) rvSearchedBooks.getAdapter()).addItems(books);
+
+        if (books != null && books.size() > 0) {
+            ((ImportBooksAdapter) rvSearchedBooks.getAdapter()).addItems(books);
+        } else {
+            onErrorTip("没有搜索到相关结果");
+        }
     }
 
     @Override
@@ -202,6 +208,8 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        imm.hideSoftInputFromWindow(etSearchKey.getWindowToken(), 0);
+
         SearchKeyword sk = historyAdapter.getItem(position);
         pbLoading.setVisibility(View.VISIBLE);
         lvSearchHistory.setVisibility(View.GONE);
