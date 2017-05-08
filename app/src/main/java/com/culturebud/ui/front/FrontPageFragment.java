@@ -97,7 +97,7 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            presenter.loadDatas();
+//            presenter.loadDatas();
         }
     }
 
