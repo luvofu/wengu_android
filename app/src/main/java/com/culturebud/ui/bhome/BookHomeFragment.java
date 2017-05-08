@@ -11,6 +11,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.KeyEvent;
@@ -253,8 +254,17 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             TextView tvCompleted = WidgetUtil.obtainViewById(view, R.id.tv_completed);
             tvCompleted.setOnClickListener(v -> {
                 if (ppwBookMark != null && ppwBookMark.isShowing()) {
+
                     if (currentBookMark == null) {
-                        presenter.addBookMark(userBookId, svPage.getStepValue(), Integer.valueOf(sivPages.getInfo()));
+                        int currentTotalPage = TextUtils.isEmpty(sivPages.getInfo()) ? -1 : Integer.valueOf(sivPages.getInfo());
+                        if (userBookId == -1) {
+                            //没有选择书籍.需要弹出提示.
+                            onErrorTip("请选择书籍");
+                        } else  if (currentTotalPage <= 0) {
+                            onErrorTip("请输入总页码");
+                        }  else {
+                            presenter.addBookMark(userBookId, svPage.getStepValue(), currentTotalPage);
+                        }
                     } else {
                         ppwBookMark.dismiss();
                         presenter.alterBookMark(currentBookMark.getBookmarkId(), svPage.getStepValue(),
