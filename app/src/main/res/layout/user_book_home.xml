@@ -14,15 +14,17 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
-            android:layout_height="256dp"
+            android:layout_height="wrap_content"
             app:expandedTitleMarginEnd="960dp"
             app:expandedTitleMarginStart="960dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <RelativeLayout
+            <com.culturebud.widget.ScaleRelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 app:layout_collapseMode="pin"
+                android:background="@android:color/white"
+                app:ratio="1.476"
                 app:layout_collapseParallaxMultiplier="0.7">
 
                 <com.facebook.drawee.view.SimpleDraweeView
@@ -30,7 +32,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     fresco:actualImageScaleType="fitXY"
-                    fresco:placeholderImage="@mipmap/book_circle_top_bg"
                     fresco:placeholderImageScaleType="fitXY" />
 
                 <ImageView
@@ -127,7 +128,7 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-            </RelativeLayout>
+            </com.culturebud.widget.ScaleRelativeLayout>
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>

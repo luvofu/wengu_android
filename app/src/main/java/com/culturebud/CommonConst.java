@@ -41,7 +41,7 @@ public final class CommonConst {
         _URL = BuildConfig.HOST;
     }
 
-    public static final String PATH_HOME = "api/common/home";
+    public static final String PATH_HOME = "api/common/choiceness";
 
     public static final String PATH_LOGIN = "api/user/login";
 
