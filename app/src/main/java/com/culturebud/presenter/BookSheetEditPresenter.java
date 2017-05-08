@@ -78,7 +78,7 @@ public class BookSheetEditPresenter extends BookSheetEditContract.Presenter {
 
                     @Override
                     public void onNext(String s) {
-
+                        view.onEdit(true);
                     }
                 });
     }
