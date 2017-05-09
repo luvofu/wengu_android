@@ -3,7 +3,6 @@ package com.culturebud.ui;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.widget.RadioGroup;
 
@@ -118,14 +117,20 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         super.onDestroy();
     }
 
+
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        //按物理返回键，不应该退出程序，应该切换到后台.
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            moveTaskToBack(false);
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    public void onBackPressed() {
+        moveTaskToBack(false);
     }
+
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        //按物理返回键，不应该退出程序，应该切换到后台.
+//        if (keyCode == KeyEvent.KEYCODE_BACK) {
+//            moveTaskToBack(false);
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 
 }
