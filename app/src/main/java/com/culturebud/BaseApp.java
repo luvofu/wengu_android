@@ -195,7 +195,7 @@ public class BaseApp extends Application {
         PackageManager pm = getPackageManager();
         PackageInfo pi;
         try {
-            pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_ACTIVITIES);
+            pi = pm.getPackageInfo(getPackageName(), PackageManager.GET_CONFIGURATIONS);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return "unknown";
