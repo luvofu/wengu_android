@@ -117,7 +117,7 @@
             android:clickable="true"
             android:onClick="onClick"
             android:scaleType="centerInside"
-            android:src="@drawable/ssdk_oks_classic_sinaweibo"/>
+            android:src="@drawable/weibo_login_selector"/>
 
         <ImageView
             android:id="@+id/iv_wechat"
@@ -127,7 +127,7 @@
             android:clickable="true"
             android:onClick="onClick"
             android:scaleType="centerInside"
-            android:src="@drawable/ssdk_oks_classic_wechat"/>
+            android:src="@drawable/wechat_login_selector"/>
     </LinearLayout>
 
 </LinearLayout>
