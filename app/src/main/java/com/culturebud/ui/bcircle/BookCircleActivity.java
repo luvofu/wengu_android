@@ -95,17 +95,11 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         abl = obtainViewById(R.id.abl);
-        abl.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
-            rvDynamics.setEnabled(verticalOffset == 0);
-            swipeRefreshLayout.setEnabled(verticalOffset == 0);
-        });
-
         rlBg = obtainViewById(R.id.rl_bc_bg);
         sdvFace = obtainViewById(R.id.sdv_face);
         tvNick = obtainViewById(R.id.tv_nick_name);
         swipeRefreshLayout = obtainViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setProgressViewOffset(true, -20, 100);
-
 
         rvDynamics = obtainViewById(R.id.rv_content);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -206,6 +200,10 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         addSoftKeyboardChangedListener(this);
 
         swipeRefreshLayout.setOnRefreshListener(this);
+        abl.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            rvDynamics.setEnabled(verticalOffset == 0);
+            swipeRefreshLayout.setEnabled(verticalOffset == 0);
+        });
     }
 
     private int currentPage;

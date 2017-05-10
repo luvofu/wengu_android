@@ -127,7 +127,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testOrginNet() throws IOException {
-        URL url = new URL(CommonConst.API_HOST + "api/common/home");
+        URL url = new URL(CommonConst.getHost() + "api/common/home");
 
         URLConnection conn = url.openConnection();
         conn.connect();
@@ -145,7 +145,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testOrginLogin() throws Exception {
-        URL url = new URL(CommonConst.API_HOST + CommonConst.PATH_LOGIN);
+        URL url = new URL(CommonConst.getHost() + CommonConst.PATH_LOGIN);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         DataOutputStream out = new DataOutputStream(conn
@@ -175,7 +175,7 @@ public class ExampleInstrumentedTest {
 
     @Test
     public void testOrginBookCircleDynamic() throws Exception {
-        URL url = new URL(CommonConst.API_HOST + CommonConst.PATH_BOOK_CIRCLE_DYNAMIC);
+        URL url = new URL(CommonConst.getHost() + CommonConst.PATH_BOOK_CIRCLE_DYNAMIC);
         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
         conn.setRequestMethod("POST");
         DataOutputStream out = new DataOutputStream(conn
@@ -239,7 +239,7 @@ public class ExampleInstrumentedTest {
     @NonNull
     private Retrofit initRetrofit(String url) {
         return new Retrofit.Builder()
-                .baseUrl(CommonConst.API_HOST)
+                .baseUrl(CommonConst.getHost())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
