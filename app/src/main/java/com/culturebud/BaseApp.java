@@ -2,12 +2,14 @@ package com.culturebud;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.support.multidex.MultiDex;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.culturebud.bean.User;
@@ -81,8 +83,8 @@ public class BaseApp extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        CommonConst.initHost();
         app = this;
+        CommonConst.initHost();
         CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
                 .setDefaultFontPath("fonts/FangZhengLanTingZhunHei_GBK.TTF")
                 .setFontAttrId(R.attr.fontPath).build());
@@ -114,12 +116,27 @@ public class BaseApp extends Application {
     }
 
     public static String getDeviceId(Context context) {
+        //先从本地缓存取，有的话直接返回
+        SharedPreferences sPref = context.getSharedPreferences("deviceToken", Context.MODE_PRIVATE);
+        String deviceToken =  sPref.getString("devicetoken", "");
+
+        if (!TextUtils.isEmpty(deviceToken)) {
+            return deviceToken;
+        }
+
+        //没有则生成，然后保存起来.
+        deviceToken = getDeviceToken(context);
+        sPref.edit().putString("devicetoken", deviceToken).commit();
+
+        return deviceToken;
+    }
+
+    public static String getDeviceToken(Context context) {
         StringBuilder deviceId = new StringBuilder();
         // 渠道标志
         deviceId.append("a");
 
         try {
-
             //IMEI（imei）
             TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
             String imei = tm.getDeviceId();
@@ -166,7 +183,6 @@ public class BaseApp extends Application {
         Log.e("getDeviceId : ", deviceId.toString());
 
         return deviceId.toString();
-
     }
 
     public String getDeviceId() {
