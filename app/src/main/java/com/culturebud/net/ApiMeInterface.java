@@ -204,4 +204,8 @@ public interface ApiMeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<User>> unbindThird(@FieldMap Map<String, Object> params);
 
+    @POST(CommonConst.PATH_LOGIN_OUT)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> logout(@FieldMap Map<String, Object> params);
+
 }

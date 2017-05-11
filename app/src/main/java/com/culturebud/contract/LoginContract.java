@@ -58,5 +58,11 @@ public interface LoginContract {
                                                         String nickname, int sex, String autograph, String birthday,
                                                         String avatar);
 
+        public abstract Observable<User> autoLogin(String token);
+
+        public abstract Observable<Boolean> updateLocalUser(User user);
+
+        public abstract Observable<Boolean> logoutRemote(String token);
+
     }
 }

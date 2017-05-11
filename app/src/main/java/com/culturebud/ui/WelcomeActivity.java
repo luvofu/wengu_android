@@ -36,30 +36,39 @@ public class WelcomeActivity extends BaseActivity {
                 Manifest.permission.READ_PHONE_STATE, Manifest.permission.GET_ACCOUNTS, Manifest.permission.INTERNET)
         .subscribe(grant -> {
             new Handler().postDelayed(() -> {
-                new MeModel().loadLastUser().subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Subscriber<User>() {
-                            @Override
-                            public void onCompleted() {
+                if (BaseApp.getInstance().getUser() != null) {
+                    //不为空，直接进入主页.
+                    Intent intent = new Intent();
+                    intent.setClass(WelcomeActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    //初始化user, 然后进入主页.
+                    new MeModel().loadLastUser().subscribeOn(Schedulers.io())
+                            .observeOn(AndroidSchedulers.mainThread())
+                            .subscribe(new Subscriber<User>() {
+                                @Override
+                                public void onCompleted() {
 
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-
-                            }
-
-                            @Override
-                            public void onNext(User user) {
-                                if (user != null) {
-                                    BaseApp.getInstance().setUser(user);
                                 }
-                                Intent intent = new Intent();
-                                intent.setClass(WelcomeActivity.this, MainActivity.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
+
+                                @Override
+                                public void onError(Throwable e) {
+
+                                }
+
+                                @Override
+                                public void onNext(User user) {
+                                    if (user != null) {
+                                        BaseApp.getInstance().setUser(user);
+                                    }
+                                    Intent intent = new Intent();
+                                    intent.setClass(WelcomeActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            });
+                }
             }, 500);//欢迎界面的时间随初始化数据的时间而定，可加上下限
         });
     }

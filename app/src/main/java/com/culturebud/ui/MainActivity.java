@@ -41,6 +41,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         rgTabs.setOnCheckedChangeListener(this);
         presenter.setView(this);
         presenter.initFragment();
+
+        //调用自动登录API.
+        presenter.autoLogin();
     }
 
     @Override

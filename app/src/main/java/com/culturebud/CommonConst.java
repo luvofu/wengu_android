@@ -229,6 +229,8 @@ public final class CommonConst {
 
     public static final String PATH_BOOK_SEARCH_FILTER = "api/common/bookClass";
 
+    public static final String PATH_LOGIN_OUT = "api/user/loginOut";
+
     public final class UploadImgType {
         public static final int TYPE_USER_AVATAR = 0;
         public static final int TYPE_USER_BG = 1;

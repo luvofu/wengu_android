@@ -9,6 +9,7 @@ import com.culturebud.bean.User;
 import com.culturebud.contract.LoginContract;
 import com.culturebud.db.dao.UserDAO;
 import com.culturebud.util.ApiException;
+import com.google.gson.JsonObject;
 
 import java.sql.SQLException;
 import java.util.Map;
@@ -72,6 +73,20 @@ public class LoginModel extends LoginContract.Model {
             } catch (SQLException e) {
                 e.printStackTrace();
                 subscriber.onError(e);
+            }
+        });
+    }
+
+    @Override
+    public Observable<Boolean> updateLocalUser(User user) {
+        return Observable.create(subscriber -> {
+            try {
+                initDAO();
+                subscriber.onNext(userDAO.updateUser(user));
+                subscriber.onCompleted();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                subscriber.onError(new Exception("数据库错误"));
             }
         });
     }
@@ -179,5 +194,69 @@ public class LoginModel extends LoginContract.Model {
         });
     }
 
-    ;
+    @Override
+    public Observable<User> autoLogin(String token) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+
+            getMeInterface().autoLogin(params)
+                    .subscribe(new Subscriber<ApiResultBean<User>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<User> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(bean.getData());
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    @Override
+    public Observable<Boolean> logoutRemote(String token) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+
+            getMeInterface().logout(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(true);
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
 }

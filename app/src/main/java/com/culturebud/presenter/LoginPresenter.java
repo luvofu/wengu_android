@@ -63,7 +63,29 @@ public class LoginPresenter extends LoginContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
         User user = BaseApp.getInstance().getUser();
+
+        //1. 远程登出.
+        model.logoutRemote(user.getToken()).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                     public void onNext(Boolean res) {
+
+                    }
+                });
+
+        //2. 本地登出，清空消息.
         model.logout(user).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
