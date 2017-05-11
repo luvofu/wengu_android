@@ -176,9 +176,9 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             return;
         }
 
-        if (plat.isAuthValid()) {
-            plat.removeAccount(true);
-        }
+//        if (plat.isAuthValid()) {
+//            plat.removeAccount(true);
+//        }
 
         plat.setPlatformActionListener(this);
         //关闭SSO授权
