@@ -13,6 +13,10 @@ import com.culturebud.model.LoginModel;
 import com.culturebud.util.ApiException;
 import com.culturebud.util.DigestUtil;
 
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.ShareSDK;
+import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.wechat.friends.Wechat;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -104,6 +108,17 @@ public class LoginPresenter extends LoginContract.Presenter {
                         view.onLogout(res);
                     }
                 });
+
+        //取消第三方的授权. (微博和微信)
+        Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
+        if (weibo.isAuthValid()) {
+            weibo.removeAccount(true);
+        }
+
+        Platform weixin = ShareSDK.getPlatform(Wechat.NAME);
+        if (weixin.isAuthValid()) {
+            weixin.removeAccount(true);
+        }
     }
 
     @Override
