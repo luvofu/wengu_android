@@ -60,8 +60,8 @@
     <SinaWeibo
         Id="1"
         SortId="1"
-        AppKey="881715326"
-        AppSecret="85b08e8d7a0f30db240fa76a04b56035"
+        AppKey="3162374432"
+        AppSecret="9dfa8e602629ff037d93e709bf50db60"
         RedirectUrl="https://api.weibo.com/oauth2/default.html"
         ShareByAppClient="true"
         Enable="true" />
