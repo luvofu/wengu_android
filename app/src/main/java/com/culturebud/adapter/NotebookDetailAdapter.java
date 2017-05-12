@@ -174,7 +174,7 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
         }
 
         public void setNotebookName(String notebookName, String bookTitle) {
-            if (TextUtils.isEmpty(notebookName) || TextUtils.isEmpty(bookTitle)) {
+            if (TextUtils.isEmpty(bookTitle)) {
                 return;
             }
             //去掉了notebookName，此处不再显示.
