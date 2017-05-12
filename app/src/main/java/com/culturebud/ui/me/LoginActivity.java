@@ -176,15 +176,18 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter> impleme
             return;
         }
 
-//        if (plat.isAuthValid()) {
-//            plat.removeAccount(true);
-//        }
+        //如果已经授权过，取消授权.
+        if (plat.isAuthValid()) {
+            plat.removeAccount(true);
+        }
 
         plat.setPlatformActionListener(this);
-        //关闭SSO授权
+        //开启SSO授权
         plat.SSOSetting(false);
-        plat.authorize();
-        plat.showUser(null);
+
+        //authorize与showUser单独调用一个即可
+//        plat.authorize();     //单独授权,OnComplete返回的hashmap是空的
+        plat.showUser(null);    //授权并获取用户信息
     }
 
     @Override
