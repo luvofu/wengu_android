@@ -3,8 +3,10 @@ package com.culturebud.util;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Build;
@@ -17,6 +19,17 @@ import android.support.annotation.RequiresApi;
 
 import com.culturebud.BaseApp;
 import com.culturebud.R;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * Created by XieWei on 2016/11/10.
@@ -376,5 +389,111 @@ public class ImgUtil {
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         intent.putExtra("noFaceDetection", true); // no face detection
         activity.startActivityForResult(intent, requestCode);
+    }
+
+    public static void compressImage(Uri imgUri, String imgCachePath, Boolean isJPEG) {
+        try {
+
+//
+//            int maxKBNum = 120;
+//
+//
+//            int options = 100;
+//            ByteArrayOutputStream output = new ByteArrayOutputStream();
+//            // Store the bitmap into output stream(no compress)
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);
+//            // Compress by loop
+//            while (output.toByteArray().length / 1024 > maxKBNum && options > 30) {
+//                // Clean up os
+//                output.reset();
+//                // interval 10
+//                options -= 5;
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);
+//            }
+
+
+//            // 首先进行一次大范围的压缩
+//
+//            ByteArrayOutputStream output = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+//            float zoom = (float)Math.sqrt(maxKBNum * 1024 / (float)output.toByteArray().length); //获取缩放比例
+//
+//            // 设置矩阵数据
+//            Matrix matrix = new Matrix();
+//            matrix.setScale(zoom, zoom);
+//
+//            // 根据矩阵数据进行新bitmap的创建
+//            Bitmap resultBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
+//            output.reset();
+//            resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+//
+//            // 如果进行了上面的压缩后，依旧大于32K，就进行小范围的微调压缩
+//            while(output.toByteArray().length > maxKBNum * 1024){
+//                matrix.setScale(0.9f, 0.9f);//每次缩小 1/10
+//
+//                resultBitmap = Bitmap.createBitmap(
+//                        resultBitmap, 0, 0,
+//                        resultBitmap.getWidth(), resultBitmap.getHeight(), matrix, false);
+//
+//                output.reset();
+//                resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
+//            }
+
+//            FileOutputStream fos = new FileOutputStream(imgCachePath);
+//            fos.write(os.toByteArray());
+//            fos.flush();
+//            fos.close();
+
+//            FileOutputStream fos = new FileOutputStream(imgCachePath);
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
+
+
+
+            InputStream is = BaseApp.getInstance().getContentResolver().openInputStream(imgUri);
+            Bitmap bitmap = BitmapFactory.decodeStream(is);
+
+            Bitmap.CompressFormat format = isJPEG ? Bitmap.CompressFormat.JPEG : Bitmap.CompressFormat.PNG;
+            int maxKBNum = 120;
+
+            int options = 100;
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            // Store the bitmap into output stream(no compress)
+            bitmap.compress(format, options, output);
+
+
+
+            float maxWidth = 1080;
+
+            float zoom = maxWidth / bitmap.getWidth() ; //获取缩放比例
+            if (zoom > 1) {
+                //说明截取后的图比较小，不需要压缩.
+                zoom = 1;
+            }
+
+            // 设置矩阵数据
+            Matrix matrix = new Matrix();
+            matrix.setScale(zoom, zoom);
+
+            // 根据矩阵数据进行新bitmap的创建
+            bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+
+            // Compress by loop
+            while (output.toByteArray().length / 1024 > maxKBNum && options > 22) {
+                // Clean up os
+                output.reset();
+                // interval 10
+                options -= 6;
+                bitmap.compress(format, options, output);
+            }
+
+            FileOutputStream fos = new FileOutputStream(imgCachePath);
+            fos.write(output.toByteArray());
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

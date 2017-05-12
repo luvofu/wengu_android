@@ -19,6 +19,7 @@ import com.culturebud.net.ApiFileInterface;
 import com.culturebud.net.ApiMeInterface;
 import com.culturebud.net.TrustAllCerts;
 import com.culturebud.util.ApiException;
+import com.culturebud.util.ImgUtil;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
@@ -153,22 +154,24 @@ public abstract class BaseModel {
             }
             String imgPath = BaseApp.getInstance().getCacheDir() + "/" + UUID.randomUUID().toString() + sufix;
             try {
-                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(imgUri));
-                Log.d(TAG, imgPath);
-                FileOutputStream fos = new FileOutputStream(imgPath);
-                int bsize = bitmap.getByteCount() / 1024;
-                int scale = 1;
-                if (bsize > 160) {
-                    scale = bsize / 160;
-                }
-                if (scale > 100) {
-                    scale = 100;
-                }
-                if (isJPEG) {
-                    bitmap.compress(CompressFormat.JPEG, 100 / scale, fos);
-                } else {
-                    bitmap.compress(CompressFormat.PNG, 100 / scale, fos);
-                }
+//                Bitmap bitmap = BitmapFactory.decodeStream(resolver.openInputStream(imgUri));
+//                Log.d(TAG, imgPath);
+//                FileOutputStream fos = new FileOutputStream(imgPath);
+//                int bsize = bitmap.getByteCount() / 1024;
+//                int scale = 1;
+//                if (bsize > 160) {
+//                    scale = bsize / 160;
+//                }
+//                if (scale > 100) {
+//                    scale = 100;
+//                }
+//                if (isJPEG) {
+//                    bitmap.compress(CompressFormat.JPEG, 100 / scale, fos);
+//                } else {
+//                    bitmap.compress(CompressFormat.PNG, 100 / scale, fos);
+//                }
+
+                ImgUtil.compressImage(imgUri, imgPath, isJPEG);
             } catch (Exception e) {
                 e.printStackTrace();
             }

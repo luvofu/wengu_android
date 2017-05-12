@@ -288,10 +288,10 @@ public class ManualAddBookActivity extends BaseActivity<ManualAddBookContract.Pr
         super.onClick(v);
         switch (v.getId()) {
             case R.id.ll_book_cover:
-                aspectY = 8;
-                aspectX = 5;
-                outY = 720;
-                outX = 480;
+                aspectY = 100;
+                aspectX = 68;
+                outY = 441;
+                outX = 300 ;
                 showPhotoDialog();
                 break;
             case R.id.iv_add_author: {

@@ -59,8 +59,8 @@ public class CreateBookSheetActivity extends BaseActivity<CreateBookSheetContrac
             case R.id.ll_add_cover:
                 aspectX = 1;
                 aspectY = 1;
-                outX = 720;
-                outY = 720;
+                outX = 300;
+                outY = 300;
                 showPhotoDialog();
                 break;
         }

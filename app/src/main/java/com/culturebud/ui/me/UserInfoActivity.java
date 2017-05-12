@@ -145,8 +145,8 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             case R.id.ll_face:
                 aspectX = 1;
                 aspectY = 1;
-                outX = 480;
-                outY = 480;
+                outX = 300;
+                outY = 300;
                 showPhotoDialog();
                 break;
             case R.id.siv_nick://修改昵称

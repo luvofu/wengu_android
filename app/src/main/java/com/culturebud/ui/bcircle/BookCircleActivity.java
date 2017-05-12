@@ -261,10 +261,10 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 finish();
                 break;
             case R.id.rl_bc_bg:
-                aspectX = 8;
-                aspectY = 5;
-                outX = 720;
-                outY = 480;
+                aspectX = 350;
+                aspectY = 254;
+                outX = 0;
+                outY = 0;
                 showPhotoDialog();
                 break;
             case R.id.tv_my_publish: {

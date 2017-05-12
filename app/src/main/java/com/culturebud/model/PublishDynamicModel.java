@@ -2,6 +2,7 @@ package com.culturebud.model;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.text.TextUtils;
 
@@ -11,8 +12,10 @@ import com.culturebud.bean.ApiResultBean;
 import com.culturebud.contract.PublishDynamicContract;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.util.ApiException;
+import com.culturebud.util.ImgUtil;
 import com.google.gson.JsonObject;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -53,22 +56,12 @@ public class PublishDynamicModel extends PublishDynamicContract.Model {
             String imgCachePath = BaseApp.getInstance().getCacheDir() + "/" + UUID.randomUUID().toString() + ".jpg";
             if (imgUri != null) {
                 try {
-                    InputStream is = BaseApp.getInstance().getContentResolver().openInputStream(imgUri);
-                    Bitmap bitmap = BitmapFactory.decodeStream(is);
-                    FileOutputStream fos = new FileOutputStream(imgCachePath);
-                    int bsize = bitmap.getByteCount() / 1024;
-                    int scale = 1;
-                    if (bsize > 230) {
-                        scale = bsize / 230;
-                    }
-                    if (scale > 100) {
-                        scale = 100;
-                    }
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100 / scale, fos);
+                    ImgUtil.compressImage(imgUri,imgCachePath, true);
+
                     File file = new File(imgCachePath);
                     RequestBody requestBody = RequestBody.create(MediaType.parse("multipart/form-data"), file);
                     body = MultipartBody.Part.createFormData("imageFile", file.getName(), requestBody);
-                } catch (FileNotFoundException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             } else {
