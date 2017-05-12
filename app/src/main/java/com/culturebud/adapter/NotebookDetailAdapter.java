@@ -177,10 +177,8 @@ public class NotebookDetailAdapter extends Adapter<ViewHolder> {
             if (TextUtils.isEmpty(notebookName) || TextUtils.isEmpty(bookTitle)) {
                 return;
             }
-//            tvNotebookName.setText(bookTitle + " . " + notebookName);
             //去掉了notebookName，此处不再显示.
-            tvNotebookName.setText(bookTitle + " . " + notebookName);
-
+            tvNotebookName.setText(bookTitle);
         }
 
         public void setNoteNum(long noteNum) {
