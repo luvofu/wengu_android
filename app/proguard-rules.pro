@@ -219,6 +219,7 @@
 #shareSDK
 -keep class com.culturebud.wxapi.** { *; }
 -keep class cn.sharesdk.** { *; }
+-keep class com.mob.tools.** {*;}
 
 #okhttp3
 -dontwarn com.squareup.okhttp3.**
