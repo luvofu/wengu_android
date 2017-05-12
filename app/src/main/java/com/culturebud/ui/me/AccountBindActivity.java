@@ -135,8 +135,8 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
 
         plat.setPlatformActionListener(this);
         //关闭SSO授权
-        plat.SSOSetting(true);
-        plat.authorize();
+        plat.SSOSetting(false);
+//        plat.authorize();
         plat.showUser(null);
     }
 
