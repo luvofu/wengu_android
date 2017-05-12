@@ -69,6 +69,10 @@ android {
         appstore_xiaomi {
             manifestPlaceholders = [TD_CHANNEL_VALUE: "小米应用市场"]
         }
+
+        officialwebsite {
+            manifestPlaceholders = [TD_CHANNEL_VALUE: "文芽官网"]
+        }
     }
 
     compileOptions {
