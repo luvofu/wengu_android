@@ -67,6 +67,14 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
         return super.onKeyDown(keyCode, event);
     }
 
+
+    @Override
+    protected void onBack() {
+        super.onBack();
+
+        finish();
+    }
+
     @Override
     public void onInviteMsgs(List<UserMessage> msgs) {
         if (currentPage == 0) {

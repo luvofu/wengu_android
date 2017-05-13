@@ -41,7 +41,7 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
         setContentView(R.layout.my_friends);
         presenter.setView(this);
         showTitlebar();
-        setTitle(R.string.add_book_friend);
+        setTitle(R.string.my_friends);
         setOperasDrawable(R.drawable.btn_add_friend_selector);
 
         rvFriends = obtainViewById(R.id.rv_friends);
