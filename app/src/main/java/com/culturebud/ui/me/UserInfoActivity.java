@@ -1,5 +1,7 @@
 package com.culturebud.ui.me;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -10,10 +12,12 @@ import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
 import com.culturebud.R;
+import com.culturebud.TextEditorFragment;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserInfoContract;
 import com.culturebud.presenter.UserInfoPresenter;
+import com.culturebud.util.TxtUtil;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -30,7 +34,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 
 @PresenterInject(UserInfoPresenter.class)
 public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
-        implements UserInfoContract.View, OptionsPickerView.OnOptionsSelectListener {
+        implements UserInfoContract.View, OptionsPickerView.OnOptionsSelectListener, TextEditorFragment.OnFragmentInteractionListener {
     private static final String TAG = UserInfoActivity.class.getSimpleName();
     private SimpleDraweeView sdvFace;
     private LinearLayout llFace;
@@ -65,6 +69,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         sivEmail.setOnClickListener(this);
         sivRegion.setOnClickListener(this);
         sivProfile.setOnClickListener(this);
+        sivCulturebudName.setOnClickListener(this);
     }
 
     private void initSexOpera() {
@@ -171,7 +176,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             {
                 Intent intent = new Intent(this, GeneralEditorActivity.class);
                 intent.putExtra("title", "修改签名");
-                intent.putExtra("content", BaseApp.getInstance().getUser().getAutograph());
+                intent.putExtra("hint", "文芽号");
                 intent.putExtra("type", 2);
                 startActivityForResult(intent, REQUEST_CODE_ALTER_PROFILE);
                 break;
@@ -179,6 +184,23 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             case R.id.siv_sex://性别
             {
                 showSexOpera();
+                break;
+            }
+            case R.id.siv_culturebud_name: //文芽号
+            {
+                /*
+                    1. 判断是否已经有文芽号了，如果已经有了，不允许再修改.
+                    2. 如果没有，打开输入框，需要提示文芽号的规则，需要判断文芽号是否符合规定.
+                 */
+
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                TextEditorFragment fragment = TextEditorFragment.newInstance(getString(R.string.culturebud_name), null, getString(R.string.culturebud_name), 20, 0, true, getString(R.string.wy_account_rules));
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
+                fragmentTransaction.commit();
+
+                hideTitlebar();
+
                 break;
             }
         }
@@ -190,6 +212,15 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
         finish();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (TextEditorFragment.isShowing(this)) {
+            //移除.
+            onExist();
+        } else {
+            finish();
+        }
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -257,6 +288,14 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
     }
 
     @Override
+    public void onUsername(String username) {
+        sivCulturebudName.setRightInfo(username);
+
+        //退出编辑框.
+        onExist();
+    }
+
+    @Override
     public void onOptionsSelect(int options1, int option2, int options3) {
         switch (options1) {
             case 0://男
@@ -270,5 +309,34 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 break;
         }
         presenter.editSex(options1);
+    }
+
+
+    @Override
+    public void onConfirmSubmisstion(String inputString) {
+        //判断文芽号是否符合要求.
+        Boolean isMatch = TxtUtil.isMatchWenyaAccountRule(inputString);
+
+        if (!isMatch) {
+            //是否需要报错.
+            onErrorTip(getString(R.string.wy_account_error_message));
+        } else {
+            //提交网络请求.
+            presenter.editUsername(inputString);
+        }
+    }
+
+    @Override
+    public void onExist() {
+        //退出.
+        FragmentManager fragmentManager = getFragmentManager();
+        android.app.Fragment fragment = fragmentManager.findFragmentByTag(TextEditorFragment.getFragmentTag());
+        if (fragment != null) {
+            //移除.
+            fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).remove(fragment).commit();
+
+            //显示activity的title
+            showTitlebar();
+        }
     }
 }

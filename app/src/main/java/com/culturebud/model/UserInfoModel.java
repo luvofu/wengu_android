@@ -175,4 +175,36 @@ public class UserInfoModel extends UserInfoContract.Model {
         });
     }
 
+    @Override
+    public Observable<User> alterUsername(String token, String username) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+            params.put("userName", username);
+            initRetrofit().create(ApiMeInterface.class).editUserName(params)
+                    .subscribe(new Subscriber<ApiResultBean<User>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<User> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(bean.getData());
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
 }

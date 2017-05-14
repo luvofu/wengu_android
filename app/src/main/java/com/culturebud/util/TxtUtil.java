@@ -15,4 +15,11 @@ public class TxtUtil {
         Matcher m = p.matcher(str);
         return m.matches();
     }
+
+    public static boolean isMatchWenyaAccountRule(String account) throws PatternSyntaxException {
+        String regExp = "^(?![_-])(?!.*[_-]$)[a-zA-Z0-9_-]{6,20}$";
+        Pattern p = Pattern.compile(regExp);
+        Matcher m = p.matcher(account);
+        return m.matches();
+    }
 }

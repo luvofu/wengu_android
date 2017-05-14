@@ -25,6 +25,8 @@ public interface UserInfoContract {
 
         public abstract Observable<User> alterSex(String token, int sex);
 
+        public abstract Observable<User> alterUsername(String token, String username);
+
     }
 
     interface View extends BaseView {
@@ -38,6 +40,8 @@ public interface UserInfoContract {
         void onAutograph(String autograph);
 
         void onSex(int sex);
+
+        void onUsername(String username);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -50,5 +54,7 @@ public interface UserInfoContract {
         public abstract void editAutograph(String autograph);
 
         public abstract void editSex(int sex);
+
+        public abstract void editUsername(String username);
     }
 }

@@ -158,4 +158,12 @@
     <string name="txt_mobile">手机号</string>
     <string name="txt_wechat">微信</string>
     <string name="txt_weibo">微博</string>
+
+    <string name="wy_account_rules">
+         ·文芽号可作为用户名进行登录，只能设置一次\n·6-20个字符，只能使用英文字母a～z (区分大小写)、数字0～9、-、组成，且不能以\"-\"和\"\"开头和结尾\n·如果之前没有设置登录密码，设置完文芽号后必须设置登录密码，否则无法用文芽号进行登录
+    </string>
+    <string name="wy_account_error_message">文芽号只能由英文字母a～z (区分大小写)、数字0～9、下划线、横线组成，且不能以\"-\"和\"_\"开头和结尾</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

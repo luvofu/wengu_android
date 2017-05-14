@@ -8,6 +8,7 @@ import com.culturebud.CommonConst;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserInfoContract;
 import com.culturebud.model.UserInfoModel;
+import com.culturebud.util.ApiException;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -181,6 +182,40 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         Log.i(TAG, "update user success = " + aBoolean);
+                    }
+                });
+    }
+
+    @Override
+    public void editUsername(String username) {
+        if (!validateToken()) {
+            return;
+        }
+
+        view.showProDialog();
+        model.alterUsername(BaseApp.getInstance().getUser().getToken(), username)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hideProDialog();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        view.hideProDialog();
+                        e.printStackTrace();
+
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(User user) {
+                        view.onUsername(user.getUserName());
+                        BaseApp.getInstance().getUser().setUserName(user.getUserName());
+                        updateLocalUser();
                     }
                 });
     }

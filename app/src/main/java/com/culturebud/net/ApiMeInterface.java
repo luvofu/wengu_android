@@ -117,6 +117,16 @@ public interface ApiMeInterface {
     Observable<ApiResultBean<User>> editProfile(@FieldMap Map<String, Object> params);
 
     /**
+     * 编辑文芽号
+     * String userName; 文芽号
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_USER_EDIT_USERNAME)
+    @FormUrlEncoded
+    Observable<ApiResultBean<User>> editUserName(@FieldMap Map<String, Object> params);
+
+    /**
      * String token;令牌
      * String content;反馈内容
      * String connection;联系方式

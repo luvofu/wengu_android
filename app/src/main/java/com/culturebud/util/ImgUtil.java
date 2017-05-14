@@ -388,62 +388,6 @@ public class ImgUtil {
 
     public static void compressImage(Uri imgUri, String imgCachePath, Boolean isJPEG) {
         try {
-
-//
-//            int maxKBNum = 120;
-//
-//
-//            int options = 100;
-//            ByteArrayOutputStream output = new ByteArrayOutputStream();
-//            // Store the bitmap into output stream(no compress)
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);
-//            // Compress by loop
-//            while (output.toByteArray().length / 1024 > maxKBNum && options > 30) {
-//                // Clean up os
-//                output.reset();
-//                // interval 10
-//                options -= 5;
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, options, output);
-//            }
-
-
-//            // 首先进行一次大范围的压缩
-//
-//            ByteArrayOutputStream output = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-//            float zoom = (float)Math.sqrt(maxKBNum * 1024 / (float)output.toByteArray().length); //获取缩放比例
-//
-//            // 设置矩阵数据
-//            Matrix matrix = new Matrix();
-//            matrix.setScale(zoom, zoom);
-//
-//            // 根据矩阵数据进行新bitmap的创建
-//            Bitmap resultBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, false);
-//            output.reset();
-//            resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-//
-//            // 如果进行了上面的压缩后，依旧大于32K，就进行小范围的微调压缩
-//            while(output.toByteArray().length > maxKBNum * 1024){
-//                matrix.setScale(0.9f, 0.9f);//每次缩小 1/10
-//
-//                resultBitmap = Bitmap.createBitmap(
-//                        resultBitmap, 0, 0,
-//                        resultBitmap.getWidth(), resultBitmap.getHeight(), matrix, false);
-//
-//                output.reset();
-//                resultBitmap.compress(Bitmap.CompressFormat.JPEG, 100, output);
-//            }
-
-//            FileOutputStream fos = new FileOutputStream(imgCachePath);
-//            fos.write(os.toByteArray());
-//            fos.flush();
-//            fos.close();
-
-//            FileOutputStream fos = new FileOutputStream(imgCachePath);
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
-
-
-
             InputStream is = BaseApp.getInstance().getContentResolver().openInputStream(imgUri);
             Bitmap bitmap = BitmapFactory.decodeStream(is);
 
@@ -454,7 +398,6 @@ public class ImgUtil {
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             // Store the bitmap into output stream(no compress)
             bitmap.compress(format, options, output);
-
 
 
             float maxWidth = 1080;
@@ -476,7 +419,6 @@ public class ImgUtil {
             while (output.toByteArray().length / 1024 > maxKBNum && options > 22) {
                 // Clean up os
                 output.reset();
-                // interval 10
                 options -= 6;
                 bitmap.compress(format, options, output);
             }

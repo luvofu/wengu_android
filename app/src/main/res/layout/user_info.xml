@@ -1,111 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:fresco="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fresco="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/contain_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/ll_face"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:layout_weight="1"
-            android:gravity="center_vertical"
-            android:text="@string/face"
-            android:textColor="@color/title_font_default"/>
+        <LinearLayout
+            android:id="@+id/ll_face"
+            android:layout_width="match_parent"
+            android:layout_height="90dp"
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:clickable="true"
+            android:orientation="horizontal">
 
-        <com.facebook.drawee.view.SimpleDraweeView
-            android:id="@+id/sdv_face"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_margin="5dp"
-            fresco:actualImageScaleType="fitXY"
-            fresco:placeholderImage="@mipmap/me_default_icon"
-            fresco:placeholderImageScaleType="fitCenter"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_margin="20dp"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/face"
+                android:textColor="@color/title_font_default" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+            <com.facebook.drawee.view.SimpleDraweeView
+                android:id="@+id/sdv_face"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_margin="5dp"
+                fresco:actualImageScaleType="fitXY"
+                fresco:placeholderImage="@mipmap/me_default_icon"
+                fresco:placeholderImageScaleType="fitCenter" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="20dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/right_arrow" />
+        </LinearLayout>
+
+        <com.culturebud.widget.SettingItemView
+            android:id="@+id/siv_nick"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="20dp"
-            android:scaleType="centerInside"
-            android:src="@mipmap/right_arrow"/>
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:clickable="true"
+            android:minHeight="48dp"
+            app:has_icon="false"
+            app:info="@string/no_fill"
+            app:name="@string/nick" />
+
+        <com.culturebud.widget.SettingItemView
+            android:id="@+id/siv_culturebud_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:clickable="true"
+            android:minHeight="48dp"
+            app:has_arrow="false"
+            app:has_icon="false"
+            app:info="share_"
+            app:name="@string/culturebud_name" />
+
+        <com.culturebud.widget.SettingItemView
+            android:id="@+id/siv_sex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:clickable="true"
+            android:minHeight="48dp"
+            app:has_icon="false"
+            app:info="@string/no_fill"
+            app:name="@string/sex" />
+
+        <com.culturebud.widget.SettingItemView
+            android:id="@+id/siv_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:clickable="true"
+            android:minHeight="48dp"
+            app:has_icon="false"
+            app:info="yuanyuan756@126.com"
+            app:name="@string/email" />
+
+        <com.culturebud.widget.SettingItemView
+            android:id="@+id/siv_region"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:clickable="true"
+            android:minHeight="48dp"
+            app:has_icon="false"
+            app:name="@string/region" />
+
+        <com.culturebud.widget.SettingItemView
+            android:id="@+id/siv_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/setting_item_only_last_bg_selector"
+            android:clickable="true"
+            android:minHeight="48dp"
+            app:desc="@string/no_fill"
+            app:has_icon="false"
+            app:name="@string/profile"
+            app:show_desc="true" />
+
     </LinearLayout>
 
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_nick"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:minHeight="48dp"
-        app:has_icon="false"
-        app:info="@string/no_fill"
-        app:name="@string/nick"/>
+</FrameLayout>
 
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_culturebud_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:minHeight="48dp"
-        app:has_arrow="false"
-        app:has_icon="false"
-        app:info="share_"
-        app:name="@string/culturebud_name"/>
 
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_sex"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:minHeight="48dp"
-        app:has_icon="false"
-        app:info="@string/no_fill"
-        app:name="@string/sex"/>
-
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_email"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:minHeight="48dp"
-        app:has_icon="false"
-        app:info="yuanyuan756@126.com"
-        app:name="@string/email"/>
-
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_region"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:minHeight="48dp"
-        app:has_icon="false"
-        app:name="@string/region"/>
-
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_profile"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:minHeight="48dp"
-        app:desc="@string/no_fill"
-        app:has_icon="false"
-        app:name="@string/profile"
-        app:show_desc="true"/>
-
-</LinearLayout>
