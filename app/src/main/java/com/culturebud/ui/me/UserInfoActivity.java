@@ -194,13 +194,15 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                     2. 如果没有，打开输入框，需要提示文芽号的规则，需要判断文芽号是否符合规定.
                  */
 
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_WY_ACCOUNT, getString(R.string.culturebud_name), null, getString(R.string.culturebud_name), 20, 0, true, getString(R.string.wy_account_rules));
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
-                fragmentTransaction.commit();
+                if (TextUtils.isEmpty(BaseApp.getInstance().getUser().getUserName())) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_WY_ACCOUNT, getString(R.string.culturebud_name), null, getString(R.string.culturebud_name), 20, 0, true, getString(R.string.wy_account_rules));
+                    fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
+                    fragmentTransaction.commit();
 
-                hideTitlebar();
+                    hideTitlebar();
+                }
 
                 break;
             }
