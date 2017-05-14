@@ -347,6 +347,7 @@ public final class CommonConst {
         public static final int REQUEST_CODE_ALTER_EMAIL = 102;
         public static final int REQUEST_CODE_ALTER_PROFILE = 103;
         public static final int REQUEST_CODE_CHANGE_PWD = 107;
+        public static final int REQUEST_CODE_WY_ACCOUNT = 108;
 
         public static final int REQUEST_CREATE_NOTEBOOK = 201;
         public static final int REQUEST_CODE_SELECT_COLLECTED_BOOK = 202;

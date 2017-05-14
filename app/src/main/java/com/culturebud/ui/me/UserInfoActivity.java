@@ -27,6 +27,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_EMAIL;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_NICK;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ALTER_PROFILE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_WY_ACCOUNT;
 
 /**
  * Created by XieWei on 2016/11/2.
@@ -195,7 +196,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
 
                 FragmentManager fragmentManager = getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                TextEditorFragment fragment = TextEditorFragment.newInstance(getString(R.string.culturebud_name), null, getString(R.string.culturebud_name), 20, 0, true, getString(R.string.wy_account_rules));
+                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_WY_ACCOUNT, getString(R.string.culturebud_name), null, getString(R.string.culturebud_name), 20, 0, true, getString(R.string.wy_account_rules));
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN).replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
                 fragmentTransaction.commit();
 
@@ -313,16 +314,18 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
 
 
     @Override
-    public void onConfirmSubmisstion(String inputString) {
-        //判断文芽号是否符合要求.
-        Boolean isMatch = TxtUtil.isMatchWenyaAccountRule(inputString);
+    public void onConfirmSubmisstion(String inputString, int requestcode) {
+        if (requestcode == REQUEST_CODE_WY_ACCOUNT) {
+            //判断文芽号是否符合要求.
+            Boolean isMatch = TxtUtil.isMatchWenyaAccountRule(inputString);
 
-        if (!isMatch) {
-            //是否需要报错.
-            onErrorTip(getString(R.string.wy_account_error_message));
-        } else {
-            //提交网络请求.
-            presenter.editUsername(inputString);
+            if (!isMatch) {
+                //是否需要报错.
+                onErrorTip(getString(R.string.wy_account_error_message));
+            } else {
+                //提交网络请求.
+                presenter.editUsername(inputString);
+            }
         }
     }
 
