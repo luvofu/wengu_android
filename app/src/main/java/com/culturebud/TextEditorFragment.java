@@ -3,7 +3,6 @@ package com.culturebud;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,11 +17,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
-import java.io.Serializable;
-import java.lang.ref.WeakReference;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -32,7 +26,7 @@ import java.lang.ref.WeakReference;
  */
 public class TextEditorFragment extends BaseFragment implements View.OnClickListener  {
 
-    private class TextEditorParamter {
+    private class TextEditorParameter {
         private int requestCode;
         private String content;
         private String title;
@@ -40,18 +34,18 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
         private String hint;
         private int contentLength = 95;
 
-        private Boolean needshowtip = false; //底部是否显示提示.
+        private Boolean needShowTip = false; //底部是否显示提示.
         private String tips;  //底部提示内容 （某人是隐藏的，不显示）
 
-        public TextEditorParamter(Bundle bundle){
-            this.requestCode = bundle.getInt("requestcode");
+        public TextEditorParameter(Bundle bundle){
+            this.requestCode = bundle.getInt("requestCode");
             this.title = bundle.getString("title");
             this.content = bundle.getString("content");
             this.hint = bundle.getString("hint");
             this.contentLength = bundle.getInt("contentLength");
             this.type = bundle.getInt("type");
             this.contentLength = bundle.getInt("contentLength");
-            this.needshowtip = bundle.getBoolean("needshowtip");
+            this.needShowTip = bundle.getBoolean("needShowTip");
             this.tips = bundle.getString("tips");
         }
 
@@ -103,12 +97,12 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
             this.contentLength = contentLength;
         }
 
-        public Boolean getNeedshowtip() {
-            return needshowtip;
+        public Boolean getNeedShowTip() {
+            return needShowTip;
         }
 
-        public void setNeedshowtip(Boolean needshowtip) {
-            this.needshowtip = needshowtip;
+        public void setNeedShowTip(Boolean needShowTip) {
+            this.needShowTip = needShowTip;
         }
 
         public String getTips() {
@@ -122,14 +116,14 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
 
     private EditText etInput;
     private TextView placeholderView;
-    private TextEditorParamter editorParamter;
+    private TextEditorParameter editorParameter;
 
-    public void setEditorParamter(TextEditorParamter editorParamter) {
-        this.editorParamter = editorParamter;
+    public void setEditorParameter(TextEditorParameter editorParameter) {
+        this.editorParameter = editorParameter;
     }
 
     //初始化自己.
-    public static TextEditorFragment newInstance(int requestcode,String title, String content, String hint, int contentLength, int type, Boolean needshowtip, String tips){
+    public static TextEditorFragment newInstance(int requestCode,String title, String content, String hint, int contentLength, int type, Boolean needshowtip, String tips){
         TextEditorFragment myFragment = new TextEditorFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
@@ -137,9 +131,9 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
         bundle.putString("hint", hint);
         bundle.putInt("contentLength", contentLength);
         bundle.putInt("type", type);
-        bundle.putBoolean("needshowtip", needshowtip);
+        bundle.putBoolean("needShowTip", needshowtip);
         bundle.putString("tips", tips);
-        bundle.putInt("requestcode", requestcode);
+        bundle.putInt("requestCode", requestCode);
         myFragment.setArguments(bundle);
         return myFragment;
     }
@@ -166,8 +160,8 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
 
         Bundle bundle = getArguments();
         if (bundle != null) {
-            TextEditorParamter editorParamter = new TextEditorParamter(bundle);
-            setEditorParamter(editorParamter);
+            TextEditorParameter editorParameter = new TextEditorParameter(bundle);
+            setEditorParameter(editorParameter);
         }
     }
 
@@ -177,7 +171,7 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
         // Inflate the layout for this fragment
         View view = super.onCreateView(inflater, container, savedInstanceState);
         inflateView(R.layout.fragment_text_editor);
-        showTitle(editorParamter.getTitle());
+        showTitle(editorParameter.getTitle());
         initTitleLeft(R.layout.titlebar_left_back);
         initTitleRight(R.layout.titlebar_right_text);
 
@@ -222,11 +216,11 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
                     }
 
                     //判断编辑后跟编辑前内容是否一样，若一样，则直接退出自己.
-                    String oldString = editorParamter.getContent();
+                    String oldString = editorParameter.getContent();
                     if (!TextUtils.isEmpty(oldString) && editString.equals(oldString)) {
                         mListener.onExist();
                     } else  {
-                        mListener.onConfirmSubmisstion(editString, editorParamter.getRequestCode());
+                        mListener.onConfirmSubmission(editString, editorParameter.getRequestCode());
                     }
                 }
             }
@@ -235,7 +229,7 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
     }
 
     private void initData() {
-        switch (editorParamter.getType()) {
+        switch (editorParameter.getType()) {
             case 0://昵称
                 break;
             case 1://邮箱
@@ -248,20 +242,20 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
                 etInput.setSingleLine(false);
                 break;
         }
-        etInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(editorParamter.getContentLength())});
-        if (!TextUtils.isEmpty(editorParamter.getHint())) {
-            etInput.setHint(editorParamter.getHint());
+        etInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(editorParameter.getContentLength())});
+        if (!TextUtils.isEmpty(editorParameter.getHint())) {
+            etInput.setHint(editorParameter.getHint());
         }
-        if (editorParamter.getContent() != null) {
-            etInput.setText(editorParamter.getContent());
-            etInput.setSelection(editorParamter.getContent().length());
+        if (editorParameter.getContent() != null) {
+            etInput.setText(editorParameter.getContent());
+            etInput.setSelection(editorParameter.getContent().length());
         }
 
-        if (editorParamter.getNeedshowtip()) {
+        if (editorParameter.getNeedShowTip()) {
             //如果需要显示，将placeholderView控件显示，并赋值.
-            if (!TextUtils.isEmpty(editorParamter.getTips())) {
+            if (!TextUtils.isEmpty(editorParameter.getTips())) {
                 placeholderView.setVisibility(View.VISIBLE);
-                placeholderView.setText(editorParamter.getTips());
+                placeholderView.setText(editorParameter.getTips());
             }
         }
     }
@@ -304,7 +298,7 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        void onConfirmSubmisstion(String inputString, int requestcode);
+        void onConfirmSubmission(String inputString, int requestCode);
 
         void onExist();
     }
