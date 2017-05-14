@@ -10,7 +10,7 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="?android:attr/actionBarSize"
         android:background="@color/title_bg_color"
         android:contentInsetEnd="1dp"
         android:contentInsetLeft="1dp"
@@ -18,7 +18,6 @@
         android:contentInsetStart="1dp"
         android:elevation="1dp"
         android:fitsSystemWindows="true"
-        android:minHeight="?android:attr/actionBarSize"
         app:contentInsetEnd="1dp"
         app:contentInsetLeft="1dp"
         app:contentInsetRight="1dp"
