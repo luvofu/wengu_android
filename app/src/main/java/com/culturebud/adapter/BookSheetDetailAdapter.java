@@ -376,9 +376,11 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public void onClick(View view) {
             if (onItemListener != null) {
                 if (view == itemView) {
-                    onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem), OPERA_TYPE_ITEM, sbItem);
+                    onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem) + 1,
+                            OPERA_TYPE_ITEM, sbItem);
                 } else if (view == ivAdd) {
-                    onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem), OPERA_TYPE_ADD, sbItem);
+                    onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem) + 1,
+                            OPERA_TYPE_ADD, sbItem);
                 }
             }
         }

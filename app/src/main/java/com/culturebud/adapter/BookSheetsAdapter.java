@@ -76,7 +76,8 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
     @Override
     public void onBindViewHolder(BookSheetsViewHolder holder, int position) {
         BookSheet item = data.get(position);
-        holder.position = position;
+//        holder.position = position;
+        holder.bsItem = item;
         holder.setCover(item.getCover());
         holder.setTitle(item.getName());
         holder.setNick(item.getNickname());
@@ -107,7 +108,8 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvCount, tvNick;
         private Button btnDel;
-        private int position;
+//        private int position;
+        private BookSheet bsItem;
 
         public BookSheetsViewHolder(View itemView) {
             super(itemView);
@@ -165,12 +167,12 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             switch (view.getId()) {
                 case R.id.rl_parent:
                     if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick(view, position, data.get(position));
+                        onItemClickListener.onItemClick(view, data.indexOf(bsItem), bsItem);
                     }
                     break;
                 case R.id.btn_delete:
                     if (deleteListener != null) {
-                        deleteListener.onItemDelete(position, data.get(position));
+                        deleteListener.onItemDelete(data.indexOf(bsItem), bsItem);
                     }
                     break;
             }
