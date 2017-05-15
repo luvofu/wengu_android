@@ -124,7 +124,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             SheetBook item = data.getSheetBookList().get(position - 1);
             SheetBooksViewHolder sbHolder = (SheetBooksViewHolder) holder;
-            sbHolder.position = position;
+//            sbHolder.position = position;
+            sbHolder.sbItem = item;
             sbHolder.needAdd(BaseApp.getInstance().getUser() == null ? false : data.getUserId() == BaseApp.getInstance()
                     .getUser().getUserId());
             sbHolder.setCover(item.getCover());
@@ -293,7 +294,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         private RatingBar rbRating;
         private LinearLayout llRating;
         private TextView tvRecommendReason;
-        private int position;
+        //        private int position;
+        private SheetBook sbItem;
 
         public SheetBooksViewHolder(View itemView) {
             super(itemView);
@@ -374,11 +376,9 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         public void onClick(View view) {
             if (onItemListener != null) {
                 if (view == itemView) {
-                    onItemListener.onItemOpera(view, position, OPERA_TYPE_ITEM,
-                            data.getSheetBookList().get(position - 1));
+                    onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem), OPERA_TYPE_ITEM, sbItem);
                 } else if (view == ivAdd) {
-                    onItemListener.onItemOpera(view, position, OPERA_TYPE_ADD,
-                            data.getSheetBookList().get(position - 1));
+                    onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem), OPERA_TYPE_ADD, sbItem);
                 }
             }
         }
