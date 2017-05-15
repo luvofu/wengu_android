@@ -178,7 +178,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             {
                 Intent intent = new Intent(this, GeneralEditorActivity.class);
                 intent.putExtra("title", "修改签名");
-                intent.putExtra("hint", "文芽号");
+                intent.putExtra("hint", "");
                 intent.putExtra("type", 2);
                 startActivityForResult(intent, REQUEST_CODE_ALTER_PROFILE);
                 break;

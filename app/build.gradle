@@ -73,6 +73,10 @@ android {
         officialwebsite {
             manifestPlaceholders = [TD_CHANNEL_VALUE: "文芽官网"]
         }
+
+        appstore_tencent {
+            manifestPlaceholders = [TD_CHANNEL_VALUE: "应用宝"]
+        }
     }
 
     compileOptions {
