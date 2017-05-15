@@ -138,9 +138,9 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             }
             String profile = user.getAutograph();
             if (!TextUtils.isEmpty(profile)) {
-                sivProfile.setDesc(profile);
+                sivProfile.setRightInfo(profile);
             } else {
-                sivProfile.setDesc(R.string.no_fill);
+                sivProfile.setRightInfo(R.string.no_fill);
             }
         }
     }
@@ -260,7 +260,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
             case REQUEST_CODE_ALTER_PROFILE: {
                 if (resultCode == RESULT_OK && data.hasExtra("content")) {
                     String content = data.getStringExtra("content");
-                    sivProfile.setDesc(content);
+                    sivProfile.setRightInfo(content);
                     presenter.editAutograph(content);
                 }
                 break;

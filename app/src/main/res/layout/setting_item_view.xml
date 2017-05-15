@@ -19,7 +19,7 @@
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
+        android:layout_weight="0.3"
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:padding="4dp">
@@ -46,19 +46,21 @@
 
     <EditText
         android:id="@+id/et_arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_marginLeft="8dp"
         android:background="@android:color/transparent"
         android:drawablePadding="10dp"
+        android:layout_weight="0.7"
         android:drawableRight="@mipmap/right_arrow"
         android:enabled="false"
-        android:gravity="center"
-        android:inputType="text"
-        android:scaleType="centerInside"
+        android:gravity="right|center_vertical"
+        android:inputType="textMultiLine"
+        android:minLines="1"
+        android:padding="@dimen/common_padding_small"
         android:textColor="@color/font_more"
         android:textColorHint="@color/font_more_light"
         android:textSize="14sp"
-        tools:text="未填写"/>
+        tools:text="@string/no_fill"/>
 
 </merge>
