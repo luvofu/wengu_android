@@ -1,11 +1,15 @@
 package com.culturebud;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Rect;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +47,20 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         tvTitle = (TextView) view.findViewById(R.id.et_title);
         vsTitleLeft = (ViewStub) view.findViewById(R.id.vs_title_left);
         vsTitleRight = (ViewStub) view.findViewById(R.id.vs_title_right);
+
+        View statusBarView = view.findViewById(R.id.customStatusbar);
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            int statusBarheight = BaseFragment.getStatusHeight(getActivity());
+            Log.d("statusbar height:", String.valueOf(statusBarheight));
+            if (statusBarheight > 0) {
+                ViewGroup.LayoutParams layoutParams = statusBarView.getLayoutParams();
+                layoutParams.height = statusBarheight;
+                statusBarView.setLayoutParams(layoutParams);
+            }
+        } else {
+            statusBarView.setVisibility(View.GONE);
+        }
+
         return view;
     }
 
@@ -113,5 +131,43 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
 
     protected boolean onPopBack() {
         return false;
+    }
+
+    public static int getStatusHeight(Activity activity) {
+        int statusHeight = 0;
+
+        if (activity == null) {
+            return statusHeight;
+        }
+
+        Rect localRect = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(localRect);
+        statusHeight = localRect.top;
+        if (0 == statusHeight) {
+            Class<?> localClass;
+            try {
+                localClass = Class.forName("com.android.internal.R$dimen");
+                Object localObject = localClass.newInstance();
+                int i5 = Integer.parseInt(localClass.getField("status_bar_height").get(localObject).toString());
+                statusHeight = activity.getResources().getDimensionPixelSize(i5);
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (IllegalArgumentException e) {
+                e.printStackTrace();
+            } catch (SecurityException e) {
+                e.printStackTrace();
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            } catch (java.lang.InstantiationException e) {
+                e.printStackTrace();
+            }
+        }
+        return statusHeight;
     }
 }
