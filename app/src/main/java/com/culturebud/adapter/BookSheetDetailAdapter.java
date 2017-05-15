@@ -375,7 +375,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         @Override
         public void onClick(View view) {
             if (onItemListener != null) {
-                if (view == itemView) {
+                if (view == itemView) {//加1是因为 header 占了一个 item
                     onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem) + 1,
                             OPERA_TYPE_ITEM, sbItem);
                 } else if (view == ivAdd) {
