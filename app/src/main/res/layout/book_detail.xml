@@ -4,18 +4,21 @@
                                                  xmlns:fresco="http://schemas.android.com/apk/res-auto"
                                                  xmlns:tools="http://schemas.android.com/tools"
                                                  android:layout_width="match_parent"
+                                                 android:fitsSystemWindows="true"
                                                  android:layout_height="match_parent"
                                                  android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="180dp"
+        android:fitsSystemWindows="true"
         app:theme="@style/TitlebarTheme">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/ctl"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:title="@string/blank">
 
@@ -106,7 +109,7 @@
                 android:id="@+id/tlb"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="parallax"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/TitlebarPopupTheme"
                 app:theme="@style/TitlebarTheme"
                 app:title="@string/blank"/>
