@@ -54,25 +54,53 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
             return;
         }
         model.agreeInvite(BaseApp.getInstance().getUser().getToken(), messageId)
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(Boolean aBoolean) {
-                view.onAgreeInvite(messageId, aBoolean);
-            }
-        });
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onAgreeInvite(messageId, aBoolean);
+                    }
+                });
+    }
+
+    @Override
+    public void deleteUserMessage(UserMessage userMessage) {
+        if (!validateToken()) {
+            return;
+        }
+        model.deleteUserMessage(BaseApp.getInstance().getUser().getToken(), userMessage.getMessageId())
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onNext(Boolean aBoolean) {
+                        view.onDeleteUserMessage(userMessage, aBoolean);
+                    }
+                });
     }
 }

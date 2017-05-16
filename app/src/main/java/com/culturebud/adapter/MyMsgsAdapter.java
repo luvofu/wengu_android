@@ -6,12 +6,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.culturebud.CommonConst.MessageDealStatus;
 import com.culturebud.CommonConst.UserMsgType;
 import com.culturebud.R;
 import com.culturebud.bean.UserMessage;
+import com.culturebud.util.WidgetUtil;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.util.ArrayList;
@@ -76,11 +78,24 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
         }
     }
 
+    public void deleteItem(UserMessage userMessage) {
+        if (userMessage == null) {
+            return;
+        }
+        int idx = data.indexOf(userMessage);
+        if (idx >= 0) {
+            data.remove(userMessage);
+            notifyItemRemoved(idx);
+        }
+    }
+
     class MyMsgsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvFace;
         private TextView tvNick, tvDesc;
         private Button btnOpera;
         private int position;
+        private Button btnDel;
+        private RelativeLayout rlItem;
 
         public MyMsgsViewHolder(View itemView) {
             super(itemView);
@@ -89,6 +104,11 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
             tvDesc = (TextView) itemView.findViewById(R.id.tv_content);
             btnOpera = (Button) itemView.findViewById(R.id.btn_agree);
             btnOpera.setOnClickListener(this);
+
+            btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
+            btnDel.setOnClickListener(this);
+            rlItem = WidgetUtil.obtainViewById(itemView, R.id.rl_item);
+            rlItem.setOnClickListener(this);
         }
 
         public void setFace(String url) {
@@ -142,9 +162,16 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
         }
 
         @Override
-        public void onClick(View v) {
-            if (v == btnOpera && onAgreeListener != null) {
-                onAgreeListener.onAgree(v, data.get(position));
+        public void onClick(View view) {
+            if (view == btnOpera && onAgreeListener != null) {
+                onAgreeListener.onAgree(view, data.get(position));
+            }
+            if (onItemClickListener != null) {
+                if (view == rlItem) {
+                    onItemClickListener.onItemClick(position, view, data.get(position), 0);
+                } else if (view == btnDel) {
+                    onItemClickListener.onItemClick(position, view, data.get(position), 1);
+                }
             }
         }
     }
@@ -161,5 +188,15 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
 
     public interface OnAgreeListener {
         void onAgree(View v, UserMessage userMessage);
+    }
+
+    private OnItemClickListener onItemClickListener;
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(int position, View v, UserMessage userMessage, int operaType);
     }
 }

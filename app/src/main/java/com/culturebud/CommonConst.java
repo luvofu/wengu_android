@@ -1,7 +1,6 @@
 package com.culturebud;
 
 import android.os.Environment;
-import android.os.StrictMode;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -178,6 +177,8 @@ public final class CommonConst {
     public static final String PATH_COLLECT_DELETE = "api/userCollection/delete";
 
     public static final String PATH_MSG_INVITE = "api/userMessage/invite";
+
+    public static final String PATH_MSG_DELETE = "api/userMessage/delete";
 
     public static final String PATH_COLLECTED_BOOKS = "api/userCollection/book";
 

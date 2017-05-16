@@ -118,7 +118,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
             tvCount = WidgetUtil.obtainViewById(itemView, R.id.tv_book_volumes);
             tvNick = WidgetUtil.obtainViewById(itemView, R.id.tv_nick);
             btnDel = WidgetUtil.obtainViewById(itemView, R.id.btn_delete);
-            itemView.findViewById(R.id.rl_parent).setOnClickListener(this);
+            itemView.findViewById(R.id.rl_item).setOnClickListener(this);
             btnDel.setOnClickListener(this);
             if (!canDel) {
                 ((ViewGroup) itemView).removeView(btnDel);
@@ -165,7 +165,7 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         @Override
         public void onClick(View view) {
             switch (view.getId()) {
-                case R.id.rl_parent:
+                case R.id.rl_item:
                     if (onItemClickListener != null) {
                         onItemClickListener.onItemClick(view, data.indexOf(bsItem), bsItem);
                     }

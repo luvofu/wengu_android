@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.culturebud.BaseApp;
 import com.culturebud.BaseFragment;
-import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
@@ -92,6 +91,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
         sivFeedback.setOnClickListener(this);
         sivAbout.setOnClickListener(this);
         sivSetting.setOnClickListener(this);
+
     }
 
     @Override
@@ -111,6 +111,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
             sdvFace.setImageURI(user.getAvatar());
         }
     }
+
 
     public void onClick(View v) {
         switch (v.getId()) {

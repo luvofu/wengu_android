@@ -24,7 +24,7 @@ import java.util.List;
 
 @PresenterInject(MyMsgsPresenter.class)
 public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
-        implements MyMsgsContract.View, MyMsgsAdapter.OnAgreeListener {
+        implements MyMsgsContract.View, MyMsgsAdapter.OnAgreeListener, MyMsgsAdapter.OnItemClickListener {
     private static final String TAG = MyMsgActivity.class.getSimpleName();
     private RecyclerView rvMyMsgs;
     private int currentPage;
@@ -43,6 +43,7 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
         rvMyMsgs.addItemDecoration(divider);
         MyMsgsAdapter adapter = new MyMsgsAdapter();
         adapter.setOnAgreeListener(this);
+        adapter.setOnItemClickListener(this);
         rvMyMsgs.setAdapter(adapter);
     }
 
@@ -91,8 +92,28 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
         }
     }
 
+
     @Override
     public void onAgree(View v, UserMessage userMessage) {
         presenter.agreeInvite(userMessage.getMessageId());
     }
+
+    @Override
+    public void onDeleteUserMessage(UserMessage userMessage, boolean success) {
+        if (success) {
+            ((MyMsgsAdapter) rvMyMsgs.getAdapter()).deleteItem(userMessage);
+        }
+    }
+
+    @Override
+    public void onItemClick(int position, View v, UserMessage userMessage, int operaType) {
+        switch (operaType) {
+            case 0://msg detail
+                break;
+            case 1://删除
+                presenter.deleteUserMessage(userMessage);
+                break;
+        }
+    }
+
 }

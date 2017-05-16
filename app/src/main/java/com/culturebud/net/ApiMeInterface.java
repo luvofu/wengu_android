@@ -149,6 +149,17 @@ public interface ApiMeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> inviteMsgs(@FieldMap Map<String, Object> params);
 
+    /**
+     * String token;令牌
+     * long messageId;消息id
+     *
+     * @param params
+     * @return
+     */
+    @POST(CommonConst.PATH_MSG_DELETE)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> deleteMsg(@FieldMap Map<String, Object> params);
+
     @POST(CommonConst.PATH_MY_FRIENDS)
     @FormUrlEncoded
     Observable<ApiResultBean<JsonArray>> myFriends(@FieldMap Map<String, Object> params);

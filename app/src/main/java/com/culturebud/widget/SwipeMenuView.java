@@ -279,6 +279,7 @@ public class SwipeMenuView extends ViewGroup {
         // + "], r = [" + r + "], b = [" + b + "]");
     }
 
+
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         //LogUtils.d(TAG, "dispatchTouchEvent() called with: " + "ev = [" + ev + "]");
