@@ -2,6 +2,7 @@ package com.culturebud.ui.me;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.View;
 
@@ -102,7 +103,12 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
                     Platform wechat = ShareSDK.getPlatform(Wechat.NAME);
                     authorize(wechat);
                 } else {
-                    presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWechatId(), CommonConst.ThirdType.TYPE_WECHAT);
+                    new AlertDialog.Builder(this).setMessage("确定解除微信账号绑定？")
+                            .setPositiveButton("确定", (dialog, which) -> {
+                                presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWechatId(), CommonConst.ThirdType.TYPE_WECHAT);
+                            })
+                            .setNegativeButton("取消", null)
+                            .show();
                 }
                 break;
             }
@@ -116,7 +122,12 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
                     Platform weibo = ShareSDK.getPlatform(SinaWeibo.NAME);
                     authorize(weibo);
                 } else {
-                    presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWeiboId(), CommonConst.ThirdType.TYPE_SINA_WEIBO);
+                    new AlertDialog.Builder(this).setMessage("确定解除微博账号绑定？")
+                            .setPositiveButton("确定", (dialog, which) -> {
+                                presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWeiboId(), CommonConst.ThirdType.TYPE_SINA_WEIBO);
+                            })
+                            .setNegativeButton("取消", null)
+                            .show();
                 }
                 break;
             }

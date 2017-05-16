@@ -134,10 +134,8 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
             }
             switch (msgType) {
                 case UserMsgType.TYPE_FRIEND_INVITE:
-                    desc = "请求添加你为好友：" + desc;
                     break;
                 case UserMsgType.TYPE_DESK_INVITE:
-                    desc = "请求添加你到书桌：" + desc;
                     break;
                 case UserMsgType.TYPE_COMMUNITY_REPLY:
                     break;
