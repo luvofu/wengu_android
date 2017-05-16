@@ -45,9 +45,9 @@ public interface CollectedBooksContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void getMyBooks(long userId, int page);
+        public abstract void getCollectedBooks(long userId, int page);
 
-        public abstract void getMyBooks(long userId, int page, int categoryType, String category);
+        public abstract void getCollectedBooks(long userId, int page, int categoryType, String category);
 
         public abstract void getCategoryStatistics(long userId);
 

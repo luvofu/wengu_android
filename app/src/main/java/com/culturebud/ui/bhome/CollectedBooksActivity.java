@@ -98,7 +98,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         bnvOperas = obtainViewById(R.id.bnv_operas);
         switchRvMarginBottom(false);
 
-        if (userId == -1) {
+        if (user != null && userId == user.getUserId()) {
             setOperasDrawable(R.drawable.titlebar_add_selector);
         } else {
             fabEditBooks.hide();
@@ -109,7 +109,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         fabEditBooks.setOnClickListener(this);
 
         initList();
-        presenter.getMyBooks(userId, currentPage);
+        presenter.getCollectedBooks(userId, currentPage);
     }
 
     private void initMoreOperas(List<MoreOperaItemsAdapter.MoreOperaItemBean> items) {
@@ -281,7 +281,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
                 currentCategory = "全部";
-                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
+                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
             });
 
             tflClc.setOnSelectListener(selectPosSet -> {
@@ -293,7 +293,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_NORMAL;
                 currentCategory = category.getCategory();
-                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category
+                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category
                         .getCategory
                                 ());
             });
@@ -307,7 +307,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_CUSTOM;
                 currentCategory = category.getCategory();
-                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category
+                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category
                         .getCategory
                                 ());
             });
@@ -321,7 +321,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_OTHER;
                 currentCategory = category.getCategory();
-                presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category
+                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category
                         .getCategory());
             });
 
@@ -414,7 +414,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
         if (success) {
             currentPage = 0;
-            presenter.getMyBooks(userId, currentPage, currentCategoryType, currentCategory);
+            presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
         }
     }
 
@@ -477,7 +477,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                         .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 if (!loading && (lastPosition + 1 >= total)) {
-                    presenter.getMyBooks(userId, ++currentPage);
+                    presenter.getCollectedBooks(userId, ++currentPage);
                     loading = true;
                 }
             } else {
@@ -629,7 +629,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     currentPage = 0;
                     currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
                     currentCategory = "全部";
-                    presenter.getMyBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
+                    presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
                 }
                 break;
         }

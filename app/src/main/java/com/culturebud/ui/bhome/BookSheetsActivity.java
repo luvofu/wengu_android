@@ -26,6 +26,7 @@ import java.util.Locale;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_CREATE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_DETAIL;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
+import static com.culturebud.ui.bhome.CollectedBooksActivity.USER_ID_KEY;
 
 /**
  * Created by XieWei on 2016/12/13.
@@ -47,8 +48,10 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         showTitlebar();
         setTitle(R.string.book_sheet);
         showBack();
-        userId = getIntent().getLongExtra("user_id", -1);
-        if (userId == -1) {
+        User user = BaseApp.getInstance().getUser();
+        long defaultId = user != null ? user.getUserId() : -1;
+        userId = getIntent().getLongExtra(USER_ID_KEY, defaultId);
+        if (user != null && userId == user.getUserId()) {
             showOperas();
             setOperasDrawable(R.drawable.titlebar_add_selector);
         }

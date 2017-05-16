@@ -170,9 +170,9 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
                 onAgreeListener.onAgree(view, umItem);
             }
             if (onItemClickListener != null) {
-                if (view == rlItem) {
+                if (view == rlItem) {//jump to user profile
                     onItemClickListener.onItemClick(data.indexOf(umItem), view, umItem, 0);
-                } else if (view == btnDel) {
+                } else if (view == btnDel) {//del user msg
                     onItemClickListener.onItemClick(data.indexOf(umItem), view, umItem, 1);
                 }
             }

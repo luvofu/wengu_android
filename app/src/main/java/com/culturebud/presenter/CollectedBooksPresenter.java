@@ -27,7 +27,7 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
     }
 
     @Override
-    public void getMyBooks(long userId, int page) {
+    public void getCollectedBooks(long userId, int page) {
         if (!validateToken()) {
             return;
         }
@@ -56,7 +56,7 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
     }
 
     @Override
-    public void getMyBooks(long userId, int page, int categoryType, String category) {
+    public void getCollectedBooks(long userId, int page, int categoryType, String category) {
         if (!validateToken()) {
             return;
         }
