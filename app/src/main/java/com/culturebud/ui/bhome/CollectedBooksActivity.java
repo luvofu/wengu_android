@@ -24,6 +24,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.CollectedBooksAdapter;
@@ -35,6 +36,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
+import com.culturebud.bean.User;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.presenter.CollectedBooksPresenter;
 import com.culturebud.ui.front.BookDetailActivity;
@@ -82,8 +84,11 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collected_books);
         presenter.setView(this);
-        opreaType = getIntent().getIntExtra(TYPE_KEY, 0);
-        userId = getIntent().getLongExtra(USER_ID_KEY, -1);
+        Intent intent = getIntent();
+        opreaType = intent.getIntExtra(TYPE_KEY, 0);
+        User user = BaseApp.getInstance().getUser();
+        long defaultId = user != null ? user.getUserId() : -1;
+        userId = intent.getLongExtra(USER_ID_KEY, defaultId);
         showTitlebar();
         setTitle(R.string.book_shelf);
         setTitleRightIcon(R.mipmap.ic_arrow_white_down);
@@ -343,7 +348,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (ppwCategory == null || !ppwCategory.isShowing()) {
             showCategoryDlg();
             Log.d("category", "is showing " + ppwCategory.isShowing());
-            presenter.getCategoryStatistics();
+            presenter.getCategoryStatistics(userId);
         } else {
             Log.d("category", "is showing " + ppwCategory.isShowing());
             hideCategoryDlg();

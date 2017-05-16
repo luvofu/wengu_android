@@ -4,7 +4,6 @@ import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.model.CustomCategoriesModel;
-import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Set;
@@ -50,7 +49,7 @@ public interface CollectedBooksContract {
 
         public abstract void getMyBooks(long userId, int page, int categoryType, String category);
 
-        public abstract void getCategoryStatistics();
+        public abstract void getCategoryStatistics(long userId);
 
         public abstract void deleteUserBooks(Set<CollectedBook> userBooks);
 

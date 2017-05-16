@@ -83,12 +83,12 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
     }
 
     @Override
-    public void getCategoryStatistics() {
+    public void getCategoryStatistics(long userId) {
         if (!validateToken()) {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        model.getCategoryStatistics(user.getToken(), user.getUserId())
+        model.getCategoryStatistics(user.getToken(), userId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BookCategoryGroup>() {
                     @Override
