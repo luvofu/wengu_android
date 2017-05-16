@@ -87,7 +87,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-            finish();
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
