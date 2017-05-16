@@ -2,6 +2,7 @@ package com.culturebud.ui.front;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -256,6 +257,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
                 presenter.requestCoverImg(detail.getCover(), sdvCover.getController());
             }
             tvBookName.setText(detail.getTitle());
+            ctl.setTitle(detail.getTitle());
+            ctl.setExpandedTitleColor(Color.TRANSPARENT);
             rbRating.setRating(detail.getRating() / 2F);
             tvRating.setText(String.format(Locale.getDefault(),
                     getString(R.string.fill_score), detail.getRating()));
