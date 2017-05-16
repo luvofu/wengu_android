@@ -37,6 +37,7 @@ import java.util.List;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_EDIT;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BS_EDIT_RECOMMEND;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SEARCH_BOOK_ADD_TO_BOOK_SHEET;
+import static com.culturebud.ui.bhome.CollectedBooksActivity.USER_ID_KEY;
 
 /**
  * Created by XieWei on 2016/11/7.
@@ -61,8 +62,10 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         setContentView(R.layout.book_sheet_detail);
         presenter.setView(this);
         showTitlebar();
-        userId = getIntent().getLongExtra("user_id", -1);
-        if (userId == -1) {
+        User user = BaseApp.getInstance().getUser();
+        long defaultId = user != null ? user.getUserId() : -1;
+        userId = getIntent().getLongExtra(USER_ID_KEY, defaultId);
+        if (user != null && userId == user.getUserId()) {
             setOperasDrawable(R.drawable.titlebar_edit_selector);
         }
         rvDetail = obtainViewById(R.id.rv_sheet_detail);
