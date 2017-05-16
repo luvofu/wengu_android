@@ -54,7 +54,8 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
     @Override
     public void onBindViewHolder(MyMsgsViewHolder holder, int position) {
         UserMessage item = data.get(position);
-        holder.position = position;
+//        holder.position = position;
+        holder.umItem = item;
         holder.setFace(item.getAvatar());
         holder.setNick(item.getNickname());
         holder.setDesc(item.getMessageType(), item.getContent());
@@ -93,9 +94,11 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
         private SimpleDraweeView sdvFace;
         private TextView tvNick, tvDesc;
         private Button btnOpera;
-        private int position;
+        //        private int position;
+        public UserMessage umItem;
         private Button btnDel;
         private RelativeLayout rlItem;
+
 
         public MyMsgsViewHolder(View itemView) {
             super(itemView);
@@ -164,13 +167,13 @@ public class MyMsgsAdapter extends RecyclerView.Adapter<MyMsgsAdapter.MyMsgsView
         @Override
         public void onClick(View view) {
             if (view == btnOpera && onAgreeListener != null) {
-                onAgreeListener.onAgree(view, data.get(position));
+                onAgreeListener.onAgree(view, umItem);
             }
             if (onItemClickListener != null) {
                 if (view == rlItem) {
-                    onItemClickListener.onItemClick(position, view, data.get(position), 0);
+                    onItemClickListener.onItemClick(data.indexOf(umItem), view, umItem, 0);
                 } else if (view == btnDel) {
-                    onItemClickListener.onItemClick(position, view, data.get(position), 1);
+                    onItemClickListener.onItemClick(data.indexOf(umItem), view, umItem, 1);
                 }
             }
         }

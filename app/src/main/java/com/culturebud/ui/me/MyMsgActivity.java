@@ -1,5 +1,6 @@
 package com.culturebud.ui.me;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -108,9 +109,13 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
     @Override
     public void onItemClick(int position, View v, UserMessage userMessage, int operaType) {
         switch (operaType) {
-            case 0://msg detail
+            case 0://msg user profile
+                long userId = userMessage.getSendUserId();
+                Intent intent = new Intent(this, FriendDetailActivity.class);
+                intent.putExtra("user_id", userId);
+                startActivity(intent);
                 break;
-            case 1://删除
+            case 1://del user msg
                 presenter.deleteUserMessage(userMessage);
                 break;
         }
