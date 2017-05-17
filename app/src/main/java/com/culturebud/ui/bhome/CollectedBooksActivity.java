@@ -251,7 +251,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             adapter.setModel(CollectedBooksAdapter.MODEL_EDIT, true);
             adapter.clearCheckedStatus();
         } else if (modle == CollectedBooksAdapter.MODEL_CHECK) {
-            setOperasText(R.string.complete);
+            setOperasText(getString(R.string.complete));
             setOperasDrawable(null);
             fabEditBooks.hide();
             switchRvMarginBottom(true);
@@ -264,7 +264,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     protected void onOptions(View view) {
         super.onOptions(view);
         TextView tv = (TextView) view;
-        if (tv.getText().equals(R.string.complete)) {
+        if (tv.getText().equals(getString(R.string.complete))) {
             switchModel(CollectedBooksAdapter.MODEL_EDIT);
         } else {
             List<MoreOperaItemsAdapter.MoreOperaItemBean> items = new ArrayList<>();
@@ -451,7 +451,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     @Override
     public void onMove2Category(boolean success) {
         hideCustomCategoriesDlg();
-        if (getOperasView().getText().equals(R.string.complete)) {
+        if (getOperasView().getText().equals(getString(R.string.complete))) {
             switchModel(CollectedBooksAdapter.MODEL_EDIT);
         }
         if (success) {
