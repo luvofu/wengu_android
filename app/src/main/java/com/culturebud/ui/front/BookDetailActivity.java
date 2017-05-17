@@ -2,27 +2,25 @@ package com.culturebud.ui.front;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RatingBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
@@ -36,9 +34,8 @@ import com.culturebud.presenter.BookDetailPresenter;
 import com.culturebud.ui.community.BookCommunityActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.ui.me.LoginActivity;
+import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.widget.RecyclerViewDivider;
-import com.culturebud.widget.SettingItemView;
-import com.facebook.drawee.backends.pipeline.BuildConfig;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -60,8 +57,9 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
     private TextView tvCollect, tvAdd, tvCommunity;
     private TextView tvSummary, tvAuthorInfo;
     private ImageView ivOpenSummary, ivOpenAuthorInfo;
-    private SettingItemView sivMore;
-    private RelativeLayout rlDetailTop;
+    private View rlDetailTop;
+
+    private TextView titleView;
 
     private BottomSheetDialog bsdDialog;
     private RecyclerView rvBookSheets;
@@ -72,18 +70,26 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_detail);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            final Window window = getWindow();
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-            window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        }
+
+
         tlb = obtainViewById(R.id.tlb);
         tlb.setTitle("");
         ctl = obtainViewById(R.id.ctl);
         ctl.setTitle("");
         setSupportActionBar(tlb);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.titlebar_back_selector);
+
+        View view = obtainViewById(R.id.toolbarContent);
+        int topMargin = 0;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            int statusBarheight = SystemParameterUtil.getStatusHeight(this);
+            Log.d("statusbar height:", String.valueOf(statusBarheight));
+            topMargin = statusBarheight;
+        }
+
+        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
+        p.setMargins(0, topMargin, 0, 0);
+        view.requestLayout();
+
         setBackGroundColor(getResources().getColor(R.color.light_gray));
         presenter.setView(this);
         initView();
@@ -115,14 +121,14 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         tvAuthorInfo = obtainViewById(R.id.tv_author_info);
         ivOpenSummary = obtainViewById(R.id.iv_open_summary);
         ivOpenAuthorInfo = obtainViewById(R.id.iv_open_info);
-        sivMore = obtainViewById(R.id.siv_more);
+        titleView = obtainViewById(R.id.titleview);
 
         LayerDrawable ld = (LayerDrawable) rbRating.getProgressDrawable();
         ld.getDrawable(0).setColorFilter(getResources().getColor(R.color.font_black_light), PorterDuff.Mode.SRC_ATOP);
         ld.getDrawable(1).setColorFilter(getResources().getColor(R.color.yellow), PorterDuff.Mode.SRC_ATOP);
         ld.getDrawable(2).setColorFilter(getResources().getColor(R.color.orange), PorterDuff.Mode.SRC_ATOP);
-
     }
+
 
     private void setListeners() {
         tvCollect.setOnClickListener(this);
@@ -130,8 +136,24 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         tvCommunity.setOnClickListener(this);
         ivOpenSummary.setOnClickListener(this);
         ivOpenAuthorInfo.setOnClickListener(this);
-        sivMore.setOnClickListener(this);
         sdvCover.setOnClickListener(this);
+        rlDetailTop.setOnClickListener(this);
+
+        AppBarLayout appBarLayout = obtainViewById(R.id.appbarview);
+        appBarLayout.addOnOffsetChangedListener((appBarLayout1, verticalOffset) -> {
+            int titleBarHeight = getTitleBarHeight();
+
+            float originY = tvBookName.getY() + tvBookName.getHeight();
+            if (verticalOffset < -originY) {
+                //显示title.
+                if (bookDetail != null && !TextUtils.isEmpty(bookDetail.getTitle()) && titleView.getVisibility() != View.VISIBLE) {
+                    titleView.setText(bookDetail.getTitle());
+                    titleView.setVisibility(View.VISIBLE);
+                }
+            } else {
+                titleView.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     private void initData() {
@@ -201,7 +223,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
                 }
                 break;
             }
-            case R.id.siv_more: {
+            case R.id.rl_book_detail_top: {
                 if (bookDetail != null) {
                     Intent intent = new Intent(this, BookBaseInfoActivity.class);
                     intent.putExtra("bookName", bookDetail.getTitle());
@@ -250,9 +272,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
 
     }
 
-    @Override
-    protected void onBack() {
-        super.onBack();
+    public void onBack(View v) {
         finish();
     }
 
@@ -264,8 +284,6 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
                 presenter.requestCoverImg(detail.getCover(), sdvCover.getController());
             }
             tvBookName.setText(detail.getTitle());
-            ctl.setTitle(detail.getTitle());
-            ctl.setExpandedTitleColor(Color.TRANSPARENT);
             rbRating.setRating(detail.getRating() / 2F);
             tvRating.setText(String.format(Locale.getDefault(),
                     getString(R.string.fill_score), detail.getRating()));
@@ -276,6 +294,7 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
             tvPublisherInfo.setText(pinfo);
             tvSummary.setText(detail.getSummary());
             tvAuthorInfo.setText(detail.getAuthorInfo());
+
             refreshCollectView();
         }
     }

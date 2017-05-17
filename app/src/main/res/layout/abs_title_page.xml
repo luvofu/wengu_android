@@ -24,10 +24,6 @@
             android:id="@+id/titlebarcontain"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="true"
-            android:layout_below="@+id/customStatusbar"
             android:layout_weight="1"
             android:orientation="horizontal"
             android:visibility="visible">
