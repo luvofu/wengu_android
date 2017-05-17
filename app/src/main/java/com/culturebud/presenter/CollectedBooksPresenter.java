@@ -159,7 +159,7 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-
+                        view.onAlterReadStatus(userBooks, aBoolean);
                     }
                 });
     }

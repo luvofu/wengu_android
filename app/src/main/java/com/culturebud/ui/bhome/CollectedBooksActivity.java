@@ -148,7 +148,6 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             } else if (item.getType() == 2) {
                 Set<CollectedBook> checkedItems = ((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks();
                 presenter.alterReadStatus(checkedItems, item.getReadStatus());
-                switchModel(CollectedBooksAdapter.MODEL_EDIT);
             }
             hideMoreOperas();
         });
@@ -240,9 +239,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
     }
 
-    public void switchModel(int modle) {
+    public void switchModel(int model) {
         CollectedBooksAdapter adapter = (CollectedBooksAdapter) rvBooks.getAdapter();
-        if (modle == CollectedBooksAdapter.MODEL_EDIT) {
+        if (model == CollectedBooksAdapter.MODEL_EDIT) {
             setOperasText(null);
             setOperasDrawable(R.drawable.titlebar_add_selector);
             fabEditBooks.show();
@@ -250,7 +249,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             bnvOperas.setVisibility(View.GONE);
             adapter.setModel(CollectedBooksAdapter.MODEL_EDIT, true);
             adapter.clearCheckedStatus();
-        } else if (modle == CollectedBooksAdapter.MODEL_CHECK) {
+        } else if (model == CollectedBooksAdapter.MODEL_CHECK) {
             setOperasText(getString(R.string.complete));
             setOperasDrawable(null);
             fabEditBooks.hide();
@@ -435,17 +434,16 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             currentPage = 0;
             presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
         }
+        switchModel(CollectedBooksAdapter.MODEL_EDIT);
     }
 
     @Override
-    public void onCustomCategories(List<Category> categories) {
-        if (rvCategories == null) {
-            return;
+    public void onAlterReadStatus(Set<CollectedBook> books, boolean success) {
+        if (success) {
+            currentPage = 0;
+            presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
         }
-        ((CustomCategoriesAdapter) rvCategories.getAdapter()).clearData();
-        ((CustomCategoriesAdapter) rvCategories.getAdapter()).addItems(categories);
-        tvCategoriesCount.setText(String.format(Locale.getDefault(), getString(R.string.txt_custom_categories_count),
-                rvCategories.getAdapter().getItemCount() - 1));
+        switchModel(CollectedBooksAdapter.MODEL_EDIT);
     }
 
     @Override
@@ -457,6 +455,17 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (success) {
             presenter.customCategories();
         }
+    }
+
+    @Override
+    public void onCustomCategories(List<Category> categories) {
+        if (rvCategories == null) {
+            return;
+        }
+        ((CustomCategoriesAdapter) rvCategories.getAdapter()).clearData();
+        ((CustomCategoriesAdapter) rvCategories.getAdapter()).addItems(categories);
+        tvCategoriesCount.setText(String.format(Locale.getDefault(), getString(R.string.txt_custom_categories_count),
+                rvCategories.getAdapter().getItemCount() - 1));
     }
 
     @Override
@@ -564,7 +573,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
         new AlertDialog.Builder(this).setMessage("是否从书架上删除" + msg)
                 .setPositiveButton(R.string.delete, (dialog, which) -> {
-                    switchModel(CollectedBooksAdapter.MODEL_EDIT);
+                    presenter.deleteUserBooks(checkedItems);
                 })
                 .setNegativeButton(R.string.cancel, null)
                 .show();

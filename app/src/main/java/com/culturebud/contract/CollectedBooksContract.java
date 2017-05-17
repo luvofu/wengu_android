@@ -39,6 +39,8 @@ public interface CollectedBooksContract {
 
         void onDeleteUserBooks(Set<CollectedBook> books, boolean success);
 
+        void onAlterReadStatus(Set<CollectedBook> books, boolean success);
+
         void onCustomCategories(List<Category> categories);
 
         void onMove2Category(boolean success);
