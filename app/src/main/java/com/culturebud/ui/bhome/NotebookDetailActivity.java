@@ -21,7 +21,6 @@ import com.culturebud.adapter.NotebookDetailAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Note;
 import com.culturebud.bean.NotebookDetail;
-import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookDetailContract;
 import com.culturebud.presenter.NotebookDetailPresenter;
 import com.culturebud.ui.image.PreviewBigImgActivity;
@@ -74,8 +73,7 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         if (notebookId == -1) {
             return;
         }
-        User user = BaseApp.getInstance().getUser();
-        if (user != null && user.getUserId() == userId) {
+        if (BaseApp.getInstance().isMe(userId)) {
             showOperas();
             setOperasDrawable(R.drawable.titlebar_add_selector);
             presenter.notebookDetail(notebookId);

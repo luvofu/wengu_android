@@ -1,8 +1,6 @@
 package com.culturebud.adapter;
 
 import android.support.annotation.IntDef;
-import android.support.annotation.IntegerRes;
-import android.support.annotation.StringRes;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -12,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
+import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.util.WidgetUtil;
@@ -33,10 +32,10 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
     public static final int MODEL_CHECK = 1;
     private int model = MODEL_EDIT;
     private Set<CollectedBook> checkedSet;
-    private long userId = -1;
+    private boolean isMe = false;
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setMe(long userId) {
+        isMe = BaseApp.getInstance().isMe(userId);
     }
 
     @IntDef({MODEL_EDIT, MODEL_CHECK})
@@ -61,11 +60,16 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
     public void setModel(@ModelRes int model) {
         setModel(model, false);
     }
+
     public void setModel(@ModelRes int model, boolean notify) {
         this.model = model;
         if (notify) {
             notifyDataSetChanged();
         }
+    }
+
+    public boolean inModel(int modelCheck) {
+        return model == modelCheck;
     }
 
     public void clearData() {
@@ -150,7 +154,7 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         }
 
         public void showEditModel() {
-            if (userId == -1) {
+            if (isMe) {
                 ivEdit.setVisibility(View.VISIBLE);
             } else {
                 ivEdit.setVisibility(View.GONE);
@@ -172,7 +176,11 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
         @Override
         public void onClick(View v) {
             if (itemView == v && onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, position, data.get(position), OPERA_TYPE_DETAIL);
+                if (inModel(CollectedBooksAdapter.MODEL_EDIT)) {
+                    onItemClickListener.onItemClick(v, position, data.get(position), OPERA_TYPE_DETAIL);
+                } else {
+                    cbCheck.performClick();
+                }
                 return;
             }
             switch (v.getId()) {

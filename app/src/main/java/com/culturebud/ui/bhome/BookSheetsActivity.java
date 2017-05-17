@@ -51,7 +51,7 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         User user = BaseApp.getInstance().getUser();
         long defaultId = user != null ? user.getUserId() : -1;
         userId = getIntent().getLongExtra(USER_ID_KEY, defaultId);
-        if (user != null && userId == user.getUserId()) {
+        if (BaseApp.getInstance().isMe(userId)) {
             showOperas();
             setOperasDrawable(R.drawable.titlebar_add_selector);
         }

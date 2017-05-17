@@ -98,7 +98,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         bnvOperas = obtainViewById(R.id.bnv_operas);
         switchRvMarginBottom(false);
 
-        if (user != null && userId == user.getUserId()) {
+        if (BaseApp.getInstance().isMe(userId)) {
             setOperasDrawable(R.drawable.titlebar_add_selector);
         } else {
             fabEditBooks.hide();
@@ -148,12 +148,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             } else if (item.getType() == 2) {
                 Set<CollectedBook> checkedItems = ((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks();
                 presenter.alterReadStatus(checkedItems, item.getReadStatus());
-                setOperasText(null);
-                setOperasDrawable(R.drawable.titlebar_add_selector);
-                fabEditBooks.show();
-                bnvOperas.setVisibility(View.GONE);
-                ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
-                ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
+                switchModel(CollectedBooksAdapter.MODEL_EDIT);
             }
             hideMoreOperas();
         });
@@ -193,7 +188,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             rvBooks.addItemDecoration(hdivider);
             rvBooks.addOnScrollListener(recyclerScrollerListener);
             CollectedBooksAdapter adapter = new CollectedBooksAdapter();
-            adapter.setUserId(userId);
+            adapter.setMe(userId);
             adapter.setOnItemClickListener(this);
             rvBooks.setAdapter(adapter);
         }
@@ -214,12 +209,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         super.onClick(v);
         switch (v.getId()) {
             case R.id.fab_edit_books:
-                fabEditBooks.hide();
-                switchRvMarginBottom(true);
-                bnvOperas.setVisibility(View.VISIBLE);
-                setOperasDrawable(null);
-                setOperasText("完成");
-                ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_CHECK, true);
+                switchModel(CollectedBooksAdapter.MODEL_CHECK);
                 break;
         }
     }
@@ -232,8 +222,42 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
 
     @Override
     protected void onBack() {
-        super.onBack();
-        finish();
+//        super.onBack();
+        if (((CollectedBooksAdapter) rvBooks.getAdapter()).inModel(CollectedBooksAdapter.MODEL_CHECK)) {
+            switchModel(CollectedBooksAdapter.MODEL_EDIT);
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        if (((CollectedBooksAdapter) rvBooks.getAdapter()).inModel(CollectedBooksAdapter.MODEL_CHECK)) {
+            switchModel(CollectedBooksAdapter.MODEL_EDIT);
+        } else {
+            finish();
+        }
+    }
+
+    public void switchModel(int modle) {
+        CollectedBooksAdapter adapter = (CollectedBooksAdapter) rvBooks.getAdapter();
+        if (modle == CollectedBooksAdapter.MODEL_EDIT) {
+            setOperasText(null);
+            setOperasDrawable(R.drawable.titlebar_add_selector);
+            fabEditBooks.show();
+            switchRvMarginBottom(false);
+            bnvOperas.setVisibility(View.GONE);
+            adapter.setModel(CollectedBooksAdapter.MODEL_EDIT, true);
+            adapter.clearCheckedStatus();
+        } else if (modle == CollectedBooksAdapter.MODEL_CHECK) {
+            setOperasText("完成");
+            setOperasDrawable(null);
+            fabEditBooks.hide();
+            switchRvMarginBottom(true);
+            bnvOperas.setVisibility(View.VISIBLE);
+            adapter.setModel(CollectedBooksAdapter.MODEL_CHECK, true);
+        }
     }
 
     @Override
@@ -241,13 +265,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         super.onOptions(view);
         TextView tv = (TextView) view;
         if ("完成".equals(tv.getText())) {
-            setOperasText(null);
-            setOperasDrawable(R.drawable.titlebar_add_selector);
-            fabEditBooks.show();
-            switchRvMarginBottom(false);
-            bnvOperas.setVisibility(View.GONE);
-            ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
-            ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
+            switchModel(CollectedBooksAdapter.MODEL_EDIT);
         } else {
             List<MoreOperaItemsAdapter.MoreOperaItemBean> items = new ArrayList<>();
             items.add(new MoreOperaItemsAdapter.MoreOperaItemBean(1, "录入新书") {
@@ -433,13 +451,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void onMove2Category(boolean success) {
         hideCustomCategoriesDlg();
         if ("完成".equals(getOperasView().getText())) {
-            setOperasText(null);
-            setOperasDrawable(R.drawable.titlebar_add_selector);
-            fabEditBooks.show();
-            switchRvMarginBottom(false);
-            bnvOperas.setVisibility(View.GONE);
-            ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
-            ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
+            switchModel(CollectedBooksAdapter.MODEL_EDIT);
         }
         if (success) {
             presenter.customCategories();
@@ -551,14 +563,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
         new AlertDialog.Builder(this).setMessage("是否从书架上删除" + msg)
                 .setPositiveButton("删除", (dialog, which) -> {
-                    setOperasText(null);
-                    setOperasDrawable(R.drawable.titlebar_add_selector);
-                    fabEditBooks.show();
-                    switchRvMarginBottom(false);
-                    bnvOperas.setVisibility(View.GONE);
-                    ((CollectedBooksAdapter) rvBooks.getAdapter()).setModel(CollectedBooksAdapter.MODEL_EDIT, true);
-                    ((CollectedBooksAdapter) rvBooks.getAdapter()).clearCheckedStatus();
-                    presenter.deleteUserBooks(checkedItems);
+                    switchModel(CollectedBooksAdapter.MODEL_EDIT);
                 })
                 .setNegativeButton("取消", null)
                 .show();

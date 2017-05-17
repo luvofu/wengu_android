@@ -6,7 +6,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.RecyclerView.OnScrollListener;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 
@@ -25,7 +24,6 @@ import com.culturebud.widget.RecyclerViewDivider;
 import java.util.List;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_BOOK;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CREATE_NOTEBOOK;
 
 /**
  * Created by XieWei on 2016/11/20.
@@ -76,7 +74,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         User user = BaseApp.getInstance().getUser();
         long defaultId = user != null ? user.getUserId() : -1;
         userId = intent.getLongExtra("user_id", defaultId);
-        if (user != null && userId == user.getUserId()) {
+        if (BaseApp.getInstance().isMe(userId)) {
             showOperas();
             setOperasDrawable(R.drawable.titlebar_add_selector);
         } else {

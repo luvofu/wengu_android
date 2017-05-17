@@ -65,7 +65,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         User user = BaseApp.getInstance().getUser();
         long defaultId = user != null ? user.getUserId() : -1;
         userId = getIntent().getLongExtra(USER_ID_KEY, defaultId);
-        if (user != null && userId == user.getUserId()) {
+        if (BaseApp.getInstance().isMe(userId)) {
             setOperasDrawable(R.drawable.titlebar_edit_selector);
         }
         rvDetail = obtainViewById(R.id.rv_sheet_detail);
