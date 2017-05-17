@@ -174,12 +174,12 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
                 break;
             case 1://删除
                 new AlertDialog.Builder(this).setMessage("确定删除《" + notebook.getTitle() + "》下的所有笔记？")
-                        .setPositiveButton("删除", (dialog, which) -> {
+                        .setPositiveButton(R.string.delete, (dialog, which) -> {
                             setOperasText(null);
                             setOperasDrawable(R.drawable.titlebar_add_selector);
                             presenter.deleteNotebook(notebook);
                         })
-                        .setNegativeButton("取消", null)
+                        .setNegativeButton(R.string.cancel, null)
                         .show();
                 break;
         }

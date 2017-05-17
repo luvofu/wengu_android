@@ -104,10 +104,10 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
                     authorize(wechat);
                 } else {
                     new AlertDialog.Builder(this).setMessage("确定解除微信账号绑定？")
-                            .setPositiveButton("确定", (dialog, which) -> {
+                            .setPositiveButton(R.string.confirm, (dialog, which) -> {
                                 presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWechatId(), CommonConst.ThirdType.TYPE_WECHAT);
                             })
-                            .setNegativeButton("取消", null)
+                            .setNegativeButton(R.string.cancel, null)
                             .show();
                 }
                 break;
@@ -123,10 +123,10 @@ public class AccountBindActivity extends BaseActivity<AccountBindingContract.Pre
                     authorize(weibo);
                 } else {
                     new AlertDialog.Builder(this).setMessage("确定解除微博账号绑定？")
-                            .setPositiveButton("确定", (dialog, which) -> {
+                            .setPositiveButton(R.string.confirm, (dialog, which) -> {
                                 presenter.thirdUnbinding(BaseApp.getInstance().getUser().getWeiboId(), CommonConst.ThirdType.TYPE_SINA_WEIBO);
                             })
-                            .setNegativeButton("取消", null)
+                            .setNegativeButton(R.string.cancel, null)
                             .show();
                 }
                 break;

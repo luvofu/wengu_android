@@ -251,7 +251,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             adapter.setModel(CollectedBooksAdapter.MODEL_EDIT, true);
             adapter.clearCheckedStatus();
         } else if (modle == CollectedBooksAdapter.MODEL_CHECK) {
-            setOperasText("完成");
+            setOperasText(R.string.complete);
             setOperasDrawable(null);
             fabEditBooks.hide();
             switchRvMarginBottom(true);
@@ -264,7 +264,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     protected void onOptions(View view) {
         super.onOptions(view);
         TextView tv = (TextView) view;
-        if ("完成".equals(tv.getText())) {
+        if (tv.getText().equals(R.string.complete)) {
             switchModel(CollectedBooksAdapter.MODEL_EDIT);
         } else {
             List<MoreOperaItemsAdapter.MoreOperaItemBean> items = new ArrayList<>();
@@ -285,7 +285,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (ppwCategory == null) {
             ppwCategory = new PopupWindow(this, null, R.style.PopupWindow);
             ppwCategory.setBackgroundDrawable(new ColorDrawable(0x55333333));
-            ppwCategory.setOutsideTouchable(true);
+            ppwCategory.setOutsideTouchable(false);
+            ppwCategory.setFocusable(true);
             View view = getLayoutInflater().inflate(R.layout.dlg_user_book_category_type, null);
             btnAll = WidgetUtil.obtainViewById(view, R.id.btn_all);
             tflClc = WidgetUtil.obtainViewById(view, R.id.tfl_clc);
@@ -450,7 +451,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     @Override
     public void onMove2Category(boolean success) {
         hideCustomCategoriesDlg();
-        if ("完成".equals(getOperasView().getText())) {
+        if (getOperasView().getText().equals(R.string.complete)) {
             switchModel(CollectedBooksAdapter.MODEL_EDIT);
         }
         if (success) {
@@ -562,10 +563,10 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             msg = checkedItems.iterator().next().getTitle();
         }
         new AlertDialog.Builder(this).setMessage("是否从书架上删除" + msg)
-                .setPositiveButton("删除", (dialog, which) -> {
+                .setPositiveButton(R.string.delete, (dialog, which) -> {
                     switchModel(CollectedBooksAdapter.MODEL_EDIT);
                 })
-                .setNegativeButton("取消", null)
+                .setNegativeButton(R.string.cancel, null)
                 .show();
     }
 

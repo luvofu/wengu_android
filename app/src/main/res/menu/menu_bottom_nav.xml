@@ -5,22 +5,22 @@
     <item
         android:id="@+id/menu_item_del"
         android:enabled="true"
-        android:icon="@null"
-        android:title="@string/delete"
+        android:icon="@mipmap/ic_menu_del_book"
+        android:title="@string/menu_del_book"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_item_read_status"
         android:enabled="true"
-        android:icon="@null"
-        android:title="@string/read_status"
+        android:icon="@mipmap/ic_menu_read_status"
+        android:title="@string/menu_set_status"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_item_custom"
         android:enabled="true"
-        android:icon="@null"
-        android:title="自定义分类"
+        android:icon="@mipmap/ic_menu_category"
+        android:title="@string/menu_set_category"
         app:showAsAction="ifRoom"/>
 
 </menu>

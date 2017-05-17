@@ -25,7 +25,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -482,7 +481,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
             tvDeleteDynamic.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup
                     .LayoutParams.WRAP_CONTENT));
             tvDeleteDynamic.setBackgroundResource(R.drawable.popup_menu_bg);
-            tvDeleteDynamic.setText("删除");
+            tvDeleteDynamic.setText(R.string.delete);
             tvDeleteDynamic.setGravity(Gravity.CENTER);
             WidgetUtil.setRawTextSize(tvDeleteDynamic, getResources().getDimensionPixelSize(R.dimen.font_default));
             tvDeleteDynamic.setTextColor(getResources().getColor(R.color.title_font_white));

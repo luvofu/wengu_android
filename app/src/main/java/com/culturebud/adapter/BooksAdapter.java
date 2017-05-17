@@ -5,7 +5,6 @@ import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -186,11 +185,11 @@ public class BooksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
         public void hasAdded(long bookId) {
             if (addedIds.contains(bookId)) {
-                tvAdd.setText("已存在");
+                tvAdd.setText(R.string.added);
                 tvAdd.setEnabled(false);
                 tvAdd.setBackgroundResource(R.drawable.gray_round_bg);
             } else {
-                tvAdd.setText("添加");
+                tvAdd.setText(R.string.add);
                 tvAdd.setEnabled(true);
                 tvAdd.setBackgroundResource(R.drawable.blue_round_bg);
             }

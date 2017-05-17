@@ -26,8 +26,6 @@ import com.culturebud.widget.DividerItemDecoration;
 import java.util.Iterator;
 import java.util.List;
 
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_CUSTOMCATEGORY;
-
 /**
  * Created by XieWei on 2017/3/31.
  */
@@ -51,7 +49,7 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         showTitlebar();
         showBack();
         showOperas();
-        setOperasText("完成");
+        setOperasText(R.string.complete);
         setTitle("管理自定义分类");
         rvCustomCategories = obtainViewById(R.id.rv_custom_categories);
         rvCustomCategories.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
@@ -202,11 +200,11 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
     public void onItemDelete(int position, Category category) {
         if (category != null) {
             new AlertDialog.Builder(this).setMessage("删除分类将会连同分类里面的书籍一起删除，您确定要删除吗？")
-                    .setPositiveButton("删除", (dialog, which) -> {
+                    .setPositiveButton(R.string.delete, (dialog, which) -> {
                         ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).deleteItem(category);
                         presenter.deleteCustomCategory(category.getCategoryId());
                     })
-                    .setNegativeButton("取消", null)
+                    .setNegativeButton(R.string.cancel, null)
                     .show();
         }
     }

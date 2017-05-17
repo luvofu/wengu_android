@@ -46,7 +46,6 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
 
 /**
@@ -314,7 +313,7 @@ public class MyDynamicActivity extends BaseActivity<MyDynamicsContract.Presenter
             tvDeleteDynamic.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup
                     .LayoutParams.WRAP_CONTENT));
             tvDeleteDynamic.setBackgroundResource(R.drawable.popup_menu_bg);
-            tvDeleteDynamic.setText("删除");
+            tvDeleteDynamic.setText(R.string.delete);
             tvDeleteDynamic.setGravity(Gravity.CENTER);
             WidgetUtil.setRawTextSize(tvDeleteDynamic, getResources().getDimensionPixelSize(R.dimen.font_default));
             tvDeleteDynamic.setTextColor(getResources().getColor(R.color.title_font_white));

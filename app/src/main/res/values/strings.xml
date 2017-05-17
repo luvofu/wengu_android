@@ -70,8 +70,6 @@
     <string name="please_select_book_community">+ 请选择一个书籍社区</string>
     <string name="hint_please_input_short_comment">写下这一刻的见解...(不超过180字)</string>
     <string name="send">发送</string>
-    <string name="delete">删除</string>
-    <string name="cancel">取消</string>
     <string name="what_to_say">客官，说点什么吧...</string>
     <string name="note_update_time">更新时间：%1$s</string>
     <string name="note_desc">%1$s | %2$s | %3$s</string>
@@ -89,7 +87,6 @@
     <string name="publisher">出版社</string>
     <string name="pub_date">出版日期</string>
     <string name="pages">页数</string>
-    <string name="confirm">确定</string>
     <string name="sheets_my_created">%1$s书单（%2$d）</string>
     <string name="sheets_my_favorite">%1$s收藏的书单（%2$d）</string>
     <string name="hint_book_sheet_desc">书单描述（不超过500字）</string>
@@ -153,7 +150,7 @@
     <string name="my_created">我创建的</string>
     <string name="txt_custom_categories_count">自定义分类（%1$d）</string>
     <string name="find_none_wanted">没有找到您想要的书籍，<a color='red'>尝试亲手创建吧</a></string>
-    <string name="add">添加</string>
+
 
     <string name="txt_mobile">手机号</string>
     <string name="txt_wechat">微信</string>
@@ -166,4 +163,21 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--藏书编辑底部菜单-->
+    <string name="menu_del_book">删除</string>
+    <string name="menu_set_status">阅读状态</string>
+    <string name="menu_set_category">自定义分类</string>
+
+    <!--common operate-->
+    <string name="confirm">确定</string>
+    <string name="cancel">取消</string>
+    <string name="complete">完成</string>
+    <string name="add">添加</string>
+    <string name="edit">编辑</string>
+    <string name="delete">删除</string>
+
+    <!--录入藏书状态-->
+    <string name="added">已添加</string>
+
 </resources>
