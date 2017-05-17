@@ -34,6 +34,7 @@ import com.culturebud.presenter.BookDetailPresenter;
 import com.culturebud.ui.community.BookCommunityActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.ui.me.LoginActivity;
+import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.backends.pipeline.PipelineDraweeController;
@@ -82,13 +83,11 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         int topMargin = 0;
         if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             int statusBarheight = SystemParameterUtil.getStatusHeight(this);
-            Log.d("statusbar height:", String.valueOf(statusBarheight));
             topMargin = statusBarheight;
         }
 
-        ViewGroup.MarginLayoutParams p = (ViewGroup.MarginLayoutParams) view.getLayoutParams();
-        p.setMargins(0, topMargin, 0, 0);
-        view.requestLayout();
+        ClassUtil.setMargins(view, 0, topMargin, 0, 0);
+
 
         setBackGroundColor(getResources().getColor(R.color.light_gray));
         presenter.setView(this);

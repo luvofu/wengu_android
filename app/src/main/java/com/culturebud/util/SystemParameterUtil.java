@@ -1,7 +1,12 @@
 package com.culturebud.util;
 
 import android.app.Activity;
+import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Rect;
+import android.util.DisplayMetrics;
+
+import com.culturebud.BaseApp;
 
 /**
  * Created by Dana on 17/5/16.
@@ -43,4 +48,18 @@ public class SystemParameterUtil {
         }
         return statusHeight;
     }
+
+    public static int getScreenWdith() {
+        Resources resources = BaseApp.getInstance().getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        float density = dm.density;
+        int width = dm.widthPixels;
+
+        return width;
+    }
+
+    public static float getDeviceDensity() {
+        return BaseApp.getInstance().getResources().getDisplayMetrics().density;
+    }
+
 }
