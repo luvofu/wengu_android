@@ -56,7 +56,7 @@
         android:gravity="right|center_vertical"
         android:inputType="textMultiLine"
         android:minLines="1"
-        android:padding="6dp"
+        android:padding="@dimen/common_padding_small"
         android:textColor="@color/font_more"
         android:textColorHint="@color/font_more_light"
         android:textSize="14sp"

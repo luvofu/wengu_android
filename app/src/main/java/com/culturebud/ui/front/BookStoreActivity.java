@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -40,12 +41,13 @@ import java.util.List;
 @PresenterInject(BookStorePresenter.class)
 public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter> implements BookStoreContract.View,
         RadioGroup.OnCheckedChangeListener, BookSheetAdapter.OnItemClickListener, BooksAdapter.OnItemClickListener,
-        View.OnClickListener {
+        View.OnClickListener, SwipeRefreshLayout.OnRefreshListener {
     private RecyclerView rvBooks;
     private RadioGroup rgSortType;
     private RadioButton rbScore, rbColNum;
     private boolean isBookSheets;
     private TextView btnFilter, tvFilterDisplay;
+    private SwipeRefreshLayout srlRefresh;
     private RecyclerView bookFilterView;
     private int sortType = 0;
 
@@ -96,6 +98,9 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         rbColNum = obtainViewById(R.id.rb_collect_num);
         btnFilter = obtainViewById(R.id.btn_filter);
         tvFilterDisplay = obtainViewById(R.id.tv_filter_display);
+
+        srlRefresh = (SwipeRefreshLayout)findViewById(R.id.srl_refresh);
+        srlRefresh.setOnRefreshListener(this);
     }
 
     private void initList() {
@@ -119,7 +124,6 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             rvBooks.setLayoutManager(llm);
             RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
-            divider.setDividerHeight(15);
             rvBooks.addItemDecoration(divider);
             BooksAdapter adapter = new BooksAdapter(0);
             adapter.setOnItemClickListener(this);
@@ -142,6 +146,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             ((BooksAdapter) rvBooks.getAdapter()).clearData();
         }
         ((BooksAdapter) rvBooks.getAdapter()).addItems(books);
+        srlRefresh.setRefreshing(false);
     }
 
     @Override
@@ -151,6 +156,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             ((BookSheetAdapter) rvBooks.getAdapter()).clearData();
         }
         ((BookSheetAdapter) rvBooks.getAdapter()).addItems(sheets);
+        srlRefresh.setRefreshing(false);
     }
 
     @Override
@@ -186,6 +192,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         }
     }
 
+
     private int currentPage;
     private boolean loading = true;
     private RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {
@@ -194,6 +201,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
         }
+
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -329,4 +337,16 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             }
         }
     };
+
+    @Override
+    public void onRefresh() {
+        currentPage = 0;
+        if (isBookSheets) {
+            presenter.getBookSheets(0, sortType, filterType);
+            ((BookSheetAdapter) rvBooks.getAdapter()).clearData();
+        } else {
+            presenter.getBooks(0, sortType, filterType);
+            ((BooksAdapter) rvBooks.getAdapter()).clearData();
+        }
+    }
 }
