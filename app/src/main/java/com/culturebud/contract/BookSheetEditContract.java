@@ -15,11 +15,12 @@ public interface BookSheetEditContract {
     }
 
     interface View extends BaseView {
-        void onEdit(boolean success);
+        void onEdit(boolean success,String content, int requestcode);
+        void onCoverEdit(String coverurl);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void editBookSheet(long bookSheetId, String bsName, String desc, String tag);
+        public abstract void editBookSheet(long bookSheetId, String bsName, String desc, String tag, int requestcode);
 
         public abstract void editCover(Uri uri, long bsId);
     }

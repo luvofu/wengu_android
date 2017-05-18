@@ -1,5 +1,7 @@
 package com.culturebud.ui.bhome;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,12 +10,12 @@ import android.widget.RelativeLayout;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
+import com.culturebud.TextEditorFragment;
 import com.culturebud.adapter.StringTagsAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.contract.BookSheetEditContract;
 import com.culturebud.presenter.BookSheetEditPresenter;
-import com.culturebud.ui.me.GeneralEditorActivity;
 import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -32,7 +34,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
  */
 
 @PresenterInject(BookSheetEditPresenter.class)
-public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Presenter> implements BookSheetEditContract.View {
+public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Presenter> implements BookSheetEditContract.View, TextEditorFragment.OnFragmentInteractionListener {
     private SimpleDraweeView sdvBookSheetCover;
     private SettingItemView sivBookSheetName;
     private SettingItemView sivBookSheetDesc;
@@ -68,7 +70,8 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
         bookSheetDetail = new Gson().fromJson(sheetJson, BookSheetDetail.class);
         sdvBookSheetCover.setImageURI(bookSheetDetail.getCover());
         sivBookSheetName.setRightInfo(bookSheetDetail.getName());
-        sivBookSheetDesc.setRightInfo(bookSheetDetail.getDescription());
+        sivBookSheetDesc.setRightInfo("");
+        sivBookSheetDesc.setDesc(bookSheetDetail.getDescription());
         String tagStr = bookSheetDetail.getTag();
         if (!TextUtils.isEmpty(tagStr)) {
             String[] tags = tagStr.split("\\|");
@@ -91,22 +94,33 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
                 showPhotoDialog();
                 break;
             case R.id.siv_bs_name: {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
-                intent.putExtra("title", "书单名");
-                intent.putExtra("content", bookSheetDetail.getName());
-                intent.putExtra("hint", "书单名（不超过15个字符）");
-                intent.putExtra("content_length", 15);
-                startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_SHEET_NAME);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_EDIT_BOOK_SHEET_NAME,
+                        "书单名", bookSheetDetail.getName(),
+                        "书单名", 15, 0,
+                        false, null);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.editbooksheetcontainview, fragment, TextEditorFragment.getFragmentTag());
+                fragmentTransaction.commit();
+
+                hideTitlebar();
+
                 break;
             }
             case R.id.siv_bs_desc: {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
-                intent.putExtra("title", "书单介绍");
-                intent.putExtra("content", bookSheetDetail.getDescription());
-                intent.putExtra("hint", "书单介绍");
-                intent.putExtra("content_length", 500);
-                intent.putExtra("type", 2);
-                startActivityForResult(intent, REQUEST_CODE_EDIT_BOOK_SHEET_DESC);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_EDIT_BOOK_SHEET_DESC,
+                        "书单介绍", bookSheetDetail.getDescription(),
+                        "书单介绍", 500, 2,
+                        false, null);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.editbooksheetcontainview, fragment, TextEditorFragment.getFragmentTag());
+                fragmentTransaction.commit();
+
+                hideTitlebar();
+
                 break;
             }
             case R.id.rl_tags: {
@@ -128,6 +142,16 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
     }
 
     @Override
+    public void onBackPressed() {
+        if (TextEditorFragment.isShowing(this)) {
+            //移除.
+            onExist();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
@@ -138,22 +162,7 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
 //                break;
             case REQUEST_CODE_PHOTO_CROP:
                 if (resultCode == RESULT_OK) {
-                    sdvBookSheetCover.setImageURI(photoUri);
                     presenter.editCover(photoUri, bookSheetDetail.getSheetId());
-                }
-                break;
-            case REQUEST_CODE_EDIT_BOOK_SHEET_NAME:
-                if (resultCode == RESULT_OK) {
-                    String content = data.getStringExtra("content");
-                    sivBookSheetName.setRightInfo(content);
-                    presenter.editBookSheet(bookSheetDetail.getSheetId(), content, null, null);
-                }
-                break;
-            case REQUEST_CODE_EDIT_BOOK_SHEET_DESC:
-                if (resultCode == RESULT_OK) {
-                    String content = data.getStringExtra("content");
-                    sivBookSheetDesc.setDesc(content);
-                    presenter.editBookSheet(bookSheetDetail.getSheetId(), null, content, null);
                 }
                 break;
             case REQUEST_CODE_EDIT_BOOK_SHEET_TAG:
@@ -168,21 +177,77 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
                     }
                     tflTags.getAdapter().clearData();
                     tflTags.getAdapter().addTags(tmp);
-                    presenter.editBookSheet(bookSheetDetail.getSheetId(), null, null, tag);
+                    presenter.editBookSheet(bookSheetDetail.getSheetId(), null, null, tag, REQUEST_CODE_EDIT_BOOK_SHEET_TAG);
                 }
                 break;
         }
     }
 
+
     @Override
-    public void onEdit(boolean success) {
-        if (!hasChanged) {
-            if (success) {
-                hasChanged = true;
-                Intent data = new Intent();
-                data.putExtra("has_changed", hasChanged);
-                setResult(RESULT_OK, data);
+    public void onConfirmSubmission(String inputString, int requestCode) {
+        switch (requestCode) {
+            case REQUEST_CODE_EDIT_BOOK_SHEET_NAME: {
+                presenter.editBookSheet(bookSheetDetail.getSheetId(), inputString, null, null, REQUEST_CODE_EDIT_BOOK_SHEET_NAME);
+                break;
             }
+            case REQUEST_CODE_EDIT_BOOK_SHEET_DESC: {
+                presenter.editBookSheet(bookSheetDetail.getSheetId(), null, inputString, null, REQUEST_CODE_EDIT_BOOK_SHEET_DESC);
+                break;
+            }
+        }
+    }
+
+    @Override
+    public void onExist() {
+        //退出.
+        FragmentManager fragmentManager = getFragmentManager();
+        android.app.Fragment fragment = fragmentManager.findFragmentByTag(TextEditorFragment.getFragmentTag());
+        if (fragment != null) {
+            //移除.
+            fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).remove
+                    (fragment).commit();
+
+            //显示activity的title
+            showTitlebar();
+        }
+    }
+
+    @Override
+    public void onEdit(boolean success, String content, int requestcode) {
+        if (success) {
+            switch (requestcode) {
+                case REQUEST_CODE_EDIT_BOOK_SHEET_NAME: {
+                    sivBookSheetName.setRightInfo(content);
+                    break;
+                }
+                case REQUEST_CODE_EDIT_BOOK_SHEET_DESC: {
+                    sivBookSheetDesc.setDesc(content);
+                    break;
+                }
+            }
+
+            hasChanged = true;
+            Intent data = new Intent();
+            data.putExtra("has_changed", hasChanged);
+            setResult(RESULT_OK, data);
+
+            //移除.
+            onExist();
+        }
+
+        if (!hasChanged) {
+            hasChanged = true;
+            Intent data = new Intent();
+            data.putExtra("has_changed", hasChanged);
+            setResult(RESULT_OK, data);
+        }
+    }
+
+    @Override
+    public void onCoverEdit(String coverurl) {
+        if (!TextUtils.isEmpty(coverurl)) {
+            sdvBookSheetCover.setImageURI(photoUri);
         }
     }
 }

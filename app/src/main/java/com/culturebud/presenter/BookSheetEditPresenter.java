@@ -23,7 +23,7 @@ public class BookSheetEditPresenter extends BookSheetEditContract.Presenter {
     }
 
     @Override
-    public void editBookSheet(long bookSheetId, String bsName, String desc, String tag) {
+    public void editBookSheet(long bookSheetId, String bsName, String desc, String tag, int requestcode) {
         if (!validateToken()) {
             return;
         }
@@ -47,7 +47,8 @@ public class BookSheetEditPresenter extends BookSheetEditContract.Presenter {
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        view.onEdit(aBoolean);
+                        String currentEditString = bsName != null ? bsName : (desc != null ? desc : tag);
+                        view.onEdit(aBoolean, currentEditString, requestcode);
                     }
                 });
     }
@@ -78,7 +79,7 @@ public class BookSheetEditPresenter extends BookSheetEditContract.Presenter {
 
                     @Override
                     public void onNext(String s) {
-                        view.onEdit(true);
+                        view.onCoverEdit(s);
                     }
                 });
     }
