@@ -158,31 +158,50 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 break;
             case R.id.siv_nick://修改昵称
             {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
-                intent.putExtra("title", "昵称");
-                intent.putExtra("content", BaseApp.getInstance().getUser().getNickname());
-                intent.putExtra("type", 0);
-                startActivityForResult(intent, REQUEST_CODE_ALTER_NICK);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_ALTER_NICK,
+                        "昵称", BaseApp.getInstance().getUser().getNickname(),
+                        "昵称", 24, 0,
+                        false, null);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
+                fragmentTransaction.commit();
+
+                hideTitlebar();
+
                 break;
             }
             case R.id.siv_email://修改邮箱
             {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
-                intent.putExtra("title", "邮箱");
-                intent.putExtra("content", BaseApp.getInstance().getUser().getMailbox());
-                intent.putExtra("type", 1);
-                startActivityForResult(intent, REQUEST_CODE_ALTER_EMAIL);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_ALTER_EMAIL,
+                        "邮箱", BaseApp.getInstance().getUser().getMailbox(),
+                        getString(R.string.culturebud_name), 50, 1,
+                        false, null);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
+                fragmentTransaction.commit();
+
+                hideTitlebar();
+
                 break;
             }
             case R.id.siv_profile://修改个性签名
             {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
-                intent.putExtra("title", "修改签名");
-                intent.putExtra("hint", "");
-                intent.putExtra("content", BaseApp.getInstance().getUser().getAutograph());
-                intent.putExtra("content_length", 50);
-                intent.putExtra("type", 2);
-                startActivityForResult(intent, REQUEST_CODE_ALTER_PROFILE);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_ALTER_PROFILE,
+                        "修改签名", BaseApp.getInstance().getUser().getAutograph(),
+                        getString(R.string.culturebud_name), 50, 2,
+                        false, null);
+                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
+                fragmentTransaction.commit();
+
+                hideTitlebar();
+
                 break;
             }
             case R.id.siv_sex://性别
@@ -243,30 +262,6 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                     presenter.editAvatar(user.getUserId(), photoUri, true);
                 }
                 break;
-            case REQUEST_CODE_ALTER_NICK: {
-                if (resultCode == RESULT_OK && data.hasExtra("content")) {
-                    String content = data.getStringExtra("content");
-                    sivNick.setRightInfo(content);
-                    presenter.editNick(content);
-                }
-                break;
-            }
-            case REQUEST_CODE_ALTER_EMAIL: {
-                if (resultCode == RESULT_OK && data.hasExtra("content")) {
-                    String content = data.getStringExtra("content");
-                    sivEmail.setRightInfo(content);
-                    presenter.editEmail(content);
-                }
-                break;
-            }
-            case REQUEST_CODE_ALTER_PROFILE: {
-                if (resultCode == RESULT_OK && data.hasExtra("content")) {
-                    String content = data.getStringExtra("content");
-                    sivProfile.setRightInfo(content);
-                    presenter.editAutograph(content);
-                }
-                break;
-            }
         }
     }
 
@@ -277,17 +272,26 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
 
     @Override
     public void onNick(String nick) {
+        sivNick.setRightInfo(nick);
 
+        //退出编辑框.
+        onExist();
     }
 
     @Override
     public void onEmail(String email) {
+        sivEmail.setRightInfo(email);
 
+        //退出编辑框.
+        onExist();
     }
 
     @Override
     public void onAutograph(String autograph) {
+        sivProfile.setRightInfo(autograph);
 
+        //退出编辑框.
+        onExist();
     }
 
     @Override
@@ -323,17 +327,40 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
 
 
     @Override
-    public void onConfirmSubmission(String inputString, int requestcode) {
-        if (requestcode == REQUEST_CODE_WY_ACCOUNT) {
-            //判断文芽号是否符合要求.
-            Boolean isMatch = TxtUtil.isMatchWenyaAccountRule(inputString);
+    public void onConfirmSubmission(String content, int requestCode) {
+        switch (requestCode) {
+            case REQUEST_CODE_ALTER_NICK: {
+                presenter.editNick(content);
+                break;
+            }
+            case REQUEST_CODE_ALTER_EMAIL: {
+                //判断邮箱是否合法.
+                boolean isMatch = TxtUtil.isValidateEmail(content);
 
-            if (!isMatch) {
-                //是否需要报错.
-                onErrorTip(getString(R.string.wy_account_error_message));
-            } else {
-                //提交网络请求.
-                presenter.editUsername(inputString);
+                if (!isMatch) {
+                    onErrorTip("邮箱格式不正确");
+                } else {
+                    presenter.editEmail(content);
+                }
+
+                break;
+            }
+            case REQUEST_CODE_ALTER_PROFILE: {
+                presenter.editAutograph(content);
+                break;
+            }
+            case REQUEST_CODE_WY_ACCOUNT: {
+                //判断文芽号是否符合要求.
+                Boolean isMatch = TxtUtil.isMatchWenyaAccountRule(content);
+
+                if (!isMatch) {
+                    //是否需要报错.
+                    onErrorTip(getString(R.string.wy_account_error_message));
+                } else {
+                    //提交网络请求.
+                    presenter.editUsername(content);
+                }
+                break;
             }
         }
     }
