@@ -12,8 +12,6 @@ import android.support.annotation.DimenRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.StringRes;
-import android.support.v7.widget.AppCompatTextView;
-import android.text.InputType;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,8 +24,6 @@ import android.widget.TextView;
 
 import com.culturebud.R;
 import com.culturebud.util.WidgetUtil;
-
-import java.lang.reflect.Method;
 
 /**
  * Created by XieWei on 2016/10/20.
@@ -155,7 +151,11 @@ public class SettingItemView extends LinearLayout {
             setRawTextSize(tvName, nameSize);
 
             boolean canEditInfo = arr.getBoolean(R.styleable.SettingItemView_can_edit_info, false);
-            etArrow.setEnabled(canEditInfo);
+            if (!canEditInfo) {
+                etArrow.setKeyListener(null);//disable keyboard
+                etArrow.setFocusableInTouchMode(false);//disable touch-mode focus
+                etArrow.setOnClickListener(v -> SettingItemView.this.performClick());
+            }
             String hintInfo = arr.getString(R.styleable.SettingItemView_hint_info);
             if (hintInfo != null) {
                 etArrow.setHint(hintInfo);
@@ -186,6 +186,7 @@ public class SettingItemView extends LinearLayout {
 
             arr.recycle();
         }
+
     }
 
     private void setRawTextSize(TextView view, int size) {
@@ -197,7 +198,7 @@ public class SettingItemView extends LinearLayout {
             tvNameCls = getViewSupperCls(tvNameCls);
         }
         try {
-            if(tvNameCls == TextView.class) {
+            if (tvNameCls == TextView.class) {
 //                Method setRawTS = tvNameCls.getDeclaredMethod("setRawTextSize", float.class);
 //                setRawTS.setAccessible(true);
 //                setRawTS.invoke(view, size);
@@ -370,5 +371,6 @@ public class SettingItemView extends LinearLayout {
     public void setIconLayoutParams(ViewGroup.LayoutParams params) {
         ivIcon.setLayoutParams(params);
     }
+
 }
 
