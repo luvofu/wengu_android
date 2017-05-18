@@ -21,6 +21,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.culturebud.util.ClassUtil;
+import com.culturebud.util.SystemParameterUtil;
+
 /**
  * Created by XieWei on 2016/11/1.
  */
@@ -100,8 +103,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         etTitle.setFocusableInTouchMode(true);
         etTitle.requestFocus();
         etTitle.findFocus();
-        etTitle.setMaxWidth(getResources().getDimensionPixelSize(R.dimen.max_search_width));
-        etTitle.setMinWidth(getResources().getDimensionPixelSize(R.dimen.min_search_width));
+
+        int maxWidth = (int) (SystemParameterUtil.getScreenWdith() -  (15 * 2  + 40) * SystemParameterUtil.getDeviceDensity());
+        etTitle.setMaxWidth(maxWidth);
+        etTitle.setMinWidth(maxWidth);
         etTitle.setMinHeight(getResources().getDimensionPixelSize(R.dimen.min_search_height));
         etTitle.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         etTitle.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
@@ -112,7 +117,12 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         etTitle.setCompoundDrawables(left, null, null, null);
         int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_small);
         etTitle.setPadding(padding, padding, padding, padding);
+
+        int margin = padding + 4;
+        ClassUtil.setMargins(etTitle, margin,margin,margin,margin);
     }
+
+
 
     public void setSearchInputType(int inputType) {
         etTitle.setInputType(inputType);

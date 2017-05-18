@@ -135,8 +135,8 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
                 }
                 finish();
                 break;
-            case R.id.iv_scan:
-                break;
+//            case R.id.iv_scan:
+//                break;
         }
     }
 

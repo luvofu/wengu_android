@@ -127,12 +127,22 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
         TextEditorFragment myFragment = new TextEditorFragment();
         Bundle bundle = new Bundle();
         bundle.putString("title", title);
-        bundle.putString("content", content);
-        bundle.putString("hint", hint);
+
+        if (!TextUtils.isEmpty(content)) {
+            bundle.putString("content", content);
+        }
+
+        if (!TextUtils.isEmpty(hint)) {
+            bundle.putString("hint", hint);
+        }
         bundle.putInt("contentLength", contentLength);
         bundle.putInt("type", type);
         bundle.putBoolean("needShowTip", needshowtip);
-        bundle.putString("tips", tips);
+
+        if (!TextUtils.isEmpty(tips)) {
+            bundle.putString("tips", tips);
+        }
+
         bundle.putInt("requestCode", requestCode);
         myFragment.setArguments(bundle);
         return myFragment;

@@ -62,16 +62,23 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
             return;
         }
         User user = BaseApp.getInstance().getUser();
+
+        view.showProDialog();
         model.alterNick(user.getToken(), nick).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
-
+                        view.hideProDialog();
+                        ;
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hideProDialog();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
                         e.printStackTrace();
                     }
 
@@ -89,16 +96,22 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showProDialog();
         model.alterEmail(BaseApp.getInstance().getUser().getToken(), email)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
-
+                        view.hideProDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hideProDialog();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
                         e.printStackTrace();
                     }
 
@@ -116,16 +129,22 @@ public class UserInfoPresenter extends UserInfoContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showProDialog();
         model.alterAutograph(BaseApp.getInstance().getUser().getToken(), autograph)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {
                     @Override
                     public void onCompleted() {
-
+                        view.hideProDialog();
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hideProDialog();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
                         e.printStackTrace();
                     }
 

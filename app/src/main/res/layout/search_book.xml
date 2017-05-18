@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="72dp"
+        android:layout_height="?attr/actionBarSize"
         android:background="@color/title_bg_color"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="20dp">
+        android:orientation="horizontal">
 
-        <ImageView
-            android:id="@+id/iv_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/common_margin_middle"
-            android:clickable="true"
-            android:visibility="invisible"
-            android:onClick="onClick"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_search_scan_white"/>
+        <!--<ImageView-->
+        <!--android:id="@+id/iv_scan"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_marginLeft="@dimen/common_margin_middle"-->
+        <!--android:clickable="true"-->
+        <!--android:visibility="gone"-->
+        <!--android:onClick="onClick"-->
+        <!--android:scaleType="centerInside"-->
+        <!--android:src="@mipmap/ic_search_scan_white"/>-->
 
         <EditText
             android:id="@+id/et_search_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/white_circle_bg"
@@ -40,20 +40,24 @@
             android:inputType="text"
             android:padding="8dp"
             android:textColorHint="@color/tabar_font_normal"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
         <!--android:drawableRight="@mipmap/edittext_del"-->
-        <Button
+        <TextView
             android:id="@+id/btn_cancel"
-            style="?android:attr/borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginBottom="2dp"
-            android:background="@color/title_bg_color"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="15dp"
+            android:clickable="true"
             android:gravity="center"
+            android:minWidth="48dp"
             android:onClick="onClick"
+            android:paddingRight="5dp"
             android:text="@string/cancel"
-            android:textColor="@drawable/btn_search_cancel_selector"
-            android:textSize="14sp"/>
+            android:textColor="@color/title_font_white"
+            android:textSize="16sp"
+            android:visibility="visible" />
     </LinearLayout>
 
     <FrameLayout
@@ -65,12 +69,12 @@
             android:id="@+id/rv_searched_books"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
         <ListView
             android:id="@+id/lv_search_history"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <ProgressBar
             android:id="@+id/pb_loading"
@@ -78,7 +82,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:visibility="gone"/>
+            android:visibility="gone" />
     </FrameLayout>
 
 
