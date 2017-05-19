@@ -154,6 +154,7 @@ public class SettingItemView extends LinearLayout {
             boolean canEditInfo = arr.getBoolean(R.styleable.SettingItemView_can_edit_info, false);
             if (!canEditInfo) {
                 etArrow.setFocusable(false);
+                etArrow.setOnLongClickListener(null);
                 etArrow.setOnClickListener(v -> SettingItemView.this.performClick());
             }
             String hintInfo = arr.getString(R.styleable.SettingItemView_hint_info);
