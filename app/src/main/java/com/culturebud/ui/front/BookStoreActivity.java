@@ -67,6 +67,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
             setTitle(R.string.book_sheet_store);
             rbScore.setText("收藏量");
             rbColNum.setText("创建时间");
+            hideOpears();
         } else {
             setTitle(R.string.book_store);
             setOperasDrawable(R.drawable.titlebar_search_selector);
@@ -99,7 +100,7 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         btnFilter = obtainViewById(R.id.btn_filter);
         tvFilterDisplay = obtainViewById(R.id.tv_filter_display);
 
-        srlRefresh = (SwipeRefreshLayout)findViewById(R.id.srl_refresh);
+        srlRefresh = (SwipeRefreshLayout) findViewById(R.id.srl_refresh);
         srlRefresh.setOnRefreshListener(this);
     }
 

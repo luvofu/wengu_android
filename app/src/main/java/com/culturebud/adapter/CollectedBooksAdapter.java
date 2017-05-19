@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 
-import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.util.WidgetUtil;
@@ -34,8 +33,8 @@ public class CollectedBooksAdapter extends RecyclerView.Adapter<CollectedBooksAd
     private Set<CollectedBook> checkedSet;
     private boolean isMe = false;
 
-    public void setMe(long userId) {
-        isMe = BaseApp.getInstance().isMe(userId);
+    public void setMe(boolean me) {
+        isMe = me;
     }
 
     @IntDef({MODEL_EDIT, MODEL_CHECK})

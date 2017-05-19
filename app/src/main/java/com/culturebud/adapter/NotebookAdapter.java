@@ -1,7 +1,7 @@
 package com.culturebud.adapter;
 
-import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.support.v7.widget.RecyclerView.Adapter;
+import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,12 +10,9 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.Notebook;
-import com.culturebud.bean.User;
 import com.culturebud.util.WidgetUtil;
-import com.culturebud.widget.SwipeMenuView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
 import java.text.SimpleDateFormat;
@@ -31,10 +28,10 @@ import java.util.Locale;
 public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder> {
     private List<Notebook> data;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd kk:mm", Locale.getDefault());
-    private long userId;
+    private boolean isMe=false;
 
-    public void setUserId(long userId) {
-        this.userId = userId;
+    public void setMe(boolean me) {
+        isMe = me;
     }
 
     public NotebookAdapter() {
@@ -76,7 +73,7 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
     @Override
     public void onBindViewHolder(NotebookViewHolder holder, int position) {
         Notebook item = data.get(position);
-        holder.position = position;
+        holder.nbItem = item;
         holder.setBookCover(item.getCover());
         holder.setBookName(item.getTitle()/* + "." + item.getName()*/);
         holder.setBookNum(item.getNoteNum());
@@ -93,7 +90,7 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         private SimpleDraweeView sdvBookCover;
         private TextView tvBookName, tvNoteNum;
         private TextView tvCreateTime;
-        private int position;
+        private Notebook nbItem;
         private Button btnDel;
         private RelativeLayout rlItem;
 
@@ -110,8 +107,7 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         }
 
         public void canDelete() {
-            User user = BaseApp.getInstance().getUser();
-            if (user != null && user.getUserId() == userId) {
+            if (isMe) {
                 btnDel.setVisibility(View.VISIBLE);
             } else {
                 btnDel.setVisibility(View.GONE);
@@ -144,9 +140,9 @@ public class NotebookAdapter extends Adapter<NotebookAdapter.NotebookViewHolder>
         public void onClick(View view) {
             if (onItemClickListener != null) {
                 if (view == rlItem) {
-                    onItemClickListener.onItemClick(position, view, data.get(position), 0);
+                    onItemClickListener.onItemClick(data.indexOf(nbItem), view, nbItem, 0);
                 } else if (view == btnDel) {
-                    onItemClickListener.onItemClick(position, view, data.get(position), 1);
+                    onItemClickListener.onItemClick(data.indexOf(nbItem), view, nbItem, 1);
                 }
             }
         }

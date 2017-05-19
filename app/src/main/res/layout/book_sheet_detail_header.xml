@@ -42,6 +42,8 @@
             android:layout_below="@id/tv_book_name"
             android:layout_marginTop="10dp"
             android:gravity="center_vertical"
+            android:drawableLeft="@mipmap/login_username_icon"
+            android:drawablePadding="6dp"
             android:textColor="@color/title_font_default"
             android:textSize="14sp"
             tools:text="不止步的风"/>
@@ -58,30 +60,16 @@
             android:textSize="14sp"
             tools:text="2016.10.15"/>
 
-        <ImageView
-            android:id="@+id/iv_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/tv_create_time"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:paddingBottom="5dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:paddingTop="5dp"
-            android:scaleType="centerInside"
-            android:src="@mipmap/share_icon"/>
-
         <TextView
             android:id="@+id/tv_collect"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/iv_share"
+            android:layout_alignBottom="@id/sdv_book_sheet_cover"
             android:layout_toLeftOf="@id/iv_share"
             android:drawableLeft="@mipmap/collect_icon_default"
             android:drawablePadding="5dp"
             android:gravity="center_vertical"
+            android:layout_marginRight="10dp"
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
@@ -89,6 +77,21 @@
             android:textColor="@color/title_font_default"
             android:textSize="12sp"
             tools:text="15"/>
+
+        <ImageView
+            android:id="@+id/iv_share"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/sdv_book_sheet_cover"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="15dp"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/share_icon"/>
     </RelativeLayout>
 
     <com.culturebud.widget.TagFlowLayout
