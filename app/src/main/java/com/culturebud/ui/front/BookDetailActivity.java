@@ -15,7 +15,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +30,7 @@ import com.culturebud.bean.BookDetail;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.contract.BookDetailContract;
 import com.culturebud.presenter.BookDetailPresenter;
+import com.culturebud.ui.bhome.CreateBookSheetActivity;
 import com.culturebud.ui.community.BookCommunityActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.ui.me.LoginActivity;
@@ -43,6 +43,7 @@ import com.facebook.drawee.view.SimpleDraweeView;
 import java.util.List;
 import java.util.Locale;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_CREATE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_LOGIN;
 
 /**
@@ -167,6 +168,8 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
         if (bsdDialog == null) {
             bsdDialog = new BottomSheetDialog(this);
             bsdDialog.setContentView(R.layout.add_to_book_sheet);
+            TextView tvAddBookSheet = (TextView) bsdDialog.getWindow().findViewById(R.id.tv_add_book_sheet);
+            tvAddBookSheet.setOnClickListener(this);
             rvBookSheets = (RecyclerView) bsdDialog.getWindow().findViewById(R.id.rv_book_sheets);
             LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             rvBookSheets.setLayoutManager(llm);
@@ -267,8 +270,29 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
                     startActivity(intent);
                 }
             }
+            case R.id.tv_add_book_sheet: {
+                Intent intent = new Intent(this, CreateBookSheetActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_BOOK_SHEET_CREATE);
+                break;
+            }
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_BOOK_SHEET_CREATE:
+                if (resultCode == RESULT_OK) {
+                    long sheetId = data.getIntExtra("sheetId", -1);
+                    hideBottomDialog();
+                    if (bookDetail != null) {
+                        presenter.bookSheetAddBook(sheetId, bookDetail.getBookId());
+                    }
+                }
+                break;
+        }
     }
 
     public void onBack(View v) {
