@@ -43,8 +43,6 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="8dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="1dp"
                 android:layout_weight="0.7"
                 android:background="@android:color/transparent"
                 android:drawablePadding="10dp"
@@ -52,7 +50,7 @@
                 android:gravity="right|center_vertical"
                 android:inputType="textMultiLine"
                 android:minLines="1"
-                android:padding="2dp"
+                android:padding="@dimen/common_padding_small"
                 android:textColor="@color/font_more"
                 android:textColorHint="@color/font_more_light"
                 android:textSize="14sp"
@@ -72,6 +70,5 @@
             android:textColor="@color/title_font_default"
             android:textSize="@dimen/setting_item_desc_font"
             tools:text="请看详细操作" />
-
 
 </merge>

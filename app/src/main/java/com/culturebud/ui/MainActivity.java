@@ -35,7 +35,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        hideTitlebar();
         fragmentManager = getFragmentManager();
         rgTabs = obtainViewById(R.id.rg_tabs);
         rgTabs.setOnCheckedChangeListener(this);
@@ -135,5 +134,6 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 //        }
 //        return super.onKeyDown(keyCode, event);
 //    }
+
 
 }

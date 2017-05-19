@@ -150,10 +150,11 @@ public class SettingItemView extends LinearLayout {
                     getResources().getDimensionPixelSize(R.dimen.setting_item_name_font));
             setRawTextSize(tvName, nameSize);
 
+
             boolean canEditInfo = arr.getBoolean(R.styleable.SettingItemView_can_edit_info, false);
             if (!canEditInfo) {
-                etArrow.setKeyListener(null);//disable keyboard
-                etArrow.setFocusableInTouchMode(false);//disable touch-mode focus
+                etArrow.setFocusable(false);
+                etArrow.setOnLongClickListener(null);
                 etArrow.setOnClickListener(v -> SettingItemView.this.performClick());
             }
             String hintInfo = arr.getString(R.styleable.SettingItemView_hint_info);

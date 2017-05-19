@@ -85,11 +85,11 @@ android {
     }
 
     dexOptions {
-        javaMaxHeapSize "8g"
+        javaMaxHeapSize "4g"
         preDexLibraries = false
         dexInProcess false
-        maxProcessCount = 4
-        threadCount = 8
+        maxProcessCount = 2
+        threadCount = 4
     }
 
     sourceSets {
