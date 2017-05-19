@@ -120,6 +120,7 @@
                 app:contentInsetRight="1dp"
                 app:contentInsetStart="1dp"
                 app:layout_collapseMode="pin"
+                android:fitsSystemWindows="true"
                 app:popupTheme="@style/TitlebarPopupTheme"
                 app:theme="@style/TitlebarTheme"
                 app:title="@string/blank">
