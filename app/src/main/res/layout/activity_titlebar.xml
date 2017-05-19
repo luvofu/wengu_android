@@ -17,7 +17,6 @@
         android:contentInsetRight="1dp"
         android:contentInsetStart="1dp"
         android:elevation="1dp"
-        android:fitsSystemWindows="true"
         app:contentInsetEnd="1dp"
         app:contentInsetLeft="1dp"
         app:contentInsetRight="1dp"

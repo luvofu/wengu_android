@@ -90,11 +90,14 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     }
 
     public void showTitlebar() {
+
         toolbar.setVisibility(View.VISIBLE);
+        toolbar.setFitsSystemWindows(true);
     }
 
     public void hideTitlebar() {
         toolbar.setVisibility(View.GONE);
+        toolbar.setFitsSystemWindows(false);
     }
 
     public void enableSearch() {
@@ -107,7 +110,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         int maxWidth = (int) (SystemParameterUtil.getScreenWdith() -  (15 * 2  + 40) * SystemParameterUtil.getDeviceDensity());
         etTitle.setMaxWidth(maxWidth);
         etTitle.setMinWidth(maxWidth);
-        etTitle.setMinHeight(getResources().getDimensionPixelSize(R.dimen.min_search_height));
+        etTitle.setMinHeight((int) (30 * SystemParameterUtil.getDeviceDensity()));
         etTitle.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         etTitle.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         etTitle.setBackgroundResource(R.drawable.white_circle_bg);
@@ -117,9 +120,9 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         etTitle.setCompoundDrawables(left, null, null, null);
         int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_small);
         etTitle.setPadding(padding, padding, padding, padding);
-
-        int margin = padding + 4;
-        ClassUtil.setMargins(etTitle, margin,margin,margin,margin);
+etTitle.setTextSize(12);
+//        int margin = padding + 4;
+        ClassUtil.setMargins(etTitle, padding,padding,padding,padding);
     }
 
 
@@ -266,7 +269,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         vgContent.addView(view, params);
     }
-
+    
     protected void onBack() {
 
     }
