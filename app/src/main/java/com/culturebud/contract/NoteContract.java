@@ -46,7 +46,7 @@ public interface NoteContract {
 
         public abstract void deleteNote(long noteId);
 
-        public abstract void editNote(long noteId, String content, String chapter, int pages, String otherLocation);
+        public abstract void editNote(long noteId, String content, String chapter, int pages, String otherLocation, int requestcode);
 
         public abstract void editCover(Uri uri, long bsId);
     }

@@ -1,5 +1,7 @@
 package com.culturebud.ui.bhome;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -7,22 +9,18 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
+import com.culturebud.TextEditorFragment;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Note;
 import com.culturebud.contract.NoteContract;
 import com.culturebud.presenter.NotePresenter;
-import com.culturebud.ui.me.GeneralEditorActivity;
+import com.culturebud.util.TxtUtil;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_DESC;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_NAME;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_BOOK_SHEET_TAG;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_NOTE_CHAPTER;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_NOTE_CONTNET;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_NOTE_PAGE;
@@ -33,14 +31,16 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_PHOTO_CROP;
  */
 
 @PresenterInject(NotePresenter.class)
-public class EditNoteActivity extends BaseActivity<NoteContract.Presenter> implements NoteContract.View {
+public class EditNoteActivity extends BaseActivity<NoteContract.Presenter> implements NoteContract.View, TextEditorFragment.OnFragmentInteractionListener {
     private Note note;
     private SimpleDraweeView sdvNoteImg;
     private SettingItemView sivContent;
     private SettingItemView sivChapter;
     private SettingItemView sivPage;
-//    private SettingItemView sivOther;
+    //    private SettingItemView sivOther;
     private LinearLayout llEditImg;
+
+    private String currentEditItemContent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,35 +98,35 @@ public class EditNoteActivity extends BaseActivity<NoteContract.Presenter> imple
                 showPhotoDialog();
                 break;
             case R.id.siv_note_content: {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
-                intent.putExtra("title", sivContent.getName());
-                intent.putExtra("content", note.getContent());
-                intent.putExtra("hint", "笔记内容（不超过1000个字符）");
-                intent.putExtra("content_length", 1000);
-                intent.putExtra("type", 2);
-                startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE_CONTNET);
+                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.editnotecontainview, TextEditorFragment.newInstance(REQUEST_CODE_EDIT_NOTE_CONTNET,
+                                sivContent.getName(), note.getContent(),
+                                "笔记内容（不超过1000个字符）", 1000, CommonConst.TextEditorInputType.MULTI_LINE_INPUT_TYPE,
+                                false, null), TextEditorFragment.getFragmentTag()).commit();
+
+                hideTitlebar();
+
                 break;
             }
             case R.id.siv_note_chapter: {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
+                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.editnotecontainview, TextEditorFragment.newInstance(REQUEST_CODE_EDIT_NOTE_CHAPTER,
+                                "章节", note.getChapter(),
+                                "", 15, CommonConst.TextEditorInputType.DEFAULT_INPUT_TYPE,
+                                false, null), TextEditorFragment.getFragmentTag()).commit();
 
-                intent.putExtra("title", "章节");
-                intent.putExtra("content", note.getChapter());
-                intent.putExtra("hint", "");
-                intent.putExtra("content_length", 15);
-
-                startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE_CHAPTER);
+                hideTitlebar();
 
                 break;
             }
             case R.id.siv_note_pages: {
-                Intent intent = new Intent(this, GeneralEditorActivity.class);
+                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.editnotecontainview, TextEditorFragment.newInstance(REQUEST_CODE_EDIT_NOTE_PAGE,
+                                "页码", String.valueOf(note.getPages()),
+                                "", 5, CommonConst.TextEditorInputType.NUMBER_INPUT_TYPE,
+                                false, null), TextEditorFragment.getFragmentTag()).commit();
 
-                intent.putExtra("title", "页码");
-                intent.putExtra("content", String.valueOf(note.getPages()));
-                intent.putExtra("hint", "");
-                intent.putExtra("content_length", 15);
-                startActivityForResult(intent, REQUEST_CODE_EDIT_NOTE_PAGE);
+                hideTitlebar();
                 break;
             }
         }
@@ -143,43 +143,86 @@ public class EditNoteActivity extends BaseActivity<NoteContract.Presenter> imple
                     presenter.editCover(photoUri, note.getNoteId());
                 }
                 break;
-            case REQUEST_CODE_EDIT_NOTE_CONTNET:
-                if (resultCode == RESULT_OK) {
-                    String content = data.getStringExtra("content");
-                    sivContent.setDesc(content);
-                    presenter.editNote(note.getNoteId(), content, null,-1, null);
-                }
-                break;
-            case REQUEST_CODE_EDIT_NOTE_CHAPTER:
-                if (resultCode == RESULT_OK) {
-                    String chapter = data.getStringExtra("content");
-                    sivChapter.setRightInfo(chapter);
-                    presenter.editNote(note.getNoteId(), null, chapter,-1, null);
-                }
-                break;
-            case REQUEST_CODE_EDIT_NOTE_PAGE:
-                if (resultCode == RESULT_OK) {
-                    String page = data.getStringExtra("content");
-                    sivPage.setRightInfo(page);
-                    presenter.editNote(note.getNoteId(), null, null, Integer.parseInt(page), null);
-                }
-                break;
         }
     }
 
     @Override
     public void onNoteOpera(boolean res, int operaType) {
-//        if (res && NoteContract.View.OPERA_TYPE_EDIT == operaType) {
-//
-//        }
+        if (res && !TextUtils.isEmpty(currentEditItemContent)) {
+            //因为此处传的opeatype不再是编辑类型，而是具体的请求码，所以此处当请求码来处理.
+            int requestcode = operaType;
+            switch (requestcode) {
+                case REQUEST_CODE_EDIT_NOTE_CONTNET:
+                    sivContent.setDesc(currentEditItemContent);
+                    break;
+                case REQUEST_CODE_EDIT_NOTE_CHAPTER:
+                    sivChapter.setRightInfo(currentEditItemContent);
+                    break;
+                case REQUEST_CODE_EDIT_NOTE_PAGE:
+
+                    if (!TxtUtil.isValidateNumber(currentEditItemContent)) {
+                        //不合法.
+                        onErrorTip("请输入合法的页码");
+                        return;
+                    }
+
+                    sivPage.setRightInfo(currentEditItemContent);
+                    break;
+            }
+
+            setResult(RESULT_OK);
+
+            onExist();
+        }
     }
 
     @Override
     protected void onBack() {
         super.onBack();
-        Intent intent = getIntent();
-        setResult(RESULT_OK, intent);
 
         finish();
     }
+
+    @Override
+    public void onBackPressed() {
+        if (TextEditorFragment.isShowing(this)) {
+            //移除.
+            onExist();
+        } else {
+            finish();
+        }
+    }
+
+    @Override
+    public void onConfirmSubmission(String content, int requestCode) {
+        currentEditItemContent = content;
+        switch (requestCode) {
+            case REQUEST_CODE_EDIT_NOTE_CONTNET:
+                presenter.editNote(note.getNoteId(), content, null, -1, null, requestCode);
+                break;
+            case REQUEST_CODE_EDIT_NOTE_CHAPTER:
+                presenter.editNote(note.getNoteId(), null, content, -1, null, requestCode);
+                break;
+            case REQUEST_CODE_EDIT_NOTE_PAGE:
+                presenter.editNote(note.getNoteId(), null, null, Integer.parseInt(content), null, requestCode);
+                break;
+        }
+    }
+
+    @Override
+    public void onExist() {
+        //退出.
+        FragmentManager fragmentManager = getFragmentManager();
+        android.app.Fragment fragment = fragmentManager.findFragmentByTag(TextEditorFragment.getFragmentTag());
+        if (fragment != null) {
+            //移除.
+            fragmentManager.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_CLOSE).remove
+                    (fragment).commit();
+
+            //显示activity的title
+            showTitlebar();
+        }
+    }
+
+
 }

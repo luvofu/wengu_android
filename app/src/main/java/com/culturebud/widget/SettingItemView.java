@@ -59,7 +59,7 @@ public class SettingItemView extends LinearLayout {
 
     private void init(AttributeSet attrs) {
         setGravity(Gravity.CENTER);
-        setOrientation(HORIZONTAL);
+        setOrientation(VERTICAL);
         int pl = getResources().getDimensionPixelSize(R.dimen.setting_item_padding_left);
         int pr = getResources().getDimensionPixelSize(R.dimen.setting_item_padding_right);
         setPadding(pl, getPaddingTop(), pr, getPaddingBottom());

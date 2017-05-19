@@ -37,6 +37,7 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
         private Boolean needShowTip = false; //底部是否显示提示.
         private String tips;  //底部提示内容 （某人是隐藏的，不显示）
 
+
         public TextEditorParameter(Bundle bundle){
             this.requestCode = bundle.getInt("requestCode");
             this.title = bundle.getString("title");
@@ -240,18 +241,22 @@ public class TextEditorFragment extends BaseFragment implements View.OnClickList
 
     private void initData() {
         switch (editorParameter.getType()) {
-            case 0://昵称
+            case CommonConst.TextEditorInputType.DEFAULT_INPUT_TYPE://普通
                 break;
-            case 1://邮箱
+            case CommonConst.TextEditorInputType.EMAIL_INPUT_TYPE://邮箱
                 etInput.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
                 break;
-            case 2://签名
+            case CommonConst.TextEditorInputType.MULTI_LINE_INPUT_TYPE://签名
                 etInput.setMinLines(6);
                 etInput.setGravity(Gravity.TOP | Gravity.LEFT);
                 etInput.setInputType(InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                 etInput.setSingleLine(false);
                 break;
+            case CommonConst.TextEditorInputType.NUMBER_INPUT_TYPE:
+                etInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+                break;
         }
+
         etInput.setFilters(new InputFilter[]{new InputFilter.LengthFilter(editorParameter.getContentLength())});
         if (!TextUtils.isEmpty(editorParameter.getHint())) {
             etInput.setHint(editorParameter.getHint());

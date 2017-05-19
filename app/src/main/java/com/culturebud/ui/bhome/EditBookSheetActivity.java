@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.TextEditorFragment;
 import com.culturebud.adapter.StringTagsAdapter;
@@ -94,30 +95,24 @@ public class EditBookSheetActivity extends BaseActivity<BookSheetEditContract.Pr
                 showPhotoDialog();
                 break;
             case R.id.siv_bs_name: {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_EDIT_BOOK_SHEET_NAME,
-                        "书单名", bookSheetDetail.getName(),
-                        "书单名", 15, 0,
-                        false, null);
-                fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(R.id.editbooksheetcontainview, fragment, TextEditorFragment.getFragmentTag());
-                fragmentTransaction.commit();
+                getFragmentManager().beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                        .replace(R.id.editbooksheetcontainview, TextEditorFragment.newInstance(REQUEST_CODE_EDIT_BOOK_SHEET_NAME,
+                                "书单名", bookSheetDetail.getName(),
+                                "书单名", 15, CommonConst.TextEditorInputType.DEFAULT_INPUT_TYPE,
+                                false, null), TextEditorFragment.getFragmentTag()).commit();
 
                 hideTitlebar();
 
                 break;
             }
             case R.id.siv_bs_desc: {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_EDIT_BOOK_SHEET_DESC,
                         "书单介绍", bookSheetDetail.getDescription(),
-                        "书单介绍", 500, 2,
+                        "书单介绍", 500, CommonConst.TextEditorInputType.MULTI_LINE_INPUT_TYPE,
                         false, null);
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                        .replace(R.id.editbooksheetcontainview, fragment, TextEditorFragment.getFragmentTag());
-                fragmentTransaction.commit();
+                        .replace(R.id.editbooksheetcontainview, fragment, TextEditorFragment.getFragmentTag()).commit();
 
                 hideTitlebar();
 

@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import com.bigkoo.pickerview.OptionsPickerView;
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.TextEditorFragment;
 import com.culturebud.annotation.PresenterInject;
@@ -162,7 +163,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_ALTER_NICK,
                         "昵称", BaseApp.getInstance().getUser().getNickname(),
-                        "昵称", 24, 0,
+                        "昵称", 24, CommonConst.TextEditorInputType.DEFAULT_INPUT_TYPE,
                         false, null);
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
@@ -178,7 +179,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_ALTER_EMAIL,
                         "邮箱", BaseApp.getInstance().getUser().getMailbox(),
-                        getString(R.string.culturebud_name), 50, 1,
+                        getString(R.string.culturebud_name), 50, CommonConst.TextEditorInputType.EMAIL_INPUT_TYPE,
                         false, null);
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
@@ -194,7 +195,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_ALTER_PROFILE,
                         "修改签名", BaseApp.getInstance().getUser().getAutograph(),
-                        getString(R.string.culturebud_name), 50, 2,
+                        getString(R.string.culturebud_name), 50, CommonConst.TextEditorInputType.MULTI_LINE_INPUT_TYPE,
                         false, null);
                 fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                         .replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());
@@ -221,7 +222,7 @@ public class UserInfoActivity extends BaseActivity<UserInfoContract.Presenter>
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                     TextEditorFragment fragment = TextEditorFragment.newInstance(REQUEST_CODE_WY_ACCOUNT,
                             getString(R.string.culturebud_name), null,
-                            getString(R.string.culturebud_name), 20, 0,
+                            getString(R.string.culturebud_name), 20, CommonConst.TextEditorInputType.DEFAULT_INPUT_TYPE,
                             true, getString(R.string.wy_account_rules));
                     fragmentTransaction.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
                             .replace(R.id.contain_view, fragment, TextEditorFragment.getFragmentTag());

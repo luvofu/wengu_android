@@ -95,7 +95,7 @@ public class NotePresenter extends NoteContract.Presenter {
     }
 
     @Override
-    public void editNote(long noteId, String content, String chapter, int pages, String otherLocation) {
+    public void editNote(long noteId, String content, String chapter, int pages, String otherLocation, int requestcode) {
         if (!validateToken()) {
             return;
         }
@@ -117,7 +117,7 @@ public class NotePresenter extends NoteContract.Presenter {
 
                     @Override
                     public void onNext(Boolean aBoolean) {
-                        view.onNoteOpera(aBoolean, NoteContract.View.OPERA_TYPE_EDIT);
+                        view.onNoteOpera(aBoolean, requestcode);
                     }
                 });
     }

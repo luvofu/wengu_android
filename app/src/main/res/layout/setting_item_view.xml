@@ -3,63 +3,75 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
+    android:gravity="left"
     android:orientation="horizontal"
     android:paddingLeft="8dp"
     android:paddingRight="8dp">
 
-    <ImageView
-        android:id="@+id/iv_icon"
-        android:layout_width="@dimen/setting_icon_default_small"
-        android:layout_height="@dimen/setting_icon_default_small"
-        android:layout_margin="@dimen/setting_icon_default_margin"
-        android:scaleType="centerInside"
-        android:src="@mipmap/setting_icon" />
 
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.3"
-        android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="4dp">
-
-        <TextView
-            android:id="@+id/tv_name"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:drawablePadding="5dp"
-            android:textColor="@color/title_font_default"
-            android:textSize="@dimen/setting_item_name_font"
-            tools:text="设置" />
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="1dp"
+            android:padding="4dp">
+
+            <ImageView
+                android:id="@+id/iv_icon"
+                android:layout_width="@dimen/setting_icon_default_small"
+                android:layout_height="@dimen/setting_icon_default_small"
+                android:layout_gravity="center_vertical"
+                android:layout_margin="@dimen/setting_icon_default_margin"
+                android:scaleType="centerInside"
+                android:src="@mipmap/setting_icon" />
+
+            <TextView
+                android:id="@+id/tv_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.3"
+                android:drawablePadding="5dp"
+                android:textColor="@color/title_font_default"
+                android:textSize="@dimen/setting_item_name_font"
+                tools:text="设置" />
+
+            <EditText
+                android:id="@+id/et_arrow"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="0.7"
+                android:background="@android:color/transparent"
+                android:drawablePadding="10dp"
+                android:drawableRight="@mipmap/right_arrow"
+                android:gravity="right|center_vertical"
+                android:inputType="textMultiLine"
+                android:minLines="1"
+                android:padding="2dp"
+                android:textColor="@color/font_more"
+                android:textColorHint="@color/font_more_light"
+                android:textSize="14sp"
+                tools:text="@string/no_fill" />
+
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_desc"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="4dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginRight="15dp"
+            android:paddingLeft="10dp"
             android:textColor="@color/title_font_default"
             android:textSize="@dimen/setting_item_desc_font"
             tools:text="请看详细操作" />
-    </LinearLayout>
 
-    <EditText
-        android:id="@+id/et_arrow"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="8dp"
-        android:layout_weight="0.7"
-        android:background="@android:color/transparent"
-        android:drawablePadding="10dp"
-        android:drawableRight="@mipmap/right_arrow"
-        android:gravity="right|center_vertical"
-        android:inputType="textMultiLine"
-        android:minLines="1"
-        android:padding="6dp"
-        android:textColor="@color/font_more"
-        android:textColorHint="@color/font_more_light"
-        android:textSize="14sp"
-        tools:text="@string/no_fill" />
 
 </merge>

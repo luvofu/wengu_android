@@ -34,6 +34,7 @@ public final class CommonConst {
         Log.i(TAG, "_url = " + _URL);
         return TextUtils.isEmpty(_URL) ? "http://mywengu.com:80/" : _URL;
     }
+
     private static String _URL;
 
     public static void initHost() {
@@ -324,7 +325,7 @@ public final class CommonConst {
     }
 
     public final class UserBookCategoryType {
-//        categoryType	是	int	分类类型： All(0, “全部”),Normal(1, “中图法”),Custom(2, “自定义”),Other(3, “其它”);
+        //        categoryType	是	int	分类类型： All(0, “全部”),Normal(1, “中图法”),Custom(2, “自定义”),Other(3, “其它”);
 //        category	是	string	类别（例如：文学 哲学 未读 私密）
         public static final int TYPE_ALL = 0;
         public static final int TYPE_NORMAL = 1;
@@ -341,6 +342,13 @@ public final class CommonConst {
         public static final int STATUS_VERIFY = 0;
         public static final int STATUS_NO_PASS = 1;
         public static final int STATUS_PASS = 2;
+    }
+
+    public interface TextEditorInputType {
+        int DEFAULT_INPUT_TYPE = 0; //默认键盘.
+        int EMAIL_INPUT_TYPE = 1; //邮箱
+        int MULTI_LINE_INPUT_TYPE = 2; //多行文本
+        int NUMBER_INPUT_TYPE = 3; //数字类型
     }
 
     public final class RequestCode {
@@ -393,7 +401,7 @@ public final class CommonConst {
         public static final int REQUEST_CODE_PUBLISH_DYNAMIC = 1035;
         public static final int REQUEST_CODE_MANUAL_BOOK_CHECK = 1036;
 
-        public static final int REQUEST_CODE_EDIT_NOTE_CONTNET= 1037;
+        public static final int REQUEST_CODE_EDIT_NOTE_CONTNET = 1037;
         public static final int REQUEST_CODE_EDIT_NOTE_PAGE = 1038;
         public static final int REQUEST_CODE_EDIT_NOTE_CHAPTER = 1039;
         public static final int REQUEST_CODE_CHANGEMOBILEBIND = 1040;
