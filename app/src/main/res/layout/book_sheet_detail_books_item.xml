@@ -16,7 +16,7 @@
         fresco:placeholderImageScaleType="fitXY" />
 
     <ImageView
-        android:id="@+id/iv_add"
+        android:id="@+id/iv_opt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -31,7 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_toLeftOf="@id/iv_add"
+        android:layout_toLeftOf="@id/iv_opt"
         android:layout_toRightOf="@id/sdv_book_sheet_cover"
         android:gravity="center_vertical"
         android:textColor="@color/title_font_default"

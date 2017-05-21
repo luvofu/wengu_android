@@ -39,6 +39,7 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
     private TextView tvCreated, tvFavorite;
     private RecyclerView rvCreated, rvFavorite;
     private long userId = -1;
+    private boolean isMe = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,17 +52,18 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         User user = BaseApp.getInstance().getUser();
         long defaultId = user != null ? user.getUserId() : -1;
         userId = getIntent().getLongExtra(USER_ID_KEY, defaultId);
-        if (BaseApp.getInstance().isMe(userId)) {
-            showOperas();
+        isMe = BaseApp.getInstance().isMe(userId);
+        if (isMe) {
             setOperasDrawable(R.drawable.titlebar_add_selector);
+            showOperas();
+        } else {
+            hideOpears();
         }
 
         tvCreated = obtainViewById(R.id.tv_my_created);
         tvFavorite = obtainViewById(R.id.tv_my_favorite);
-        tvCreated.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_created), userId == -1 ?
-                "我创建的" : "", 0));
-        tvFavorite.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_favorite), userId == -1 ? "我"
-                : "", 0));
+        tvCreated.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_created), isMe ? "我创建的" : "", 0));
+        tvFavorite.setText(String.format(Locale.getDefault(), getString(R.string.sheets_my_favorite), isMe ? "我" : "", 0));
 
         rvCreated = obtainViewById(R.id.rv_sheets_created);
         rvFavorite = obtainViewById(R.id.rv_sheets_favorite);
@@ -79,8 +81,7 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         rvFavorite.addItemDecoration(divider);
 
         BookSheetsAdapter createdAdapter = new BookSheetsAdapter();
-        User user = BaseApp.getInstance().getUser();
-        if (user == null || (userId != -1 && user.getUserId() != userId)) {
+        if (!isMe) {
             createdAdapter.disableDel();
         }
         createdAdapter.setOnItemClickListener(this);
@@ -88,7 +89,7 @@ public class BookSheetsActivity extends BaseActivity<BookSheetsContract.Presente
         rvCreated.setAdapter(createdAdapter);
 
         BookSheetsAdapter favoriteAdapter = new BookSheetsAdapter();
-        if (user == null || (userId != -1 && user.getUserId() != userId)) {
+        if (!isMe) {
             favoriteAdapter.disableDel();
         }
         favoriteAdapter.setOnItemClickListener(this);

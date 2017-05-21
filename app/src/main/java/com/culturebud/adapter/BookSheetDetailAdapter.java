@@ -14,11 +14,9 @@ import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
-import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.BookSheetDetail;
 import com.culturebud.bean.SheetBook;
-import com.culturebud.bean.User;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.TagFlowLayout;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -41,14 +39,17 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     private static final int TYPE_BOOK = 1;
     private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy.MM.dd", Locale.getDefault());
     private Context context;
+    boolean isMe = false;
 
     public BookSheetDetailAdapter(Context context) {
         this.context = context;
     }
 
-    public void setData(BookSheetDetail data) {
+    public void setData(BookSheetDetail data, boolean me) {
         if (data != null) {
             this.data = data;
+            this.isMe = me;
+
             notifyDataSetChanged();
         }
     }
@@ -114,8 +115,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             bsHolder.setDesc(data.getDescription());
             bsHolder.setNick(data.getNickname());
             bsHolder.setBookNum(data.getBookNum());
-            User user = BaseApp.getInstance().getUser();
-            bsHolder.canAddBook(user == null ? false : user.getUserId() == data.getUserId());
+            bsHolder.canAddBook(isMe);
             String tagStr = data.getTag();
             if (!TextUtils.isEmpty(tagStr)) {
                 String[] tags = tagStr.split("\\|");
@@ -124,10 +124,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         } else {
             SheetBook item = data.getSheetBookList().get(position - 1);
             SheetBooksViewHolder sbHolder = (SheetBooksViewHolder) holder;
-//            sbHolder.position = position;
             sbHolder.sbItem = item;
-            sbHolder.needAdd(BaseApp.getInstance().getUser() == null ? false : data.getUserId() == BaseApp.getInstance()
-                    .getUser().getUserId());
             sbHolder.setCover(item.getCover());
             sbHolder.setBookName(item.getTitle());
             sbHolder.setAuthor(item.getAuthor());
@@ -289,12 +286,11 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
     class SheetBooksViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvAuthor;
-        private ImageView ivAdd;
+        private ImageView ivOpt;
         private TextView tvRatingTip, tvRating;
         private RatingBar rbRating;
         private LinearLayout llRating;
         private TextView tvRecommendReason;
-        //        private int position;
         private SheetBook sbItem;
 
         public SheetBooksViewHolder(View itemView) {
@@ -302,7 +298,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             sdvCover = WidgetUtil.obtainViewById(itemView, R.id.sdv_book_sheet_cover);
             tvTitle = WidgetUtil.obtainViewById(itemView, R.id.tv_book_name);
             tvAuthor = WidgetUtil.obtainViewById(itemView, R.id.tv_author);
-            ivAdd = WidgetUtil.obtainViewById(itemView, R.id.iv_add);
+            ivOpt = WidgetUtil.obtainViewById(itemView, R.id.iv_opt);
             tvRatingTip = WidgetUtil.obtainViewById(itemView, R.id.tv_no_rating_tip);
             tvRating = WidgetUtil.obtainViewById(itemView, R.id.tv_rating_num);
             rbRating = WidgetUtil.obtainViewById(itemView, R.id.rb_rating);
@@ -317,16 +313,8 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
             ld.getDrawable(2).setColorFilter(itemView.getResources().getColor(R.color.orange), PorterDuff.Mode
                     .SRC_ATOP);
 
-            ivAdd.setOnClickListener(this);
+            ivOpt.setOnClickListener(this);
             itemView.setOnClickListener(this);
-        }
-
-        public void needAdd(boolean need) {
-            if (need) {
-                ivAdd.setVisibility(View.VISIBLE);
-            } else {
-                ivAdd.setVisibility(View.GONE);
-            }
         }
 
         public void setRating(float rating) {
@@ -378,7 +366,7 @@ public class BookSheetDetailAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 if (view == itemView) {//加1是因为 header 占了一个 item
                     onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem) + 1,
                             OPERA_TYPE_ITEM, sbItem);
-                } else if (view == ivAdd) {
+                } else if (view == ivOpt) {
                     onItemListener.onItemOpera(view, data.getSheetBookList().indexOf(sbItem) + 1,
                             OPERA_TYPE_ADD, sbItem);
                 }

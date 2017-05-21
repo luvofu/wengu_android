@@ -25,6 +25,7 @@ import com.culturebud.bean.User;
 import com.culturebud.contract.BookSheetDetailContract;
 import com.culturebud.presenter.BookSheetDetailPresenter;
 import com.culturebud.ui.bhome.BookSheetEditRecommendActivity;
+import com.culturebud.ui.bhome.CreateBookSheetActivity;
 import com.culturebud.ui.bhome.EditBookSheetActivity;
 import com.culturebud.ui.search.SearchBookActivity;
 import com.culturebud.util.ShareHelper;
@@ -34,10 +35,10 @@ import com.google.gson.Gson;
 
 import java.util.List;
 
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_CREATE;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BOOK_SHEET_EDIT;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_BS_EDIT_RECOMMEND;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SEARCH_BOOK_ADD_TO_BOOK_SHEET;
-import static com.culturebud.ui.bhome.CollectedBooksActivity.USER_ID_KEY;
 
 /**
  * Created by XieWei on 2016/11/7.
@@ -53,8 +54,8 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     private BottomSheetDialog bsdDialog;
     private BottomSheetDialog bsdOperas;
     private RecyclerView rvBookSheets;
-    private long userId = -1;
     private long sheetId = -1;
+    private boolean isMe = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,12 +63,6 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         setContentView(R.layout.book_sheet_detail);
         presenter.setView(this);
         showTitlebar();
-        User user = BaseApp.getInstance().getUser();
-        long defaultId = user != null ? user.getUserId() : -1;
-        userId = getIntent().getLongExtra(USER_ID_KEY, defaultId);
-        if (BaseApp.getInstance().isMe(userId)) {
-            setOperasDrawable(R.drawable.titlebar_edit_selector);
-        }
         rvDetail = obtainViewById(R.id.rv_sheet_detail);
 
         initList();
@@ -120,9 +115,12 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
 
     private void initBottomDialog() {
         if (bsdDialog == null) {
-            bsdDialog = new BottomSheetDialog(this);
+            bsdDialog = new BottomSheetDialog(this) {
+            };
             bsdDialog.setContentView(R.layout.add_to_book_sheet);
             rvBookSheets = (RecyclerView) bsdDialog.getWindow().findViewById(R.id.rv_book_sheets);
+            TextView tvAddBookSheet = (TextView) bsdDialog.getWindow().findViewById(R.id.tv_add_book_sheet);
+            tvAddBookSheet.setOnClickListener(this);
             LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
             rvBookSheets.setLayoutManager(llm);
             RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
@@ -131,6 +129,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             mbsAdapter.setOnItemClickListener(this);
             rvBookSheets.setAdapter(mbsAdapter);
             bsdDialog.setCancelable(true);
+
         }
     }
 
@@ -162,6 +161,10 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             sivRecommendReason.setOnClickListener(this);
             sivAddToBs.setOnClickListener(this);
             sivDelete.setOnClickListener(this);
+            if (isMe) {
+                sivRecommendReason.setVisibility(View.VISIBLE);
+                sivDelete.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -198,6 +201,11 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                     presenter.bookSheetDelBook(currClickSheetBook.getSheetBookId());
                 }
                 break;
+            case R.id.tv_add_book_sheet: {
+                Intent intent = new Intent(this, CreateBookSheetActivity.class);
+                startActivityForResult(intent, REQUEST_CODE_BOOK_SHEET_CREATE);
+                break;
+            }
         }
     }
 
@@ -216,10 +224,16 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
     }
 
     @Override
+    public void showOperas() {
+        setOperasDrawable(R.drawable.titlebar_edit_selector);
+        super.showOperas();
+    }
+
+    @Override
     public void onBookSheetDetail(BookSheetDetail detail) {
         bookSheetDetail = detail;
-        User user = BaseApp.getInstance().getUser();
-        if (user != null && bookSheetDetail.getUserId() == user.getUserId()) {
+        isMe = BaseApp.getInstance().isMe(bookSheetDetail.getUserId());
+        if (isMe) {
             showOperas();
             if (bookSheetDetail.getSheetBookList() != null && !bookSheetDetail.getSheetBookList().isEmpty()) {
 
@@ -227,7 +241,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
         } else {
             hideOpears();
         }
-        ((BookSheetDetailAdapter) rvDetail.getAdapter()).setData(detail);
+        ((BookSheetDetailAdapter) rvDetail.getAdapter()).setData(detail, isMe);
     }
 
     @Override
@@ -331,15 +345,6 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
             }
             case OPERA_TYPE_ADD: {
                 currClickSheetBook = sheetBook;
-//                initItemMenu();
-//                if (pwItemMenu.isShowing()) {
-//                    pwItemMenu.dismiss();
-//                }
-//                int[] locs = new int[2];
-//                v.getLocationOnScreen(locs);
-//                int y = locs[1] - getResources().getDimensionPixelSize(R.dimen.item_popup_menu_height) + v
-// .getHeight() / 2;
-//                pwItemMenu.showAtLocation(v, Gravity.NO_GRAVITY, locs[0], y);
                 showBsdOperas();
                 tvBsdOperaBookName.setText(sheetBook.getTitle());
                 break;
@@ -368,7 +373,19 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 if (resultCode == RESULT_OK) {
                     presenter.getBookSheetDetail(sheetId);
                 }
+                break;
             }
+            case REQUEST_CODE_BOOK_SHEET_CREATE:
+                if (resultCode == RESULT_OK) {
+                    long sheetId = data.getIntExtra("sheetId", -1);
+                    if (bsdDialog != null && bsdDialog.isShowing()) {
+                        bsdDialog.dismiss();
+                    }
+                    if (currClickSheetBook != null) {
+                        presenter.bookSheetAddBook(sheetId, currClickSheetBook.getBookId());
+                    }
+                }
+                break;
         }
     }
 

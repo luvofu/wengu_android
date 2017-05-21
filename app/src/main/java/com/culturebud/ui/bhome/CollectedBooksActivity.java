@@ -98,10 +98,13 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         bnvOperas = obtainViewById(R.id.bnv_operas);
         switchRvMarginBottom(false);
 
+
         if (BaseApp.getInstance().isMe(userId)) {
             setOperasDrawable(R.drawable.titlebar_add_selector);
+            showOperas();
         } else {
             fabEditBooks.hide();
+            hideOpears();
         }
 
         bnvOperas.setOnNavigationItemReselectedListener(this);
@@ -187,7 +190,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             rvBooks.addItemDecoration(hdivider);
             rvBooks.addOnScrollListener(recyclerScrollerListener);
             CollectedBooksAdapter adapter = new CollectedBooksAdapter();
-            adapter.setMe(userId);
+            adapter.setMe(BaseApp.getInstance().isMe(userId));
             adapter.setOnItemClickListener(this);
             rvBooks.setAdapter(adapter);
         }
@@ -284,8 +287,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         if (ppwCategory == null) {
             ppwCategory = new PopupWindow(this, null, R.style.PopupWindow);
             ppwCategory.setBackgroundDrawable(new ColorDrawable(0x55333333));
-            ppwCategory.setOutsideTouchable(false);
             ppwCategory.setFocusable(true);
+            ppwCategory.setOutsideTouchable(false);
             View view = getLayoutInflater().inflate(R.layout.dlg_user_book_category_type, null);
             btnAll = WidgetUtil.obtainViewById(view, R.id.btn_all);
             tflClc = WidgetUtil.obtainViewById(view, R.id.tfl_clc);

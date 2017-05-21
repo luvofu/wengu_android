@@ -60,9 +60,6 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     @Override
     protected void onOptions(View view) {
         super.onOptions(view);
-//        startActivityForResult(new Intent(this, CreateNotebookActivity.class), REQUEST_CREATE_NOTEBOOK);
-
-        //此处需要打开个人书籍列表页面，选一本即可创建笔记本.
         Intent intent = new Intent(this, SelectBookActivity.class);
         startActivityForResult(intent, REQUEST_CODE_SELECT_BOOK);
     }
@@ -70,17 +67,20 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
     @Override
     protected void onResume() {
         super.onResume();
+
         Intent intent = getIntent();
         User user = BaseApp.getInstance().getUser();
         long defaultId = user != null ? user.getUserId() : -1;
         userId = intent.getLongExtra("user_id", defaultId);
-        if (BaseApp.getInstance().isMe(userId)) {
-            showOperas();
+
+        boolean isMe = BaseApp.getInstance().isMe(userId);
+        if (!isMe) {
             setOperasDrawable(R.drawable.titlebar_add_selector);
+            showOperas();
         } else {
             hideOpears();
         }
-        ((NotebookAdapter) rvNotebooks.getAdapter()).setUserId(userId);
+        ((NotebookAdapter) rvNotebooks.getAdapter()).setMe(isMe);
         presenter.userNotebooks(currentPage, userId);
     }
 
