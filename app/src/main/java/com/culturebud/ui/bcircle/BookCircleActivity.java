@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
@@ -19,7 +20,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -48,6 +48,8 @@ import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.ui.search.SelectUserActivity;
+import com.culturebud.util.ClassUtil;
+import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -82,25 +84,29 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     private SwipeRefreshLayout swipeRefreshLayout;
     private Toolbar tlb;
     private CollapsingToolbarLayout ctl;
+    private TextView titleview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.book_circle_activity);
         presenter.setView(this);
-//        showTitlebar();
-//        showBack();
-//        showOperas();
-//        setOperasDrawable(R.drawable.titlebar_add_selector);
-//        getToolbar().setBackgroundColor(Color.TRANSPARENT);
+
         tlb = obtainViewById(R.id.tlb);
         tlb.setTitle("");
         ctl = obtainViewById(R.id.collapsing_toolbar_layout);
         ctl.setTitle("");
         ctl.setExpandedTitleColor(Color.TRANSPARENT);
         setSupportActionBar(tlb);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.titlebar_back_selector);
+
+
+        View view = obtainViewById(R.id.toolbarContent);
+        int topMargin = 0;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            int statusBarheight = SystemParameterUtil.getStatusHeight(this);
+            topMargin = statusBarheight;
+        }
+        ClassUtil.setMargins(view, 0, topMargin, 0, 0);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -113,6 +119,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         tvNick = obtainViewById(R.id.tv_nick_name);
         swipeRefreshLayout = obtainViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setProgressViewOffset(true, -20, 100);
+        titleview = obtainViewById(R.id.bctitleview);
 
         rvDynamics = obtainViewById(R.id.rv_content);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -128,16 +135,6 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         currentPage = 0;
         presenter.downloadBgImg();
         presenter.loadDynamics(currentPage);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private BottomSheetDialog deleteDialog;
@@ -228,6 +225,23 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         abl.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
             rvDynamics.setEnabled(verticalOffset == 0);
             swipeRefreshLayout.setEnabled(verticalOffset == 0);
+
+            User user = BaseApp.getInstance().getUser();
+            if (user == null) {
+                return;
+            }
+            int appbarHeight = abl.getHeight();
+
+            if (verticalOffset < -appbarHeight / 2) {
+                //显示title.
+                titleview.setText(user.getNickname());
+
+                if (titleview.getVisibility() != View.VISIBLE) {
+                    titleview.setVisibility(View.VISIBLE);
+                }
+            } else {
+                titleview.setVisibility(View.INVISIBLE);
+            }
         });
     }
 
@@ -277,6 +291,10 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
+            case R.id.bcback: {
+                finish();
+                break;
+            }
             case R.id.iv_operas: {
                 onOptions(v);
                 break;

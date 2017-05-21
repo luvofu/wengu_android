@@ -146,9 +146,12 @@ public class BookDetailActivity extends BaseActivity<BookDetailContract.Presente
             float originY = tvBookName.getY() + tvBookName.getHeight();
             if (verticalOffset < -originY) {
                 //显示title.
-                if (bookDetail != null && !TextUtils.isEmpty(bookDetail.getTitle()) && titleView.getVisibility() != View.VISIBLE) {
+                if (bookDetail != null && !TextUtils.isEmpty(bookDetail.getTitle())) {
                     titleView.setText(bookDetail.getTitle());
-                    titleView.setVisibility(View.VISIBLE);
+
+                    if (titleView.getVisibility() != View.VISIBLE) {
+                        titleView.setVisibility(View.VISIBLE);
+                    }
                 }
             } else {
                 titleView.setVisibility(View.INVISIBLE);
