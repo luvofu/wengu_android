@@ -11,21 +11,15 @@ import android.widget.TextView;
 import com.culturebud.BaseActivity;
 import com.culturebud.CommonConst;
 import com.culturebud.R;
-import com.culturebud.adapter.BookScanResultAdapter;
 import com.culturebud.adapter.BooksSimpleAdapter;
 import com.culturebud.annotation.PresenterInject;
-import com.culturebud.bean.Book;
-import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
-import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.contract.SelectBookContract;
-import com.culturebud.presenter.CollectedBooksPresenter;
 import com.culturebud.presenter.SelectBookPresenter;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 /**
  * Created by XieWei on 2017/1/9.
@@ -62,10 +56,9 @@ public class SelectBookActivity extends BaseActivity<SelectBookContract.Presente
         int categoryType = intent.getIntExtra("category_type", CommonConst.UserBookCategoryType.TYPE_ALL);
         String category = intent.getStringExtra("category");
         if (TextUtils.isEmpty(category)) {
-            presenter.getMyBooks(0);
-        } else {
-            presenter.getMyBooks(0, categoryType, category);
+            category = "全部";
         }
+        presenter.getMyBooks(0, categoryType, category);
     }
 
     @Override

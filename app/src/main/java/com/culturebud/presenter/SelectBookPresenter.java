@@ -23,34 +23,6 @@ public class SelectBookPresenter extends SelectBookContract.Presenter {
     }
 
     @Override
-    public void getMyBooks(int page) {
-        if (!validateToken()) {
-            return;
-        }
-        User user = BaseApp.getInstance().getUser();
-        model.getCollectedBooks(user.getToken(), user.getUserId(), page).subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<CollectedBook>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(List<CollectedBook> collectedBooks) {
-                        if (collectedBooks != null && !collectedBooks.isEmpty()) {
-                            view.onBooks(collectedBooks);
-                        }
-                    }
-                });
-    }
-
-    @Override
     public void getMyBooks(int page, int categoryType, String category) {
         if (!validateToken()) {
             return;

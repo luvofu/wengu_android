@@ -19,7 +19,6 @@ public interface SelectBookContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void getMyBooks(int page);
 
         public abstract void getMyBooks(int page, int categoryType, String category);
     }

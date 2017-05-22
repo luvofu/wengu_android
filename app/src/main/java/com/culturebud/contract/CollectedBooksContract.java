@@ -17,7 +17,6 @@ import rx.Observable;
 public interface CollectedBooksContract {
 
     abstract class Model extends CustomCategoriesModel {
-        public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page);
 
         public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page, int
                 categoryType, String category);
@@ -47,7 +46,6 @@ public interface CollectedBooksContract {
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void getCollectedBooks(long userId, int page);
 
         public abstract void getCollectedBooks(long userId, int page, int categoryType, String category);
 
@@ -57,8 +55,9 @@ public interface CollectedBooksContract {
 
         public abstract void alterReadStatus(Set<CollectedBook> userBooks, int readStatus);
 
-        public abstract void customCategories();
-
         public abstract void moveBook2CustomCategory(Set<CollectedBook> books, String category);
+
+        public abstract void getCustomCategories(BookCategoryGroup categoryGroup);
+
     }
 }

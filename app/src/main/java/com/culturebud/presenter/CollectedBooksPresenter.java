@@ -1,6 +1,7 @@
 package com.culturebud.presenter;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
@@ -9,6 +10,7 @@ import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.model.CollectedBooksModel;
 import com.culturebud.util.ApiException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,34 +28,6 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
         setModel(new CollectedBooksModel());
     }
 
-    @Override
-    public void getCollectedBooks(long userId, int page) {
-        if (!validateToken()) {
-            return;
-        }
-        User user = BaseApp.getInstance().getUser();
-        model.getCollectedBooks(user.getToken(), userId == -1 ? user.getUserId() : userId, page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<CollectedBook>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(List<CollectedBook> collectedBooks) {
-                        if (collectedBooks != null && !collectedBooks.isEmpty()) {
-                            view.onBooks(collectedBooks);
-                        }
-                    }
-                });
-    }
 
     @Override
     public void getCollectedBooks(long userId, int page, int categoryType, String category) {
@@ -165,31 +139,43 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
     }
 
     @Override
-    public void customCategories() {
-        if (!validateToken()) {
-            return;
+    public void getCustomCategories(BookCategoryGroup categoryGroup) {
+//        if (!validateToken()) {
+//            return;
+//        }
+//        model.getCustomCategories(BaseApp.getInstance().getUser().getToken())
+//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Subscriber<List<Category>>() {
+//                    @Override
+//                    public void onCompleted() {
+//
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        e.printStackTrace();
+//                        if (e instanceof ApiException) {
+//                            view.onErrorTip(e.getMessage());
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onNext(List<Category> categories) {
+//                        view.onCustomCategories(categories);
+//                    }
+//                });
+        List<Category> categories = new ArrayList<>();
+        for (BookCategoryGroup.CategoryGroup cg : categoryGroup.getCategoryGroups()) {
+            if (cg.getCategoryType() == CommonConst.UserBookCategoryType.TYPE_CUSTOM) {
+                for (BookCategoryGroup.Category category : cg.getCategoryStatistics()) {
+                    Category c = new Category();
+                    c.setCategory(category.getCategory());
+                    c.setStatis(category.getStatistics());
+                    categories.add(c);
+                }
+            }
         }
-        model.customCategories(BaseApp.getInstance().getUser().getToken())
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Category>>() {
-                    @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
-                    }
-
-                    @Override
-                    public void onNext(List<Category> categories) {
-                        view.onCustomCategories(categories);
-                    }
-                });
+        view.onCustomCategories(categories);
     }
 
     @Override

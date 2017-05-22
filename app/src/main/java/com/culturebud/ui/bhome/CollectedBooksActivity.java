@@ -15,7 +15,6 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,7 +64,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public static final String TYPE_KEY = "opera_type";
     public static final String USER_ID_KEY = "user_id";
     private RecyclerView rvBooks;
-    private int currentPage;
+    private int currentPage = 0;
     private int currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
     private String currentCategory = "全部";
     private boolean loading = true;
@@ -90,7 +89,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         long defaultId = user != null ? user.getUserId() : -1;
         userId = intent.getLongExtra(USER_ID_KEY, defaultId);
         showTitlebar();
-        setTitle(R.string.book_shelf);
+        setTitle("");
         setTitleRightIcon(R.mipmap.ic_arrow_white_down);
 
         rvBooks = obtainViewById(R.id.rv_collected_books);
@@ -112,9 +111,14 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         fabEditBooks.setOnClickListener(this);
 
         initList();
-        presenter.getCollectedBooks(userId, currentPage);
+        initCategoryDlg();
+        initCustomCategoriesDlg();
+
+        presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+        presenter.getCategoryStatistics(userId);
     }
 
+    //右上角加号编辑
     private void initMoreOperas(List<MoreOperaItemsAdapter.MoreOperaItemBean> items) {
         if (bsdMoreOperas == null) {
             bsdMoreOperas = new BottomSheetDialog(this);
@@ -234,7 +238,6 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
 
     @Override
     public void onBackPressed() {
-//        super.onBackPressed();
         if (((CollectedBooksAdapter) rvBooks.getAdapter()).inModel(CollectedBooksAdapter.MODEL_CHECK)) {
             switchModel(CollectedBooksAdapter.MODEL_EDIT);
         } else {
@@ -283,6 +286,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     private Button btnAll;
     private TagFlowLayout tflClc, tflCustom, tflOther;
 
+    //标题栏藏书分类
     private void initCategoryDlg() {
         if (ppwCategory == null) {
             ppwCategory = new PopupWindow(this, null, R.style.PopupWindow);
@@ -302,7 +306,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
                 currentCategory = "全部";
-                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
+                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
             });
 
             tflClc.setOnSelectListener(selectPosSet -> {
@@ -314,9 +318,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_NORMAL;
                 currentCategory = category.getCategory();
-                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_NORMAL, category
-                        .getCategory
-                                ());
+                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
             });
 
             tflCustom.setOnSelectListener(selectPosSet -> {
@@ -328,9 +330,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_CUSTOM;
                 currentCategory = category.getCategory();
-                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_CUSTOM, category
-                        .getCategory
-                                ());
+                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
             });
 
             tflOther.setOnSelectListener(selectPosSet -> {
@@ -342,8 +342,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currentPage = 0;
                 currentCategoryType = CommonConst.UserBookCategoryType.TYPE_OTHER;
                 currentCategory = category.getCategory();
-                presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_OTHER, category
-                        .getCategory());
+                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
             });
 
             ppwCategory.setContentView(view);
@@ -368,24 +367,16 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         lastClickTime = System.currentTimeMillis();
         if (ppwCategory == null || !ppwCategory.isShowing()) {
             showCategoryDlg();
-            Log.d("category", "is showing " + ppwCategory.isShowing());
-            presenter.getCategoryStatistics(userId);
         } else {
-            Log.d("category", "is showing " + ppwCategory.isShowing());
             hideCategoryDlg();
         }
     }
 
     private void showCategoryDlg() {
         setTitleRightIcon(R.mipmap.ic_arrow_white_up);
-        Log.d("category", "ppw = " + ppwCategory);
-        initCategoryDlg();
-        Log.d("category", "category is showing " + ppwCategory.isShowing());
         if (!ppwCategory.isShowing()) {
-//            ppwCategory.showAsDropDown(getToolbar());
-            ppwCategory.showAtLocation(getToolbar(), Gravity.NO_GRAVITY, 0, getToolbar().getBottom());
+            ppwCategory.showAsDropDown(getToolbar());
         }
-        Log.d("category", "ppw = " + ppwCategory);
     }
 
     private void hideCategoryDlg() {
@@ -417,38 +408,57 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void onCategoryStatistics(BookCategoryGroup categoryGroup) {
         if (categoryGroup != null) {
             this.categoryGroup = categoryGroup;
-            btnAll.setText("全部（" + categoryGroup.getTotal() + "）");
+            btnAll.setText("全部(" + categoryGroup.getTotal() + ")");
             List<BookCategoryGroup.CategoryGroup> categoryGroups = categoryGroup.getCategoryGroups();
+            BookCategoryGroup.CategoryGroup currCg = null;
             for (BookCategoryGroup.CategoryGroup cg : categoryGroups) {
                 if (cg.getCategoryType() == 1) {
                     tflClc.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
+                    if (currentCategoryType == 1) currCg = cg;
                 } else if (cg.getCategoryType() == 2) {
                     tflCustom.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
+                    if (currentCategoryType == 2) currCg = cg;
                 } else if (cg.getCategoryType() == 3) {
                     tflOther.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
+                    if (currentCategoryType == 3) currCg = cg;
+                }
+            }
+
+            if (currentCategoryType == 0) {
+                setTitle(btnAll.getText());
+            } else if (currCg != null) {
+                for (BookCategoryGroup.Category category : currCg.getCategoryStatistics()) {
+                    if (currentCategory.equals(category.getCategory())) {
+                        setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                    }
                 }
             }
         }
     }
 
+    //删除更新book statis
     @Override
     public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
         if (success) {
             currentPage = 0;
             presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+            presenter.getCategoryStatistics(userId);
         }
         switchModel(CollectedBooksAdapter.MODEL_EDIT);
     }
 
+    //阅读状态改变更新book statis
     @Override
     public void onAlterReadStatus(Set<CollectedBook> books, boolean success) {
         if (success) {
             currentPage = 0;
             presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+            presenter.getCategoryStatistics(userId);
         }
         switchModel(CollectedBooksAdapter.MODEL_EDIT);
     }
 
+    //设置分类更新book statis
     @Override
     public void onMove2Category(boolean success) {
         hideCustomCategoriesDlg();
@@ -456,7 +466,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             switchModel(CollectedBooksAdapter.MODEL_EDIT);
         }
         if (success) {
-            presenter.customCategories();
+            currentPage = 0;
+            presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+            presenter.getCategoryStatistics(userId);
         }
     }
 
@@ -502,7 +514,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                         .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 if (!loading && (lastPosition + 1 >= total)) {
-                    presenter.getCollectedBooks(userId, ++currentPage);
+                    presenter.getCollectedBooks(userId, ++currentPage, currentCategoryType, currentCategory);
                     loading = true;
                 }
             } else {
@@ -610,13 +622,12 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             });
             rvCategories.setAdapter(adapter);
         }
-        presenter.customCategories();
     }
 
     public void showCustomCategoriesDlg() {
-        initCustomCategoriesDlg();
         if (!bsdCustomCategories.isShowing()) {
             bsdCustomCategories.show();
+            presenter.getCustomCategories(categoryGroup);
         }
     }
 
@@ -634,20 +645,20 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 if (RESULT_OK == resultCode) {
                     String content = data.getStringExtra("content");
                     if (!TextUtils.isEmpty(content)) {
-                        presenter.moveBook2CustomCategory(((CollectedBooksAdapter) rvBooks.getAdapter())
-                                .getCheckedBooks(), content);
+                        presenter.moveBook2CustomCategory(((CollectedBooksAdapter) rvBooks.getAdapter()).getCheckedBooks(), content);
                     }
                 }
                 break;
             case CommonConst.RequestCode.REQUEST_CODE_EDIT_CUSTOMCATEGORY:
                 if (RESULT_OK == resultCode) {
-                    //编辑了分类，需要刷新数据.(因为无法获知编辑的具体项，所以回来刷新全部数据）
+                    //编辑了分类更新book statis
                     currentPage = 0;
-                    setTitle(btnAll.getText());
+                    setTitle("");
                     currentPage = 0;
                     currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
                     currentCategory = "全部";
-                    presenter.getCollectedBooks(userId, currentPage, CommonConst.UserBookCategoryType.TYPE_ALL, "全部");
+                    presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+                    presenter.getCategoryStatistics(userId);
                 }
                 break;
         }
