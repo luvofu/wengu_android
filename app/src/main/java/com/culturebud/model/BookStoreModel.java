@@ -57,7 +57,7 @@ public class BookStoreModel extends BookStoreContract.Model {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
+                        subscriber.onError(e);
                     }
 
                     @Override

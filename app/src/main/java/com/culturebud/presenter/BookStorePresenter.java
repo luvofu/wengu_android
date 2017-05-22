@@ -6,6 +6,7 @@ import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.User;
 import com.culturebud.contract.BookStoreContract;
 import com.culturebud.model.BookStoreModel;
+import com.culturebud.util.ApiException;
 
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class BookStorePresenter extends BookStoreContract.Presenter {
     public BookStorePresenter() {
         setModel(new BookStoreModel());
     }
+
     @Override
     public void getBooks(int page, int sortType, String filterType) {
         User user = BaseApp.getInstance().getUser();
@@ -29,29 +31,39 @@ public class BookStorePresenter extends BookStoreContract.Presenter {
         if (user != null) {
             token = user.getToken();
         }
+
+        view.showLoadingView(page != 0);
         model.getBooks(token, page, sortType, filterType).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<List<Book>>() {
-            @Override
-            public void onCompleted() {
+                .subscribe(new Subscriber<List<Book>>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hiddenNoDataView();
+                    }
 
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        view.hiddenNoDataView();
 
-            @Override
-            public void onError(Throwable e) {
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        if (page == 0) {
+                            view.showErrorView(errorMessage);
+                        } else {
+                            view.onErrorTip(errorMessage);
+                        }
+                    }
 
-            }
+                    @Override
+                    public void onNext(List<Book> books) {
+                        if (books != null && books.size() > 0) {
+                            view.onShowBooks(books);
+                            cacheBooks(books);
+                        } else {
 
-            @Override
-            public void onNext(List<Book> books) {
-                if (books != null && books.size() > 0) {
-                    view.onShowBooks(books);
-                    cacheBooks(books);
-                } else {
-
-                }
-            }
-        });
+                        }
+                    }
+                });
     }
 
     @Override
@@ -61,17 +73,27 @@ public class BookStorePresenter extends BookStoreContract.Presenter {
         if (user != null) {
             token = user.getToken();
         }
+
+        view.showLoadingView(page != 0);
         model.getBookSheets(token, page, sortType, filterType).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<BookSheet>>() {
                     @Override
                     public void onCompleted() {
-
+                        view.hiddenNoDataView();
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        view.hiddenNoDataView();
+
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        if (page == 0) {
+                            view.showErrorView(errorMessage);
+                        } else {
+                            view.onErrorTip(errorMessage);
+                        }
                     }
 
                     @Override
@@ -88,27 +110,27 @@ public class BookStorePresenter extends BookStoreContract.Presenter {
     @Override
     public void cacheBooks(List<Book> books) {
         model.cacheBooks(books).subscribeOn(Schedulers.io())
-        .subscribe(new Subscriber<Boolean>() {
-            @Override
-            public void onCompleted() {
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
 
-            @Override
-            public void onNext(Boolean aBoolean) {
+                    @Override
+                    public void onNext(Boolean aBoolean) {
 
-            }
-        });
+                    }
+                });
     }
 
     @Override
     public void getFiltersByIsBookSheets(boolean isBookSheets) {
-        if(isBookSheets){
+        if (isBookSheets) {
             model.getBookSheetFilters().subscribeOn(Schedulers.io())
                     .subscribe(new Subscriber<List<String>>() {
                         @Override
@@ -126,7 +148,7 @@ public class BookStorePresenter extends BookStoreContract.Presenter {
                             view.initFilters(filters);
                         }
                     });
-        }else{
+        } else {
             model.getBookFilters().subscribeOn(Schedulers.io())
                     .subscribe(new Subscriber<List<String>>() {
                         @Override

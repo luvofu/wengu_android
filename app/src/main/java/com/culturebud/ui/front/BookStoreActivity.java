@@ -63,6 +63,8 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         showTitlebar();
         initView();
 
+        setNoDataView(R.id.main_multiplestatusview);
+
         if (isBookSheets) {
             setTitle(R.string.book_sheet_store);
             rbScore.setText("收藏量");
@@ -348,6 +350,15 @@ public class BookStoreActivity extends BaseActivity<BookStoreContract.Presenter>
         } else {
             presenter.getBooks(0, sortType, filterType);
             ((BooksAdapter) rvBooks.getAdapter()).clearData();
+        }
+    }
+
+    @Override
+    public void onRetryData() {
+        onRefresh();
+
+        if (filterList == null || filterList.isEmpty()) {
+            presenter.getFiltersByIsBookSheets(isBookSheets);
         }
     }
 }
