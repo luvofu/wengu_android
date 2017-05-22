@@ -91,44 +91,4 @@ public class BookCategoryGroup {
                     '}';
         }
     }
-
-    public class Category {
-        @SerializedName("category")
-        private String category;
-        @SerializedName("statis")
-        private int statistics;
-        private CategoryGroup group;
-
-        public CategoryGroup getGroup() {
-            return group;
-        }
-
-        public void setGroup(CategoryGroup group) {
-            this.group = group;
-        }
-
-        public String getCategory() {
-            return category;
-        }
-
-        public void setCategory(String category) {
-            this.category = category;
-        }
-
-        public int getStatistics() {
-            return statistics;
-        }
-
-        public void setStatistics(int statistics) {
-            this.statistics = statistics;
-        }
-
-        @Override
-        public String toString() {
-            return "Category{" +
-                    "category='" + category + '\'' +
-                    ", statistics=" + statistics +
-                    '}';
-        }
-    }
 }
