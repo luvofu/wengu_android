@@ -94,7 +94,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         long defaultId = user != null ? user.getUserId() : -1;
         userId = intent.getLongExtra(USER_ID_KEY, defaultId);
         showTitlebar();
-        setTitle("");
+        setTitle("全部");
         setTitleRightIcon(R.mipmap.ic_arrow_white_down);
 
         rvBooks = obtainViewById(R.id.rv_collected_books);
