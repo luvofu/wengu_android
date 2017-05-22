@@ -675,5 +675,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     @Override
     public void onRetryData() {
         presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
+
+        if (cgMap.isEmpty()) {
+            presenter.getCategoryStatistics(userId);
+        }
     }
 }

@@ -76,7 +76,6 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
             return;
         }
         User user = BaseApp.getInstance().getUser();
-        view.showLoadingView(true);
         model.getCategoryStatistics(user.getToken(), userId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BookCategoryGroup>() {
@@ -87,17 +86,15 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        view.hiddenNoDataView();
                         e.printStackTrace();
 
-                        String errorMessage = ApiException.getErrorMessage(e);
-
-                        view.onErrorTip(errorMessage);
+//                        String errorMessage = ApiException.getErrorMessage(e);
+//
+//                        view.onErrorTip(errorMessage);
                     }
 
                     @Override
                     public void onNext(BookCategoryGroup res) {
-                        view.hiddenNoDataView();
                         view.onCategoryStatistics(res);
                     }
                 });
