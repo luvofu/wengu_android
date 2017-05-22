@@ -283,6 +283,10 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         getNoDataView().showLoading();
     }
 
+    public void  showLoadingView(boolean showContentView) {
+        getNoDataView().showLoading(showContentView);
+    }
+
     public void showNoDataView(String nodataDesc) {
         getNoDataView().showNoDataView(nodataDesc);
     }

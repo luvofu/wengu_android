@@ -14,8 +14,11 @@ public interface BaseView {
 
     void onErrorTip(String tip);
 
-    //显示加载视图
+    //显示加载视图, 默认不显示内容视图.
     void  showLoadingView();
+
+    //显示加载视图，加载时是不是显示内容视图.
+    void showLoadingView(boolean showContentView);
 
     //显示无数据视图
     void showNoDataView(String nodataDesc);

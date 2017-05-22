@@ -138,6 +138,12 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         }
     }
 
+    public void  showLoadingView(boolean showContentView) {
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).showLoadingView(showContentView);
+        }
+    }
+
     public void showNoDataView(String nodataDesc) {
         if (getActivity() instanceof BaseActivity) {
             ((BaseActivity) getActivity()).showNoDataView(nodataDesc);

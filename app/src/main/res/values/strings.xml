@@ -180,4 +180,9 @@
     <!--录入藏书状态-->
     <string name="added">已添加</string>
 
+    <!--状态视图-->
+    <string name="empty_view_hint">暂无数据</string>
+    <string name="error_view_hint">数据请求错误，请稍后再试</string>
+    <string name="no_network_view_hint">网络请求失败，请检查您的网络</string>
+
 </resources>

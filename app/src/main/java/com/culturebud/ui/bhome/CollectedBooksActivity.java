@@ -83,6 +83,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.collected_books);
+
+        setNoDataView(R.id.main_multiplestatusview);
+
         presenter.setView(this);
         Intent intent = getIntent();
         opreaType = intent.getIntExtra(TYPE_KEY, 0);
@@ -397,17 +400,24 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
 
     @Override
     public void onBooks(List<CollectedBook> books) {
-        if (opreaType == TYPE_SELECT) {
-            if (currentPage == 0) {
+        if (currentPage == 0) {
+            //第一页无数据，需要刷新.
+            if (opreaType == TYPE_SELECT) {
                 ((CollectedBooksVerticalAdapter) rvBooks.getAdapter()).clearData();
-            }
-            ((CollectedBooksVerticalAdapter) rvBooks.getAdapter()).addItems(books);
-        } else {
-            if (currentPage == 0) {
+            } else {
                 ((CollectedBooksAdapter) rvBooks.getAdapter()).clearData();
             }
-            ((CollectedBooksAdapter) rvBooks.getAdapter()).addItems(books);
         }
+
+        //有数据，加到适配器
+        if (books != null && !books.isEmpty()) {
+            if (opreaType == TYPE_SELECT) {
+                ((CollectedBooksVerticalAdapter) rvBooks.getAdapter()).addItems(books);
+            } else {
+                ((CollectedBooksAdapter) rvBooks.getAdapter()).addItems(books);
+            }
+        }
+
         loading = false;
     }
 
@@ -651,5 +661,10 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onRetryData() {
+        presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
     }
 }

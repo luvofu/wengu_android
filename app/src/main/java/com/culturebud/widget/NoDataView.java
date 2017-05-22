@@ -4,7 +4,8 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
-import com.classic.common.MultipleStatusView;
+import com.culturebud.R;
+
 
 /**
  * Created by Dana on 17/5/21.
@@ -19,7 +20,7 @@ public class NoDataView extends MultipleStatusView {
         nodataTextView.setText(nodataTitle);
     }
 
-    public void  setErrorTitle(String errorTitle) {
+    public void setErrorTitle(String errorTitle) {
         errorTextView.setText(errorTitle);
     }
 
@@ -38,17 +39,18 @@ public class NoDataView extends MultipleStatusView {
     public void showNoDataView(String nodataTitle) {
         showEmpty();
 
-        nodataTextView = (TextView) findViewById(com.classic.common.R.id.empty_view_tv);
+        nodataTextView = (TextView) findViewById(R.id.empty_view_tv);
 
         if (nodataTextView != null) {
             setNodataTitle(nodataTitle);
         }
     }
 
-    public void  showErrorView(String errorDesc) {
+
+    public void showErrorView(String errorDesc) {
         showError();
 
-        errorTextView = (TextView)findViewById(com.classic.common.R.id.error_view_tv);
+        errorTextView = (TextView) findViewById(R.id.error_view_tv);
 
         if (errorTextView != null) {
             setErrorTitle(errorDesc);
@@ -56,7 +58,7 @@ public class NoDataView extends MultipleStatusView {
     }
 
     public void hiddenNoDataView() {
-        showContent();
+        hiddenStatusView();
 
         setOnRetryClickListener(null);
     }
