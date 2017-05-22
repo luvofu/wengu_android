@@ -1,38 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+
+<com.culturebud.widget.NoDataView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_content"
+    android:id="@+id/main_multiplestatusview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/book_marks_bg">
+    app:emptyView="@layout/empty_view"
+    app:errorView="@layout/error_view"
+    app:loadingView="@layout/loading_view"
+    app:noNetworkView="@layout/no_network_view">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_collected_books"
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/common_margin_bigger"/>
+        android:background="@color/book_marks_bg">
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_edit_books"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end|bottom"
-        android:layout_margin="@dimen/fab_margin"
-        android:src="@mipmap/icon_floating_action_btn"
-        app:backgroundTint="@color/edit_books_action"
-        app:elevation="4dp"
-        app:fabSize="mini"
-        app:rippleColor="@color/login_btn_pressed"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_collected_books"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="@dimen/common_margin_bigger" />
 
-    <android.support.design.widget.BottomNavigationView
-        android:id="@+id/bnv_operas"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:visibility="gone"
-        app:itemBackground="@android:color/white"
-        app:itemTextColor="@color/dark_gray"
-        app:itemIconTint="#20999D"
-        app:menu="@menu/menu_bottom_nav"/>
-</android.support.design.widget.CoordinatorLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab_edit_books"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|bottom"
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@mipmap/icon_floating_action_btn"
+            app:backgroundTint="@color/edit_books_action"
+            app:elevation="4dp"
+            app:fabSize="mini"
+            app:rippleColor="@color/login_btn_pressed" />
+
+        <android.support.design.widget.BottomNavigationView
+            android:id="@+id/bnv_operas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:visibility="gone"
+            app:itemBackground="@android:color/white"
+            app:itemIconTint="#20999D"
+            app:itemTextColor="@color/dark_gray"
+            app:menu="@menu/menu_bottom_nav" />
+    </android.support.design.widget.CoordinatorLayout>
+</com.culturebud.widget.NoDataView>

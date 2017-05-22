@@ -132,4 +132,48 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         return false;
     }
 
+    public void  showLoadingView() {
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).showLoadingView();
+        }
+    }
+
+    public void  showLoadingView(boolean showContentView) {
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).showLoadingView(showContentView);
+        }
+    }
+
+    public void showNoDataView(String nodataDesc) {
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).showNoDataView(nodataDesc);
+        }
+    }
+
+    public void hiddenNoDataView() {
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).hiddenNoDataView();
+        }
+    }
+
+    public void  showErrorView(String errorDesc) {
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).showErrorView(errorDesc, view -> {
+                onRetryData();
+            });
+        }
+    }
+
+    public void showNoNetView() {
+        if (getActivity() instanceof BaseActivity) {
+            ((BaseActivity) getActivity()).showNoNetworkView(view -> {
+                onRetryData();
+            });
+        }
+    }
+
+    public void onRetryData() {
+        //子类需要刷新的都需要重载.
+    }
+
 }

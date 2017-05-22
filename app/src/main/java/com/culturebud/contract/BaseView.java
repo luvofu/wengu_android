@@ -13,4 +13,25 @@ public interface BaseView {
     void onToLogin();
 
     void onErrorTip(String tip);
+
+    //显示加载视图, 默认不显示内容视图.
+    void  showLoadingView();
+
+    //显示加载视图，加载时是不是显示内容视图.
+    void showLoadingView(boolean showContentView);
+
+    //显示无数据视图
+    void showNoDataView(String nodataDesc);
+
+    //显示错误视图.
+    void  showErrorView(String errorDesc);
+
+    //显示无网络视图.
+    void showNoNetView();
+
+    //隐藏视图.
+    void hiddenNoDataView();
+
+    //无网络或错误视图点击之后回调.
+    void onRetryData();
 }

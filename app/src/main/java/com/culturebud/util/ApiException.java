@@ -1,5 +1,10 @@
 package com.culturebud.util;
 
+import android.text.TextUtils;
+
+import com.culturebud.BaseApp;
+import com.culturebud.R;
+
 /**
  * Created by XieWei on 2016/11/7.
  */
@@ -12,7 +17,30 @@ public class ApiException extends Exception {
         this.code = errCode;
     }
 
+    @Override
+    public String getMessage() {
+        if (!TextUtils.isEmpty(getMessage())) {
+            return super.getMessage();
+        }
+
+        return BaseApp.getInstance().getResources().getString(R.string.error_view_hint);
+    }
+
     public int getCode() {
         return code;
     }
+
+    public static String getErrorMessage(Throwable e) {
+        String errorMessage = e.getMessage();
+        if (!SystemParameterUtil.isNetWorkConnected()) {
+            errorMessage = BaseApp.getInstance().getString(R.string.no_network_view_hint);
+        } else if (TextUtils.isEmpty(errorMessage)) {
+            errorMessage = BaseApp.getInstance().getResources().getString(R.string.error_view_hint);
+        }
+
+        return errorMessage;
+    }
 }
+
+
+

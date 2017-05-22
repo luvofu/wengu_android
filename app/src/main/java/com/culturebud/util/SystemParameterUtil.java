@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.DisplayMetrics;
 
 import com.culturebud.BaseApp;
@@ -60,6 +62,17 @@ public class SystemParameterUtil {
 
     public static float getDeviceDensity() {
         return BaseApp.getInstance().getResources().getDisplayMetrics().density;
+    }
+
+
+    public static boolean isNetWorkConnected() {
+        boolean isConnected = false;
+        ConnectivityManager cm = (ConnectivityManager) BaseApp.getInstance().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeInfo = cm.getActiveNetworkInfo();
+        if (activeInfo != null && activeInfo.isAvailable() && activeInfo.isConnected()) {
+            isConnected = true;
+        }
+        return isConnected;
     }
 
 }

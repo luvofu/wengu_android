@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
+import com.culturebud.widget.NoDataView;
 
 /**
  * Created by XieWei on 2016/11/1.
@@ -34,6 +35,20 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
     private EditText etTitle;
     private TextView tvOperas;
     private ViewGroup vgContent;
+
+    private NoDataView noDataView;
+
+    public NoDataView getNoDataView() {
+        return noDataView;
+    }
+
+    public void setNoDataView(NoDataView noDataView) {
+        this.noDataView = noDataView;
+    }
+
+    public void setNoDataView(int resID) {
+        this.noDataView = obtainViewById(resID);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +65,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         tvBack = obtainViewById(R.id.tv_back);
         etTitle = obtainViewById(R.id.et_title);
         tvOperas = obtainViewById(R.id.tv_operas);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -107,7 +123,7 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         etTitle.requestFocus();
         etTitle.findFocus();
 
-        int maxWidth = (int) (SystemParameterUtil.getScreenWdith() -  (15 * 2  + 40) * SystemParameterUtil.getDeviceDensity());
+        int maxWidth = (int) (SystemParameterUtil.getScreenWdith() - (15 * 2 + 40) * SystemParameterUtil.getDeviceDensity());
         etTitle.setMaxWidth(maxWidth);
         etTitle.setMinWidth(maxWidth);
         etTitle.setMinHeight((int) (30 * SystemParameterUtil.getDeviceDensity()));
@@ -120,11 +136,10 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         etTitle.setCompoundDrawables(left, null, null, null);
         int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_small);
         etTitle.setPadding(padding, padding, padding, padding);
-etTitle.setTextSize(12);
+        etTitle.setTextSize(12);
 //        int margin = padding + 4;
-        ClassUtil.setMargins(etTitle, padding,padding,padding,padding);
+        ClassUtil.setMargins(etTitle, padding, padding, padding, padding);
     }
-
 
 
     public void setSearchInputType(int inputType) {
@@ -269,7 +284,7 @@ etTitle.setTextSize(12);
     public void setContentView(View view, ViewGroup.LayoutParams params) {
         vgContent.addView(view, params);
     }
-    
+
     protected void onBack() {
 
     }

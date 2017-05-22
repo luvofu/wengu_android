@@ -1,5 +1,6 @@
 package com.culturebud.presenter;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.culturebud.BaseApp;
@@ -35,7 +36,7 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
         if (!validateToken()) {
             return;
         }
-        view.showProDialog();
+        view.showLoadingView();
         model.myFriends(BaseApp.getInstance().getUser().getToken())
                 .subscribeOn(Schedulers.io())
                 .filter(users -> {
@@ -59,17 +60,27 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
                 .subscribe(new Subscriber<List<User>>() {
                     @Override
                     public void onCompleted() {
-                        view.hideProDialog();
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        view.hideProDialog();
+                        view.hiddenNoDataView();
+
+                        if (!TextUtils.isEmpty(e.getMessage())) {
+                            view.showErrorView(e.getMessage());
+                        }
                     }
 
                     @Override
                     public void onNext(List<User> users) {
+                        view.hiddenNoDataView();
+
+                        if (users.isEmpty()) {
+                            view.showNoDataView("还没有好友，赶快添加吧");
+                        }
+
                         view.onFriends(users);
                     }
                 });

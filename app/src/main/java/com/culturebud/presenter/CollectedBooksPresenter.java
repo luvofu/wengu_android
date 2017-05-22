@@ -35,6 +35,8 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
             return;
         }
         User user = BaseApp.getInstance().getUser();
+
+        view.showLoadingView(page != 0);
         model.getCollectedBooks(user.getToken(), userId == -1 ? user.getUserId() : userId, page, categoryType, category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -46,11 +48,26 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hiddenNoDataView();
                         e.printStackTrace();
+
+                        String errorMessage = ApiException.getErrorMessage(e);
+
+                        if (page == 0) {
+                            view.showErrorView(errorMessage);
+                        } else {
+                            view.onErrorTip(errorMessage);
+                        }
                     }
 
                     @Override
                     public void onNext(List<CollectedBook> collectedBooks) {
+                        view.hiddenNoDataView();
+
+                        if (page == 0 && collectedBooks.isEmpty()) {
+                            view.showNoDataView("该分类尚无书籍");
+                        }
+
                         view.onBooks(collectedBooks);
                     }
                 });
@@ -62,6 +79,7 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
             return;
         }
         User user = BaseApp.getInstance().getUser();
+        view.showLoadingView(true);
         model.getCategoryStatistics(user.getToken(), userId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BookCategoryGroup>() {
@@ -72,11 +90,17 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hiddenNoDataView();
                         e.printStackTrace();
+
+                        String errorMessage = ApiException.getErrorMessage(e);
+
+                        view.onErrorTip(errorMessage);
                     }
 
                     @Override
                     public void onNext(BookCategoryGroup res) {
+                        view.hiddenNoDataView();
                         view.onCategoryStatistics(res);
                     }
                 });
@@ -87,6 +111,8 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showLoadingView(true);
         model.deleteUserBooks(BaseApp.getInstance().getUser().getToken(), userBooks)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
@@ -97,14 +123,17 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hiddenNoDataView();
                         e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
+
+                        String errorMessage = ApiException.getErrorMessage(e);
+
+                        view.onErrorTip(errorMessage);
                     }
 
                     @Override
                     public void onNext(Boolean aBoolean) {
+                        view.hiddenNoDataView();
                         view.onDeleteUserBooks(userBooks, aBoolean);
                     }
                 });
@@ -115,6 +144,8 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showLoadingView(true);
         model.alterReadStatus(BaseApp.getInstance().getUser().getToken(), userBooks, readStatus)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
@@ -125,14 +156,16 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hiddenNoDataView();
                         e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
+                        String errorMessage = ApiException.getErrorMessage(e);
+
+                        view.onErrorTip(errorMessage);
                     }
 
                     @Override
                     public void onNext(Boolean aBoolean) {
+                        view.hiddenNoDataView();
                         view.onAlterReadStatus(userBooks, aBoolean);
                     }
                 });
@@ -175,6 +208,7 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
                 }
             }
         }
+
         view.onCustomCategories(categories);
     }
 
@@ -183,6 +217,8 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showLoadingView(true);
         model.moveBook2CustomCategory(BaseApp.getInstance().getUser().getToken(), books, category)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
@@ -193,14 +229,15 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hiddenNoDataView();
                         e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.onErrorTip(e.getMessage());
                     }
 
                     @Override
                     public void onNext(Boolean aBoolean) {
+                        view.hiddenNoDataView();
                         view.onMove2Category(aBoolean);
                     }
                 });

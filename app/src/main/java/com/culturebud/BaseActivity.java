@@ -279,6 +279,52 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         }
     }
 
+    public void  showLoadingView() {
+        getNoDataView().showLoading();
+    }
+
+    public void  showLoadingView(boolean showContentView) {
+        getNoDataView().showLoading(showContentView);
+    }
+
+    public void showNoDataView(String nodataDesc) {
+        getNoDataView().showNoDataView(nodataDesc);
+    }
+
+    public void hiddenNoDataView() {
+        getNoDataView().hiddenNoDataView();
+    }
+
+    public void  showErrorView(String errorDesc) {
+        getNoDataView().setOnRetryClickListener(view -> {
+            onRetryData();
+        });
+
+        getNoDataView().showErrorView(errorDesc);
+    }
+
+    public void showNoNetView() {
+        getNoDataView().setOnRetryClickListener(view -> {
+            onRetryData();
+        });
+
+        getNoDataView().showNoNetwork();
+    }
+
+    public void onRetryData() {
+        //子类需要刷新的都需要重载.
+    }
+
+    public void showErrorView(String errorDesc, View.OnClickListener listener) {
+        getNoDataView().setOnClickListener(listener);
+        getNoDataView().showErrorView(errorDesc);
+    }
+
+    public void  showNoNetworkView(View.OnClickListener listener) {
+        getNoDataView().setOnClickListener(listener);
+        getNoDataView().showNoNetwork();
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
