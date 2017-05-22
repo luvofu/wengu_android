@@ -1,9 +1,7 @@
 package com.culturebud.contract;
 
 import com.culturebud.bean.BookCategoryGroup;
-import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
-import com.culturebud.model.CustomCategoriesModel;
 
 import java.util.List;
 import java.util.Set;
@@ -16,7 +14,7 @@ import rx.Observable;
 
 public interface CollectedBooksContract {
 
-    abstract class Model extends CustomCategoriesModel {
+    abstract class Model extends BaseModel {
 
         public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page, int
                 categoryType, String category);
@@ -40,8 +38,6 @@ public interface CollectedBooksContract {
 
         void onAlterReadStatus(Set<CollectedBook> books, boolean success);
 
-        void onCustomCategories(List<Category> categories);
-
         void onMove2Category(boolean success);
     }
 
@@ -56,8 +52,5 @@ public interface CollectedBooksContract {
         public abstract void alterReadStatus(Set<CollectedBook> userBooks, int readStatus);
 
         public abstract void moveBook2CustomCategory(Set<CollectedBook> books, String category);
-
-        public abstract void getCustomCategories(BookCategoryGroup categoryGroup);
-
     }
 }

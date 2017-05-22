@@ -1,16 +1,13 @@
 package com.culturebud.presenter;
 
 import com.culturebud.BaseApp;
-import com.culturebud.CommonConst;
 import com.culturebud.bean.BookCategoryGroup;
-import com.culturebud.bean.Category;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.CollectedBooksContract;
 import com.culturebud.model.CollectedBooksModel;
 import com.culturebud.util.ApiException;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -169,47 +166,6 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
                         view.onAlterReadStatus(userBooks, aBoolean);
                     }
                 });
-    }
-
-    @Override
-    public void getCustomCategories(BookCategoryGroup categoryGroup) {
-//        if (!validateToken()) {
-//            return;
-//        }
-//        model.getCustomCategories(BaseApp.getInstance().getUser().getToken())
-//                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(new Subscriber<List<Category>>() {
-//                    @Override
-//                    public void onCompleted() {
-//
-//                    }
-//
-//                    @Override
-//                    public void onError(Throwable e) {
-//                        e.printStackTrace();
-//                        if (e instanceof ApiException) {
-//                            view.onErrorTip(e.getMessage());
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onNext(List<Category> categories) {
-//                        view.onCustomCategories(categories);
-//                    }
-//                });
-        List<Category> categories = new ArrayList<>();
-        for (BookCategoryGroup.CategoryGroup cg : categoryGroup.getCategoryGroups()) {
-            if (cg.getCategoryType() == CommonConst.UserBookCategoryType.TYPE_CUSTOM) {
-                for (BookCategoryGroup.Category category : cg.getCategoryStatistics()) {
-                    Category c = new Category();
-                    c.setCategory(category.getCategory());
-                    c.setStatis(category.getStatistics());
-                    categories.add(c);
-                }
-            }
-        }
-
-        view.onCustomCategories(categories);
     }
 
     @Override

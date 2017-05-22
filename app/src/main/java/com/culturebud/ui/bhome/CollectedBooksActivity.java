@@ -47,8 +47,10 @@ import com.culturebud.widget.TagFlowLayout;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -65,8 +67,8 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public static final String USER_ID_KEY = "user_id";
     private RecyclerView rvBooks;
     private int currentPage = 0;
-    private int currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
-    private String currentCategory = "全部";
+    private int currCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
+    private String currCategory = "全部";
     private boolean loading = true;
     private int opreaType;
     private long userId;
@@ -117,7 +119,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         initCategoryDlg();
         initCustomCategoriesDlg();
 
-        presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+        presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
         presenter.getCategoryStatistics(userId);
     }
 
@@ -307,45 +309,45 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 ppwCategory.dismiss();
                 currentPage = 0;
-                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
-                currentCategory = "全部";
-                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+                currCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
+                currCategory = "全部";
+                presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
             });
 
-            tflClc.setOnSelectListener(selectPosSet -> {
+            tflClc.setOnTagClickListener((view1, position, parent) -> {
                 ppwCategory.dismiss();
-                int index = selectPosSet.iterator().next();
-                BookCategoryGroup.Category category = ((WhiteTagAdapter) tflClc.getAdapter()).getItem(index);
-                setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                Category category = ((WhiteTagAdapter) tflClc.getAdapter()).getItem(position);
+                setTitle(category.getCategory() + "(" + category.getStatis() + ")");
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
-                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_NORMAL;
-                currentCategory = category.getCategory();
-                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+                currCategoryType = CommonConst.UserBookCategoryType.TYPE_NORMAL;
+                currCategory = category.getCategory();
+                presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
+                return true;
             });
 
-            tflCustom.setOnSelectListener(selectPosSet -> {
+            tflCustom.setOnTagClickListener((view1, position, parent) -> {
                 ppwCategory.dismiss();
-                int index = selectPosSet.iterator().next();
-                BookCategoryGroup.Category category = ((WhiteTagAdapter) tflCustom.getAdapter()).getItem(index);
-                setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                Category category = ((WhiteTagAdapter) tflCustom.getAdapter()).getItem(position);
+                setTitle(category.getCategory() + "(" + category.getStatis() + ")");
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
-                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_CUSTOM;
-                currentCategory = category.getCategory();
-                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+                currCategoryType = CommonConst.UserBookCategoryType.TYPE_CUSTOM;
+                currCategory = category.getCategory();
+                presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
+                return true;
             });
 
-            tflOther.setOnSelectListener(selectPosSet -> {
+            tflOther.setOnTagClickListener((view1, position, parent) -> {
                 ppwCategory.dismiss();
-                int index = selectPosSet.iterator().next();
-                BookCategoryGroup.Category category = ((WhiteTagAdapter) tflOther.getAdapter()).getItem(index);
-                setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+                Category category = ((WhiteTagAdapter) tflOther.getAdapter()).getItem(position);
+                setTitle(category.getCategory() + "(" + category.getStatis() + ")");
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 currentPage = 0;
-                currentCategoryType = CommonConst.UserBookCategoryType.TYPE_OTHER;
-                currentCategory = category.getCategory();
-                presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+                currCategoryType = CommonConst.UserBookCategoryType.TYPE_OTHER;
+                currCategory = category.getCategory();
+                presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
+                return true;
             });
 
             ppwCategory.setContentView(view);
@@ -412,36 +414,33 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         loading = false;
     }
 
-    private BookCategoryGroup categoryGroup;
+    Map<Integer, BookCategoryGroup.CategoryGroup> cgMap = new HashMap<>();
 
     @Override
     public void onCategoryStatistics(BookCategoryGroup categoryGroup) {
         if (categoryGroup != null) {
-            this.categoryGroup = categoryGroup;
-            btnAll.setText("全部(" + categoryGroup.getTotal() + ")");
-            List<BookCategoryGroup.CategoryGroup> categoryGroups = categoryGroup.getCategoryGroups();
-            BookCategoryGroup.CategoryGroup currCg = null;
-            for (BookCategoryGroup.CategoryGroup cg : categoryGroups) {
-                if (cg.getCategoryType() == 1) {
-                    tflClc.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
-                    if (currentCategoryType == 1) currCg = cg;
-                } else if (cg.getCategoryType() == 2) {
-                    tflCustom.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
-                    if (currentCategoryType == 2) currCg = cg;
-                } else if (cg.getCategoryType() == 3) {
-                    tflOther.setAdapter(new WhiteTagAdapter(cg.getCategoryStatistics()));
-                    if (currentCategoryType == 3) currCg = cg;
-                }
+            for (BookCategoryGroup.CategoryGroup cg : categoryGroup.getCategoryGroups()) {
+                cgMap.put(cg.getCategoryType(), cg);
             }
 
-            if (currentCategoryType == 0) {
-                setTitle(btnAll.getText());
-            } else if (currCg != null) {
-                for (BookCategoryGroup.Category category : currCg.getCategoryStatistics()) {
-                    if (currentCategory.equals(category.getCategory())) {
-                        setTitle(category.getCategory() + "(" + category.getStatistics() + ")");
+            btnAll.setText("全部(" + categoryGroup.getTotal() + ")");
+            tflClc.setAdapter(new WhiteTagAdapter(
+                    cgMap.get(CommonConst.UserBookCategoryType.TYPE_NORMAL).getCategoryStatistics()));
+            tflCustom.setAdapter(new WhiteTagAdapter(
+                    cgMap.get(CommonConst.UserBookCategoryType.TYPE_CUSTOM).getCategoryStatistics()));
+            tflOther.setAdapter(new WhiteTagAdapter(
+                    cgMap.get(CommonConst.UserBookCategoryType.TYPE_OTHER).getCategoryStatistics()));
+
+
+            if (currCategoryType != 0) {
+                for (Category category : cgMap.get(currCategoryType).getCategoryStatistics()) {
+                    if (currCategory.equals(category.getCategory())) {
+                        setTitle(category.getCategory() + "(" + category.getStatis() + ")");
+                        break;
                     }
                 }
+            } else {
+                setTitle(btnAll.getText());
             }
         }
     }
@@ -451,7 +450,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void onDeleteUserBooks(Set<CollectedBook> books, boolean success) {
         if (success) {
             currentPage = 0;
-            presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+            presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
             presenter.getCategoryStatistics(userId);
         }
         switchModel(CollectedBooksAdapter.MODEL_EDIT);
@@ -462,7 +461,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void onAlterReadStatus(Set<CollectedBook> books, boolean success) {
         if (success) {
             currentPage = 0;
-            presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+            presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
             presenter.getCategoryStatistics(userId);
         }
         switchModel(CollectedBooksAdapter.MODEL_EDIT);
@@ -477,20 +476,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
         if (success) {
             currentPage = 0;
-            presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+            presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
             presenter.getCategoryStatistics(userId);
         }
-    }
-
-    @Override
-    public void onCustomCategories(List<Category> categories) {
-        if (rvCategories == null) {
-            return;
-        }
-        ((CustomCategoriesAdapter) rvCategories.getAdapter()).clearData();
-        ((CustomCategoriesAdapter) rvCategories.getAdapter()).addItems(categories);
-        tvCategoriesCount.setText(String.format(Locale.getDefault(), getString(R.string.txt_custom_categories_count),
-                rvCategories.getAdapter().getItemCount() - 1));
     }
 
     @Override
@@ -524,7 +512,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                         .findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
                 if (!loading && (lastPosition + 1 >= total)) {
-                    presenter.getCollectedBooks(userId, ++currentPage, currentCategoryType, currentCategory);
+                    presenter.getCollectedBooks(userId, ++currentPage, currCategoryType, currCategory);
                     loading = true;
                 }
             } else {
@@ -636,8 +624,18 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
 
     public void showCustomCategoriesDlg() {
         if (!bsdCustomCategories.isShowing()) {
+
+            if (rvCategories == null) {
+                return;
+            }
+            ((CustomCategoriesAdapter) rvCategories.getAdapter()).clearData();
+            ((CustomCategoriesAdapter) rvCategories.getAdapter()).addItems(
+                    cgMap.get(CommonConst.UserBookCategoryType.TYPE_CUSTOM).getCategoryStatistics());
+            tvCategoriesCount.setText(String.format(Locale.getDefault(),
+                    getString(R.string.txt_custom_categories_count),
+                    rvCategories.getAdapter().getItemCount() - 1));
+
             bsdCustomCategories.show();
-            presenter.getCustomCategories(categoryGroup);
         }
     }
 
@@ -665,9 +663,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                     currentPage = 0;
                     setTitle("");
                     currentPage = 0;
-                    currentCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
-                    currentCategory = "全部";
-                    presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+                    currCategoryType = CommonConst.UserBookCategoryType.TYPE_ALL;
+                    currCategory = "全部";
+                    presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
                     presenter.getCategoryStatistics(userId);
                 }
                 break;
@@ -676,6 +674,6 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
 
     @Override
     public void onRetryData() {
-        presenter.getCollectedBooks(userId, currentPage, currentCategoryType, currentCategory);
+        presenter.getCollectedBooks(userId, currentPage, currCategoryType, currCategory);
     }
 }

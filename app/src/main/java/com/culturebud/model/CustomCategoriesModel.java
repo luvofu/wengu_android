@@ -53,9 +53,6 @@ public class CustomCategoriesModel extends CustomCategoriesContract.Model {
                                     List<Category> categories = new Gson().fromJson(jarr, new
                                             TypeToken<List<Category>>() {
                                             }.getType());
-                                    for (Category c : categories) {
-                                        c.setType(2);
-                                    }
                                     subscriber.onNext(categories);
                                 } else {
                                     subscriber.onNext(null);

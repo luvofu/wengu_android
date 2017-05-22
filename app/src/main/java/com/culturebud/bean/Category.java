@@ -2,19 +2,19 @@ package com.culturebud.bean;
 
 import com.google.gson.annotations.SerializedName;
 
+import static android.R.attr.type;
+
 /**
  * Created by XieWei on 2017/3/31.
  */
 
 public class Category {
     @SerializedName("category")
-    private String category;//"文学",
+    public String category;//"文学",
     @SerializedName("categoryId")
     private long categoryId;//"51",
     @SerializedName("statis")
     private int statis;//"0"
-    @SerializedName("type")
-    private int type;
 
     public String getCategory() {
         return category;
@@ -38,14 +38,6 @@ public class Category {
 
     public void setStatis(int statis) {
         this.statis = statis;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
     }
 
     @Override
