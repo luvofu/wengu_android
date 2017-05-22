@@ -1,20 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.culturebud.widget.NoDataView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_multiplestatusview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_gray"
-    android:orientation="vertical">
+    app:emptyView="@layout/empty_view"
+    app:errorView="@layout/error_view"
+    app:loadingView="@layout/loading_view"
+    app:noNetworkView="@layout/no_network_view">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_friends"
+    <FrameLayout
+        android:id="@+id/content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white" />
+        android:background="@color/dark_gray"
+        android:orientation="vertical">
 
-    <com.culturebud.widget.IndexsView
-        android:id="@+id/iv_indexs"
-        android:layout_width="30dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="right|center_vertical" />
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_friends"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white" />
 
-</FrameLayout>
+        <com.culturebud.widget.IndexsView
+            android:id="@+id/iv_indexs"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right|center_vertical" />
+
+    </FrameLayout>
+</com.culturebud.widget.NoDataView>

@@ -44,6 +44,8 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
         setTitle(R.string.my_friends);
         setOperasDrawable(R.drawable.btn_add_friend_selector);
 
+        setNoDataView(R.id.main_multiplestatusview);
+
         rvFriends = obtainViewById(R.id.rv_friends);
         ivIndexs = obtainViewById(R.id.iv_indexs);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
@@ -62,6 +64,11 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
     @Override
     public void onClick(View v) {
         super.onClick(v);
+    }
+
+    @Override
+    public void onRetryData() {
+        presenter.myFriends();
     }
 
     @Override

@@ -37,7 +37,10 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
         showTitlebar();
         presenter.setView(this);
         setTitle(R.string.my_msg);
-        rvMyMsgs = obtainViewById(R.id.rv_my_msgs);
+        rvMyMsgs = obtainViewById(R.id.content_view);
+
+        setNoDataView(obtainViewById(R.id.main_multiplestatusview));
+
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvMyMsgs.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
@@ -51,6 +54,12 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
     @Override
     public void onClick(View v) {
         super.onClick(v);
+    }
+
+    @Override
+    public void onRetryData() {
+        currentPage = 0;
+        presenter.getInviteMsgs(0);
     }
 
     @Override
