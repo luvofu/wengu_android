@@ -101,7 +101,7 @@ public class MultipleStatusView extends RelativeLayout {
             if (null != mOnRetryClickListener && null != mEmptyRetryView) {
                 mEmptyRetryView.setOnClickListener(mOnRetryClickListener);
             }
-            addView(mEmptyView, 0, mLayoutParams);
+            addView(mEmptyView, mLayoutParams);
         }
         showViewByStatus(mViewStatus, false);
     }
@@ -117,7 +117,7 @@ public class MultipleStatusView extends RelativeLayout {
             if (null != mOnRetryClickListener && null != mErrorRetryView) {
                 mErrorRetryView.setOnClickListener(mOnRetryClickListener);
             }
-            addView(mErrorView, 0, mLayoutParams);
+            addView(mErrorView, mLayoutParams);
         }
         showViewByStatus(mViewStatus, false);
     }
@@ -158,7 +158,7 @@ public class MultipleStatusView extends RelativeLayout {
             if (null != mOnRetryClickListener && null != mNoNetworkRetryView) {
                 mNoNetworkRetryView.setOnClickListener(mOnRetryClickListener);
             }
-            addView(mNoNetworkView, 0, mLayoutParams);
+            addView(mNoNetworkView, mLayoutParams);
         }
         showViewByStatus(mViewStatus, false);
     }
@@ -171,7 +171,7 @@ public class MultipleStatusView extends RelativeLayout {
         if (null == mContentView) {
             if (mContentViewResId != NULL_RESOURCE_ID) {
                 mContentView = mInflater.inflate(mContentViewResId, null);
-                addView(mContentView, 0, mLayoutParams);
+                addView(mContentView, mLayoutParams);
             } else {
                 mContentView = findViewById(R.id.content_view);
             }

@@ -47,7 +47,10 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.books, container, false);
-        rvBooks = (RecyclerView) view.findViewById(R.id.rv_books);
+        rvBooks = (RecyclerView) view.findViewById(R.id.content_view);
+
+        setNoDataView(R.id.main_multiplestatusview, view);
+
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rvBooks.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL);
@@ -102,5 +105,10 @@ public class BooksFragment extends BaseFragment<MyFavoritesContract.Presenter> i
         } else if (operaType == 1) {
             presenter.deleteMyFavorite(0, book.getBookId());
         }
+    }
+
+    @Override
+    public void onRetryData() {
+        presenter.getMyFavoriteBooks(0);
     }
 }

@@ -44,6 +44,9 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.book_sheets, container, false);
         rvBookSheets = (RecyclerView) view.findViewById(R.id.rv_book_sheets);
+
+        setNoDataView(R.id.main_multiplestatusview, view);
+
         LinearLayoutManager llm = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         rvBookSheets.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(getActivity(), LinearLayoutManager.HORIZONTAL);
@@ -100,5 +103,10 @@ public class BookSheetsFragment extends BaseFragment<MyFavoritesContract.Present
     @Override
     public void onItemDelete(int position, BookSheet bookSheet) {
         presenter.deleteMyFavorite(1, bookSheet.getSheetId());
+    }
+
+    @Override
+    public void onRetryData() {
+        presenter.getMyFavoriteBookSheets(0);
     }
 }
