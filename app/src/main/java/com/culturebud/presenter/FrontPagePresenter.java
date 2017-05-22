@@ -48,17 +48,26 @@ public class FrontPagePresenter extends FrontPageContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            int code = ((ApiException) e).getCode();
-                            if (code == ApiErrorCode.EXPIRETIME_TOKEN
-                                    || code == ApiErrorCode.EXCEPT_ACC) {
-                                loadDatas();
-                            }
-                        }
+
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.showErrorView(errorMessage);
+
+                        view.onRequestError();
+
+
+//                        if (e instanceof ApiException) {
+//                            int code = ((ApiException) e).getCode();
+//                            if (code == ApiErrorCode.EXPIRETIME_TOKEN
+//                                    || code == ApiErrorCode.EXCEPT_ACC) {
+//                                loadDatas();
+//                            }
+//                        }
                     }
 
                     @Override
                     public void onNext(ApiResultBean<JsonObject> bean) {
+                        view.hiddenNoDataView();
+
                         JsonObject jobj = bean.getData();
                         Gson gson = new Gson();
                         if (jobj.has("bookList")) {

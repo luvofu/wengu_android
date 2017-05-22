@@ -25,6 +25,8 @@ public interface FrontPageContract {
         void showComment(List<Comment> comments);
 
         void onThumbUp(long commentId, boolean isGood);
+
+        void onRequestError();
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {

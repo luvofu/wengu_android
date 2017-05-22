@@ -34,7 +34,7 @@ public class ApiException extends Exception {
         String errorMessage = e.getMessage();
         if (!SystemParameterUtil.isNetWorkConnected()) {
             errorMessage = BaseApp.getInstance().getString(R.string.no_network_view_hint);
-        } else if (TextUtils.isEmpty(errorMessage)) {
+        } else if (!(e instanceof ApiException) || TextUtils.isEmpty(errorMessage)) {
             errorMessage = BaseApp.getInstance().getResources().getString(R.string.error_view_hint);
         }
 

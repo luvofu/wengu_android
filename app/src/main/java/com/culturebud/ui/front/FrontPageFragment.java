@@ -18,10 +18,10 @@ import com.culturebud.R;
 import com.culturebud.adapter.CommentAdapter;
 import com.culturebud.adapter.FrontPageAdapter;
 import com.culturebud.annotation.PresenterInject;
-import com.culturebud.contract.FrontPageContract;
 import com.culturebud.bean.Book;
 import com.culturebud.bean.BookSheet;
 import com.culturebud.bean.Comment;
+import com.culturebud.contract.FrontPageContract;
 import com.culturebud.presenter.FrontPagePresenter;
 import com.culturebud.ui.community.CommunityActivity;
 import com.culturebud.ui.search.SearchBookActivity;
@@ -76,7 +76,11 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
     private void initView(View view) {
 //        ivSearch = (ImageView) view.findViewById(R.id.iv_search);
         srlRefresh = (SwipeRefreshLayout) view.findViewById(R.id.srl_refresh);
-        rvContent = (RecyclerView) view.findViewById(R.id.rv_content);
+        rvContent = (RecyclerView) view.findViewById(R.id.content_view);
+
+//        setNoDataView((NoDataView) view.findViewById(R.id.main_multiplestatusview));
+        setNoDataView(R.id.main_multiplestatusview, view);
+
     }
 
     private void setListeners() {
@@ -90,6 +94,12 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
         super.onResume();
         showTitle(getString(R.string.tab_front_page));
         srlRefresh.setRefreshing(true);
+        presenter.loadDatas();
+    }
+
+    @Override
+    public void onRetryData() {
+        showLoadingView();
         presenter.loadDatas();
     }
 
@@ -131,6 +141,12 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
     @Override
     public void onThumbUp(long commentId, boolean isGood) {
         ((FrontPageAdapter) rvContent.getAdapter()).onThumbUp(commentId, isGood);
+    }
+
+    @Override
+    public void onRequestError() {
+        //请求出错
+        srlRefresh.setRefreshing(false);
     }
 
     private boolean loading = true;

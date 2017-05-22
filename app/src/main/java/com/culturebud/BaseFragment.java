@@ -20,6 +20,7 @@ import com.culturebud.ui.MainActivity;
 import com.culturebud.ui.me.LoginActivity;
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
+import com.culturebud.widget.NoDataView;
 
 
 /**
@@ -31,6 +32,20 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
     private TextView tvTitle;
     private ViewStub vsContainer, vsTitleLeft, vsTitleRight;
     protected P presenter;
+
+    private NoDataView noDataView;
+
+    public NoDataView getNoDataView() {
+        return noDataView;
+    }
+
+    public void setNoDataView(NoDataView noDataView) {
+        this.noDataView = noDataView;
+    }
+
+    public void setNoDataView(int resID, View view) {
+        this.noDataView = (NoDataView) view.findViewById(resID);
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -132,44 +147,36 @@ public abstract class BaseFragment<P extends BasePresenter> extends Fragment {
         return false;
     }
 
-    public void  showLoadingView() {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).showLoadingView();
-        }
+    public void showLoadingView() {
+        getNoDataView().showLoading();
     }
 
-    public void  showLoadingView(boolean showContentView) {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).showLoadingView(showContentView);
-        }
+    public void showLoadingView(boolean showContentView) {
+        getNoDataView().showLoading(showContentView);
     }
 
     public void showNoDataView(String nodataDesc) {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).showNoDataView(nodataDesc);
-        }
+        getNoDataView().showNoDataView(nodataDesc);
     }
 
     public void hiddenNoDataView() {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).hiddenNoDataView();
-        }
+        getNoDataView().hiddenNoDataView();
     }
 
-    public void  showErrorView(String errorDesc) {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).showErrorView(errorDesc, view -> {
-                onRetryData();
-            });
-        }
+    public void showErrorView(String errorDesc) {
+        getNoDataView().setOnRetryClickListener(view -> {
+            onRetryData();
+        });
+
+        getNoDataView().showErrorView(errorDesc);
     }
 
     public void showNoNetView() {
-        if (getActivity() instanceof BaseActivity) {
-            ((BaseActivity) getActivity()).showNoNetworkView(view -> {
-                onRetryData();
-            });
-        }
+        getNoDataView().setOnRetryClickListener(view -> {
+            onRetryData();
+        });
+
+        getNoDataView().showNoNetwork();
     }
 
     public void onRetryData() {
