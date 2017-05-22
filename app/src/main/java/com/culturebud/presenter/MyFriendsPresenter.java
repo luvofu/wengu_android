@@ -68,9 +68,8 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
                         e.printStackTrace();
                         view.hiddenNoDataView();
 
-                        if (!TextUtils.isEmpty(e.getMessage())) {
-                            view.showErrorView(e.getMessage());
-                        }
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.showErrorView(errorMessage);
                     }
 
                     @Override

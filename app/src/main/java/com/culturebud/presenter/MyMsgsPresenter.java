@@ -40,13 +40,13 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
                         view.hiddenNoDataView();
                         e.printStackTrace();
 
-                        if (e instanceof ApiException) {
-                            if (page == 0) {
-                                //第一页.
-                                view.showErrorView(e.getMessage());
-                            }
-                        } else {
-                            view.onErrorTip(e.getMessage());
+                        String errorMessage = ApiException.getErrorMessage(e);
+
+                        if (page == 0) {
+                            //第一页.
+                            view.showErrorView(errorMessage);
+                        } else  {
+                            view.onErrorTip(errorMessage);
                         }
                     }
 
@@ -70,7 +70,7 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
             return;
         }
 
-        view.showLoadingView();
+        view.showLoadingView(true);
         model.agreeInvite(BaseApp.getInstance().getUser().getToken(), messageId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
@@ -83,13 +83,15 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
                     public void onError(Throwable e) {
                         e.printStackTrace();
                         view.hiddenNoDataView();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
+
+                        String errorMessage = ApiException.getErrorMessage(e);
+
+                        view.onErrorTip(errorMessage);
                     }
 
                     @Override
                     public void onNext(Boolean aBoolean) {
+                        view.hiddenNoDataView();
                         view.onAgreeInvite(messageId, aBoolean);
                     }
                 });
@@ -101,7 +103,7 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
             return;
         }
 
-        view.showLoadingView();
+        view.showLoadingView(true);
         model.deleteUserMessage(BaseApp.getInstance().getUser().getToken(), userMessage.getMessageId())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
@@ -114,13 +116,13 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
                     public void onError(Throwable e) {
                         view.hiddenNoDataView();
                         e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.onErrorTip(errorMessage);
                     }
 
                     @Override
                     public void onNext(Boolean aBoolean) {
+                        view.hiddenNoDataView();
                         view.onDeleteUserMessage(userMessage, aBoolean);
                     }
                 });
