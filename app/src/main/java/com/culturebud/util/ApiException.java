@@ -19,8 +19,9 @@ public class ApiException extends Exception {
 
     @Override
     public String getMessage() {
-        if (!TextUtils.isEmpty(getMessage())) {
-            return super.getMessage();
+        String message = super.getMessage();
+        if (!TextUtils.isEmpty(message)) {
+            return message;
         }
 
         return BaseApp.getInstance().getResources().getString(R.string.error_view_hint);
