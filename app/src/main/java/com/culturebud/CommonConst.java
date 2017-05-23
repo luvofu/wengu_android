@@ -325,8 +325,8 @@ public final class CommonConst {
     }
 
     public final class CategoryType {
-        //        categoryType	是	int	分类类型： All(0, “全部”),Normal(1, “中图法”),Custom(2, “自定义”),Other(3, “其它”);
-//        category	是	string	类别（例如：文学 哲学 未读 私密）
+        //categoryType	是	int	分类类型： All(0, “全部”),Normal(1, “中图法”),Custom(2, “自定义”),Other(3, “其它”);
+        //category	是	string	类别（例如：文学 哲学 未读 私密）
         public static final int TYPE_ALL = 0;
         public static final int TYPE_NORMAL = 1;
         public static final int TYPE_CUSTOM = 2;
