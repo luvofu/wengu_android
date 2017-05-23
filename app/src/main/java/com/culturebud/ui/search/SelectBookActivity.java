@@ -30,8 +30,7 @@ public class SelectBookActivity extends BaseActivity<SelectBookContract.Presente
         implements SelectBookContract.View, BooksSimpleAdapter.OnItemClickListener {
     private TextView tvOperaTips;
     private RecyclerView rvBooks;
-    int categoryType = CommonConst.CategoryType.TYPE_ALL;
-    String category = "";
+    private int currentPage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,16 +51,14 @@ public class SelectBookActivity extends BaseActivity<SelectBookContract.Presente
         rvBooks.addItemDecoration(divider);
         BooksSimpleAdapter adapter = new BooksSimpleAdapter();
         rvBooks.setAdapter(adapter);
-        rvBooks.setOnScrollListener(listener);
         adapter.setOnItemClickListener(this);
         Intent intent = getIntent();
-        categoryType = intent.getIntExtra("category_type", CommonConst.CategoryType.TYPE_ALL);
-        category = intent.getStringExtra("category");
+        int categoryType = intent.getIntExtra("category_type", CommonConst.CategoryType.TYPE_ALL);
+        String category = intent.getStringExtra("category");
         if (TextUtils.isEmpty(category)) {
             category = "全部";
         }
-        loading = true;
-        presenter.getMyBooks(currentPage, categoryType, category);
+        presenter.getMyBooks(0, categoryType, category);
     }
 
     @Override
@@ -72,12 +69,13 @@ public class SelectBookActivity extends BaseActivity<SelectBookContract.Presente
 
     @Override
     public void onBooks(List<CollectedBook> books) {
-        loading = false;
         if (currentPage == 0) {
             ((BooksSimpleAdapter) rvBooks.getAdapter()).clearData();
         }
         ((BooksSimpleAdapter) rvBooks.getAdapter()).addItems(books);
-        tvOperaTips.setText(String.format(Locale.getDefault(), getString(R.string.searched_books_tip), rvBooks.getAdapter().getItemCount()));
+        tvOperaTips.setText(String.format(Locale.getDefault(),
+                getString(R.string.searched_books_tip),
+                rvBooks.getAdapter().getItemCount()));
     }
 
     @Override
@@ -91,30 +89,4 @@ public class SelectBookActivity extends BaseActivity<SelectBookContract.Presente
         setResult(RESULT_OK, intent);
         finish();
     }
-
-    private int currentPage;
-    private boolean loading = true;
-    private RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {
-
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            if (dy > 0) {
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
-                int total = recyclerView.getLayoutManager().getItemCount();
-                if (dy > 0 && (lastPosition + 1 >= total) && !loading) {
-                    loading = true;
-                    presenter.getMyBooks(++currentPage, categoryType, category);
-                }
-            } else {
-
-            }
-        }
-    };
 }

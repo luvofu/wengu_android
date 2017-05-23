@@ -3,6 +3,7 @@ package com.culturebud.ui.bhome;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -12,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,7 @@ import com.culturebud.ui.search.SelectBookActivity;
 import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.DividerItemDecoration;
+import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.SettingItemView;
 import com.culturebud.widget.StepperView;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -221,7 +224,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
     public void onDelBookMark(boolean success, BookMark bookMark) {
         if (success) {
             if (bookMark != null) {
-                ((BookMarkAdapter) rvBookMarks.getAdapter()).deleteItem(bookMark);
+                ((BookMarkAdapter)rvBookMarks.getAdapter()).deleteItem(bookMark);
             } else {
                 presenter.getMyBookMarks();
             }
@@ -230,7 +233,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
 
     @Override
     public void onClearDisplayBookMarks() {
-        ((BookMarkAdapter) rvBookMarks.getAdapter()).clearData();
+        ((BookMarkAdapter)rvBookMarks.getAdapter()).clearData();
     }
 
     private SettingItemView sivBookName, sivPages;
@@ -258,9 +261,9 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                         if (userBookId == -1) {
                             //没有选择书籍.需要弹出提示.
                             onErrorTip("请选择书籍");
-                        } else if (currentTotalPage <= 0) {
+                        } else  if (currentTotalPage <= 0) {
                             onErrorTip("请输入总页码");
-                        } else {
+                        }  else {
                             presenter.addBookMark(userBookId, svPage.getStepValue(), currentTotalPage);
                         }
                     } else {
@@ -291,7 +294,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                     return;
                 }
                 Intent intent = new Intent(getActivity(), SelectBookActivity.class);
-                intent.putExtra("category_type", CommonConst.CategoryType.TYPE_OTHER);
+                intent.putExtra("category_type", CommonConst.CategoryType.TYPE_ALL);
                 intent.putExtra("category", CommonConst.CategoryType.CATEGORY_UNREAD);
                 startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_SELECT_BOOK);
             });
@@ -368,8 +371,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                     sivBookName.setRightInfo(data.getStringExtra("book_title"));
                     userBookId = data.getLongExtra("user_book_id", -1);
                     totalPage = data.getIntExtra("book_total_page", -1);
-                    totalPage = Math.max(totalPage, 1);
-                    sivPages.setRightInfo(String.valueOf(totalPage));
+                    sivPages.setRightInfo(totalPage > 0 ? String.valueOf(totalPage) : "");
                     svStepper.setMaxValue(totalPage);
                 }
                 break;
