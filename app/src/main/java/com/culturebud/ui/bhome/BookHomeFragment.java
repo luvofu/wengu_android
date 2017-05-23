@@ -35,6 +35,7 @@ import com.culturebud.contract.BookHomeContract;
 import com.culturebud.presenter.BookHomePresenter;
 import com.culturebud.ui.bcircle.BookCircleActivity;
 import com.culturebud.ui.search.SelectBookActivity;
+import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.DividerItemDecoration;
 import com.culturebud.widget.RecyclerViewDivider;
@@ -303,7 +304,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
             screenWidth = dm.widthPixels;
             screenHeight = dm.heightPixels;
-            ppwBookMark.setWidth((dm.widthPixels / 3) * 2);
+            ppwBookMark.setWidth((int) (screenWidth - 2 * 20 * dm.density));
             ppwBookMark.setHeight(WindowManager.LayoutParams.WRAP_CONTENT);
             ppwBookMark.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
             ppwBookMark.setInputMethodMode(PopupWindow.INPUT_METHOD_NEEDED);
@@ -340,7 +341,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
             tvDel.setVisibility(View.GONE);
         }
 
-        ppwBookMark.showAsDropDown(flTop, (screenWidth / 3) / 2, 4);
+        ppwBookMark.showAsDropDown(flTop, (int) (20 * SystemParameterUtil.getDeviceDensity()), 4);
     }
 
     @Override
