@@ -5,25 +5,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="256dp"
-        android:fitsSystemWindows="true">
+        android:layout_height="wrap_content">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
-            app:expandedTitleMarginStart="38dp"
+            app:contentScrim="@color/colorPrimary"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <RelativeLayout
+            <com.culturebud.widget.ScaleRelativeLayout
+                android:id="@+id/rl_bc_bg"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="match_parent"
+                android:background="@android:color/white"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.6"
+                app:ratio="1.476">
+
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sdv_bg"
@@ -33,13 +37,13 @@
                     fresco:placeholderImage="@mipmap/book_circle_top_bg"
                     fresco:placeholderImageScaleType="fitXY" />
 
-                <ImageView
-                    android:id="@+id/iv_back"
-                    android:layout_width="48dp"
-                    android:layout_height="48dp"
-                    android:layout_marginTop="@dimen/common_padding_big"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/titlebar_back_selector" />
+                <!--<ImageView-->
+                <!--android:id="@+id/iv_back"-->
+                <!--android:layout_width="48dp"-->
+                <!--android:layout_height="48dp"-->
+                <!--android:layout_marginTop="@dimen/common_padding_big"-->
+                <!--android:scaleType="centerInside"-->
+                <!--android:src="@drawable/titlebar_back_selector" />-->
 
                 <com.facebook.drawee.view.SimpleDraweeView
                     android:id="@+id/sdv_face"
@@ -63,7 +67,44 @@
                     android:textSize="@dimen/titlebar_font_size"
                     tools:text="坏猫" />
 
-            </RelativeLayout>
+            </com.culturebud.widget.ScaleRelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/tlb"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:fitsSystemWindows="true"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/TitlebarPopupTheme"
+                app:theme="@style/TitlebarTheme"
+                app:title="@string/blank">
+
+                <FrameLayout
+                    android:id="@+id/toolbarContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="19dp">
+
+                    <TextView
+                        android:id="@+id/bcback"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="left|center_vertical"
+                        android:layout_marginLeft="2dp"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/titlebar_back_selector"
+                        android:drawablePadding="2dp"
+                        android:gravity="center"
+                        android:minWidth="48dp"
+                        android:onClick="onClick"
+                        android:padding="2dp"
+                        android:textColor="@color/title_font_white"
+                        android:textSize="16sp"
+                        tools:text="返回" />
+
+                </FrameLayout>
+            </android.support.v7.widget.Toolbar>
+
         </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
