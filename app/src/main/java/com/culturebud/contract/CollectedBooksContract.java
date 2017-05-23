@@ -2,6 +2,7 @@ package com.culturebud.contract;
 
 import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.CollectedBook;
+import com.culturebud.model.CustomCategoriesModel;
 
 import java.util.List;
 import java.util.Set;
@@ -14,7 +15,7 @@ import rx.Observable;
 
 public interface CollectedBooksContract {
 
-    abstract class Model extends BaseModel {
+    abstract class Model extends CustomCategoriesModel {
 
         public abstract Observable<List<CollectedBook>> getCollectedBooks(String token, long userId, int page, int
                 categoryType, String category);
