@@ -1,24 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/srl_refresh"
+<com.culturebud.widget.NoDataView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_multiplestatusview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    app:emptyView="@layout/empty_view"
+    app:errorView="@layout/error_view"
+    app:loadingView="@layout/loading_view"
+    app:noNetworkView="@layout/no_network_view">
 
-    <com.culturebud.widget.NoDataView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/main_multiplestatusview"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/srl_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:emptyView="@layout/empty_view"
-        app:errorView="@layout/error_view"
-        app:loadingView="@layout/loading_view"
-        app:noNetworkView="@layout/no_network_view">
+        android:orientation="vertical">
+
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/content_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
-    </com.culturebud.widget.NoDataView>
 
-</android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+</com.culturebud.widget.NoDataView>
