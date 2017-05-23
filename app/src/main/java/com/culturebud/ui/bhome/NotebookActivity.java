@@ -19,6 +19,7 @@ import com.culturebud.bean.User;
 import com.culturebud.contract.NotebookContract;
 import com.culturebud.presenter.NotebookPresenter;
 import com.culturebud.ui.search.SelectBookActivity;
+import com.culturebud.widget.NoDataView;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -52,7 +53,12 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         adapter.setOnItemClickListener(this);
         rvNotebooks.setAdapter(adapter);
         rvNotebooks.addOnScrollListener(onScrollListener);
-        setContentView(rvNotebooks);
+
+        NoDataView noDataView = (NoDataView) View.inflate(this, R.layout.nodataview, null);
+        noDataView.addView(rvNotebooks);
+        setNoDataView(noDataView);
+
+        setContentView(noDataView);
         showTitlebar();
         setTitle(R.string.note);
     }
@@ -184,5 +190,12 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
                 break;
         }
 
+    }
+
+    @Override
+    public void onRetryData() {
+        //笔记本创建成功，需要刷新数据.
+        currentPage = 0;
+        presenter.userNotebooks(currentPage, userId);
     }
 }

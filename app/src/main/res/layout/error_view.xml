@@ -5,16 +5,21 @@
     android:layout_height="match_parent">
 
     <TextView
-        style="@style/MultipleStatusView.Content"
         android:id="@+id/error_view_tv"
-        android:text="@string/error_view_hint"/>
+        style="@style/MultipleStatusView.Content"
+        android:text="@string/error_view_hint" />
 
-    <ImageView
+    <TextView
         android:id="@+id/error_retry_view"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_centerInParent="true"
-        />
-
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_below="@+id/error_view_tv"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/big_round_border_bg"
+        android:clickable="true"
+        android:gravity="center"
+        android:text="@string/reloaddata"
+        android:textColor="@color/dark_gray" />
 
 </RelativeLayout>

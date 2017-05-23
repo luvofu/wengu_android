@@ -32,21 +32,31 @@ public class NotebookPresenter extends NotebookContract.Presenter {
             return;
         }
         User user = BaseApp.getInstance().getUser();
+
+        view.showLoadingView(page != 0);
         model.userNotebooks(user.getToken(), userId, page)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<List<Notebook>>() {
             @Override
             public void onCompleted() {
-
             }
 
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                view.hiddenNoDataView();
+
+                String errorMessage = ApiException.getErrorMessage(e);
+                if (page == 0) {
+                    view.showErrorView(errorMessage);
+                } else {
+                    view.onErrorTip(errorMessage);
+                }
             }
 
             @Override
             public void onNext(List<Notebook> notebooks) {
+                view.hiddenNoDataView();
                 view.onNotebooks(notebooks);
             }
         });
@@ -57,6 +67,8 @@ public class NotebookPresenter extends NotebookContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showLoadingView(true);
         model.deleteNotebook(BaseApp.getInstance().getUser().getToken(), notebook.getNotebookId())
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(new Subscriber<Boolean>() {
@@ -68,13 +80,13 @@ public class NotebookPresenter extends NotebookContract.Presenter {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
+                String errorMessage = ApiException.getErrorMessage(e);
+                view.onErrorTip(errorMessage);
             }
 
             @Override
             public void onNext(Boolean aBoolean) {
+                view.hiddenNoDataView();
                 view.onDeleteNotebook(notebook, aBoolean);
             }
         });
@@ -96,10 +108,10 @@ public class NotebookPresenter extends NotebookContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hiddenNoDataView();
                         e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.onErrorTip(errorMessage);
                     }
 
                     @Override
