@@ -294,8 +294,8 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
                     return;
                 }
                 Intent intent = new Intent(getActivity(), SelectBookActivity.class);
-                intent.putExtra("category_type", CommonConst.UserBookCategoryType.TYPE_ALL);
-                intent.putExtra("category", CommonConst.UserBookCategoryType.CATEGORY_UNREAD);
+                intent.putExtra("category_type", CommonConst.CategoryType.TYPE_ALL);
+                intent.putExtra("category", CommonConst.CategoryType.CATEGORY_UNREAD);
                 startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_SELECT_BOOK);
             });
 

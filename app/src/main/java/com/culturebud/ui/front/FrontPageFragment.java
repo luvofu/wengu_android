@@ -160,6 +160,9 @@ public class FrontPageFragment extends BaseFragment<FrontPageContract.Presenter>
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
+
+            srlRefresh.setEnabled(dy <= 0);
+
             if (dy > 0) {
                 int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
                 int total = recyclerView.getLayoutManager().getItemCount();
