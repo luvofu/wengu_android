@@ -22,7 +22,8 @@
                 android:id="@+id/rl_me"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:background="@mipmap/me_default_bg">
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/white">
 
                 <ImageView
                     android:id="@+id/iv_arrow"
@@ -31,7 +32,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:layout_margin="8dp"
-                    android:paddingRight="6dp"
+                    android:paddingRight="8dp"
                     android:scaleType="centerInside"
                     android:src="@mipmap/right_arrow" />
 
@@ -43,8 +44,8 @@
                     android:layout_marginLeft="25dp"
                     android:layout_marginRight="5dp"
                     fresco:actualImageScaleType="fitXY"
-                    fresco:placeholderImageScaleType="fitXY"
                     fresco:placeholderImage="@mipmap/me_default_icon"
+                    fresco:placeholderImageScaleType="fitXY"
                     fresco:roundAsCircle="true"
                     fresco:roundingBorderColor="@android:color/transparent"
                     fresco:roundingBorderWidth="1dp" />
@@ -82,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:drawablePadding="3dp"
                         android:drawableRight="@mipmap/setting_me_male_icon"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/title_font_default"
                         android:textSize="14sp"
                         tools:text="坏猫" />
 
@@ -91,7 +92,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:textColor="@android:color/white"
+                        android:textColor="@color/title_font_default"
                         android:textSize="12sp"
                         tools:text="这就是这么一个故事" />
 
@@ -128,11 +129,21 @@
                 app:name_color="@color/title_font_default" />
 
             <com.culturebud.widget.SettingItemView
+                android:id="@+id/siv_my_msg"
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:background="@drawable/setting_item_center_bg_selector"
+                android:clickable="true"
+                app:icon="@mipmap/setting_item_icon_msg"
+                app:name="@string/my_msg"
+                app:name_color="@color/title_font_default" />
+
+            <com.culturebud.widget.SettingItemView
                 android:id="@+id/siv_my_favorite"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/setting_item_only_last_bg_selector"
+                android:layout_marginBottom="5dp"
+                android:background="@drawable/setting_item_last_bg_selector"
                 android:clickable="true"
                 app:icon="@mipmap/setting_item_icon_my_favorite"
                 app:name="@string/my_favorite"
@@ -140,13 +151,13 @@
                 app:name_size="14sp" />
 
             <com.culturebud.widget.SettingItemView
-                android:id="@+id/siv_my_msg"
+                android:id="@+id/invitefriend"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:background="@drawable/setting_item_first_bg_selector"
                 android:clickable="true"
-                app:icon="@mipmap/setting_item_icon_msg"
-                app:name="@string/my_msg"
+                app:background="@drawable/setting_item_first_bg_selector"
+                app:icon="@mipmap/setting_item_icon_invitefriend"
+                app:name="@string/invitefriend"
                 app:name_color="@color/title_font_default" />
 
             <com.culturebud.widget.SettingItemView
@@ -163,9 +174,9 @@
                 android:id="@+id/siv_about"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:layout_marginBottom="10dp"
-                app:background="@drawable/setting_item_last_bg_selector"
+                android:layout_marginBottom="5dp"
                 android:clickable="true"
+                app:background="@drawable/setting_item_last_bg_selector"
                 app:icon="@mipmap/setting_item_icon_about"
                 app:name="@string/about"
                 app:name_color="@color/title_font_default" />

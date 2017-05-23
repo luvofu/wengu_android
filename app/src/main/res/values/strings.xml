@@ -49,6 +49,7 @@
     <string name="my_msg">我的消息</string>
     <string name="feedback">反馈</string>
     <string name="about">关于文芽</string>
+    <string name="invitefriend">邀请好友</string>
     <string name="settings">设置</string>
     <string name="no_fill">未填写</string>
     <string name="no_binding">未绑定</string>
@@ -186,4 +187,7 @@
     <string name="no_network_view_hint">网络请求失败，请检查您的网络</string>
     <string name="reloaddata">重新加载</string>
 
+    <!--分享-->
+    <string name="invitefriend_title">文芽"</string>
+    <string name="invitefriend_content">拥有自己的书房，让阅读更高效！</string>
 </resources>
