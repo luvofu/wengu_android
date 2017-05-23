@@ -1,6 +1,7 @@
 package com.culturebud.ui.me;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -16,6 +17,8 @@ import com.culturebud.bean.User;
 import com.culturebud.contract.FriendDetailContract;
 import com.culturebud.presenter.FriendDetailPresenter;
 import com.culturebud.ui.bhome.UserBookHomeActivity;
+import com.culturebud.util.ClassUtil;
+import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.widget.FormItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -27,7 +30,6 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_FRIEND;
 
 @PresenterInject(FriendDetailPresenter.class)
 public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Presenter> implements FriendDetailContract.View {
-    private ImageView ivBack;
     private SimpleDraweeView sdvBg, sdvFace;
     private TextView tvNick;
     private FormItemView fivSex, fivRegion, fivSign;
@@ -39,7 +41,6 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
         super.onCreate(savedInstanceState);
         setContentView(R.layout.friend_detail);
         presenter.setView(this);
-        ivBack = obtainViewById(R.id.iv_back);
         sdvBg = obtainViewById(R.id.sdv_bg);
         sdvFace = obtainViewById(R.id.sdv_face);
         tvNick = obtainViewById(R.id.tv_nick);
@@ -48,7 +49,14 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
         fivSign = obtainViewById(R.id.fiv_sign);
         btnEnterBookHome = obtainViewById(R.id.btn_enter_book_home);
         btnAddFriend = obtainViewById(R.id.btn_add_friend);
-        ivBack.setOnClickListener(this);
+
+        View view = obtainViewById(R.id.toolbarContent);
+        int topMargin = 0;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            int statusBarheight = SystemParameterUtil.getStatusHeight(this);
+            topMargin = statusBarheight;
+        }
+        ClassUtil.setMargins(view, 0, topMargin, 0, 0);
 
         initData();
     }
@@ -62,7 +70,7 @@ public class FriendDetailActivity extends BaseActivity<FriendDetailContract.Pres
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.bcback:
                 finish();
                 break;
             case R.id.btn_add_friend: {

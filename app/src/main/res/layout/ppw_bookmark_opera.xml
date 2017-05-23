@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/white_circle_bg"
     android:orientation="vertical">
@@ -16,6 +16,7 @@
             android:id="@+id/tv_ppw_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:minHeight="30dp"
             android:gravity="center"
             android:padding="8dp"
             android:text="书签"
@@ -36,7 +37,8 @@
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_book_name"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_icon_default_middle"
+        android:layout_height="wrap_content"
+        android:minHeight="40dp"
         android:background="@drawable/setting_item_only_last_bg_selector"
         app:has_arrow="false"
         app:has_icon="false"
@@ -46,7 +48,7 @@
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_book_pages"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_icon_default_middle"
+        android:layout_height="40dp"
         android:background="@drawable/setting_item_only_last_bg_selector"
         app:can_edit_info="true"
         app:has_arrow="false"
@@ -56,7 +58,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/setting_icon_default_middle"
+        android:layout_height="40dp"
         android:background="@drawable/setting_item_only_last_bg_selector"
         android:orientation="horizontal">
 

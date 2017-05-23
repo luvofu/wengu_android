@@ -29,6 +29,8 @@ public class NotebookDetailPresenter extends NotebookDetailContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showLoadingView();
         model.notebookDetail(BaseApp.getInstance().getUser().getToken(), noteBookId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Map<String, Object>>() {
@@ -39,14 +41,15 @@ public class NotebookDetailPresenter extends NotebookDetailContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
-                        }
+                        view.hiddenNoDataView();
+
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.showErrorView(errorMessage);
                     }
 
                     @Override
                     public void onNext(Map<String, Object> res) {
+                        view.hiddenNoDataView();
                         if (res.containsKey("relationType")) {
                             view.onRelationType(Integer.valueOf(res.get("relationType").toString()));
                         }
@@ -62,6 +65,8 @@ public class NotebookDetailPresenter extends NotebookDetailContract.Presenter {
         if (!validateToken()) {
             return;
         }
+
+        view.showLoadingView(page != 0);
         model.notesForNotebook(BaseApp.getInstance().getUser().getToken(), notebookId, page)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<Note>>() {
@@ -72,14 +77,24 @@ public class NotebookDetailPresenter extends NotebookDetailContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        view.hiddenNoDataView();
                         e.printStackTrace();
-                        if (e instanceof ApiException) {
-                            view.onErrorTip(e.getMessage());
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        if (page == 0) {
+                            view.showErrorView(errorMessage);
+                        } else  {
+                            view.onErrorTip(errorMessage);
                         }
                     }
 
                     @Override
                     public void onNext(List<Note> notes) {
+                        view.hiddenNoDataView();
+
+                        if (page == 0 && notes.isEmpty()) {
+                            view.showNoDataView("还没有创建笔记");
+                        }
+
                         view.onNotes(notes);
                     }
                 });

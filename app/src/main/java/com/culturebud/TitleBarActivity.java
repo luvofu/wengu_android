@@ -70,6 +70,9 @@ public abstract class TitleBarActivity extends MyAppCompatActivity implements Vi
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowHomeEnabled(false);
+
+        showTitlebar();
+
         initListener();
     }
 

@@ -422,4 +422,6 @@ public final class CommonConst {
 
     public static final String CAPTURE_PATH = "file://" + Environment.getExternalStorageDirectory().getPath() +
             "/culture/capture";
+
+    public static final String APPDOWNLOADQRCODE_IMAGEURL = "http://www.uvnya.com/img/qr/qrcode.png";
 }

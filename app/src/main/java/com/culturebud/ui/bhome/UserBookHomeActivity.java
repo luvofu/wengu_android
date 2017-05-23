@@ -2,10 +2,14 @@ package com.culturebud.ui.bhome;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
 import android.view.View;
@@ -30,6 +34,8 @@ import com.culturebud.ui.community.CommentDetailActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
+import com.culturebud.util.ClassUtil;
+import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
@@ -56,12 +62,27 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
     private InputMethodManager imm;
     private int screenHeight;
     private int currDeleteType = CommonConst.DeleteType.TYPE_DYNAMIC;
+    private Toolbar tlb;
+    private AppBarLayout abl;
+    private TextView titleview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_book_home);
         presenter.setView(this);
+
+        tlb = obtainViewById(R.id.tlb);
+        tlb.setTitle("");
+        setSupportActionBar(tlb);
+
+        View view = obtainViewById(R.id.toolbarContent);
+        int topMargin = 0;
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
+            int statusBarheight = SystemParameterUtil.getStatusHeight(this);
+            topMargin = statusBarheight;
+        }
+        ClassUtil.setMargins(view, 0, topMargin, 0, 0);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -82,6 +103,27 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
         rvDynamics.setAdapter(adapter);
         addSoftKeyboardChangedListener(this);
         initData();
+
+        titleview = obtainViewById(R.id.bctitleview);
+        abl = obtainViewById(R.id.abl);
+        abl.addOnOffsetChangedListener((appBarLayout, verticalOffset) -> {
+            User user = this.user;
+            if (user == null) {
+                return;
+            }
+            int appbarHeight = abl.getHeight();
+
+            if (verticalOffset < -appbarHeight / 2) {
+                //显示title.
+                titleview.setText(user.getNickname());
+
+                if (titleview.getVisibility() != View.VISIBLE) {
+                    titleview.setVisibility(View.VISIBLE);
+                }
+            } else {
+                titleview.setVisibility(View.INVISIBLE);
+            }
+        });
     }
 
     private void initData() {
@@ -97,7 +139,7 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
     public void onClick(View v) {
         super.onClick(v);
         switch (v.getId()) {
-            case R.id.iv_back:
+            case R.id.bcback:
                 finish();
                 break;
             case R.id.tv_book_shelf: {

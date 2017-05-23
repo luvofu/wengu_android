@@ -309,7 +309,7 @@ public class BookSheetDetailActivity extends BaseActivity<BookSheetDetailContrac
                 }
                 break;
             case 1://分享
-                ShareHelper.share(this, detail.getName(), detail.getName(), null);
+                ShareHelper.share(this, detail.getName(), detail.getDescription(), detail.getCover(),null);
                 break;
             case 2: {//添加书目到书单
                 Intent intent = new Intent(this, SearchBookActivity.class);

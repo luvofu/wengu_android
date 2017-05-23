@@ -16,11 +16,13 @@ import android.widget.TextView;
 
 import com.culturebud.BaseApp;
 import com.culturebud.BaseFragment;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.MeContract;
 import com.culturebud.presenter.MePresenter;
+import com.culturebud.util.ShareHelper;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 
@@ -36,7 +38,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     private View userInfoView;
     private TextView tvNick, tvDesc;
     private SimpleDraweeView sdvFace;
-    private SettingItemView sivFriends, sivCollect, sivMsg, sivFeedback, sivAbout, sivSetting;
+    private SettingItemView sivFriends, sivCollect, sivMsg, sivFeedback, sivAbout, sivSetting, sivinviteFriend;
     private RelativeLayout rlMe;
     private User mUser;
 
@@ -59,6 +61,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
         sivFeedback = (SettingItemView) view.findViewById(R.id.siv_feelback);
         sivAbout = (SettingItemView) view.findViewById(R.id.siv_about);
         sivSetting = (SettingItemView) view.findViewById(R.id.siv_settings);
+        sivinviteFriend = (SettingItemView) view.findViewById(R.id.invitefriend);
 
         btnLogin = (Button) view.findViewById(R.id.btn_login);
         userInfoView = view.findViewById(R.id.ll_user_info);
@@ -91,7 +94,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
         sivFeedback.setOnClickListener(this);
         sivAbout.setOnClickListener(this);
         sivSetting.setOnClickListener(this);
-
+        sivinviteFriend.setOnClickListener(this);
     }
 
     @Override
@@ -114,14 +117,19 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
 
 
     public void onClick(View v) {
-        switch (v.getId()) {
+        int viewId = v.getId();
+        //关于文芽和邀请好友，目前不需要登录
+        if (viewId != R.id.siv_about && viewId != R.id.invitefriend) {
+            if (BaseApp.getInstance().getUser() == null) {
+                onToLogin();
+                return;
+            }
+        }
+
+        switch (viewId) {
             case R.id.rl_me: {
-                if (BaseApp.getInstance().getUser() != null) {
-                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                    startActivity(intent);
-                } else {
-                    presenter.login();
-                }
+                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.btn_login:
@@ -140,10 +148,6 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
                 break;
             }
             case R.id.siv_feelback: {
-                if (BaseApp.getInstance().getUser() == null) {
-                    onToLogin();
-                    return;
-                }
                 Intent intent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(intent);
                 break;
@@ -155,12 +159,12 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
                 break;
             }
             case R.id.siv_settings: {
-                if (BaseApp.getInstance().getUser() == null) {
-                    onToLogin();
-                    return;
-                }
                 Intent intent = new Intent(getActivity(), AccountSettingActivity.class);
                 startActivity(intent);
+                break;
+            }
+            case R.id.invitefriend: {
+                ShareHelper.share(getActivity(), getString(R.string.invitefriend_title), getString(R.string.invitefriend_content), CommonConst.APPDOWNLOADQRCODE_IMAGEURL, null);
                 break;
             }
         }

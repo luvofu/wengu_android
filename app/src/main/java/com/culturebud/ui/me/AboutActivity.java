@@ -6,7 +6,6 @@ import android.view.View;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
-import com.culturebud.TitleBarActivity;
 
 /**
  * Created by XieWei on 2016/11/1.
