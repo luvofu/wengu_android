@@ -8,7 +8,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_only_last_bg_selector">
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:paddingBottom="1dp">
 
         <RadioGroup
             android:id="@+id/rg_sort_type"
@@ -20,11 +21,10 @@
                 android:id="@+id/rb_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
                 android:background="@android:color/white"
                 android:button="@null"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:text="评分"
                 android:textColor="@drawable/tabar_font_selector"
                 android:textSize="14sp" />
@@ -37,7 +37,7 @@
                 android:background="@android:color/white"
                 android:button="@null"
                 android:gravity="center"
-                android:padding="15dp"
+                android:padding="10dp"
                 android:text="藏书量"
                 android:textColor="@drawable/tabar_font_selector"
                 android:textSize="14sp" />
@@ -50,7 +50,7 @@
             android:layout_alignParentRight="true"
             android:background="@android:color/white"
             android:gravity="center"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="筛选"
             android:textColor="@drawable/tabar_font_selector"
             android:textSize="14sp" />
@@ -58,17 +58,21 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/setting_item_only_last_bg_selector"
+        android:paddingBottom="1dp">
 
         <TextView
             android:id="@+id/tv_filter_display"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="5dp"
             android:background="@drawable/book_filter_item_bg"
-            android:drawableRight="@mipmap/ic_vbar"
-            android:gravity="center"
+            android:gravity="right"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:textColor="@color/tabar_font_checked"
             android:textSize="13sp"
             android:visibility="gone" />
     </RelativeLayout>
@@ -91,8 +95,12 @@
                 android:id="@+id/rv_books"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp" />
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true" />
+
         </android.support.v4.widget.SwipeRefreshLayout>
+
     </com.culturebud.widget.NoDataView>
 
 </LinearLayout>

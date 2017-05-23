@@ -74,7 +74,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         userId = intent.getLongExtra("user_id", defaultId);
 
         boolean isMe = BaseApp.getInstance().isMe(userId);
-        if (!isMe) {
+        if (isMe) {
             setOperasDrawable(R.drawable.titlebar_add_selector);
             showOperas();
         } else {

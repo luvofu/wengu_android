@@ -53,7 +53,7 @@ public class SelectBookActivity extends BaseActivity<SelectBookContract.Presente
         rvBooks.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
         Intent intent = getIntent();
-        int categoryType = intent.getIntExtra("category_type", CommonConst.UserBookCategoryType.TYPE_ALL);
+        int categoryType = intent.getIntExtra("category_type", CommonConst.CategoryType.TYPE_ALL);
         String category = intent.getStringExtra("category");
         if (TextUtils.isEmpty(category)) {
             category = "全部";

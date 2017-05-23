@@ -97,6 +97,15 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         return mIsSoftKeyboardShowing;
     }
 
+    public void hideKeyboard(View view) {
+        if (softKeyboardHasShowing()) {
+            View focus = view.findFocus();
+            if (focus != null) {
+                focus.clearFocus();
+            }
+        }
+    }
+
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));

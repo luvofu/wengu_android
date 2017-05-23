@@ -36,10 +36,8 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         .OnItemDeleteListener, CustomCategoriesAdapter.OnItemEditCategoryListener {
     private RecyclerView rvCustomCategories;
     CustomCategoriesAdapter adapter = new CustomCategoriesAdapter();
-
-    private boolean hasMoved = false; //是否排过序
-    private boolean shouldFinish = false; //是否应该结束页面.
-    private boolean hasChanged = false; //是否编辑过（用于返回是否通知刷新）
+    private boolean hasMoved = false;//是否排序
+    private boolean hasChanged = false; //是否编辑
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,108 +62,70 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         presenter.customCategories();
     }
 
-    @Override
-    protected void onBack() {
-        super.onBack();
+    private void finishResult() {
         if (hasChanged) {
-            setResult(RESULT_OK);
+            Intent intent = new Intent();
+            setResult(RESULT_OK, intent);
         }
         finish();
     }
 
     @Override
-    protected void onOptions(View view) {
-        super.onOptions(view);
+    protected void onBack() {//返回
+        hideKeyboard(rvCustomCategories);
+        sortCategory();
+        finishResult();
+    }
 
-        shouldFinish = true;
+    @Override
+    protected void onOptions(View view) {//完成
+        onBack();
+    }
 
-        //关闭键盘.
+    @Override
+    public void onBackPressed() {//物理返回
         if (softKeyboardHasShowing()) {
-            View view1 = rvCustomCategories.findFocus();
-            if (view1 != null) {
-                view1.clearFocus();
-            }
-        }
-
-        //是否有排序过
-        if (hasMoved) {
-            /*
-                提交新的排序.
-                1. 获取现在的数据.
-                2. 遍历，把categoryId通过|分割
-             */
-            List<Category> categories = adapter.getData();
-            String categoryIdListString = "";
-
-            if (categories != null && categories.size() > 0) {
-                Iterator<Category> cgs = categories.iterator();
-                while (cgs.hasNext()) {
-                    Category cg = cgs.next();
-                    categoryIdListString = categoryIdListString + cg.getCategoryId() + "|";
-                }
-                categoryIdListString = categoryIdListString.substring(0, categoryIdListString.lastIndexOf("|"));
-            }
-
-            presenter.sortCustomCategory(categoryIdListString);
-        }
-
-        if (!softKeyboardHasShowing() && !hasMoved) {
-            //没有做改变,直接退出.
-            shouldFinish = false;
-            if (hasChanged) {
-                setResult(RESULT_OK);
-            }
-
-            finish();
+            super.onBackPressed();
+        } else {
+            onBack();
         }
     }
 
     @Override
     public void onCustomCategories(List<Category> categories) {
-        ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).clearData();
-        ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).addItems(categories);
+        adapter.clearData();
+        adapter.addItems(categories);
     }
 
     @Override
     public void onCategoryChanged(boolean success) {
-        if (success) {
-            hasChanged = true;
-            if (shouldFinish) {
-                setResult(RESULT_OK);
-                finish();
-            }
-        } else {
-            shouldFinish = false;
+        if (success) {//编辑分类成功
+//            presenter.customCategories();
         }
     }
 
     @Override
     public void onAddCategory(boolean success) {
-        if (success) {
-            hasChanged = true;
+        if (success) {//添加分类成功
             presenter.customCategories();
         }
     }
 
     @Override
     public void onDeleteCategory(boolean success) {
-        if (success) {
-            hasChanged = true;
+        if (success) {//删除分类成功
             presenter.customCategories();
         }
     }
 
+
     @Override
     public void onCategorySorted(boolean success) {
         if (success) {
-            //排序提交成功.返回书架页面.
-            setResult(RESULT_OK);
-            finish();
-        } else {
-            shouldFinish = false;
-            hasMoved = false;
+//            presenter.customCategories();
         }
     }
+
 
     @Override
     public void onItemClick(View view, Category category) {
@@ -175,12 +135,12 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
             intent.putExtra("hint", "输入书籍分类（不超过8个字）");
             intent.putExtra("content_length", 8);
             startActivityForResult(intent, CommonConst.RequestCode.REQUEST_CODE_ADD_CUSTOM_CATEGORY);
-        } else {
-            //修改分类
+        } else {//修改分类
 
         }
     }
 
+    //添加分类
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -190,22 +150,51 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
                     String content = data.getStringExtra("content");
                     if (!TextUtils.isEmpty(content)) {
                         presenter.addCustomCategory(content);
+                        hasChanged = true;
                     }
                 }
                 break;
         }
     }
 
+    //删除分类
     @Override
     public void onItemDelete(int position, Category category) {
         if (category != null) {
             new AlertDialog.Builder(this).setMessage("删除分类将会连同分类里面的书籍一起删除，您确定要删除吗？")
                     .setPositiveButton(R.string.delete, (dialog, which) -> {
-                        ((CustomCategoriesAdapter) rvCustomCategories.getAdapter()).deleteItem(category);
+                        adapter.deleteItem(category);
                         presenter.deleteCustomCategory(category.getCategoryId());
+                        hasChanged = true;
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();
+        }
+    }
+
+    //编辑分类
+    @Override
+    public void onItemEditCategory(EditText editText, Category category) {
+        String newCategoryName = editText.getText().toString();
+        presenter.editCustomCategory(category.getCategoryId(), newCategoryName);
+        hasChanged = true;
+    }
+
+    //排序分类
+    private void sortCategory() {
+        if (hasMoved) {
+            List<Category> categories = adapter.getData();
+            String categoryIdListString = "";
+            if (categories != null && categories.size() > 0) {
+                Iterator<Category> cgs = categories.iterator();
+                while (cgs.hasNext()) {
+                    Category cg = cgs.next();
+                    categoryIdListString = categoryIdListString + cg.getCategoryId() + "|";
+                }
+                categoryIdListString = categoryIdListString.substring(0, categoryIdListString.lastIndexOf("|"));
+            }
+            presenter.sortCustomCategory(categoryIdListString);
+            hasChanged = true;
         }
     }
 
@@ -222,13 +211,18 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         }
 
         @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+        }
+
+        @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
             int dragFlags = 0, swipeFlags = 0;
             if (recyclerView.getLayoutManager() instanceof StaggeredGridLayoutManager) {
                 dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT;
             } else if (recyclerView.getLayoutManager() instanceof LinearLayoutManager) {
                 dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-                //j禁止侧滑功能
+                //禁止侧滑
                 swipeFlags = 0;
             }
             return makeMovementFlags(dragFlags, swipeFlags);
@@ -241,17 +235,10 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
                 return false;
             } else {
                 adapter.onItemDragMoving(source, target);
-
-                hasMoved = true; //置为排序
-
+                hasMoved = true;
                 return true;//返回true表示执行拖动
             }
 
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            //此方法在当前业务环境下不用实现
         }
 
         @Override
@@ -267,13 +254,5 @@ public class CustomCategoriesActivity extends BaseActivity<CustomCategoriesContr
         }
     };
 
-    @Override
-    public void onItemEditCategory(EditText editText, Category category) {
-        /*
-            修改分类名后，键盘消失调用此方法.
-            判断是否修改过分类名，没有修改则无需上传.
-         */
-        String newCategoryName = editText.getText().toString();
-        presenter.editCustomCategory(category.getCategoryId(), newCategoryName);
-    }
+
 }

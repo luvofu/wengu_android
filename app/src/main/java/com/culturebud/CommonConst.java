@@ -324,7 +324,7 @@ public final class CommonConst {
         public static final int TYPE_REPLY = 1;
     }
 
-    public final class UserBookCategoryType {
+    public final class CategoryType {
         //        categoryType	是	int	分类类型： All(0, “全部”),Normal(1, “中图法”),Custom(2, “自定义”),Other(3, “其它”);
 //        category	是	string	类别（例如：文学 哲学 未读 私密）
         public static final int TYPE_ALL = 0;
@@ -406,6 +406,8 @@ public final class CommonConst {
         public static final int REQUEST_CODE_EDIT_NOTE_CHAPTER = 1039;
         public static final int REQUEST_CODE_CHANGEMOBILEBIND = 1040;
         public static final int REQUEST_CODE_EDIT_CUSTOMCATEGORY = 1041;
+        public static final int REQUEST_CODE_EDIT_USERBOOK_INFO = 1042;
+        public static final int REQUEST_CODE_ADD_SEARCH_BOOKS = 10423;
     }
 
     public static String getRootPath() {

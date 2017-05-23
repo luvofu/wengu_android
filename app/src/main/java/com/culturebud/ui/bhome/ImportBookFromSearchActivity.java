@@ -30,8 +30,6 @@ import com.culturebud.bean.Book;
 import com.culturebud.bean.SearchKeyword;
 import com.culturebud.contract.ImportBookContract;
 import com.culturebud.presenter.ImportBookPresenter;
-import com.culturebud.ui.bhome.CollectedBooksActivity;
-import com.culturebud.ui.bhome.ManualAddBookActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
@@ -131,6 +129,7 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
                 break;
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -143,9 +142,11 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
                 break;
         }
     }
+
     @Override
     public void afterAddBook(long bookId) {
-       adapter.afterAddBook(bookId);
+        adapter.afterAddBook(bookId);
+        setResult(RESULT_OK);
     }
 
     @Override
@@ -263,13 +264,13 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
     @Override
     public void onItemClick(View v, Book book) {
         if (book != null && book.getBookId() >= 0) {
-            if(v.getId() == R.id.add_book){
-                if(book.isContain()){
+            if (v.getId() == R.id.add_book) {
+                if (book.isContain()) {
                     return;
                 }
                 presenter.addBook(book);
 
-            }else{
+            } else {
                 Intent intent = new Intent(this, BookDetailActivity.class);
                 intent.putExtra("bookId", book.getBookId());
                 startActivity(intent);

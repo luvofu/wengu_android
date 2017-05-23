@@ -27,6 +27,8 @@ import java.util.Locale;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_BOOK_MANUAL;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_SCAN_BOOKS;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ADD_SEARCH_BOOKS;
+import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_BOOK;
 
 /**
  * Created by XieWei on 2016/11/25.
@@ -101,9 +103,9 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
                     isOpen = false;
                 }
                 break;
-            case R.id.tv_search:{
+            case R.id.tv_search: {
                 Intent intent = new Intent(this, ImportBookFromSearchActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, REQUEST_CODE_ADD_SEARCH_BOOKS);
                 break;
             }
             case R.id.tv_manual: {
@@ -183,15 +185,32 @@ public class BookScanActivity extends BaseActivity<ScanBookContract.Presenter> i
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_ADD_BOOK_MANUAL:
+            case REQUEST_CODE_ADD_SEARCH_BOOKS:
                 if (resultCode == RESULT_OK) {
-                    startActivity(new Intent(this, CollectedBooksActivity.class));
+                    Intent intent = new Intent(this, CollectedBooksActivity.class);
+                    intent.putExtra("requestCode", REQUEST_CODE_ENTERING_NEW_BOOK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
                     finish();
                 }
                 break;
             case REQUEST_CODE_ADD_SCAN_BOOKS:
                 if (resultCode == RESULT_OK) {
                     Intent intent = new Intent(this, CollectedBooksActivity.class);
+                    intent.putExtra("requestCode", REQUEST_CODE_ENTERING_NEW_BOOK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(intent);
+                    finish();
+                }
+                break;
+            case REQUEST_CODE_ADD_BOOK_MANUAL:
+                if (resultCode == RESULT_OK) {
+                    Intent intent = new Intent(this, CollectedBooksActivity.class);
+                    intent.putExtra("requestCode", REQUEST_CODE_ENTERING_NEW_BOOK);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(intent);
                     finish();
                 }

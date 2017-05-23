@@ -23,9 +23,8 @@ public class WhiteTagAdapter extends TagAdapter<Category> {
 
     @Override
     public View getView(FlowLayout parent, int position, Category category) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.book_category_item, null);
-        TextView tvTag = (TextView) view;
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, null);
+        TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
         tvTag.setText(category.getCategory() + "(" + category.getStatis() + ")");
         return view;
     }

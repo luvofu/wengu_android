@@ -59,6 +59,8 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
     private TimePickerView timePicker;
     private String bookTitle;
 
+    private boolean hasChangedCategory = false; //是否编辑过其它分类（其它中的读状态、私密状态）
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,6 +268,9 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
     @Override
     protected void onBack() {
         super.onBack();
+        if (hasChangedCategory) {
+            setResult(RESULT_OK);
+        }
         finish();
     }
 
@@ -457,6 +462,7 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
                 if (userBookInfo != null) {
                     sivReadStatus.setRightInfo(readStatus.get(options1));
                     presenter.alterBookReadStatus(userBookInfo.getUserBookId(), options1);
+                    hasChangedCategory = true;
                 }
                 break;
             case OPTS_TYPE_OBTAIN_TYPES:
@@ -501,5 +507,7 @@ public class MyBookInfoActivity extends BaseActivity<MyBookInfoContract.Presente
         Map<String, Object> map = new HashMap<>();
         map.put("permission", permission);
         presenter.editUserBookInfo(userBookInfo.getUserBookId(), map);
+        hasChangedCategory = true;
     }
+
 }

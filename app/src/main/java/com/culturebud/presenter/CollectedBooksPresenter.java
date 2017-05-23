@@ -33,7 +33,7 @@ public class CollectedBooksPresenter extends CollectedBooksContract.Presenter {
         }
         User user = BaseApp.getInstance().getUser();
 
-        view.showLoadingView(page != 0);
+        view.showLoadingView(true);
         model.getCollectedBooks(user.getToken(), userId == -1 ? user.getUserId() : userId, page, categoryType, category)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
