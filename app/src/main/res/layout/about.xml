@@ -39,15 +39,15 @@
         app:info="@string/send_email_info"
         app:name="@string/send_email" />
 
-    <com.culturebud.widget.SettingItemView
-        android:id="@+id/siv_grade"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:background="@drawable/setting_item_only_last_bg_selector"
-        android:clickable="true"
-        android:onClick="onClick"
-        app:has_icon="false"
-        app:name="@string/grade_app" />
+    <!--<com.culturebud.widget.SettingItemView-->
+    <!--android:id="@+id/siv_grade"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="48dp"-->
+    <!--android:background="@drawable/setting_item_only_last_bg_selector"-->
+    <!--android:clickable="true"-->
+    <!--android:onClick="onClick"-->
+    <!--app:has_icon="false"-->
+    <!--app:name="@string/grade_app" />-->
 
     <com.culturebud.widget.SettingItemView
         android:id="@+id/siv_user_agreement"

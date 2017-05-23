@@ -38,7 +38,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     private View userInfoView;
     private TextView tvNick, tvDesc;
     private SimpleDraweeView sdvFace;
-    private SettingItemView sivFriends, sivCollect, sivMsg, sivFeedback, sivAbout, sivSetting,sivinviteFriend;
+    private SettingItemView sivFriends, sivCollect, sivMsg, sivFeedback, sivAbout, sivSetting, sivinviteFriend;
     private RelativeLayout rlMe;
     private User mUser;
 
@@ -117,14 +117,19 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
 
 
     public void onClick(View v) {
-        switch (v.getId()) {
+        int viewId = v.getId();
+        //关于文芽和邀请好友，目前不需要登录
+        if (viewId != R.id.siv_about && viewId != R.id.invitefriend) {
+            if (BaseApp.getInstance().getUser() == null) {
+                onToLogin();
+                return;
+            }
+        }
+
+        switch (viewId) {
             case R.id.rl_me: {
-                if (BaseApp.getInstance().getUser() != null) {
-                    Intent intent = new Intent(getActivity(), UserInfoActivity.class);
-                    startActivity(intent);
-                } else {
-                    presenter.login();
-                }
+                Intent intent = new Intent(getActivity(), UserInfoActivity.class);
+                startActivity(intent);
                 break;
             }
             case R.id.btn_login:
@@ -143,10 +148,6 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
                 break;
             }
             case R.id.siv_feelback: {
-                if (BaseApp.getInstance().getUser() == null) {
-                    onToLogin();
-                    return;
-                }
                 Intent intent = new Intent(getActivity(), FeedbackActivity.class);
                 startActivity(intent);
                 break;
@@ -158,10 +159,6 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
                 break;
             }
             case R.id.siv_settings: {
-                if (BaseApp.getInstance().getUser() == null) {
-                    onToLogin();
-                    return;
-                }
                 Intent intent = new Intent(getActivity(), AccountSettingActivity.class);
                 startActivity(intent);
                 break;
