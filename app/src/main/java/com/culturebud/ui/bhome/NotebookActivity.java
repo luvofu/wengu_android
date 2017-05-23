@@ -57,6 +57,7 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         NoDataView noDataView = (NoDataView) View.inflate(this, R.layout.nodataview, null);
         noDataView.addView(rvNotebooks);
         setNoDataView(noDataView);
+        rvNotebooks.setId(R.id.content_view);
 
         setContentView(noDataView);
         showTitlebar();
@@ -95,8 +96,13 @@ public class NotebookActivity extends BaseActivity<NotebookContract.Presenter> i
         if (currentPage == 0) {
             ((NotebookAdapter) rvNotebooks.getAdapter()).clearData();
         }
-        ((NotebookAdapter) rvNotebooks.getAdapter()).addItems(notebooks);
         loading = false;
+
+        if (notebooks == null) {
+            return;
+        }
+
+        ((NotebookAdapter) rvNotebooks.getAdapter()).addItems(notebooks);
     }
 
     @Override

@@ -24,6 +24,7 @@ import com.culturebud.bean.NotebookDetail;
 import com.culturebud.contract.NotebookDetailContract;
 import com.culturebud.presenter.NotebookDetailPresenter;
 import com.culturebud.ui.image.PreviewBigImgActivity;
+import com.culturebud.widget.NoDataView;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
@@ -62,7 +63,13 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
         divider.setDividerHeight(10);
         rvNotes.addItemDecoration(divider);
-        setContentView(rvNotes);
+
+        NoDataView noDataView = (NoDataView) View.inflate(this, R.layout.nodataview, null);
+        noDataView.addView(rvNotes);
+        setNoDataView(noDataView);
+        rvNotes.setId(R.id.content_view);
+
+        setContentView(noDataView);
         NotebookDetailAdapter adapter = new NotebookDetailAdapter();
         adapter.setOnNotebookOperaListener(this);
         rvNotes.setAdapter(adapter);
@@ -268,6 +275,17 @@ public class NotebookDetailActivity extends BaseActivity<NotebookDetailContract.
                     presenter.notesForNotebook(notebookDetail.getNotebookId(), currentPage);
                 }
                 break;
+        }
+    }
+
+    @Override
+    public void onRetryData() {
+        long notebookId = getIntent().getLongExtra("notebookId", -1);
+        userId = getIntent().getLongExtra("user_id", -1);
+        if (BaseApp.getInstance().isMe(userId)) {
+            presenter.notebookDetail(notebookId);
+        } else {
+            presenter.notesForNotebook(notebookId, currentPage);
         }
     }
 }

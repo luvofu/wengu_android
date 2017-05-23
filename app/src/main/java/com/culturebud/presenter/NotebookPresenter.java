@@ -52,6 +52,9 @@ public class NotebookPresenter extends NotebookContract.Presenter {
                 } else {
                     view.onErrorTip(errorMessage);
                 }
+
+                //告知UI刷新.
+                view.onNotebooks(null);
             }
 
             @Override
