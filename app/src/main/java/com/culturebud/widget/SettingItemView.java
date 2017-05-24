@@ -15,7 +15,6 @@ import android.support.annotation.StringRes;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -153,14 +152,13 @@ public class SettingItemView extends LinearLayout {
 
 
             boolean canEditInfo = arr.getBoolean(R.styleable.SettingItemView_can_edit_info, false);
+            etArrow.setEnabled(canEditInfo);
             if (!canEditInfo) {
-                etArrow.setFocusable(false);
-                etArrow.setOnTouchListener((v, event) -> {
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        SettingItemView.this.performClick();
-                    }
-                    return true;
-                });
+                etArrow.setClickable(false);
+                etArrow.setLongClickable(false);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    etArrow.setContextClickable(false);
+                }
             }
             String hintInfo = arr.getString(R.styleable.SettingItemView_hint_info);
             if (hintInfo != null) {

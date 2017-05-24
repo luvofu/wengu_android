@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
@@ -47,7 +46,7 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
         AdapterView.OnItemClickListener, TextWatcher, ImportBooksAdapter.OnItemClickListener {
     private RecyclerView rvSearchedBooks;
     private ListView lvSearchHistory;
-    private ProgressBar pbLoading;
+//    private ProgressBar pbLoading;
     private EditText etSearchKey;
     private Button btnClearHistory;
     private TextView bottomCreateBtn;
@@ -93,13 +92,13 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
     private void initView() {
         rvSearchedBooks = obtainViewById(R.id.rv_searched_books);
         lvSearchHistory = obtainViewById(R.id.lv_search_history);
-        pbLoading = obtainViewById(R.id.pb_loading);
+//        pbLoading = obtainViewById(R.id.pb_loading);
         etSearchKey = obtainViewById(R.id.et_search_book);
         bottomCreateBtn = obtainViewById(R.id.bottom_create_btn);
         bottomCreateBtn.setText(Html.fromHtml("没有找到您想要的书籍，<a style='color:red'>尝试亲手创建吧</a>"));
 
         rvSearchedBooks.setVisibility(View.GONE);
-        pbLoading.setVisibility(View.GONE);
+//        pbLoading.setVisibility(View.GONE);
         btnClearHistory = new Button(this);
         btnClearHistory.setBackgroundResource(android.R.color.white);
         btnClearHistory.setGravity(Gravity.CENTER);
@@ -154,11 +153,12 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
         loading = false;
         if (currentPage == 0) {
             ((ImportBooksAdapter) rvSearchedBooks.getAdapter()).clearData();
+//            rvSearchedBooks.smoothScrollToPosition(0);
         }
 
         rvSearchedBooks.setVisibility(View.VISIBLE);
         lvSearchHistory.setVisibility(View.GONE);
-        pbLoading.setVisibility(View.GONE);
+//        pbLoading.setVisibility(View.GONE);
 
         if (books != null && books.size() > 0) {
             ((ImportBooksAdapter) rvSearchedBooks.getAdapter()).addItems(books);
@@ -195,11 +195,11 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
                     if (!TextUtils.isEmpty(searchKey)) {
                         imm.hideSoftInputFromWindow(etSearchKey.getWindowToken(), 0);
                         keyword = searchKey;
-                        pbLoading.setVisibility(View.VISIBLE);
+//                        pbLoading.setVisibility(View.VISIBLE);
                         lvSearchHistory.setVisibility(View.GONE);
                         rvSearchedBooks.setVisibility(View.GONE);
                         presenter.cacheKeyworkd(searchKey);
-                        presenter.searchBook(searchKey, 0);
+                        presenter.searchBook(searchKey, currentPage = 0);
                     }
                 }
                 return true;
@@ -212,10 +212,10 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
         imm.hideSoftInputFromWindow(etSearchKey.getWindowToken(), 0);
 
         SearchKeyword sk = historyAdapter.getItem(position);
-        pbLoading.setVisibility(View.VISIBLE);
+//        pbLoading.setVisibility(View.VISIBLE);
         lvSearchHistory.setVisibility(View.GONE);
         rvSearchedBooks.setVisibility(View.GONE);
-        presenter.searchBook(sk.getKeyword(), 0);
+        presenter.searchBook(sk.getKeyword(), currentPage = 0);
         keyword = sk.getKeyword();
         etSearchKey.setText(keyword);
         etSearchKey.setSelection(keyword.length());
@@ -233,7 +233,7 @@ public class ImportBookFromSearchActivity extends BaseActivity<ImportBookContrac
 //        if (count > 0) {
         if (tmp.isEmpty()) {
             lvSearchHistory.setVisibility(View.VISIBLE);
-            pbLoading.setVisibility(View.GONE);
+//            pbLoading.setVisibility(View.GONE);
             rvSearchedBooks.setVisibility(View.GONE);
         }
 //        }

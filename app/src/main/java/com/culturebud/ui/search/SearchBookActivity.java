@@ -210,7 +210,7 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
                         lvSearchHistory.setVisibility(View.GONE);
                         rvSearchedBooks.setVisibility(View.GONE);
                         presenter.cacheKeyword(searchKey);
-                        presenter.searchBook(searchKey, 0);
+                        presenter.searchBook(searchKey, currentPage = 0);
                     }
                 }
                 return true;
@@ -224,7 +224,7 @@ public class SearchBookActivity extends BaseActivity<SearchBookContract.Presente
         pbLoading.setVisibility(View.VISIBLE);
         lvSearchHistory.setVisibility(View.GONE);
         rvSearchedBooks.setVisibility(View.GONE);
-        presenter.searchBook(sk.getKeyword(), 0);
+        presenter.searchBook(sk.getKeyword(), currentPage = 0);
         keyword = sk.getKeyword();
         etSearchKey.setText(keyword);
         etSearchKey.setSelection(keyword.length());
