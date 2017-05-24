@@ -18,7 +18,7 @@ public interface MyFavoritesContract {
     abstract class Model extends BookBaseModel {
         public abstract Observable<List<Book>> getMyFavoriteBooks(String token, int page);
 
-        public abstract Observable<Map<Integer, List<BookSheet>>> getMyFavoriteBookSheets(String token, int page,
+        public abstract Observable<List<BookSheet>> getMyFavoriteBookSheets(String token, int page,
                                                                                           long userId);
     }
 
