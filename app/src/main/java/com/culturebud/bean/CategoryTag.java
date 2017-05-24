@@ -1,10 +1,7 @@
 package com.culturebud.bean;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Created by XieWei on 2017/3/31.
+ * Created by Administrator on 2017/5/24 0024.
  */
 
 public class CategoryTag extends Category {
@@ -24,11 +21,4 @@ public class CategoryTag extends Category {
         this.selected = selected;
     }
 
-    public static List<CategoryTag> loadCatTags(List<Category> datas, boolean isCurrType, String currCategory) {
-        List<CategoryTag> categoryTags = new ArrayList<>();
-        for (Category category : datas) {
-            categoryTags.add(new CategoryTag(category, isCurrType && category.equals(currCategory)));
-        }
-        return categoryTags;
-    }
 }

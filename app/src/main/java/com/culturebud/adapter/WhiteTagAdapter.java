@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.culturebud.BaseApp;
 import com.culturebud.R;
+import com.culturebud.bean.Category;
 import com.culturebud.bean.CategoryTag;
 import com.culturebud.widget.FlowLayout;
 import com.culturebud.widget.TagAdapter;
@@ -17,16 +18,22 @@ import java.util.List;
  */
 
 public class WhiteTagAdapter extends TagAdapter<CategoryTag> {
+    boolean isOne = false;
     int categoryType;
 
-    public WhiteTagAdapter(List<CategoryTag> datas, int categoryType) {
-        super(datas);
+    public WhiteTagAdapter(int categoryType, boolean isOne) {
         this.categoryType = categoryType;
+        this.isOne = isOne;
     }
 
     @Override
     public View getView(FlowLayout parent, int position, CategoryTag categoryTag) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, null);
+        View view;
+        if (isOne) {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_one_item, null);
+        } else {
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, null);
+        }
         TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
         tvTag.setText(categoryTag.getCategory() + "(" + categoryTag.getStatis() + ")");
         if (categoryTag.isSelected()) {
@@ -36,21 +43,36 @@ public class WhiteTagAdapter extends TagAdapter<CategoryTag> {
         return view;
     }
 
-    public CategoryTag doSelected(View view, int position, FlowLayout parent) {
+    public void doSelect(View view, int position, FlowLayout parent) {
         getTags().get(position).setSelected(true);
         notifyDataChanged();
-        return getTags().get(position);
     }
 
-    public void disableAllSelected() {
+    public void unselectAll() {
+        boolean hasChanged = false;
         for (CategoryTag categoryTag : getTags()) {
-            categoryTag.setSelected(false);
+            if (categoryTag.isSelected()) {
+                categoryTag.setSelected(false);
+                hasChanged = true;
+            }
         }
-        notifyDataChanged();
+        if (hasChanged) {
+            notifyDataChanged();
+        }
     }
 
     public int getCategoryType() {
         return categoryType;
     }
 
+    public void setData(List<Category> categories, int currType, String currCategory) {
+        clearData();
+        for (Category category : categories) {
+            addTag(new CategoryTag(category, currType == categoryType && category.getCategory().equals(currCategory)));
+        }
+    }
+
+
 }
+
+

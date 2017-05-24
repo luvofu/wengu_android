@@ -18,7 +18,6 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -72,7 +71,6 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public static final String TYPE_KEY = "opera_type";
     public static final String USER_ID_KEY = "user_id";
     private RecyclerView rvBooks;
-    private int currTotal = 0;
     private int currentPage = 0;
     private int currType = CommonConst.CategoryType.TYPE_ALL;
     private String currCategory = "全部";
@@ -291,8 +289,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         }
     }
 
-    private Button btnAll;
-    private TagFlowLayout tflClc, tflCustom, tflOther;
+    private TagFlowLayout tflAll, tflClc, tflCustom, tflOther;
 
     //标题栏藏书分类
     private void initCategoryDlg() {
@@ -301,65 +298,54 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             ppwCategory.setBackgroundDrawable(new ColorDrawable(0x55333333));
             ppwCategory.setFocusable(true);
             ppwCategory.setOutsideTouchable(false);
+
             View view = getLayoutInflater().inflate(R.layout.dlg_user_book_category_type, null);
-            btnAll = WidgetUtil.obtainViewById(view, R.id.btn_all);
+
+            tflAll = WidgetUtil.obtainViewById(view, R.id.tfl_all);
             tflClc = WidgetUtil.obtainViewById(view, R.id.tfl_clc);
             tflCustom = WidgetUtil.obtainViewById(view, tfl_custom);
             tflOther = WidgetUtil.obtainViewById(view, R.id.tfl_other);
 
-            btnAll.setOnClickListener(v -> {
-                ((WhiteTagAdapter) tflClc.getAdapter()).disableAllSelected();
-                ((WhiteTagAdapter) tflCustom.getAdapter()).disableAllSelected();
-                ((WhiteTagAdapter) tflOther.getAdapter()).disableAllSelected();
-
-                btnAll.setBackgroundResource(R.drawable.login_btn_selector);
-                btnAll.setTextColor(getResources().getColor(R.color.title_font_white));
-
-                currentPage = 0;
-                currType = CommonConst.CategoryType.TYPE_ALL;
-                currCategory = "全部";
-                currStatis = currTotal;
-                setTitle(currCategory + "(" + currStatis + ")");
-                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
-                presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
-
-                ppwCategory.dismiss();
-            });
+            tflAll.setAdapter(new WhiteTagAdapter(CommonConst.CategoryType.TYPE_ALL, true));
+            tflClc.setAdapter(new WhiteTagAdapter(CommonConst.CategoryType.TYPE_NORMAL, false));
+            tflCustom.setAdapter(new WhiteTagAdapter(CommonConst.CategoryType.TYPE_CUSTOM, false));
+            tflOther.setAdapter(new WhiteTagAdapter(CommonConst.CategoryType.TYPE_OTHER, false));
 
             tflClc.setOnTagClickListener(this);
             tflCustom.setOnTagClickListener(this);
             tflOther.setOnTagClickListener(this);
+            tflAll.setOnTagClickListener(this);
 
             ppwCategory.setContentView(view);
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             ppwCategory.setWidth(dm.widthPixels);
-            ppwCategory.setHeight((dm.heightPixels / 3) * 2);
+            ppwCategory.setHeight((dm.heightPixels / 4) * 3);
             ppwCategory.setOnDismissListener(() -> setTitleRightIcon(R.mipmap.ic_arrow_white_down));
         }
     }
 
     @Override
     public boolean onTagClick(View view, int position, FlowLayout parent) {
-        btnAll.setBackgroundResource(R.drawable.tag_btn_selector);
-        btnAll.setTextColor(getResources().getColor(R.color.font_black_dark));
-        ((WhiteTagAdapter) tflClc.getAdapter()).disableAllSelected();
-        ((WhiteTagAdapter) tflCustom.getAdapter()).disableAllSelected();
-        ((WhiteTagAdapter) tflOther.getAdapter()).disableAllSelected();
-
         WhiteTagAdapter adapter = (WhiteTagAdapter) ((TagFlowLayout) parent).getAdapter();
+        CategoryTag categoryTag = adapter.getItem(position);
+        if (!categoryTag.isSelected()) {
+            ((WhiteTagAdapter) tflClc.getAdapter()).unselectAll();
+            ((WhiteTagAdapter) tflCustom.getAdapter()).unselectAll();
+            ((WhiteTagAdapter) tflOther.getAdapter()).unselectAll();
+            ((WhiteTagAdapter) tflAll.getAdapter()).unselectAll();
 
-        CategoryTag categoryTag = adapter.doSelected(view, position, parent);
-        currentPage = 0;
-        currType = adapter.getCategoryType();
-        currCategory = categoryTag.getCategory();
-        currStatis = categoryTag.getStatis();
-        setTitle(currCategory + "(" + currStatis + ")");
-        setTitleRightIcon(R.mipmap.ic_arrow_white_down);
-        presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
+            adapter.doSelect(view, position, parent);
 
+            currentPage = 0;
+            currType = adapter.getCategoryType();
+            currCategory = categoryTag.getCategory();
+            currStatis = categoryTag.getStatis();
+            setTitle(currCategory + "(" + currStatis + ")");
+            setTitleRightIcon(R.mipmap.ic_arrow_white_down);
+            presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
+        }
         ppwCategory.dismiss();
-
         return true;
     }
 
@@ -418,26 +404,25 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
         loading = false;
     }
 
-    Map<Integer, BookCategoryGroup.CategoryGroup> cgMap = new HashMap<>();
+    Map<Integer, List<Category>> cgMap = new HashMap<>();
 
     @Override
     public void onCategoryStatistics(BookCategoryGroup categoryGroup) {
         if (categoryGroup != null) {
-            currTotal = categoryGroup.getTotal();
             for (BookCategoryGroup.CategoryGroup cg : categoryGroup.getCategoryGroups()) {
-                cgMap.put(cg.getCategoryType(), cg);
+                cgMap.put(cg.getCategoryType(), cg.getCategoryStatistics());
             }
+            List<Category> categorieall = new ArrayList<>();
+            Category c = new Category();
+            c.setCategory("全部");
+            c.setStatis(categoryGroup.getTotal());
+            categorieall.add(c);
+            cgMap.put(CommonConst.CategoryType.TYPE_ALL, categorieall);
 
-            btnAll.setText("全部(" + categoryGroup.getTotal() + ")");
-            tflClc.setAdapter(new WhiteTagAdapter(CategoryTag.loadCatTags(
-                    cgMap.get(CommonConst.CategoryType.TYPE_NORMAL).getCategoryStatistics(),
-                    currType == CommonConst.CategoryType.TYPE_NORMAL, currCategory), CommonConst.CategoryType.TYPE_NORMAL));
-            tflCustom.setAdapter(new WhiteTagAdapter(CategoryTag.loadCatTags(
-                    cgMap.get(CommonConst.CategoryType.TYPE_CUSTOM).getCategoryStatistics(),
-                    currType == CommonConst.CategoryType.TYPE_CUSTOM, currCategory), CommonConst.CategoryType.TYPE_CUSTOM));
-            tflOther.setAdapter(new WhiteTagAdapter(CategoryTag.loadCatTags(
-                    cgMap.get(CommonConst.CategoryType.TYPE_OTHER).getCategoryStatistics(),
-                    currType == CommonConst.CategoryType.TYPE_OTHER, currCategory), CommonConst.CategoryType.TYPE_OTHER));
+            ((WhiteTagAdapter) tflClc.getAdapter()).setData(cgMap.get(CommonConst.CategoryType.TYPE_NORMAL), currType, currCategory);
+            ((WhiteTagAdapter) tflCustom.getAdapter()).setData(cgMap.get(CommonConst.CategoryType.TYPE_CUSTOM), currType, currCategory);
+            ((WhiteTagAdapter) tflOther.getAdapter()).setData(cgMap.get(CommonConst.CategoryType.TYPE_OTHER), currType, currCategory);
+            ((WhiteTagAdapter) tflAll.getAdapter()).setData(cgMap.get(CommonConst.CategoryType.TYPE_ALL), currType, currCategory);
 
             updateContent();
         }
@@ -446,36 +431,29 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     void updateContent() {
         String newCategory = "";
         int newStatis = 0;
-        if (currType != CommonConst.CategoryType.TYPE_ALL) {
-            for (Category category : cgMap.get(currType).getCategoryStatistics()) {
-                if (currCategory.equals(category.getCategory())) {
-                    newCategory = category.getCategory();
-                    newStatis = category.getStatis();
-                    break;
-                }
+        for (Category category : cgMap.get(currType)) {
+            if (currCategory.equals(category.getCategory())) {
+                newCategory = category.getCategory();
+                newStatis = category.getStatis();
+                break;
             }
-        } else {
-            newCategory = "全部";
-            newStatis = currTotal;
         }
 
-        if (!newCategory.equals(currCategory) || newStatis != currStatis) {
+        if (!currCategory.equals(newCategory) || currStatis != newStatis) {
             if (newCategory.isEmpty()) {
                 currType = CommonConst.CategoryType.TYPE_ALL;
-                newCategory = "全部";
-                newStatis = currTotal;
-
-                //非事件跳转到全部，btnall设置为选中状态
-                btnAll.setBackgroundResource(R.drawable.login_btn_selector);
-                btnAll.setTextColor(getResources().getColor(R.color.title_font_white));
+                CategoryTag all = ((CategoryTag) tflAll.getAdapter().getItem(0));
+                newCategory = all.getCategory();
+                newStatis = all.getStatis();
+                all.setSelected(true);
+                tflAll.getAdapter().notifyDataChanged();
             }
             currCategory = newCategory;
             currStatis = newStatis;
             currentPage = 0;
             presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
+            setTitle(currCategory + "(" + currStatis + ")");
         }
-
-        setTitle(currCategory + "(" + currStatis + ")");
     }
 
     //删除藏书更新
@@ -657,7 +635,7 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             }
             ((CustomCategoriesAdapter) rvCategories.getAdapter()).clearData();
             ((CustomCategoriesAdapter) rvCategories.getAdapter()).addItems(
-                    cgMap.get(CommonConst.CategoryType.TYPE_CUSTOM).getCategoryStatistics());
+                    cgMap.get(CommonConst.CategoryType.TYPE_CUSTOM));
             tvCategoriesCount.setText(String.format(Locale.getDefault(),
                     getString(R.string.txt_custom_categories_count),
                     rvCategories.getAdapter().getItemCount() - 1));
