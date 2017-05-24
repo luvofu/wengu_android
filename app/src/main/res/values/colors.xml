@@ -42,4 +42,6 @@
     <color name="front_more_font">#AAAAAA</color>
     <color name="edit_books_action">#1592B7</color>
     <color name="light_font_black">#888888</color>
+
+    <color name="tag_selected_color">#1592B7</color>
 </resources>

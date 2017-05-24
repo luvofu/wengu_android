@@ -339,6 +339,7 @@ public class BookHomeFragment extends BaseFragment<BookHomeContract.Presenter> i
         }
 
         ppwBookMark.showAsDropDown(flTop, (int) (20 * SystemParameterUtil.getDeviceDensity()), 4);
+
     }
 
     @Override

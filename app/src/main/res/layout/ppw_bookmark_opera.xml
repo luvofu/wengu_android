@@ -5,19 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/white_circle_bg"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/setting_item_center_bg_selector">
+        android:background="@drawable/setting_item_center_bg_selector"
+        android:focusable="true"
+        android:focusableInTouchMode="true">
 
         <TextView
             android:id="@+id/tv_ppw_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="30dp"
             android:gravity="center"
+            android:minHeight="30dp"
             android:padding="8dp"
             android:text="书签"
             android:textColor="@color/title_font_default"
@@ -28,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:layout_margin="8dp"
+            android:padding="8dp"
             android:clickable="true"
             android:scaleType="centerInside"
             android:src="@mipmap/edittext_del" />
@@ -38,8 +41,8 @@
         android:id="@+id/siv_book_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:minHeight="40dp"
         android:background="@drawable/setting_item_only_last_bg_selector"
+        android:minHeight="40dp"
         app:has_arrow="false"
         app:has_icon="false"
         app:info_color="@color/font_black_dark"
@@ -54,6 +57,7 @@
         app:has_arrow="false"
         app:has_icon="false"
         app:hint_info="@string/total_pages"
+        app:info_color="@color/font_black_dark"
         app:name="@string/total_pages" />
 
     <LinearLayout
@@ -65,7 +69,7 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
+            android:layout_weight="2"
             android:gravity="center_vertical"
             android:paddingLeft="15dp"
             android:text="在读页码"
@@ -74,9 +78,10 @@
 
         <com.culturebud.widget.StepperView
             android:id="@+id/sv_stepper"
-            android:layout_width="96dp"
-            android:layout_height="28dp"
+            android:layout_width="0dp"
+            android:layout_height="25dp"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1"
             android:gravity="center"
             android:orientation="horizontal"
             app:show_number="true" />

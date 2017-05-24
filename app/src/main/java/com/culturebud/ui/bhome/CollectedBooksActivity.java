@@ -34,6 +34,7 @@ import com.culturebud.adapter.WhiteTagAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCategoryGroup;
 import com.culturebud.bean.Category;
+import com.culturebud.bean.CategoryTag;
 import com.culturebud.bean.CollectedBook;
 import com.culturebud.bean.User;
 import com.culturebud.contract.CollectedBooksContract;
@@ -42,6 +43,7 @@ import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.me.GeneralEditorActivity;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.DividerItemDecoration;
+import com.culturebud.widget.FlowLayout;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.culturebud.widget.TagFlowLayout;
 import com.google.gson.Gson;
@@ -55,6 +57,7 @@ import java.util.Set;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_EDIT_USERBOOK_INFO;
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_BOOK;
+import static com.culturebud.R.id.tfl_custom;
 
 /**
  * Created by XieWei on 2016/11/9.
@@ -64,7 +67,7 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_ENTERING_NEW_B
 public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.Presenter> implements
         CollectedBooksContract.View, CollectedBooksAdapter.OnItemClickListener, CollectedBooksVerticalAdapter
         .OnItemClickListener, BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView
-        .OnNavigationItemReselectedListener {
+        .OnNavigationItemReselectedListener, TagFlowLayout.OnTagClickListener {
     public static final int TYPE_SELECT = 1;
     public static final String TYPE_KEY = "opera_type";
     public static final String USER_ID_KEY = "user_id";
@@ -301,11 +304,17 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             View view = getLayoutInflater().inflate(R.layout.dlg_user_book_category_type, null);
             btnAll = WidgetUtil.obtainViewById(view, R.id.btn_all);
             tflClc = WidgetUtil.obtainViewById(view, R.id.tfl_clc);
-            tflCustom = WidgetUtil.obtainViewById(view, R.id.tfl_custom);
+            tflCustom = WidgetUtil.obtainViewById(view, tfl_custom);
             tflOther = WidgetUtil.obtainViewById(view, R.id.tfl_other);
 
             btnAll.setOnClickListener(v -> {
-                ppwCategory.dismiss();
+                ((WhiteTagAdapter) tflClc.getAdapter()).disableAllSelected();
+                ((WhiteTagAdapter) tflCustom.getAdapter()).disableAllSelected();
+                ((WhiteTagAdapter) tflOther.getAdapter()).disableAllSelected();
+
+                btnAll.setBackgroundResource(R.drawable.login_btn_selector);
+                btnAll.setTextColor(getResources().getColor(R.color.title_font_white));
+
                 currentPage = 0;
                 currType = CommonConst.CategoryType.TYPE_ALL;
                 currCategory = "全部";
@@ -313,46 +322,13 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 setTitle(currCategory + "(" + currStatis + ")");
                 setTitleRightIcon(R.mipmap.ic_arrow_white_down);
                 presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
+
+                ppwCategory.dismiss();
             });
 
-            tflClc.setOnTagClickListener((view1, position, parent) -> {
-                ppwCategory.dismiss();
-                Category category = ((WhiteTagAdapter) tflClc.getAdapter()).getItem(position);
-                currentPage = 0;
-                currType = CommonConst.CategoryType.TYPE_NORMAL;
-                currCategory = category.getCategory();
-                currStatis = category.getStatis();
-                setTitle(currCategory + "(" + currStatis + ")");
-                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
-                presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
-                return true;
-            });
-
-            tflCustom.setOnTagClickListener((view1, position, parent) -> {
-                ppwCategory.dismiss();
-                Category category = ((WhiteTagAdapter) tflCustom.getAdapter()).getItem(position);
-                currentPage = 0;
-                currType = CommonConst.CategoryType.TYPE_CUSTOM;
-                currCategory = category.getCategory();
-                currStatis = category.getStatis();
-                setTitle(currCategory + "(" + currStatis + ")");
-                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
-                presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
-                return true;
-            });
-
-            tflOther.setOnTagClickListener((view1, position, parent) -> {
-                ppwCategory.dismiss();
-                Category category = ((WhiteTagAdapter) tflOther.getAdapter()).getItem(position);
-                currentPage = 0;
-                currType = CommonConst.CategoryType.TYPE_OTHER;
-                currCategory = category.getCategory();
-                currStatis = category.getStatis();
-                setTitle(currCategory + "(" + currStatis + ")");
-                setTitleRightIcon(R.mipmap.ic_arrow_white_down);
-                presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
-                return true;
-            });
+            tflClc.setOnTagClickListener(this);
+            tflCustom.setOnTagClickListener(this);
+            tflOther.setOnTagClickListener(this);
 
             ppwCategory.setContentView(view);
             DisplayMetrics dm = new DisplayMetrics();
@@ -361,6 +337,30 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             ppwCategory.setHeight((dm.heightPixels / 3) * 2);
             ppwCategory.setOnDismissListener(() -> setTitleRightIcon(R.mipmap.ic_arrow_white_down));
         }
+    }
+
+    @Override
+    public boolean onTagClick(View view, int position, FlowLayout parent) {
+        btnAll.setBackgroundResource(R.drawable.tag_btn_selector);
+        btnAll.setTextColor(getResources().getColor(R.color.font_black_dark));
+        ((WhiteTagAdapter) tflClc.getAdapter()).disableAllSelected();
+        ((WhiteTagAdapter) tflCustom.getAdapter()).disableAllSelected();
+        ((WhiteTagAdapter) tflOther.getAdapter()).disableAllSelected();
+
+        WhiteTagAdapter adapter = (WhiteTagAdapter) ((TagFlowLayout) parent).getAdapter();
+
+        CategoryTag categoryTag = adapter.doSelected(view, position, parent);
+        currentPage = 0;
+        currType = adapter.getCategoryType();
+        currCategory = categoryTag.getCategory();
+        currStatis = categoryTag.getStatis();
+        setTitle(currCategory + "(" + currStatis + ")");
+        setTitleRightIcon(R.mipmap.ic_arrow_white_down);
+        presenter.getCollectedBooks(userId, currentPage, currType, currCategory);
+
+        ppwCategory.dismiss();
+
+        return true;
     }
 
     private static long lastClickTime;
@@ -429,9 +429,15 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             }
 
             btnAll.setText("全部(" + categoryGroup.getTotal() + ")");
-            tflClc.setAdapter(new WhiteTagAdapter(cgMap.get(CommonConst.CategoryType.TYPE_NORMAL).getCategoryStatistics()));
-            tflCustom.setAdapter(new WhiteTagAdapter(cgMap.get(CommonConst.CategoryType.TYPE_CUSTOM).getCategoryStatistics()));
-            tflOther.setAdapter(new WhiteTagAdapter(cgMap.get(CommonConst.CategoryType.TYPE_OTHER).getCategoryStatistics()));
+            tflClc.setAdapter(new WhiteTagAdapter(CategoryTag.loadCatTags(
+                    cgMap.get(CommonConst.CategoryType.TYPE_NORMAL).getCategoryStatistics(),
+                    currType == CommonConst.CategoryType.TYPE_NORMAL, currCategory), CommonConst.CategoryType.TYPE_NORMAL));
+            tflCustom.setAdapter(new WhiteTagAdapter(CategoryTag.loadCatTags(
+                    cgMap.get(CommonConst.CategoryType.TYPE_CUSTOM).getCategoryStatistics(),
+                    currType == CommonConst.CategoryType.TYPE_CUSTOM, currCategory), CommonConst.CategoryType.TYPE_CUSTOM));
+            tflOther.setAdapter(new WhiteTagAdapter(CategoryTag.loadCatTags(
+                    cgMap.get(CommonConst.CategoryType.TYPE_OTHER).getCategoryStatistics(),
+                    currType == CommonConst.CategoryType.TYPE_OTHER, currCategory), CommonConst.CategoryType.TYPE_OTHER));
 
             updateContent();
         }
@@ -458,6 +464,10 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
                 currType = CommonConst.CategoryType.TYPE_ALL;
                 newCategory = "全部";
                 newStatis = currTotal;
+
+                //非事件跳转到全部，btnall设置为选中状态
+                btnAll.setBackgroundResource(R.drawable.login_btn_selector);
+                btnAll.setTextColor(getResources().getColor(R.color.title_font_white));
             }
             currCategory = newCategory;
             currStatis = newStatis;
@@ -703,4 +713,6 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void onRetryData() {
         presenter.getCategoryStatistics(userId);
     }
+
+
 }

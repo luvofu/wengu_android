@@ -377,6 +377,5 @@ public class SettingItemView extends LinearLayout {
     public void setIconLayoutParams(ViewGroup.LayoutParams params) {
         ivIcon.setLayoutParams(params);
     }
-
 }
 
