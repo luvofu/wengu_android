@@ -16,6 +16,16 @@ public class Category {
     @SerializedName("statis")
     private int statis;//"0"
 
+    public Category() {
+    }
+
+
+    public Category(String category, int statis, long categoryId) {
+        this.category = category;
+        this.categoryId = categoryId;
+        this.statis = statis;
+    }
+
     public String getCategory() {
         return category;
     }

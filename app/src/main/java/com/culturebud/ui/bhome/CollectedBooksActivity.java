@@ -14,7 +14,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -311,16 +310,17 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             tflCustom.setAdapter(new WhiteTagAdapter(CommonConst.CategoryType.TYPE_CUSTOM, false));
             tflOther.setAdapter(new WhiteTagAdapter(CommonConst.CategoryType.TYPE_OTHER, false));
 
+            tflAll.setOnTagClickListener(this);
             tflClc.setOnTagClickListener(this);
             tflCustom.setOnTagClickListener(this);
             tflOther.setOnTagClickListener(this);
-            tflAll.setOnTagClickListener(this);
 
             ppwCategory.setContentView(view);
             DisplayMetrics dm = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(dm);
             ppwCategory.setWidth(dm.widthPixels);
             ppwCategory.setHeight((dm.heightPixels / 4) * 3);
+
             ppwCategory.setOnDismissListener(() -> setTitleRightIcon(R.mipmap.ic_arrow_white_down));
         }
     }
@@ -352,13 +352,10 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     private static long lastClickTime;
 
     private void switchCategoryDlg() {
-        Log.d("category", "switchCategoryDlg()");
         long tmp = System.currentTimeMillis() - lastClickTime;
-        Log.d("category", "tmp = " + tmp);
         if (tmp < 1000) {
             return;
         }
-        Log.d("category", "is showing " + lastClickTime);
         lastClickTime = System.currentTimeMillis();
         if (ppwCategory == null || !ppwCategory.isShowing()) {
             showCategoryDlg();
@@ -412,12 +409,9 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
             for (BookCategoryGroup.CategoryGroup cg : categoryGroup.getCategoryGroups()) {
                 cgMap.put(cg.getCategoryType(), cg.getCategoryStatistics());
             }
-            List<Category> categorieall = new ArrayList<>();
-            Category c = new Category();
-            c.setCategory("全部");
-            c.setStatis(categoryGroup.getTotal());
-            categorieall.add(c);
-            cgMap.put(CommonConst.CategoryType.TYPE_ALL, categorieall);
+            List<Category> categoryAll = new ArrayList<>();
+            categoryAll.add(new Category("全部", categoryGroup.getTotal(), 0));
+            cgMap.put(CommonConst.CategoryType.TYPE_ALL, categoryAll);
 
             ((WhiteTagAdapter) tflClc.getAdapter()).setData(cgMap.get(CommonConst.CategoryType.TYPE_NORMAL), currType, currCategory);
             ((WhiteTagAdapter) tflCustom.getAdapter()).setData(cgMap.get(CommonConst.CategoryType.TYPE_CUSTOM), currType, currCategory);
@@ -691,6 +685,5 @@ public class CollectedBooksActivity extends BaseActivity<CollectedBooksContract.
     public void onRetryData() {
         presenter.getCategoryStatistics(userId);
     }
-
 
 }

@@ -88,6 +88,14 @@ public abstract class BaseActivity<P extends BasePresenter> extends TitleBarActi
         }
     }
 
+    //activity 透明
+    public void setBackTrans(float alhpa) {
+        WindowManager.LayoutParams lp = getWindow().getAttributes();
+        lp.alpha = alhpa;
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        getWindow().setAttributes(lp);
+    }
+
     private ArrayList<OnSoftKeyboardStateChangedListener> mKeyboardStateListeners;      //软键盘状态监听列表
     private ViewTreeObserver.OnGlobalLayoutListener mLayoutChangeListener;
     private boolean mIsSoftKeyboardShowing;

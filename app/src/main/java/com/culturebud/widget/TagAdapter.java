@@ -1,6 +1,8 @@
 package com.culturebud.widget;
 
+import android.content.Context;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,6 +73,10 @@ public abstract class TagAdapter<T> {
         if (!tags.isEmpty()) {
             return tags.get(tags.size() - 1);
         }
+        return null;
+    }
+
+    public ViewGroup.MarginLayoutParams getLayoutParam(Context context) {
         return null;
     }
 
