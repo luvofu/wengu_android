@@ -13,7 +13,7 @@
         android:paddingLeft="@dimen/common_padding_big"
         android:paddingRight="@dimen/common_padding_big"
         android:paddingTop="@dimen/common_padding_small"
-        android:text="您手动录入的新书通过审核后将会自动添加..."
+        android:text="@string/mycreatedbook_notice"
         android:textColor="@color/font_black_light"
         android:textSize="@dimen/font_default"/>
 
