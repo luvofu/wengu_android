@@ -14,7 +14,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +65,7 @@ public class MyFavoritesModel extends MyFavoritesContract.Model {
     }
 
     @Override
-    public Observable<Map<Integer, List<BookSheet>>> getMyFavoriteBookSheets(String token, int page, long userId) {
+    public Observable<List<BookSheet>> getMyFavoriteBookSheets(String token, int page, long userId) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             if (!TextUtils.isEmpty(token)) {
@@ -92,16 +91,13 @@ public class MyFavoritesModel extends MyFavoritesContract.Model {
                             if (code == ApiErrorCode.CODE_SUCCESS) {
                                 JsonObject jobj = bean.getData();
                                 List<BookSheet> bookSheets = null;
-                                Map<Integer, List<BookSheet>> res = new HashMap<>();
                                 Gson gson = new Gson();
-                                int key = gson.fromJson(jobj.get("relationType"), int.class);
                                 if (jobj.has("bookSheetList")) {
                                     JsonArray jarr = jobj.getAsJsonArray("bookSheetList");
                                     bookSheets = gson.fromJson(jarr, new TypeToken<List<BookSheet>>() {
                                     }.getType());
                                 }
-                                res.put(key, bookSheets);
-                                subscriber.onNext(res);
+                                subscriber.onNext(bookSheets);
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));
                             }

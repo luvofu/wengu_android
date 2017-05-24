@@ -9,7 +9,6 @@ import com.culturebud.model.MyFavoritesModel;
 import com.culturebud.util.ApiException;
 
 import java.util.List;
-import java.util.Map;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -76,7 +75,7 @@ public class MyFavoritesPresenter extends MyFavoritesContract.Presenter {
         view.showLoadingView(page != 0);
         model.getMyFavoriteBookSheets(user.getToken(), page, user.getUserId())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Map<Integer, List<BookSheet>>>() {
+                .subscribe(new Subscriber<List<BookSheet>>() {
                     @Override
                     public void onCompleted() {
 
@@ -95,17 +94,15 @@ public class MyFavoritesPresenter extends MyFavoritesContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(Map<Integer, List<BookSheet>> map) {
+                    public void onNext(List<BookSheet> bookSheets) {
                         view.hiddenNoDataView();
 
-                        if (page == 0 && map.size() == 0) {
+                        if (page == 0 && bookSheets.size() == 0) {
                             view.showNoDataView("没有收藏的书单");
                         }
 
-                        if (map.size() > 0) {
-                            for (Integer key : map.keySet()) {
-                                view.onBookSheets(map.get(key));
-                            }
+                        if (bookSheets.size() > 0) {
+                            view.onBookSheets(bookSheets);
                         }
                     }
                 });
