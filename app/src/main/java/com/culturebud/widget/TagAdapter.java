@@ -1,7 +1,5 @@
 package com.culturebud.widget;
 
-import android.view.View;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -114,7 +112,7 @@ public abstract class TagAdapter<T> {
         return tags.get(position);
     }
 
-    public abstract View getView(TagView parent, int position, T t);
+    public abstract void setTagView(TagView tagView, int position, T t);
 
     public boolean setSelected(int position, T t) {
         return false;

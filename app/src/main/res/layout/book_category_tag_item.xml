@@ -9,9 +9,12 @@
     android:duplicateParentState="true"
     android:gravity="center"
     android:maxLines="1"
-    android:padding="6dp"
+    android:paddingBottom="6dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp"
+    android:paddingTop="6dp"
     android:textColor="@color/font_black_dark"
     android:textSize="@dimen/font_small"
-    tools:text="文学(100)" />
+    tools:text="文学" />
 
 

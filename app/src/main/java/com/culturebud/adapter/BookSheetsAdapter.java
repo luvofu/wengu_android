@@ -76,7 +76,6 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
     @Override
     public void onBindViewHolder(BookSheetsViewHolder holder, int position) {
         BookSheet item = data.get(position);
-//        holder.position = position;
         holder.bsItem = item;
         holder.setCover(item.getCover());
         holder.setTitle(item.getName());
@@ -108,7 +107,6 @@ public class BookSheetsAdapter extends RecyclerView.Adapter<BookSheetsViewHolder
         private SimpleDraweeView sdvCover;
         private TextView tvTitle, tvCount, tvNick;
         private Button btnDel;
-//        private int position;
         private BookSheet bsItem;
 
         public BookSheetsViewHolder(View itemView) {

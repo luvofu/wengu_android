@@ -124,11 +124,10 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
     public void onTags(List<String> tags) {
         TagAdapter adapter = new TagAdapter<String>(tags) {
             @Override
-            public View getView(TagView parent, int position, String tag) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
+            public void setTagView(TagView parent, int position, String tag) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.common_tag_item, parent);
                 TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
                 tvTag.setText(tag);
-                return view;
             }
         };
         tflRecommendTags.setAdapter(adapter);
@@ -138,11 +137,10 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
     public void onHistoryTags(List<String> tags) {
         TagAdapter<String> adapter = new TagAdapter<String>(tags) {
             @Override
-            public View getView(TagView parent, int position, String tag) {
-                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
+            public void setTagView(TagView parent, int position, String tag) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.common_tag_item, parent);
                 TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
                 tvTag.setText(tag);
-                return view;
             }
         };
         tflHistoryTags.setAdapter(adapter);
@@ -164,11 +162,10 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
         if (adapter == null) {
             adapter = new TagAdapter<String>() {
                 @Override
-                public View getView(TagView parent, int position, String tag) {
-                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
+                public void setTagView(TagView parent, int position, String tag) {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.common_tag_item, parent);
                     TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
                     tvTag.setText(tag);
-                    return view;
                 }
             };
             tflHistoryTags.setAdapter(adapter);

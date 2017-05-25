@@ -37,7 +37,7 @@ public class EditableTagsAdapter extends TagAdapter<Tag> implements View.OnClick
     }
 
     @Override
-    public View getView(TagView parent, int position, Tag tag) {
+    public void setTagView(TagView parent, int position, Tag tag) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_add_editable_tag, parent);
         EditText etTag = (EditText) view.findViewById(R.id.et_tag);
         view.setTag(tag);
@@ -59,7 +59,6 @@ public class EditableTagsAdapter extends TagAdapter<Tag> implements View.OnClick
             etTag.setOnClickListener(this);
             etTag.setOnEditorActionListener(null);
         }
-        return view;
     }
 
     @Override

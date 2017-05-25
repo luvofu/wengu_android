@@ -115,12 +115,12 @@
                 android:id="@+id/tlb"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
+                android:fitsSystemWindows="true"
                 app:contentInsetEnd="1dp"
                 app:contentInsetLeft="1dp"
                 app:contentInsetRight="1dp"
                 app:contentInsetStart="1dp"
                 app:layout_collapseMode="pin"
-                android:fitsSystemWindows="true"
                 app:popupTheme="@style/TitlebarPopupTheme"
                 app:theme="@style/TitlebarTheme"
                 app:title="@string/blank">
@@ -199,6 +199,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/collect_icon_default"
                         android:drawablePadding="3dp"
+                        android:padding="3dp"
                         android:text="收藏"
                         android:textColor="@color/font_more"
                         android:textSize="14sp" />
@@ -216,6 +217,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@mipmap/add_to_book_sheet_icon"
                         android:drawablePadding="3dp"
+                        android:padding="3dp"
                         android:text="添加到书单"
                         android:textColor="@color/font_more"
                         android:textSize="14sp" />

@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     android:background="@drawable/blue_circle_bg_dark"
+    android:duplicateParentState="true"
     android:gravity="center"
     android:hint="输入标签"
     android:inputType="text"

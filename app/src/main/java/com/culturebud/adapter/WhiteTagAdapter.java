@@ -31,8 +31,8 @@ public class WhiteTagAdapter extends TagAdapter<CategoryTag> {
     }
 
     @Override
-    public View getView(TagView parent, int position, CategoryTag categoryTag) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
+    public void setTagView(TagView tagView, int position, CategoryTag categoryTag) {
+        View view = LayoutInflater.from(tagView.getContext()).inflate(R.layout.book_category_tag_item, tagView);
         TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
 
         tvTag.setText(categoryTag.getCategory() + "(" + categoryTag.getStatis() + ")");
@@ -47,7 +47,6 @@ public class WhiteTagAdapter extends TagAdapter<CategoryTag> {
             tvTag.setTextColor(BaseApp.getInstance().getResources().getColor(R.color.title_font_white));
             tvTag.setBackgroundResource(R.drawable.circle_selected_bg);
         }
-        return view;
     }
 
     public void doSelect(View view, int position, FlowLayout parent) {
