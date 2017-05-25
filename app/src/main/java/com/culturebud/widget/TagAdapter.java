@@ -1,8 +1,6 @@
 package com.culturebud.widget;
 
-import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -76,10 +74,6 @@ public abstract class TagAdapter<T> {
         return null;
     }
 
-    public ViewGroup.MarginLayoutParams getLayoutParam(Context context) {
-        return null;
-    }
-
     interface OnDataChangedListener {
         void onChanged();
     }
@@ -120,7 +114,7 @@ public abstract class TagAdapter<T> {
         return tags.get(position);
     }
 
-    public abstract View getView(FlowLayout parent, int position, T t);
+    public abstract View getView(TagView parent, int position, T t);
 
     public boolean setSelected(int position, T t) {
         return false;

@@ -100,40 +100,27 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
     private void changeAdapter() {
         removeAllViews();
         TagAdapter adapter = mTagAdapter;
-        TagView tagViewContainer = null;
+
         HashSet preCheckedList = mTagAdapter.getPreCheckedList();
         for (int i = 0; i < adapter.getCount(); i++) {
-            View tagView = adapter.getView(this, i, adapter.getItem(i));
 
-            tagViewContainer = new TagView(getContext());
+            TagView tagView = (TagView) adapter.getView(new TagView(getContext()), i, adapter.getItem(i));
 
-            tagView.setDuplicateParentStateEnabled(true);
+            tagView.setLayoutParams(new ViewGroup.MarginLayoutParams(tagView.getTagView().getLayoutParams()));
 
-            if (tagView.getLayoutParams() != null) {
-                tagViewContainer.setLayoutParams(tagView.getLayoutParams());
-            } else {
-                MarginLayoutParams lp = adapter.getLayoutParam(getContext());
-                if (lp == null) {
-                    lp = new ViewGroup.MarginLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                    lp.setMargins(dip2px(getContext(), 5), dip2px(getContext(), 5), dip2px(getContext(), 5), dip2px(getContext(), 5));
-                }
-                tagViewContainer.setLayoutParams(lp);
-            }
-            tagViewContainer.addView(tagView);
-            addView(tagViewContainer);
-
+            addView(tagView);
 
             if (preCheckedList.contains(i)) {
-                tagViewContainer.setChecked(true);
+                tagView.setChecked(true);
             }
 
             if (mTagAdapter.setSelected(i, adapter.getItem(i))) {
                 mSelectedView.add(i);
-                tagViewContainer.setChecked(true);
+                tagView.setChecked(true);
             }
+
         }
         mSelectedView.addAll(preCheckedList);
-
     }
 
 
@@ -280,10 +267,5 @@ public class TagFlowLayout extends FlowLayout implements TagAdapter.OnDataChange
     public void onChanged() {
         mSelectedView.clear();
         changeAdapter();
-    }
-
-    public static int dip2px(Context context, float dpValue) {
-        final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
     }
 }

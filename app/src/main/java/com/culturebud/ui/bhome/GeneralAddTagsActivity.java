@@ -18,6 +18,7 @@ import com.culturebud.vo.Tag;
 import com.culturebud.widget.FlowLayout;
 import com.culturebud.widget.TagAdapter;
 import com.culturebud.widget.TagFlowLayout;
+import com.culturebud.widget.TagView;
 
 import java.util.List;
 
@@ -123,10 +124,9 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
     public void onTags(List<String> tags) {
         TagAdapter adapter = new TagAdapter<String>(tags) {
             @Override
-            public View getView(FlowLayout parent, int position, String tag) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.book_category_item, null);
-                TextView tvTag = (TextView) view;
+            public View getView(TagView parent, int position, String tag) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
+                TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
                 tvTag.setText(tag);
                 return view;
             }
@@ -138,10 +138,9 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
     public void onHistoryTags(List<String> tags) {
         TagAdapter<String> adapter = new TagAdapter<String>(tags) {
             @Override
-            public View getView(FlowLayout parent, int position, String tag) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.book_category_item, null);
-                TextView tvTag = (TextView) view;
+            public View getView(TagView parent, int position, String tag) {
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
+                TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
                 tvTag.setText(tag);
                 return view;
             }
@@ -165,10 +164,9 @@ public class GeneralAddTagsActivity extends BaseActivity<GeneralAddTagsContract.
         if (adapter == null) {
             adapter = new TagAdapter<String>() {
                 @Override
-                public View getView(FlowLayout parent, int position, String tag) {
-                    View view = LayoutInflater.from(parent.getContext())
-                            .inflate(R.layout.book_category_item, null);
-                    TextView tvTag = (TextView) view;
+                public View getView(TagView parent, int position, String tag) {
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
+                    TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
                     tvTag.setText(tag);
                     return view;
                 }

@@ -5,8 +5,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.culturebud.R;
-import com.culturebud.widget.FlowLayout;
 import com.culturebud.widget.TagAdapter;
+import com.culturebud.widget.TagView;
 
 import java.util.List;
 
@@ -25,10 +25,9 @@ public class StringTagsAdapter extends TagAdapter<String> {
     }
 
     @Override
-    public View getView(FlowLayout parent, int position, String s) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.book_sheet_tag_item, null);
-        TextView tvTag = (TextView) view;
+    public View getView(TagView parent, int position, String s) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_sheet_tag_item, parent);
+        TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
         tvTag.setText(s);
         return view;
     }

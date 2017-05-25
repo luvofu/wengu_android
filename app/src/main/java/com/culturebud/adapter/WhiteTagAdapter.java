@@ -1,63 +1,53 @@
 package com.culturebud.adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.culturebud.BaseApp;
 import com.culturebud.R;
 import com.culturebud.bean.Category;
 import com.culturebud.bean.CategoryTag;
+import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.widget.FlowLayout;
 import com.culturebud.widget.TagAdapter;
+import com.culturebud.widget.TagView;
 
 import java.util.List;
-
-import static com.culturebud.widget.TagFlowLayout.dip2px;
 
 /**
  * Created by XieWei on 2017/3/25.
  */
 
 public class WhiteTagAdapter extends TagAdapter<CategoryTag> {
-    boolean isOne = false;
+    boolean singleTag = false;
     int categoryType;
 
-    public WhiteTagAdapter(int categoryType, boolean isOne) {
+    public WhiteTagAdapter(int categoryType, boolean singleTag) {
         this.categoryType = categoryType;
-        this.isOne = isOne;
+        this.singleTag = singleTag;
     }
 
     @Override
-    public ViewGroup.MarginLayoutParams getLayoutParam(Context context) {
-        ViewGroup.MarginLayoutParams lp;
-        if (isOne) {
-            lp = new ViewGroup.MarginLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        } else {
-            lp = new ViewGroup.MarginLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            lp.setMargins(dip2px(context, 5), dip2px(context, 5), dip2px(context, 5), dip2px(context, 5));
-        }
-        return lp;
-    }
-
-    @Override
-    public View getView(FlowLayout parent, int position, CategoryTag categoryTag) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, null);
+    public View getView(TagView parent, int position, CategoryTag categoryTag) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.book_category_item, parent);
         TextView tvTag = (TextView) view.findViewById(R.id.tv_tag);
+
         tvTag.setText(categoryTag.getCategory() + "(" + categoryTag.getStatis() + ")");
-        if (isOne) {
+
+        if (singleTag) {
             tvTag.setTextSize(14);
-            tvTag.setPadding(36, 36, 36, 36);
+            int padding = (int) (12 * SystemParameterUtil.getDeviceDensity());
+            tvTag.setPadding(padding, padding, padding, padding);
+            tvTag.setLayoutParams(new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
         if (categoryTag.isSelected()) {
             tvTag.setTextColor(BaseApp.getInstance().getResources().getColor(R.color.title_font_white));
             tvTag.setBackgroundResource(R.drawable.circle_selected_bg);
         }
-        return tvTag;
+        return view;
     }
 
     public void doSelect(View view, int position, FlowLayout parent) {
