@@ -80,7 +80,7 @@ public class FriendsPresenter extends FriendsContract.Presenter {
                     @Override
                     public void onError(Throwable e) {
                         String errorMessage = ApiException.getErrorMessage(e);
-                        view.showErrorView(errorMessage);
+                        view.onErrorTip(errorMessage);
                     }
 
                     @Override

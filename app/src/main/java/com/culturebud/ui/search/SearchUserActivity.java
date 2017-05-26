@@ -31,7 +31,6 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
 public class SearchUserActivity extends BaseActivity<UserSearchContract.Presenter>
         implements UserSearchContract.View, TextView.OnEditorActionListener, FriendsAdapter.OnItemClickListener {
     private RecyclerView rvUsers;
-    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +54,8 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
         rvUsers.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
 
+        rvUsers.setOnScrollListener(listener);
+
         enableSearch();
         setSearchInputType(InputType.TYPE_CLASS_TEXT);
         setOnTitleEditorActionListener(this);
@@ -69,18 +70,24 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
 
     @Override
     public void onUsers(List<Friend> friends) {
-        if (currentPage == 0) {
-            ((FriendsAdapter) rvUsers.getAdapter()).clearData();
+        if (friends.size() > 0) {
+            loading = false;
+            if (currentPage == 0) {
+                ((FriendsAdapter) rvUsers.getAdapter()).clearData();
+            }
+            ((FriendsAdapter) rvUsers.getAdapter()).addItems(friends);
         }
-        ((FriendsAdapter) rvUsers.getAdapter()).addItems(friends);
     }
 
     private String inputContent;
-
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        inputContent = getInputContent().toString();
-        presenter.search(inputContent, currentPage = 0);
+        String newInput = getInputContent().toString();
+        if (!newInput.equals(inputContent)) {
+            inputContent = newInput;
+            loading = false;
+            presenter.search(inputContent, currentPage = 0);
+        }
         return true;
     }
 
@@ -90,4 +97,21 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
         intent.putExtra("user_id", friend.getUserId());
         startActivityForResult(intent, REQUEST_CODE_USER_PROFILE);
     }
+
+    private int currentPage;
+    private boolean loading = true;
+    private RecyclerView.OnScrollListener listener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            if (dy > 0 && !loading) {
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int total = recyclerView.getLayoutManager().getItemCount();
+                if (lastPosition + 1 >= total) {
+                    loading = true;
+                    presenter.search(inputContent, ++currentPage);
+                }
+            }
+        }
+    };
 }

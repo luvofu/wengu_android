@@ -33,28 +33,26 @@ public class UserSearchPresenter extends UserSearchContract.Presenter {
             view.onErrorTip("搜索内容不能为空");
             return;
         }
-        view.showProDialog();
         model.search(BaseApp.getInstance().getUser().getToken(), keyword, page)
-        .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<List<Friend>>() {
-            @Override
-            public void onCompleted() {
-                view.hideProDialog();
-            }
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Friend>>() {
+                    @Override
+                    public void onCompleted() {
+                        view.hideProDialog();
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                view.hideProDialog();
-                e.printStackTrace();
-                if (e instanceof ApiException) {
-                    view.onErrorTip(e.getMessage());
-                }
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                        if (e instanceof ApiException) {
+                            view.onErrorTip(e.getMessage());
+                        }
+                    }
 
-            @Override
-            public void onNext(List<Friend> users) {
-                view.onUsers(users);
-            }
-        });
+                    @Override
+                    public void onNext(List<Friend> users) {
+                        view.onUsers(users);
+                    }
+                });
     }
 }
