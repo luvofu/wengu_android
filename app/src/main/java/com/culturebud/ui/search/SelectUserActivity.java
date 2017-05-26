@@ -65,7 +65,7 @@ public class SelectUserActivity extends BaseActivity<MyFriendsContract.Presenter
     }
 
     @Override
-    public void onConcern(Friend friend) {
+    public void onConcern(Friend friend, long concernNum, long fanNum, int status) {
 
     }
 
