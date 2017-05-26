@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookCircleDynamic;
-import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.bean.UserProfileInfo;
 import com.culturebud.contract.UserBookHomeContract;
@@ -104,6 +103,40 @@ public class UserBookHomeModel extends UserBookHomeContract.Model {
                                 } else {
 
                                 }
+                            } else {
+                                subscriber.onError(new ApiException(code, bean.getMsg()));
+                            }
+                        }
+                    });
+        });
+    }
+
+    @Override
+    public Observable<JsonObject> concern(String token, long friendId) {
+        return Observable.create(subscriber -> {
+            Map<String, Object> params = getCommonParams();
+            params.put("friendId", friendId);
+            if (!TextUtils.isEmpty(token)) {
+                params.put(TOKEN_KEY, token);
+            }
+
+            initRetrofit().create(ApiMeInterface.class).concern(params)
+                    .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
+                        @Override
+                        public void onCompleted() {
+                            subscriber.onCompleted();
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            subscriber.onError(e);
+                        }
+
+                        @Override
+                        public void onNext(ApiResultBean<JsonObject> bean) {
+                            int code = bean.getCode();
+                            if (code == ApiErrorCode.CODE_SUCCESS) {
+                                subscriber.onNext(bean.getData());
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));
                             }

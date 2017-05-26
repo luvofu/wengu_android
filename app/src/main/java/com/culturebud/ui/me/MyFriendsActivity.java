@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.adapter.FriendsAdapter;
 import com.culturebud.annotation.PresenterInject;
@@ -95,20 +96,16 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
     }
 
     @Override
-    public void onConcern(Friend friend) {
-        //关注状态：未相互关注NOEachConcern(0), 单向关注SingleConcern(1), 单向被关注SingleBeConcerned(2), 互相关注MutualConcern(3);
-        switch (friend.getConcernStatus()) {
-            case 0:
-                friend.setConcernStatus(1);
+    public void onConcern(Friend friend, long concernNum, long fanNum, int status) {
+        friend.setConcernStatus(status);
+        switch (status) {
+            case CommonConst.ConcernStatus.NO_EACHCONCERN_STATUS:
+            case CommonConst.ConcernStatus.SINGLE_BECONVERNED_STATUS:
+                friend.setConcernNum(friend.getConcernNum() - 1);
                 break;
-            case 1:
-                friend.setConcernStatus(0);
-                break;
-            case 2:
-                friend.setConcernStatus(3);
-                break;
-            case 3:
-                friend.setConcernStatus(2);
+            case CommonConst.ConcernStatus.SINGLE_CONCERN_STATUS:
+            case CommonConst.ConcernStatus.EACH_CONCERN_STATUS:
+                friend.setConcernNum(friend.getConcernNum() + 1);
                 break;
         }
         rvFriends.getAdapter().notifyDataSetChanged();

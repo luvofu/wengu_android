@@ -325,6 +325,11 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
         }
     }
 
+    @Override
+    public void onConcern(long concernNum, long fanNum, int status) {
+
+    }
+
     private BookCircleDynamic currClickBcd;
     private DynamicReply currClickDr;
 

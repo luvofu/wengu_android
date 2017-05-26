@@ -5,6 +5,7 @@ import com.culturebud.bean.Friend;
 import com.culturebud.contract.MyFriendsContract;
 import com.culturebud.model.MyFriendsModel;
 import com.culturebud.util.ApiException;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -70,7 +71,7 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
         }
         model.concern(BaseApp.getInstance().getUser().getToken(), friend.getUserId())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<Boolean>() {
+                .subscribe(new Subscriber<JsonObject>() {
                     @Override
                     public void onCompleted() {
 
@@ -83,9 +84,11 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(Boolean aboolean) {
-
-                        view.onConcern(friend);
+                    public void onNext(JsonObject jsonObject) {
+                        long concernNum = jsonObject.get("concernNum").getAsLong();
+                        long fanNum = jsonObject.get("fanNum").getAsLong();
+                        int status = jsonObject.get("concernStatus").getAsInt();
+                        view.onConcern(friend, concernNum, fanNum, status);
                     }
                 });
     }

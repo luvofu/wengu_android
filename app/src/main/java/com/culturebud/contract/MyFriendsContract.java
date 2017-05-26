@@ -1,6 +1,7 @@
 package com.culturebud.contract;
 
 import com.culturebud.bean.Friend;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -17,13 +18,13 @@ public interface MyFriendsContract {
 
         public abstract Observable<List<Friend>> fans(String token, long userId);
 
-        public abstract Observable<Boolean> concern(String token, long friendId);
+        public abstract Observable<JsonObject> concern(String token, long friendId);
     }
 
     interface View extends BaseView {
         void onFriends(List<Friend> friends);
 
-        void onConcern(Friend friend);
+        void onConcern(Friend friend, long concernNum, long fanNum, int status);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {

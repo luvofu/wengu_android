@@ -26,7 +26,7 @@ import rx.Subscriber;
 public class MyFriendsModel extends MyFriendsContract.Model {
     private static final String TAG = MyFriendsModel.class.getSimpleName();
 
-    public Observable<Boolean> concern(String token, long friendId) {
+    public Observable<JsonObject> concern(String token, long friendId) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             params.put("friendId", friendId);
@@ -51,7 +51,7 @@ public class MyFriendsModel extends MyFriendsContract.Model {
                             Log.d(TAG, bean.toString());
                             int code = bean.getCode();
                             if (code == ApiErrorCode.CODE_SUCCESS) {
-                                subscriber.onNext(true);
+                                subscriber.onNext(bean.getData());
                             } else {
                                 subscriber.onError(new ApiException(code, bean.getMsg()));
                             }

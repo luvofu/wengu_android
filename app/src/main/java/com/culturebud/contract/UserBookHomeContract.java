@@ -5,7 +5,7 @@ import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.bean.UserProfileInfo;
 import com.culturebud.model.BookCircleModel;
-import com.culturebud.model.CommunityBaseModel;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -20,7 +20,9 @@ public interface UserBookHomeContract {
         public abstract Observable<UserProfileInfo> getUserProfile(String token, long userId);
 
         public abstract Observable<List<BookCircleDynamic>> getDynamics(String token, long userId, int page);
-     }
+
+        public abstract Observable<JsonObject> concern(String token, long friendId);
+    }
 
     interface View extends BaseView {
         void onUser(UserProfileInfo user);
@@ -30,6 +32,8 @@ public interface UserBookHomeContract {
         void onThumbUp(long dynamicId, boolean isGood);
 
         void onDynamicReply(DynamicReply dynamic);
+
+        void onConcern(long concernNum, long fanNum, int status);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -40,5 +44,7 @@ public interface UserBookHomeContract {
         public abstract void thumbUpDynamic(long dynamicId);
 
         public abstract void replyDynamic(long dynamicId, String content, int replyType, long replyObjId);
+
+        public abstract void concern(long friendId);
     }
 }

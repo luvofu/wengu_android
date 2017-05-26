@@ -2,7 +2,6 @@ package com.culturebud.presenter;
 
 import android.text.TextUtils;
 
-import com.culturebud.ApiErrorCode;
 import com.culturebud.BaseApp;
 import com.culturebud.CommonConst;
 import com.culturebud.bean.BookCircleDynamic;
@@ -12,6 +11,7 @@ import com.culturebud.bean.UserProfileInfo;
 import com.culturebud.contract.UserBookHomeContract;
 import com.culturebud.model.UserBookHomeModel;
 import com.culturebud.util.ApiException;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -144,6 +144,35 @@ public class UserBookHomePresenter extends UserBookHomeContract.Presenter {
                     @Override
                     public void onNext(DynamicReply dynamicReply) {
                         view.onDynamicReply(dynamicReply);
+                    }
+                });
+    }
+
+    @Override
+    public void concern(long friendId) {
+        if (!validateToken()) {
+            return;
+        }
+        model.concern(BaseApp.getInstance().getUser().getToken(), friendId)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<JsonObject>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.showErrorView(errorMessage);
+                    }
+
+                    @Override
+                    public void onNext(JsonObject jsonObject) {
+                        long concernNum = jsonObject.get("concernNum").getAsLong();
+                        long fanNum = jsonObject.get("fanNum").getAsLong();
+                        int status = jsonObject.get("concernStatus").getAsInt();
+                        view.onConcern(concernNum, fanNum, status);
                     }
                 });
     }
