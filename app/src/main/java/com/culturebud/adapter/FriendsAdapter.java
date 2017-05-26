@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.culturebud.BaseApp;
@@ -74,6 +75,7 @@ public class FriendsAdapter extends RecyclerView.Adapter {
     class FriendViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private Friend friend;
         private SimpleDraweeView sdvFriendFace;
+        private LinearLayout llInfo;
         private TextView tvNick;
         private TextView tvInfo;
         private TextView tvOpt;
@@ -81,11 +83,13 @@ public class FriendsAdapter extends RecyclerView.Adapter {
         public FriendViewHolder(View itemView) {
             super(itemView);
             sdvFriendFace = (SimpleDraweeView) itemView.findViewById(R.id.sdv_friend_face);
+            llInfo = (LinearLayout) itemView.findViewById(R.id.ll_info);
             tvNick = (TextView) itemView.findViewById(R.id.tv_friend_nick);
             tvInfo = (TextView) itemView.findViewById(R.id.tv_friend_info);
             tvOpt = (TextView) itemView.findViewById(R.id.tv_opt);
 
             sdvFriendFace.setOnClickListener(this);
+            llInfo.setOnClickListener(this);
             tvOpt.setOnClickListener(this);
         }
 
@@ -145,6 +149,7 @@ public class FriendsAdapter extends RecyclerView.Adapter {
             if (onItemClickListener != null) {
                 switch (v.getId()) {
                     case R.id.sdv_friend_face:
+                    case R.id.ll_info:
                         onItemClickListener.onItemClick(v, friend, 0);
                         break;
                     case R.id.tv_opt:

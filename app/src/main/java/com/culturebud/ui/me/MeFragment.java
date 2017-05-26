@@ -150,14 +150,14 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
             case R.id.ll_concer: {
                 Intent intent = new Intent(getActivity(), FriendsActivity.class);
                 intent.putExtra("is_concern", true);
-                intent.putExtra("title", "我关注的");
+                intent.putExtra("title", getString(R.string.my_concern_pagetitle));
                 startActivity(intent);
                 break;
             }
             case R.id.ll_fan: {
                 Intent intent = new Intent(getActivity(), FriendsActivity.class);
                 intent.putExtra("is_concern", false);
-                intent.putExtra("title", "关注我的");
+                intent.putExtra("title", getString(R.string.my_concerned_pagetitle));
                 startActivity(intent);
                 break;
             }

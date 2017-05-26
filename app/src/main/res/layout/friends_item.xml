@@ -6,16 +6,14 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="3dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_friend_face"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
         fresco:actualImageScaleType="fitXY"
         fresco:placeholderImage="@mipmap/me_default_icon"
         fresco:placeholderImageScaleType="fitXY"
@@ -24,11 +22,12 @@
         fresco:roundingBorderWidth="0.5dp" />
 
     <LinearLayout
+        android:id="@+id/ll_info"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingTop="8dp">
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/tv_friend_nick"
@@ -54,7 +53,7 @@
 
     <TextView
         android:id="@+id/tv_opt"
-        android:layout_width="45dp"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:clickable="true"

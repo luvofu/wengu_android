@@ -2,6 +2,7 @@ package com.culturebud.ui.me;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -109,6 +110,11 @@ public class FriendsActivity extends BaseActivity<FriendsContract.Presenter> imp
                 friend.setFanNum(friend.getFanNum() + 1);
                 break;
         }
+        User user = BaseApp.getInstance().getUser();
+        if (user != null) {
+            user.setConcernNum(concernNum);
+            user.setFanNum(fanNum);
+        }
         rvFriends.getAdapter().notifyDataSetChanged();
     }
 
@@ -122,7 +128,18 @@ public class FriendsActivity extends BaseActivity<FriendsContract.Presenter> imp
                 break;
             }
             case 1: {
-                presenter.concern(friend);
+                switch (friend.getConcernStatus()) {
+                    case CommonConst.ConcernStatus.NO_EACHCONCERN_STATUS:
+                    case CommonConst.ConcernStatus.SINGLE_BECONVERNED_STATUS:
+                        presenter.concern(friend);
+                        break;
+                    case CommonConst.ConcernStatus.SINGLE_CONCERN_STATUS:
+                    case CommonConst.ConcernStatus.EACH_CONCERN_STATUS:
+                        new AlertDialog.Builder(this).setMessage(getString(R.string.cancel_concern_notice))
+                                .setPositiveButton(R.string.confirm, (dialog, which) ->
+                                        presenter.concern(friend)).setNegativeButton(R.string.cancel, null).show();
+                        break;
+                }
             }
         }
     }
