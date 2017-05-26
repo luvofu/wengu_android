@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -25,8 +24,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
@@ -51,8 +50,8 @@ import com.culturebud.ui.search.SelectUserActivity;
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.util.WidgetUtil;
+import com.culturebud.widget.BookCycleTopView;
 import com.culturebud.widget.RecyclerViewDivider;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -70,12 +69,10 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SELECT_USER;
 public class BookCircleActivity extends BaseActivity<BookCircleContract.Presenter>
         implements BookCircleContract.View, BookCircleDynamicAdapter.OnItemClickListener,
         View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener, SwipeRefreshLayout
-                .OnRefreshListener {
+                .OnRefreshListener, BookCycleTopView.BookCycleTopViewListeners {
     private RecyclerView rvDynamics;
-    private SimpleDraweeView sdvFace;
     private AppBarLayout abl;
-    private TextView tvNick;
-    private RelativeLayout rlBg;
+    private BookCycleTopView bcTopView;
     private PopupWindow pwReply;
     private EditText etReplyInput;
     private TextView tvSend;
@@ -114,9 +111,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         abl = obtainViewById(R.id.abl);
-        rlBg = obtainViewById(R.id.rl_bc_bg);
-        sdvFace = obtainViewById(R.id.sdv_face);
-        tvNick = obtainViewById(R.id.tv_nick_name);
+        bcTopView = obtainViewById(R.id.topview);
         swipeRefreshLayout = obtainViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setProgressViewOffset(true, -20, 100);
         titleview = obtainViewById(R.id.bctitleview);
@@ -133,7 +128,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         initPopupWindow();
         setListeners();
         currentPage = 0;
-        presenter.downloadBgImg();
+//        presenter.downloadBgImg();
         presenter.loadDynamics(currentPage);
     }
 
@@ -207,17 +202,12 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         super.onResume();
         User user = BaseApp.getInstance().getUser();
         if (user != null) {
-            sdvFace.setImageURI(user.getAvatar());
-            tvNick.setText(user.getNickname());
-            ctl.setTitle(user.getNickname());
-            tlb.setTitle(user.getNickname());
+            bcTopView.setUserInfo(user);
         }
     }
 
     private void setListeners() {
-//        ivPublish.setOnClickListener(this);
-//        srlRefresh.setOnRefreshListener(this);
-        rlBg.setOnClickListener(this);
+        bcTopView.setTopViewListeners(this);
         rvDynamics.setOnScrollListener(listener);
         addSoftKeyboardChangedListener(this);
 
@@ -304,16 +294,6 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 startActivityForResult(intent, REQUEST_CODE_PUBLISH_DYNAMIC);
                 break;
             }
-            case R.id.iv_back:
-                finish();
-                break;
-            case R.id.rl_bc_bg:
-                aspectX = 350;
-                aspectY = 254;
-                outX = 0;
-                outY = 0;
-                showPhotoDialog();
-                break;
             case R.id.tv_my_publish: {
                 Intent intent = new Intent(this, MyDynamicActivity.class);
                 intent.putExtra("type", 0);
@@ -363,15 +343,15 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
 
     @Override
     public void onBgImg(Bitmap bitmap) {
-        Drawable drawable = new BitmapDrawable(bitmap);
-        rlBg.setBackgroundDrawable(drawable);
+
     }
 
     @Override
     public void onUploadBgImg(String url) {
         if (!TextUtils.isEmpty(url)) {
             BaseApp.getInstance().getUser().setBackground(url);
-            presenter.downloadBgImg();
+            bcTopView.setUserInfo(BaseApp.getInstance().getUser());
+//            presenter.downloadBgImg();
         }
     }
 
@@ -625,5 +605,29 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         currentPage = 0;
         presenter.downloadBgImg();
         presenter.loadDynamics(currentPage);
+    }
+
+    @Override
+    public void onBackgroundClicked(ImageView backgroundImageView) {
+        aspectX = 350;
+        aspectY = 254;
+        outX = 0;
+        outY = 0;
+        showPhotoDialog();
+    }
+
+    @Override
+    public void onAvatarClicked() {
+        //暂时不实现换头像.
+    }
+
+    @Override
+    public void onMyFollowedClicked() {
+        //我关注的.
+    }
+
+    @Override
+    public void onFollowedClicked() {
+        //关注我的
     }
 }

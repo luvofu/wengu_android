@@ -152,6 +152,9 @@
     <string name="txt_custom_categories_count">自定义分类（%1$d）</string>
     <string name="find_none_wanted">没有找到您想要的书籍，<a color='red'>尝试亲手创建吧</a></string>
     <string name="mycreatedbook_notice">您手动录入的新书通过审核后将会自动添加到书架</string>
+    <string name="autograph_hint">暂无简介</string>
+    <string name="concern_title">关注</string>
+    <string name="concerned_title">被关注</string>
 
 
     <string name="txt_mobile">手机号</string>
