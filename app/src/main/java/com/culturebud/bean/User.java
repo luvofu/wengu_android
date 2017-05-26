@@ -86,6 +86,22 @@ public class User {
     @DatabaseField(columnName = "weibo_nick")
     private String weiboNick;
 
+    @SerializedName("concernNum")
+    @DatabaseField(columnName = "concernNum")
+    private long concernNum;    //	关注数
+    @SerializedName("fanNum")
+    @DatabaseField(columnName = "fanNum")
+    private long fanNum;//	粉丝数
+    @SerializedName("bookNum")
+    @DatabaseField(columnName = "bookNum")
+    private long bookNum;//	藏书数
+    @SerializedName("notebookNum")
+    @DatabaseField(columnName = "notebookNum")
+    private long notebookNum;//	笔记数
+    @SerializedName("bookSheetNum")
+    @DatabaseField(columnName = "bookSheetNum")
+    private long bookSheetNum;// 书单数
+
     @SerializedName("token")
     @DatabaseField(columnName = "token")
     private String token;//令牌
@@ -272,6 +288,46 @@ public class User {
         this.weiboNick = weiboNick;
     }
 
+    public long getConcernNum() {
+        return concernNum;
+    }
+
+    public void setConcernNum(long concernNum) {
+        this.concernNum = concernNum;
+    }
+
+    public long getFanNum() {
+        return fanNum;
+    }
+
+    public void setFanNum(long fanNum) {
+        this.fanNum = fanNum;
+    }
+
+    public long getBookNum() {
+        return bookNum;
+    }
+
+    public void setBookNum(long bookNum) {
+        this.bookNum = bookNum;
+    }
+
+    public long getNotebookNum() {
+        return notebookNum;
+    }
+
+    public void setNotebookNum(long notebookNum) {
+        this.notebookNum = notebookNum;
+    }
+
+    public long getBookSheetNum() {
+        return bookSheetNum;
+    }
+
+    public void setBookSheetNum(long bookSheetNum) {
+        this.bookSheetNum = bookSheetNum;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -283,22 +339,37 @@ public class User {
         if (sex != user.sex) return false;
         if (relationType != user.relationType) return false;
         if (mailbox != null ? !mailbox.equals(user.mailbox) : user.mailbox != null) return false;
-        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null) return false;
+        if (nickname != null ? !nickname.equals(user.nickname) : user.nickname != null)
+            return false;
         if (avatar != null ? !avatar.equals(user.avatar) : user.avatar != null) return false;
-        if (background != null ? !background.equals(user.background) : user.background != null) return false;
-        if (autograph != null ? !autograph.equals(user.autograph) : user.autograph != null) return false;
+        if (background != null ? !background.equals(user.background) : user.background != null)
+            return false;
+        if (autograph != null ? !autograph.equals(user.autograph) : user.autograph != null)
+            return false;
         if (country != null ? !country.equals(user.country) : user.country != null) return false;
-        if (province != null ? !province.equals(user.province) : user.province != null) return false;
+        if (province != null ? !province.equals(user.province) : user.province != null)
+            return false;
         if (city != null ? !city.equals(user.city) : user.city != null) return false;
         if (county != null ? !county.equals(user.county) : user.county != null) return false;
-        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null) return false;
+        if (birthday != null ? !birthday.equals(user.birthday) : user.birthday != null)
+            return false;
         if (tag != null ? !tag.equals(user.tag) : user.tag != null) return false;
-        if (userName != null ? !userName.equals(user.userName) : user.userName != null) return false;
-        if (regMobile != null ? !regMobile.equals(user.regMobile) : user.regMobile != null) return false;
-        if (wechatId != null ? !wechatId.equals(user.wechatId) : user.wechatId != null) return false;
+        if (userName != null ? !userName.equals(user.userName) : user.userName != null)
+            return false;
+        if (regMobile != null ? !regMobile.equals(user.regMobile) : user.regMobile != null)
+            return false;
+        if (wechatId != null ? !wechatId.equals(user.wechatId) : user.wechatId != null)
+            return false;
         if (weiboId != null ? !weiboId.equals(user.weiboId) : user.weiboId != null) return false;
-        if (wechatNick != null ? !wechatNick.equals(user.wechatNick) : user.wechatNick != null) return false;
-        if (weiboNick != null ? !weiboNick.equals(user.weiboNick) : user.weiboNick != null) return false;
+        if (wechatNick != null ? !wechatNick.equals(user.wechatNick) : user.wechatNick != null)
+            return false;
+        if (weiboNick != null ? !weiboNick.equals(user.weiboNick) : user.weiboNick != null)
+            return false;
+        if (fanNum != user.getFanNum()) return false;
+        if (concernNum != user.getConcernNum()) return false;
+        if (bookNum != user.getBookNum()) return false;
+        if (notebookNum != user.getNotebookNum()) return false;
+        if (bookSheetNum != user.getBookSheetNum()) return false;
         if (token != null ? !token.equals(user.token) : user.token != null) return false;
         return spellFirst != null ? spellFirst.equals(user.spellFirst) : user.spellFirst == null;
 
@@ -326,7 +397,11 @@ public class User {
         result = 31 * result + (wechatNick != null ? wechatNick.hashCode() : 0);
         result = 31 * result + (weiboNick != null ? weiboNick.hashCode() : 0);
         result = 31 * result + (token != null ? token.hashCode() : 0);
-        result = 31 * result + relationType;
+        result = (int) (31 * result + concernNum);
+        result = (int) (31 * result + fanNum);
+        result = (int) (31 * result + bookNum);
+        result = (int) (31 * result + notebookNum);
+        result = (int) (31 * result + bookSheetNum);
         result = 31 * result + (spellFirst != null ? spellFirst.hashCode() : 0);
         return result;
     }
@@ -382,6 +457,11 @@ public class User {
         user.setWechatNick(wechatNick);
         user.setWeiboNick(weiboNick);
         user.setToken(token);
+        user.setConcernNum(concernNum);
+        user.setFanNum(fanNum);
+        user.setBookNum(bookNum);
+        user.setNotebookNum(notebookNum);
+        user.setBookSheetNum(bookSheetNum);
         user.setSpellFirst(spellFirst);
         user.setRelationType(relationType);
         return user;
