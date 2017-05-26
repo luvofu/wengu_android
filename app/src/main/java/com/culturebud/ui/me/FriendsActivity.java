@@ -14,8 +14,9 @@ import com.culturebud.adapter.FriendsAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Friend;
 import com.culturebud.bean.User;
-import com.culturebud.contract.MyFriendsContract;
-import com.culturebud.presenter.MyFriendsPresenter;
+import com.culturebud.contract.FriendsContract;
+import com.culturebud.presenter.FriendsPresenter;
+import com.culturebud.ui.bhome.UserBookHomeActivity;
 import com.culturebud.ui.search.SearchUserActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
@@ -26,8 +27,8 @@ import java.util.List;
  * Created by XieWei on 2016/12/5.
  */
 
-@PresenterInject(MyFriendsPresenter.class)
-public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View, FriendsAdapter.OnItemClickListener {
+@PresenterInject(FriendsPresenter.class)
+public class FriendsActivity extends BaseActivity<FriendsContract.Presenter> implements FriendsContract.View, FriendsAdapter.OnItemClickListener {
     private RecyclerView rvFriends;
     private List<Friend> friends = new ArrayList<>();
     private boolean isConcern = false;
@@ -101,11 +102,11 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
         switch (status) {
             case CommonConst.ConcernStatus.NO_EACHCONCERN_STATUS:
             case CommonConst.ConcernStatus.SINGLE_BECONVERNED_STATUS:
-                friend.setConcernNum(friend.getConcernNum() - 1);
+                friend.setFanNum(friend.getFanNum() - 1);
                 break;
             case CommonConst.ConcernStatus.SINGLE_CONCERN_STATUS:
             case CommonConst.ConcernStatus.EACH_CONCERN_STATUS:
-                friend.setConcernNum(friend.getConcernNum() + 1);
+                friend.setFanNum(friend.getFanNum() + 1);
                 break;
         }
         rvFriends.getAdapter().notifyDataSetChanged();
@@ -115,7 +116,7 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
     public void onItemClick(View v, Friend friend, int opt) {
         switch (opt) {
             case 0: {
-                Intent intent = new Intent(this, FriendDetailActivity.class);
+                Intent intent = new Intent(this, UserBookHomeActivity.class);
                 intent.putExtra("user_id", friend.getUserId());
                 startActivity(intent);
                 break;

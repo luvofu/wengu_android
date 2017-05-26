@@ -15,6 +15,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.UserMessage;
 import com.culturebud.contract.MyMsgsContract;
 import com.culturebud.presenter.MyMsgsPresenter;
+import com.culturebud.ui.bhome.UserBookHomeActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -120,7 +121,7 @@ public class MyMsgActivity extends BaseActivity<MyMsgsContract.Presenter>
         switch (operaType) {
             case 0://msg user profile
                 long userId = userMessage.getSendUserId();
-                Intent intent = new Intent(this, FriendDetailActivity.class);
+                Intent intent = new Intent(this, UserBookHomeActivity.class);
                 intent.putExtra("user_id", userId);
                 startActivity(intent);
                 break;

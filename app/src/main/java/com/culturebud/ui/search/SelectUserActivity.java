@@ -15,8 +15,9 @@ import com.culturebud.adapter.FriendsAdapter;
 import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Friend;
 import com.culturebud.bean.User;
-import com.culturebud.contract.MyFriendsContract;
-import com.culturebud.presenter.MyFriendsPresenter;
+import com.culturebud.contract.FriendsContract;
+import com.culturebud.presenter.FriendsPresenter;
+import com.culturebud.widget.NoDataView;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
@@ -26,9 +27,9 @@ import java.util.List;
  * Created by XieWei on 2017/1/12.
  */
 
-@PresenterInject(MyFriendsPresenter.class)
-public class SelectUserActivity extends BaseActivity<MyFriendsContract.Presenter>
-        implements MyFriendsContract.View, FriendsAdapter.OnItemClickListener {
+@PresenterInject(FriendsPresenter.class)
+public class SelectUserActivity extends BaseActivity<FriendsContract.Presenter>
+        implements FriendsContract.View, FriendsAdapter.OnItemClickListener {
     private RecyclerView rvUsers;
 
     @Override
@@ -39,7 +40,13 @@ public class SelectUserActivity extends BaseActivity<MyFriendsContract.Presenter
                 .LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         rvUsers.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rvUsers.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL));
-        setContentView(rvUsers);
+
+        NoDataView noDataView = (NoDataView) View.inflate(this, R.layout.nodataview, null);
+        noDataView.addView(rvUsers);
+        setNoDataView(noDataView);
+        rvUsers.setId(R.id.content_view);
+
+        setContentView(noDataView);
         presenter.setView(this);
         showTitlebar();
         showBack();

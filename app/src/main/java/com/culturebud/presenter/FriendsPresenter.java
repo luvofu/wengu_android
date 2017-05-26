@@ -2,8 +2,8 @@ package com.culturebud.presenter;
 
 import com.culturebud.BaseApp;
 import com.culturebud.bean.Friend;
-import com.culturebud.contract.MyFriendsContract;
-import com.culturebud.model.MyFriendsModel;
+import com.culturebud.contract.FriendsContract;
+import com.culturebud.model.FriendsModel;
 import com.culturebud.util.ApiException;
 import com.google.gson.JsonObject;
 
@@ -18,11 +18,11 @@ import rx.schedulers.Schedulers;
  * Created by XieWei on 2016/12/5.
  */
 
-public class MyFriendsPresenter extends MyFriendsContract.Presenter {
-    private static final String TAG = MyFriendsPresenter.class.getSimpleName();
+public class FriendsPresenter extends FriendsContract.Presenter {
+    private static final String TAG = FriendsPresenter.class.getSimpleName();
 
-    public MyFriendsPresenter() {
-        setModel(new MyFriendsModel());
+    public FriendsPresenter() {
+        setModel(new FriendsModel());
     }
 
     @Override

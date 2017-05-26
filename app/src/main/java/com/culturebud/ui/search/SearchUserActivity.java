@@ -16,7 +16,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.Friend;
 import com.culturebud.contract.UserSearchContract;
 import com.culturebud.presenter.UserSearchPresenter;
-import com.culturebud.ui.me.FriendDetailActivity;
+import com.culturebud.ui.bhome.UserBookHomeActivity;
 import com.culturebud.widget.RecyclerViewDivider;
 
 import java.util.List;
@@ -86,7 +86,7 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
 
     @Override
     public void onItemClick(View v, Friend friend, int opt) {
-        Intent intent = new Intent(this, FriendDetailActivity.class);
+        Intent intent = new Intent(this, UserBookHomeActivity.class);
         intent.putExtra("user_id", friend.getUserId());
         startActivityForResult(intent, REQUEST_CODE_USER_PROFILE);
     }
