@@ -158,6 +158,11 @@
     <string name="add_concern_title">加关注</string>
     <string name="concerned_title">已关注</string>
     <string name="concerned_each_title">互相关注</string>
+    <string name="cancel_concern_notice">确定不再关注此人？</string>
+    <string name="other_concern_pagetitle">他关注的</string>
+    <string name="other_concerned_pagetitle">关注他的</string>
+    <string name="my_concern_pagetitle">我关注的</string>
+    <string name="my_concerned_pagetitle">关注我的</string>
 
     <string name="txt_mobile">手机号</string>
     <string name="txt_wechat">微信</string>

@@ -8,6 +8,7 @@ import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.bean.UserProfileInfo;
+import com.culturebud.contract.BaseView;
 import com.culturebud.contract.UserBookHomeContract;
 import com.culturebud.model.UserBookHomeModel;
 import com.culturebud.util.ApiException;
@@ -172,6 +173,10 @@ public class UserBookHomePresenter extends UserBookHomeContract.Presenter {
                         long concernNum = jsonObject.get("concernNum").getAsLong();
                         long fanNum = jsonObject.get("fanNum").getAsLong();
                         int status = jsonObject.get("concernStatus").getAsInt();
+
+                        BaseApp.getInstance().getUser().setConcernNum(concernNum);
+                        BaseApp.getInstance().getUser().setFanNum(fanNum);
+
                         view.onConcern(concernNum, fanNum, status);
                     }
                 });

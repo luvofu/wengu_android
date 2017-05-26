@@ -46,6 +46,7 @@ import com.culturebud.ui.community.CommentDetailActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
+import com.culturebud.ui.me.FriendsActivity;
 import com.culturebud.ui.search.SelectUserActivity;
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
@@ -624,10 +625,20 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
     @Override
     public void onMyFollowedClicked() {
         //我关注的.
+        Intent intent = new Intent(this, FriendsActivity.class);
+        intent.putExtra("is_concern", true);
+        intent.putExtra("user_Id", BaseApp.getInstance().getUser().getUserId());
+        intent.putExtra("title",getString(R.string.my_concern_pagetitle));
+        startActivity(intent);
     }
 
     @Override
     public void onFollowedClicked() {
         //关注我的
+        Intent intent = new Intent(this, FriendsActivity.class);
+        intent.putExtra("is_concern", false);
+        intent.putExtra("user_Id", BaseApp.getInstance().getUser().getUserId());
+        intent.putExtra("title",getString(R.string.my_concerned_pagetitle));
+        startActivity(intent);
     }
 }

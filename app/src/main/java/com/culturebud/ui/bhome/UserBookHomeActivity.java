@@ -7,17 +7,18 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -38,6 +39,7 @@ import com.culturebud.ui.community.CommentDetailActivity;
 import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
+import com.culturebud.ui.me.FriendsActivity;
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.widget.BookCycleTopView;
@@ -45,7 +47,6 @@ import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by XieWei on 2016/12/29.
@@ -53,7 +54,7 @@ import java.util.Map;
 
 @PresenterInject(UserBookHomePresenter.class)
 public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Presenter>
-        implements UserBookHomeContract.View, BookCircleDynamicAdapter.OnItemClickListener, View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener {
+        implements UserBookHomeContract.View, BookCircleDynamicAdapter.OnItemClickListener, View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener, BookCycleTopView.BookCycleTopViewListeners {
     private static final String TAG = UserBookHomeActivity.class.getSimpleName();
 
     private BookCycleTopView topView;
@@ -110,6 +111,7 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
         adapter.setOnItemClickListener(this);
         rvDynamics.setAdapter(adapter);
         addSoftKeyboardChangedListener(this);
+        topView.setTopViewListeners(this);
         initData();
 
         titleview = obtainViewById(R.id.bctitleview);
@@ -141,7 +143,7 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
                     //自己的，不显示底部的.
                     return;
                 }
-                if (Math.abs(dy) > 10)
+                if (Math.abs(dy) < 3)
                     return;
                 if (dy > 0) {
                     if (concerncontainview.getVisibility() == View.GONE)
@@ -244,7 +246,7 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
                 }
                 break;
             }
-            case R.id.concernview: {
+            case R.id.concerncontainview: {
                 //关注，取消关注.
                 handleConcernClick();
                 break;
@@ -327,7 +329,9 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
 
     @Override
     public void onConcern(long concernNum, long fanNum, int status) {
+        user.setConcernStatus(status);
 
+        updateConcernView();
     }
 
     private BookCircleDynamic currClickBcd;
@@ -430,7 +434,17 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
 
     private void handleConcernClick() {
         //加关注、已关注、互相关注
-        
+        if (user.getConcernStatus() == CommonConst.ConcernStatus.SINGLE_CONCERN_STATUS || user.getConcernStatus() == CommonConst.ConcernStatus.EACH_CONCERN_STATUS) {
+            //需要提示确定取消. cancel_concern_notice
+            new AlertDialog.Builder(this).setMessage(getString(R.string.cancel_concern_notice))
+                    .setPositiveButton(R.string.confirm, (dialog, which) -> {
+                        presenter.concern(user.getUserId());
+                    })
+                    .setNegativeButton(R.string.cancel, null)
+                    .show();
+        } else {
+            presenter.concern(user.getUserId());
+        }
     }
 
     private void updateConcernView() {
@@ -452,9 +466,40 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
                 break;
         }
         Drawable drawable = AppCompatResources.getDrawable(this, concernresid);
+        drawable.setBounds(0,0,drawable.getMinimumWidth(),drawable.getMinimumHeight());
         concernview.setCompoundDrawables(drawable, null, null, null);
 
         String concerntitle = CommonConst.getConcernTitle(user.getConcernStatus());
         concernview.setText(concerntitle);
+    }
+
+    @Override
+    public void onBackgroundClicked(ImageView backgroundImageView) {
+        //不能做操作.
+    }
+
+    @Override
+    public void onAvatarClicked() {
+        //不能做操作.
+    }
+
+    @Override
+    public void onMyFollowedClicked() {
+        //我关注的.
+        Intent intent = new Intent(this, FriendsActivity.class);
+        intent.putExtra("is_concern", true);
+        intent.putExtra("user_Id", user.getUserId());
+        intent.putExtra("title",getString(R.string.other_concern_pagetitle));
+        startActivity(intent);
+    }
+
+    @Override
+    public void onFollowedClicked() {
+        //关注我的
+        Intent intent = new Intent(this, FriendsActivity.class);
+        intent.putExtra("is_concern", false);
+        intent.putExtra("user_Id", user.getUserId());
+        intent.putExtra("title",getString(R.string.other_concerned_pagetitle));
+        startActivity(intent);
     }
 }
