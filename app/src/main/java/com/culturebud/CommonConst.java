@@ -349,6 +349,13 @@ public final class CommonConst {
         int NUMBER_INPUT_TYPE = 3; //数字类型
     }
 
+    public interface ConcernStatus {
+        int NO_EACHCONCERN_STATUS = 0; //未相关关注
+        int SINGLE_CONCERN_STATUS = 1;        //单向关注
+        int SINGLE_BECONVERNED_STATUS = 2;   //单向被关注
+        int EACH_CONCERN_STATUS = 3;   //互相关注
+    }
+
     public final class RequestCode {
         public static final int REQUEST_CODE_ALTER_NICK = 101;
         public static final int REQUEST_CODE_ALTER_EMAIL = 102;
