@@ -11,7 +11,7 @@ import rx.Observable;
  * Created by XieWei on 2016/12/5.
  */
 
-public interface MyFriendsContract {
+public interface FriendsContract {
     abstract class Model extends BaseModel {
 
         public abstract Observable<List<Friend>> concers(String token, long userId);

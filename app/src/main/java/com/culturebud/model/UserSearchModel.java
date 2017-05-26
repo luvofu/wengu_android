@@ -6,7 +6,6 @@ import android.util.Log;
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.Friend;
-import com.culturebud.bean.User;
 import com.culturebud.contract.UserSearchContract;
 import com.culturebud.net.ApiMeInterface;
 import com.culturebud.util.ApiException;
@@ -54,7 +53,7 @@ public class UserSearchModel extends UserSearchContract.Model {
                     if (code == ApiErrorCode.CODE_SUCCESS) {
                         JsonObject jobj = bean.getData();
                         if (jobj.has("userList")) {
-                            List<Friend> friends = new Gson().fromJson(jobj.getAsJsonArray("userList"), new TypeToken<List<User>>() {
+                            List<Friend> friends = new Gson().fromJson(jobj.getAsJsonArray("userList"), new TypeToken<List<Friend>>() {
                             }.getType());
                             subscriber.onNext(friends);
                         } else {

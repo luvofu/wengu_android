@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.culturebud.BaseApp;
+import com.culturebud.CommonConst;
 import com.culturebud.R;
 import com.culturebud.bean.Friend;
 import com.facebook.drawee.view.SimpleDraweeView;
@@ -21,11 +22,10 @@ import java.util.List;
  */
 
 public class FriendsAdapter extends RecyclerView.Adapter {
-    private List<Friend> data;
+    private List<Friend> data = new ArrayList<>();
     private boolean hasOperas = false;
 
     public FriendsAdapter(boolean hasOperas) {
-        data = new ArrayList<>();
         this.hasOperas = hasOperas;
     }
 
@@ -117,17 +117,15 @@ public class FriendsAdapter extends RecyclerView.Adapter {
         public void setTvOpeas() {
             if (hasOperas) {
                 int resId = R.mipmap.ic_friend_concern;
-                String text = "加关注";
+                String text = CommonConst.getConcernTitle(friend.getConcernStatus());
                 int color = BaseApp.getInstance().getResources().getColor(R.color.green);
                 switch (friend.getConcernStatus()) {
-                    case 1:
+                    case CommonConst.ConcernStatus.SINGLE_CONCERN_STATUS:
                         resId = R.mipmap.ic_friend_concerned;
-                        text = "已关注";
                         color = BaseApp.getInstance().getResources().getColor(R.color.font_black_light);
                         break;
-                    case 3:
+                    case CommonConst.ConcernStatus.EACH_CONCERN_STATUS:
                         resId = R.mipmap.ic_friend_eachconcerned;
-                        text = "互相关注";
                         color = BaseApp.getInstance().getResources().getColor(R.color.font_black_light);
                         break;
                 }

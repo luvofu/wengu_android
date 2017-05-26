@@ -6,7 +6,7 @@ import android.util.Log;
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.Friend;
-import com.culturebud.contract.MyFriendsContract;
+import com.culturebud.contract.FriendsContract;
 import com.culturebud.net.ApiMeInterface;
 import com.culturebud.util.ApiException;
 import com.google.gson.Gson;
@@ -23,8 +23,8 @@ import rx.Subscriber;
  * Created by XieWei on 2016/12/5.
  */
 
-public class MyFriendsModel extends MyFriendsContract.Model {
-    private static final String TAG = MyFriendsModel.class.getSimpleName();
+public class FriendsModel extends FriendsContract.Model {
+    private static final String TAG = FriendsModel.class.getSimpleName();
 
     public Observable<JsonObject> concern(String token, long friendId) {
         return Observable.create(subscriber -> {
