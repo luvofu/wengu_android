@@ -60,6 +60,15 @@ public class SystemParameterUtil {
         return width;
     }
 
+    public static int getScreenHeight() {
+        Resources resources = BaseApp.getInstance().getResources();
+        DisplayMetrics dm = resources.getDisplayMetrics();
+        float density = dm.density;
+        int height = dm.heightPixels;
+
+        return height;
+    }
+
     public static float getDeviceDensity() {
         return BaseApp.getInstance().getResources().getDisplayMetrics().density;
     }

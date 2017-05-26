@@ -2,20 +2,24 @@ package com.culturebud.ui.bhome;
 
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
+import android.support.v7.content.res.AppCompatResources;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
@@ -27,6 +31,7 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
+import com.culturebud.bean.UserProfileInfo;
 import com.culturebud.contract.UserBookHomeContract;
 import com.culturebud.presenter.UserBookHomePresenter;
 import com.culturebud.ui.community.CommentDetailActivity;
@@ -40,6 +45,7 @@ import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by XieWei on 2016/12/29.
@@ -53,7 +59,7 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
     private BookCycleTopView topView;
 
     private RecyclerView rvDynamics;
-    private User user;
+    private UserProfileInfo user;
 
     private PopupWindow pwReply;
     private EditText etReplyInput;
@@ -64,6 +70,8 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
     private Toolbar tlb;
     private AppBarLayout abl;
     private TextView titleview;
+    private RelativeLayout concerncontainview;
+    private TextView concernview;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +98,9 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
 
         rvDynamics = obtainViewById(R.id.rv_dynamics);
         topView = obtainViewById(R.id.topview);
+
+        concerncontainview = obtainViewById(R.id.concerncontainview);
+        concernview = obtainViewById(R.id.concernview);
 
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvDynamics.setLayoutManager(llm);
@@ -121,6 +132,60 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
                 titleview.setVisibility(View.INVISIBLE);
             }
         });
+
+        rvDynamics.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+
+                if (user.getRelationType() == CommonConst.RelationType.PERSONAL) {
+                    //自己的，不显示底部的.
+                    return;
+                }
+                if (Math.abs(dy) > 10)
+                    return;
+                if (dy > 0) {
+                    if (concerncontainview.getVisibility() == View.GONE)
+                        return;
+
+                    bottomOutAnimation();
+                    concerncontainview.setVisibility(View.GONE);
+                } else if (dy < 0) {
+                    if (concerncontainview.getVisibility() == View.VISIBLE)
+                        return;
+
+                    bottomInAnimation();
+                    concerncontainview.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
+
+    private void bottomOutAnimation() {
+//        float height = SystemParameterUtil.getScreenHeight();
+//        ObjectAnimator anim1 = ObjectAnimator.ofFloat(concerncontainview, "y",
+//                height - concerncontainview.getWidth(), height);
+//        ObjectAnimator anim2 = ObjectAnimator.ofFloat(concerncontainview, "alpha",
+//                1.0f, 0.5f);
+//        AnimatorSet animSet = new AnimatorSet();
+//        animSet.setDuration(300);
+//        animSet.setInterpolator(new LinearInterpolator());
+//        //两个动画同时执行
+//        animSet.playTogether(anim1, anim2);
+//        animSet.start();
+    }
+
+    private void bottomInAnimation() {
+//        float height = SystemParameterUtil.getScreenHeight();
+//        ObjectAnimator anim1 = ObjectAnimator.ofFloat(concerncontainview, "y",
+//                height, height - concerncontainview.getWidth());
+//        ObjectAnimator anim2 = ObjectAnimator.ofFloat(concerncontainview, "alpha",
+//                0.5f, 1f);
+//        AnimatorSet animSet = new AnimatorSet();
+//        animSet.setDuration(300);
+//        animSet.setInterpolator(new LinearInterpolator());
+//        //两个动画同时执行
+//        animSet.playTogether(anim1, anim2);
+//        animSet.start();
     }
 
     private void initData() {
@@ -179,6 +244,11 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
                 }
                 break;
             }
+            case R.id.concernview: {
+                //关注，取消关注.
+                handleConcernClick();
+                break;
+            }
         }
     }
 
@@ -212,10 +282,17 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
     }
 
     @Override
-    public void onUser(User user) {
+    public void onUser(UserProfileInfo user) {
         this.user = user;
 
         topView.setUserInfo(user);
+
+        if (user.getRelationType() == CommonConst.RelationType.PERSONAL) {
+            //自己的，不显示底部的.
+            concerncontainview.setVisibility(View.GONE);
+        }
+
+        updateConcernView();
 
         presenter.getDynamics(user.getUserId(), currPage);
     }
@@ -344,5 +421,35 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
             pwReply.update(0, screenHeight - pwReply.getContentView().getMeasuredHeight(),
                     pwReply.getWidth(), pwReply.getHeight(), true);
         }
+    }
+
+    private void handleConcernClick() {
+        //加关注、已关注、互相关注
+        
+    }
+
+    private void updateConcernView() {
+        int concernresid = 0;
+        switch (user.getConcernStatus()) {
+            case CommonConst.ConcernStatus.NO_EACHCONCERN_STATUS:
+            case CommonConst.ConcernStatus.SINGLE_BECONVERNED_STATUS: {
+                concernresid = R.mipmap.concern_add;
+                break;
+            }
+            case CommonConst.ConcernStatus.SINGLE_CONCERN_STATUS: {
+                concernresid = R.mipmap.concerned;
+                break;
+            }
+            case CommonConst.ConcernStatus.EACH_CONCERN_STATUS:
+                concernresid = R.mipmap.concern_each;
+                break;
+            default:
+                break;
+        }
+        Drawable drawable = AppCompatResources.getDrawable(this, concernresid);
+        concernview.setCompoundDrawables(drawable, null, null, null);
+
+        String concerntitle = CommonConst.getConcernTitle(user.getConcernStatus());
+        concernview.setText(concerntitle);
     }
 }

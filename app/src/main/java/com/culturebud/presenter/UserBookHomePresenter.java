@@ -8,6 +8,7 @@ import com.culturebud.CommonConst;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
+import com.culturebud.bean.UserProfileInfo;
 import com.culturebud.contract.UserBookHomeContract;
 import com.culturebud.model.UserBookHomeModel;
 import com.culturebud.util.ApiException;
@@ -35,7 +36,7 @@ public class UserBookHomePresenter extends UserBookHomeContract.Presenter {
         }
         model.getUserProfile(BaseApp.getInstance().getUser().getToken(), userId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<User>() {
+                .subscribe(new Subscriber<UserProfileInfo>() {
                     @Override
                     public void onCompleted() {
 
@@ -50,7 +51,7 @@ public class UserBookHomePresenter extends UserBookHomeContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(User user) {
+                    public void onNext(UserProfileInfo user) {
                         view.onUser(user);
                     }
                 });

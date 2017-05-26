@@ -7,6 +7,7 @@ import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
+import com.culturebud.bean.UserProfileInfo;
 import com.culturebud.contract.UserBookHomeContract;
 import com.culturebud.net.ApiBookHomeInterface;
 import com.culturebud.net.ApiMeInterface;
@@ -28,7 +29,7 @@ import rx.Subscriber;
 public class UserBookHomeModel extends UserBookHomeContract.Model {
 
     @Override
-    public Observable<User> getUserProfile(String token, long userId) {
+    public Observable<UserProfileInfo> getUserProfile(String token, long userId) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             if (!TextUtils.isEmpty(token)) {
@@ -53,11 +54,11 @@ public class UserBookHomeModel extends UserBookHomeContract.Model {
                             if (code == ApiErrorCode.CODE_SUCCESS) {
                                 if (bean.getData().has("userProfile")) {
                                     Gson gson = new Gson();
-                                    User user = gson.fromJson(bean.getData().getAsJsonObject("userProfile"), User.class);
+                                    UserProfileInfo userProfile = gson.fromJson(bean.getData().getAsJsonObject("userProfile"), UserProfileInfo.class);
                                     if (bean.getData().has("relationType")) {
-                                        user.setRelationType(gson.fromJson(bean.getData().get("relationType"), int.class));
+                                        userProfile.setRelationType(gson.fromJson(bean.getData().get("relationType"), int.class));
                                     }
-                                    subscriber.onNext(user);
+                                    subscriber.onNext(userProfile);
                                 } else {
 
                                 }

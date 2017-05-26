@@ -3,6 +3,7 @@ package com.culturebud.contract;
 import com.culturebud.bean.BookCircleDynamic;
 import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
+import com.culturebud.bean.UserProfileInfo;
 import com.culturebud.model.BookCircleModel;
 import com.culturebud.model.CommunityBaseModel;
 
@@ -16,13 +17,13 @@ import rx.Observable;
 
 public interface UserBookHomeContract {
     abstract class Model extends BookCircleModel {
-        public abstract Observable<User> getUserProfile(String token, long userId);
+        public abstract Observable<UserProfileInfo> getUserProfile(String token, long userId);
 
         public abstract Observable<List<BookCircleDynamic>> getDynamics(String token, long userId, int page);
      }
 
     interface View extends BaseView {
-        void onUser(User user);
+        void onUser(UserProfileInfo user);
 
         void onDynamics(List<BookCircleDynamic> dynamics);
 
