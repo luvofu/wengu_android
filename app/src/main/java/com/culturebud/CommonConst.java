@@ -360,6 +360,27 @@ public final class CommonConst {
         int EACH_CONCERN_STATUS = 3;   //互相关注
     }
 
+    public static String getConcernTitle(int concernStatus) {
+        String title = BaseApp.getInstance().getString(R.string.add_concern_title);
+        switch (concernStatus) {
+            case ConcernStatus.NO_EACHCONCERN_STATUS:
+            case ConcernStatus.SINGLE_BECONVERNED_STATUS: {
+                break;
+            }
+            case ConcernStatus.SINGLE_CONCERN_STATUS: {
+                title = BaseApp.getInstance().getString(R.string.concerned_title);
+                break;
+            }
+            case ConcernStatus.EACH_CONCERN_STATUS:
+                title = BaseApp.getInstance().getString(R.string.concerned_each_title);
+                break;
+            default:
+                break;
+        }
+
+        return title;
+    }
+
     public final class RequestCode {
         public static final int REQUEST_CODE_ALTER_NICK = 101;
         public static final int REQUEST_CODE_ALTER_EMAIL = 102;
