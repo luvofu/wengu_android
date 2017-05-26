@@ -6,7 +6,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -36,8 +35,8 @@ import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
+import com.culturebud.widget.BookCycleTopView;
 import com.culturebud.widget.RecyclerViewDivider;
-import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -50,8 +49,8 @@ import java.util.List;
 public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Presenter>
         implements UserBookHomeContract.View, BookCircleDynamicAdapter.OnItemClickListener, View.OnFocusChangeListener, BaseActivity.OnSoftKeyboardStateChangedListener {
     private static final String TAG = UserBookHomeActivity.class.getSimpleName();
-    private SimpleDraweeView sdvBg, sdvFace;
-    private TextView tvNick;
+
+    private BookCycleTopView topView;
 
     private RecyclerView rvDynamics;
     private User user;
@@ -90,9 +89,7 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
         imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
 
         rvDynamics = obtainViewById(R.id.rv_dynamics);
-        sdvBg = obtainViewById(R.id.sdv_bg);
-        sdvFace = obtainViewById(R.id.sdv_face);
-        tvNick = obtainViewById(R.id.tv_nick);
+        topView = obtainViewById(R.id.topview);
 
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvDynamics.setLayoutManager(llm);
@@ -217,9 +214,9 @@ public class UserBookHomeActivity extends BaseActivity<UserBookHomeContract.Pres
     @Override
     public void onUser(User user) {
         this.user = user;
-        tvNick.setText(user.getNickname());
-        sdvBg.setImageURI(user.getBackground());
-        sdvFace.setImageURI(user.getAvatar());
+
+        topView.setUserInfo(user);
+
         presenter.getDynamics(user.getUserId(), currPage);
     }
 

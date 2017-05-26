@@ -31,39 +31,15 @@
                 app:expandedTitleMarginStart="960dp"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <com.culturebud.widget.ScaleRelativeLayout
-                    android:id="@+id/rl_bc_bg"
+                <com.culturebud.widget.BookCycleTopView
+                    android:id="@+id/topview"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:background="@android:color/white"
+                    app:editable="true"
                     app:layout_collapseMode="parallax"
                     app:layout_collapseParallaxMultiplier="0.6"
-                    app:ratio="1.476">
-
-                    <com.facebook.drawee.view.SimpleDraweeView
-                        android:id="@+id/sdv_face"
-                        android:layout_width="72dp"
-                        android:layout_height="72dp"
-                        android:layout_centerVertical="true"
-                        android:layout_marginLeft="25dp"
-                        android:layout_marginRight="15dp"
-                        fresco:actualImageScaleType="fitXY"
-                        fresco:placeholderImage="@mipmap/me_default_icon"
-                        fresco:placeholderImageScaleType="fitXY"
-                        fresco:roundAsCircle="true"
-                        fresco:roundingBorderColor="@android:color/white"
-                        fresco:roundingBorderWidth="0.5dp" />
-
-                    <TextView
-                        android:id="@+id/tv_nick_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_toRightOf="@id/sdv_face"
-                        android:textColor="@android:color/white"
-                        android:textSize="16sp"
-                        tools:text="坏猫" />
-                </com.culturebud.widget.ScaleRelativeLayout>
+                    app:ratio="1.476"/>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/tlb"

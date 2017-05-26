@@ -68,4 +68,8 @@
         <attr name="contentView" format="reference"/>
     </declare-styleable>
 
+    <declare-styleable name="BookCycleTopView">
+        <attr name="editable" format="boolean"/>
+    </declare-styleable>
+
 </resources>
