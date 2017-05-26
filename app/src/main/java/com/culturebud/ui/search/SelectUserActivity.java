@@ -9,9 +9,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
-import com.culturebud.adapter.UsersAdapter;
+import com.culturebud.adapter.FriendsAdapter;
 import com.culturebud.annotation.PresenterInject;
+import com.culturebud.bean.Friend;
 import com.culturebud.bean.User;
 import com.culturebud.contract.MyFriendsContract;
 import com.culturebud.presenter.MyFriendsPresenter;
@@ -26,7 +28,7 @@ import java.util.List;
 
 @PresenterInject(MyFriendsPresenter.class)
 public class SelectUserActivity extends BaseActivity<MyFriendsContract.Presenter>
-        implements MyFriendsContract.View, UsersAdapter.OnItemClickListener {
+        implements MyFriendsContract.View, FriendsAdapter.OnItemClickListener {
     private RecyclerView rvUsers;
 
     @Override
@@ -43,10 +45,12 @@ public class SelectUserActivity extends BaseActivity<MyFriendsContract.Presenter
         showBack();
         setBackText(R.string.cancel);
         setTitle(R.string.select_friend);
-        UsersAdapter adapter = new UsersAdapter();
+        FriendsAdapter adapter = new FriendsAdapter(false);
         adapter.setOnItemClickListener(this);
         rvUsers.setAdapter(adapter);
-        presenter.myFriends();
+        User user = BaseApp.getInstance().getUser();
+        long userId = user != null ? user.getUserId() : -1;
+        presenter.friends(true, userId);
     }
 
     @Override
@@ -56,14 +60,19 @@ public class SelectUserActivity extends BaseActivity<MyFriendsContract.Presenter
     }
 
     @Override
-    public void onFriends(List<User> friends) {
-        ((UsersAdapter) rvUsers.getAdapter()).addItems(friends);
+    public void onFriends(List<Friend> friends) {
+        ((FriendsAdapter) rvUsers.getAdapter()).addItems(friends);
     }
 
     @Override
-    public void onItemClick(View v, User user) {
+    public void onConcern(Friend friend) {
+
+    }
+
+    @Override
+    public void onItemClick(View v, Friend friend, int opt) {
         Intent intent = new Intent();
-        intent.putExtra("user", new Gson().toJson(user));
+        intent.putExtra("user", new Gson().toJson(friend));
         setResult(RESULT_OK, intent);
         finish();
     }

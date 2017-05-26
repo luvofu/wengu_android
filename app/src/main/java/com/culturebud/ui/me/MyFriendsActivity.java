@@ -4,36 +4,33 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.KeyEvent;
 import android.view.View;
 
 import com.culturebud.BaseActivity;
+import com.culturebud.BaseApp;
 import com.culturebud.R;
-import com.culturebud.adapter.MyFriendsAdapter;
+import com.culturebud.adapter.FriendsAdapter;
 import com.culturebud.annotation.PresenterInject;
+import com.culturebud.bean.Friend;
 import com.culturebud.bean.User;
 import com.culturebud.contract.MyFriendsContract;
 import com.culturebud.presenter.MyFriendsPresenter;
 import com.culturebud.ui.search.SearchUserActivity;
-import com.culturebud.widget.IndexsView;
 import com.culturebud.widget.RecyclerViewDivider;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_SEARCH_USER;
-import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
 
 /**
  * Created by XieWei on 2016/12/5.
  */
 
 @PresenterInject(MyFriendsPresenter.class)
-public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View, IndexsView.OnIndexChangedListener, MyFriendsAdapter.OnItemClickListener {
+public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter> implements MyFriendsContract.View, FriendsAdapter.OnItemClickListener {
     private RecyclerView rvFriends;
-    private IndexsView ivIndexs;
-    private List<User> friends = new ArrayList<>();
+    private List<Friend> friends = new ArrayList<>();
+    private boolean isConcern = false;
+    private long userId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,34 +38,35 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
         setContentView(R.layout.my_friends);
         presenter.setView(this);
         showTitlebar();
-        setTitle(R.string.my_friends);
+
         setOperasDrawable(R.drawable.btn_add_friend_selector);
 
         setNoDataView(R.id.main_multiplestatusview);
 
+        Intent intent = getIntent();
+        isConcern = intent.getBooleanExtra("is_concern", false);
+        User user = BaseApp.getInstance().getUser();
+        long defUserId = user != null ? user.getUserId() : -1;
+        userId = intent.getLongExtra("user_Id", defUserId);
+        String title = intent.getStringExtra("title");
+        setTitle(title != null ? title : "");
+
+
         rvFriends = obtainViewById(R.id.rv_friends);
-        ivIndexs = obtainViewById(R.id.iv_indexs);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvFriends.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
         rvFriends.addItemDecoration(divider);
-        MyFriendsAdapter adapter = new MyFriendsAdapter();
+        FriendsAdapter adapter = new FriendsAdapter(true);
         rvFriends.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
 
-        ivIndexs.setOnIndexChangedListener(this);
-
-        presenter.myFriends();
-    }
-
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
+        presenter.friends(isConcern, userId);
     }
 
     @Override
     public void onRetryData() {
-        presenter.myFriends();
+        presenter.friends(isConcern, userId);
     }
 
     @Override
@@ -78,59 +76,56 @@ public class MyFriendsActivity extends BaseActivity<MyFriendsContract.Presenter>
     }
 
     @Override
+    public void onBackPressed() {
+        onBack();
+    }
+
+    @Override
     protected void onOptions(View view) {
         super.onOptions(view);
-        startActivityForResult(new Intent(this, SearchUserActivity.class), REQUEST_CODE_SEARCH_USER);
+        startActivity(new Intent(this, SearchUserActivity.class));
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK) {
-            finish();
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
-    public void onFriends(List<User> friends) {
+    public void onFriends(List<Friend> friends) {
         if (friends != null && !friends.isEmpty()) {
             this.friends.addAll(friends);
         }
-        ((MyFriendsAdapter) rvFriends.getAdapter()).addItems(friends);
-        List<String> indexs = ((MyFriendsAdapter) rvFriends.getAdapter()).getIndexs();
-        ivIndexs.setIndexs(indexs);
+        ((FriendsAdapter) rvFriends.getAdapter()).addItems(friends);
     }
 
     @Override
-    public void onIndexChanged(int index, String content) {
-//        onErrorTip("index = " + index + ", char is " + content);
-        int position = ((MyFriendsAdapter) rvFriends.getAdapter()).indexAlph(content);
-        if (position >= 0 && position < rvFriends.getAdapter().getItemCount() - 1) {
-            rvFriends.smoothScrollToPosition(position);
+    public void onConcern(Friend friend) {
+        //关注状态：未相互关注NOEachConcern(0), 单向关注SingleConcern(1), 单向被关注SingleBeConcerned(2), 互相关注MutualConcern(3);
+        switch (friend.getConcernStatus()) {
+            case 0:
+                friend.setConcernStatus(1);
+                break;
+            case 1:
+                friend.setConcernStatus(0);
+                break;
+            case 2:
+                friend.setConcernStatus(3);
+                break;
+            case 3:
+                friend.setConcernStatus(2);
+                break;
         }
+        rvFriends.getAdapter().notifyDataSetChanged();
     }
 
     @Override
-    public void onItemClick(int position, View v, Object item) {
-        if (item instanceof User) {
-            User user = (User) item;
-            Intent intent = new Intent(this, FriendDetailActivity.class);
-            intent.putExtra("user_id", user.getUserId());
-            startActivityForResult(intent, REQUEST_CODE_USER_PROFILE);
-        } else if (item instanceof Integer) {
-            if (friends.isEmpty()) {
-                return;
+    public void onItemClick(View v, Friend friend, int opt) {
+        switch (opt) {
+            case 0: {
+                Intent intent = new Intent(this, FriendDetailActivity.class);
+                intent.putExtra("user_id", friend.getUserId());
+                startActivity(intent);
+                break;
             }
-            Intent intent = new Intent(this, SearchUserActivity.class);
-            intent.putExtra("search_in_local", true);
-            intent.putExtra("friends", new Gson().toJson(friends));
-            startActivityForResult(intent, REQUEST_CODE_SEARCH_USER);
+            case 1: {
+                presenter.concern(friend);
+            }
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 }

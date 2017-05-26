@@ -3,7 +3,7 @@ package com.culturebud.presenter;
 import android.text.TextUtils;
 
 import com.culturebud.BaseApp;
-import com.culturebud.bean.User;
+import com.culturebud.bean.Friend;
 import com.culturebud.contract.UserSearchContract;
 import com.culturebud.model.UserSearchModel;
 import com.culturebud.util.ApiException;
@@ -33,11 +33,10 @@ public class UserSearchPresenter extends UserSearchContract.Presenter {
             view.onErrorTip("搜索内容不能为空");
             return;
         }
-        view.onClearOldData();
         view.showProDialog();
         model.search(BaseApp.getInstance().getUser().getToken(), keyword, page)
         .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<List<User>>() {
+        .subscribe(new Subscriber<List<Friend>>() {
             @Override
             public void onCompleted() {
                 view.hideProDialog();
@@ -53,7 +52,7 @@ public class UserSearchPresenter extends UserSearchContract.Presenter {
             }
 
             @Override
-            public void onNext(List<User> users) {
+            public void onNext(List<Friend> users) {
                 view.onUsers(users);
             }
         });

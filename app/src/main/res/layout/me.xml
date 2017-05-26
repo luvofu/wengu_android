@@ -22,7 +22,7 @@
                 android:id="@+id/rl_me"
                 android:layout_width="match_parent"
                 android:layout_height="110dp"
-                android:layout_marginBottom="5dp"
+                android:layout_marginBottom="1dp"
                 android:background="@android:color/white">
 
                 <ImageView
@@ -97,8 +97,6 @@
                         tools:text="这就是这么一个故事" />
 
                 </LinearLayout>
-
-
             </RelativeLayout>
 
             <com.culturebud.widget.SettingItemView
@@ -118,21 +116,83 @@
                 app:show_desc="true"
                 app:small_icon="@mipmap/setting_me_male_icon" />
 
-            <com.culturebud.widget.SettingItemView
-                android:id="@+id/siv_my_friends"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="54dp"
-                android:background="@drawable/setting_item_first_bg_selector"
-                android:clickable="true"
-                app:icon="@mipmap/setting_item_icon_my_friends"
-                app:name="@string/my_friends"
-                app:name_color="@color/title_font_default" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/white"
+                android:orientation="horizontal"
+                android:padding="5dp">
+
+                <LinearLayout
+                    android:id="@+id/ll_concer"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_concerNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="0"
+                        android:textColor="@color/title_font_default"
+                        android:textSize="@dimen/setting_item_name_font" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="关注"
+                        android:textColor="@color/font_black_light"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
+                <TextView
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/gray_bg_border"/>
+                <LinearLayout
+                    android:id="@+id/ll_fan"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tv_fanNum"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="0"
+                        android:textColor="@color/title_font_default"
+                        android:textSize="@dimen/setting_item_name_font" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:padding="2dp"
+                        android:text="被关注"
+                        android:textColor="@color/font_black_light"
+                        android:textSize="@dimen/font_small" />
+                </LinearLayout>
+            </LinearLayout>
 
             <com.culturebud.widget.SettingItemView
                 android:id="@+id/siv_my_msg"
                 android:layout_width="match_parent"
                 android:layout_height="54dp"
-                android:background="@drawable/setting_item_center_bg_selector"
+                android:background="@drawable/setting_item_first_bg_selector"
                 android:clickable="true"
                 app:icon="@mipmap/setting_item_icon_msg"
                 app:name="@string/my_msg"

@@ -5,24 +5,20 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.TextView;
 
 import com.culturebud.BaseActivity;
 import com.culturebud.R;
-import com.culturebud.adapter.UsersAdapter;
+import com.culturebud.adapter.FriendsAdapter;
 import com.culturebud.annotation.PresenterInject;
-import com.culturebud.bean.User;
+import com.culturebud.bean.Friend;
 import com.culturebud.contract.UserSearchContract;
 import com.culturebud.presenter.UserSearchPresenter;
 import com.culturebud.ui.me.FriendDetailActivity;
 import com.culturebud.widget.RecyclerViewDivider;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
@@ -33,10 +29,9 @@ import static com.culturebud.CommonConst.RequestCode.REQUEST_CODE_USER_PROFILE;
 
 @PresenterInject(UserSearchPresenter.class)
 public class SearchUserActivity extends BaseActivity<UserSearchContract.Presenter>
-        implements UserSearchContract.View, TextView.OnEditorActionListener, UsersAdapter.OnItemClickListener {
+        implements UserSearchContract.View, TextView.OnEditorActionListener, FriendsAdapter.OnItemClickListener {
     private RecyclerView rvUsers;
-    private boolean searchInLocal;
-    private List<User> friends = new ArrayList<>();
+    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +51,7 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
 
         int padding = getResources().getDimensionPixelSize(R.dimen.common_padding_big);
         rvUsers.setPadding(padding, padding, padding, padding);
-        UsersAdapter adapter = new UsersAdapter();
+        FriendsAdapter adapter = new FriendsAdapter(false);
         rvUsers.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
 
@@ -64,15 +59,6 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
         setSearchInputType(InputType.TYPE_CLASS_TEXT);
         setOnTitleEditorActionListener(this);
         setSearchHint(R.string.search_user_hint);
-
-        searchInLocal = getIntent().getBooleanExtra("search_in_local", false);
-        if (searchInLocal) {
-            String friJson = getIntent().getStringExtra("friends");
-            if (!TextUtils.isEmpty(friJson)) {
-                friends.addAll(new Gson().fromJson(friJson, new TypeToken<List<User>>() {
-                }.getType()));
-            }
-        }
     }
 
     @Override
@@ -82,13 +68,11 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
     }
 
     @Override
-    public void onUsers(List<User> users) {
-        ((UsersAdapter) rvUsers.getAdapter()).addItems(users);
-    }
-
-    @Override
-    public void onClearOldData() {
-        ((UsersAdapter) rvUsers.getAdapter()).clearData();
+    public void onUsers(List<Friend> friends) {
+        if (currentPage == 0) {
+            ((FriendsAdapter) rvUsers.getAdapter()).clearData();
+        }
+        ((FriendsAdapter) rvUsers.getAdapter()).addItems(friends);
     }
 
     private String inputContent;
@@ -96,27 +80,14 @@ public class SearchUserActivity extends BaseActivity<UserSearchContract.Presente
     @Override
     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
         inputContent = getInputContent().toString();
-        if (searchInLocal) {
-            List<User> tmp = new ArrayList<>();
-            for (User user : friends) {
-                if (user.getNickname().contains(inputContent)
-                        || (!TextUtils.isEmpty(user.getRegMobile()) && user.getRegMobile().equalsIgnoreCase
-                        (inputContent))) {
-                    tmp.add(user);
-                }
-            }
-            ((UsersAdapter) rvUsers.getAdapter()).clearData();
-            ((UsersAdapter) rvUsers.getAdapter()).addItems(tmp);
-        } else {
-            presenter.search(inputContent, 0);
-        }
+        presenter.search(inputContent, currentPage = 0);
         return true;
     }
 
     @Override
-    public void onItemClick(View v, User user) {
+    public void onItemClick(View v, Friend friend, int opt) {
         Intent intent = new Intent(this, FriendDetailActivity.class);
-        intent.putExtra("user_id", user.getUserId());
+        intent.putExtra("user_id", friend.getUserId());
         startActivityForResult(intent, REQUEST_CODE_USER_PROFILE);
     }
 }

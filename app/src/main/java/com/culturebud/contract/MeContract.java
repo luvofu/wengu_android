@@ -1,6 +1,5 @@
 package com.culturebud.contract;
 
-import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.User;
 
 import rx.Observable;
@@ -14,7 +13,7 @@ public interface MeContract {
     interface View extends BaseView {
         void showLoginPage();
 
-        void showLoginButton();
+        void showLoginOut();
 
         void showUser(User user);
     }

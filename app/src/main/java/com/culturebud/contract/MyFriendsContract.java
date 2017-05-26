@@ -1,6 +1,6 @@
 package com.culturebud.contract;
 
-import com.culturebud.bean.User;
+import com.culturebud.bean.Friend;
 
 import java.util.List;
 
@@ -12,14 +12,23 @@ import rx.Observable;
 
 public interface MyFriendsContract {
     abstract class Model extends BaseModel {
-        public abstract Observable<List<User>> myFriends(String token);
+
+        public abstract Observable<List<Friend>> concers(String token, long userId);
+
+        public abstract Observable<List<Friend>> fans(String token, long userId);
+
+        public abstract Observable<Boolean> concern(String token, long friendId);
     }
 
     interface View extends BaseView {
-        void onFriends(List<User> friends);
+        void onFriends(List<Friend> friends);
+
+        void onConcern(Friend friend);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void myFriends();
+        public abstract void friends(boolean isConcern, long userId);
+
+        public abstract void concern(Friend friend);
     }
 }

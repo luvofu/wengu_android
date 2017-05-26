@@ -1,9 +1,8 @@
 package com.culturebud.net;
 
+import com.culturebud.CommonConst;
 import com.culturebud.bean.ApiResultBean;
 import com.culturebud.bean.User;
-import com.culturebud.CommonConst;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.Map;
@@ -119,6 +118,7 @@ public interface ApiMeInterface {
     /**
      * 编辑文芽号
      * String userName; 文芽号
+     *
      * @param params
      * @return
      */
@@ -160,9 +160,17 @@ public interface ApiMeInterface {
     @FormUrlEncoded
     Observable<ApiResultBean<JsonObject>> deleteMsg(@FieldMap Map<String, Object> params);
 
-    @POST(CommonConst.PATH_MY_FRIENDS)
+    @POST(CommonConst.PATH_MY_CONCERNS)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonArray>> myFriends(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<JsonObject>> myConcers(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_MY_FANS)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> myFans(@FieldMap Map<String, Object> params);
+
+    @POST(CommonConst.PATH_CONCER_FRIEND)
+    @FormUrlEncoded
+    Observable<ApiResultBean<JsonObject>> concern(@FieldMap Map<String, Object> params);
 
     /**
      * int page;页
@@ -199,6 +207,7 @@ public interface ApiMeInterface {
      * 验证绑定手机（手机号）
      * validcode 验证码
      * regMobile 手机号
+     *
      * @param params
      * @return
      */
@@ -210,6 +219,7 @@ public interface ApiMeInterface {
      * 更换绑定手机（手机号）
      * validcode 验证码
      * regMobile 手机号
+     *
      * @param params
      * @return
      */

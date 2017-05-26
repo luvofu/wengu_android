@@ -1,6 +1,6 @@
 package com.culturebud.contract;
 
-import com.culturebud.bean.User;
+import com.culturebud.bean.Friend;
 
 import java.util.List;
 
@@ -13,13 +13,12 @@ import rx.Observable;
 public interface UserSearchContract {
 
     abstract class Model extends BaseModel {
-        public abstract Observable<List<User>> search(String token, String keyword, int page);
+        public abstract Observable<List<Friend>> search(String token, String keyword, int page);
     }
 
     interface View extends BaseView {
-        void onUsers(List<User> users);
+        void onUsers(List<Friend> users);
 
-        void onClearOldData();
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {

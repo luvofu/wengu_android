@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -38,7 +39,11 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     private View userInfoView;
     private TextView tvNick, tvDesc;
     private SimpleDraweeView sdvFace;
-    private SettingItemView sivFriends, sivCollect, sivMsg, sivFeedback, sivAbout, sivSetting, sivinviteFriend;
+    private LinearLayout llConcer;
+    private TextView tvConcer;
+    private LinearLayout llFan;
+    private TextView tvFan;
+    private SettingItemView sivCollect, sivMsg, sivFeedback, sivAbout, sivSetting, sivinviteFriend;
     private RelativeLayout rlMe;
     private User mUser;
 
@@ -55,7 +60,12 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
         inflateView(R.layout.me);
         srlRefresh = (SwipeRefreshLayout) view.findViewById(R.id.srl_refresh);
         rlMe = (RelativeLayout) view.findViewById(R.id.rl_me);
-        sivFriends = (SettingItemView) view.findViewById(R.id.siv_my_friends);
+
+        llConcer = (LinearLayout) view.findViewById(R.id.ll_concer);
+        llFan = (LinearLayout) view.findViewById(R.id.ll_fan);
+        tvConcer = (TextView) view.findViewById(R.id.tv_concerNum);
+        tvFan = (TextView) view.findViewById(R.id.tv_fanNum);
+
         sivCollect = (SettingItemView) view.findViewById(R.id.siv_my_favorite);
         sivMsg = (SettingItemView) view.findViewById(R.id.siv_my_msg);
         sivFeedback = (SettingItemView) view.findViewById(R.id.siv_feelback);
@@ -88,7 +98,9 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
         rlMe.setOnClickListener(this);
         btnLogin.setOnClickListener(this);
 
-        sivFriends.setOnClickListener(this);
+        llConcer.setOnClickListener(this);
+        llFan.setOnClickListener(this);
+
         sivCollect.setOnClickListener(this);
         sivMsg.setOnClickListener(this);
         sivFeedback.setOnClickListener(this);
@@ -135,8 +147,18 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
             case R.id.btn_login:
                 presenter.login();
                 break;
-            case R.id.siv_my_friends: {
-                startActivity(new Intent(getActivity(), MyFriendsActivity.class));
+            case R.id.ll_concer: {
+                Intent intent = new Intent(getActivity(), MyFriendsActivity.class);
+                intent.putExtra("is_concern", true);
+                intent.putExtra("title", "我关注的");
+                startActivity(intent);
+                break;
+            }
+            case R.id.ll_fan: {
+                Intent intent = new Intent(getActivity(), MyFriendsActivity.class);
+                intent.putExtra("is_concern", false);
+                intent.putExtra("title", "关注我的");
+                startActivity(intent);
                 break;
             }
             case R.id.siv_my_favorite: {
@@ -177,9 +199,11 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     }
 
     @Override
-    public void showLoginButton() {
+    public void showLoginOut() {
         userInfoView.setVisibility(View.GONE);
         btnLogin.setVisibility(View.VISIBLE);
+        tvConcer.setText("0");
+        tvFan.setText("0");
     }
 
     @Override
@@ -190,6 +214,9 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
             tvNick.setText(user.getNickname());
             tvDesc.setText(user.getAutograph());
             sdvFace.setImageURI(user.getAvatar());
+
+            tvConcer.setText(String.valueOf(user.getConcernNum()));
+            tvFan.setText(String.valueOf(user.getFanNum()));
 
             if (user.getSex() == 1) {
                 Drawable drawable = getResources().getDrawable(R.mipmap.setting_me_female_icon);

@@ -44,7 +44,7 @@ public class MePresenter extends MeContract.Presenter {
                     BaseApp.getInstance().setUser(user);
                     view.showUser(user);
                 } else {
-                    view.showLoginButton();
+                    view.showLoginOut();
                 }
             }
         });

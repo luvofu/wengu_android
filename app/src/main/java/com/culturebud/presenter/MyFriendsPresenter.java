@@ -1,23 +1,16 @@
 package com.culturebud.presenter;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.culturebud.BaseApp;
-import com.culturebud.bean.User;
+import com.culturebud.bean.Friend;
 import com.culturebud.contract.MyFriendsContract;
 import com.culturebud.model.MyFriendsModel;
 import com.culturebud.util.ApiException;
 
-import net.sourceforge.pinyin4j.PinyinHelper;
-
 import java.util.List;
-import java.util.Map;
 
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -32,32 +25,17 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
     }
 
     @Override
-    public void myFriends() {
+    public void friends(boolean isConcern, long userId) {
         if (!validateToken()) {
             return;
         }
         view.showLoadingView();
-        model.myFriends(BaseApp.getInstance().getUser().getToken())
-                .subscribeOn(Schedulers.io())
-                .filter(users -> {
-                    for (User user : users) {
-                        Log.d(TAG, user.getNickname().charAt(0) + "");
-                        char nick = user.getNickname().charAt(0);
-                        String[] pinyin = PinyinHelper.toHanyuPinyinStringArray(nick);
-                        Log.d(TAG, pinyin + "");
-                        if (pinyin != null && pinyin.length > 0) {
-                            user.setSpellFirst(pinyin[0].substring(0, 1).toUpperCase());
-                        } else if ((nick >= 65 && nick <= 90)
-                                || (nick >= 97 && nick <= 122)) {
-                            user.setSpellFirst((nick + "").toUpperCase());
-                        } else {
-                            user.setSpellFirst("#");
-                        }
-                    }
-                    return true;
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<User>>() {
+        Observable<List<Friend>> observable = isConcern ?
+                model.concers(BaseApp.getInstance().getUser().getToken(), userId)
+                : model.fans(BaseApp.getInstance().getUser().getToken(), userId);
+
+        observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Friend>>() {
                     @Override
                     public void onCompleted() {
 
@@ -73,14 +51,41 @@ public class MyFriendsPresenter extends MyFriendsContract.Presenter {
                     }
 
                     @Override
-                    public void onNext(List<User> users) {
+                    public void onNext(List<Friend> friends) {
                         view.hiddenNoDataView();
 
-                        if (users.isEmpty()) {
+                        if (friends.isEmpty()) {
                             view.showNoDataView("还没有好友，赶快添加吧");
                         }
 
-                        view.onFriends(users);
+                        view.onFriends(friends);
+                    }
+                });
+    }
+
+    @Override
+    public void concern(Friend friend) {
+        if (!validateToken()) {
+            return;
+        }
+        model.concern(BaseApp.getInstance().getUser().getToken(), friend.getUserId())
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Boolean>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        String errorMessage = ApiException.getErrorMessage(e);
+                        view.showErrorView(errorMessage);
+                    }
+
+                    @Override
+                    public void onNext(Boolean aboolean) {
+
+                        view.onConcern(friend);
                     }
                 });
     }

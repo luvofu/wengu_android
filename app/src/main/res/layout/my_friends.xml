@@ -16,13 +16,6 @@
         android:background="@color/dark_gray"
         android:orientation="vertical">
 
-        <com.culturebud.widget.IndexsView
-            android:id="@+id/iv_indexs"
-            android:layout_width="30dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="right|center_vertical"
-            android:visibility="gone" />
-
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rv_friends"
             android:layout_width="match_parent"

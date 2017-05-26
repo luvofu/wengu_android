@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.culturebud.ApiErrorCode;
 import com.culturebud.bean.ApiResultBean;
+import com.culturebud.bean.Friend;
 import com.culturebud.bean.User;
 import com.culturebud.contract.UserSearchContract;
 import com.culturebud.net.ApiMeInterface;
@@ -26,7 +27,7 @@ import rx.Subscriber;
 
 public class UserSearchModel extends UserSearchContract.Model {
     @Override
-    public Observable<List<User>> search(String token, String keyword, int page) {
+    public Observable<List<Friend>> search(String token, String keyword, int page) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             if (!TextUtils.isEmpty(token)) {
@@ -53,11 +54,11 @@ public class UserSearchModel extends UserSearchContract.Model {
                     if (code == ApiErrorCode.CODE_SUCCESS) {
                         JsonObject jobj = bean.getData();
                         if (jobj.has("userList")) {
-                            List<User> users = new Gson().fromJson(jobj.getAsJsonArray("userList"), new TypeToken<List<User>>() {
+                            List<Friend> friends = new Gson().fromJson(jobj.getAsJsonArray("userList"), new TypeToken<List<User>>() {
                             }.getType());
-                            subscriber.onNext(users);
+                            subscriber.onNext(friends);
                         } else {
-                            subscriber.onNext(new ArrayList<User>());
+                            subscriber.onNext(new ArrayList<Friend>());
                         }
                     } else {
                         subscriber.onError(new ApiException(code, bean.getMsg()));
