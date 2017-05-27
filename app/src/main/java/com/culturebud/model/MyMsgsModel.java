@@ -25,14 +25,21 @@ import rx.Subscriber;
 
 public class MyMsgsModel extends MyMsgsContract.Model {
     @Override
-    public Observable<List<UserMessage>> getInviteMsgs(String token, int page) {
+    public Observable<List<UserMessage>> getMsgs(String token, int msgGetType, String messageIds, String messageTypes, int page) {
         return Observable.create(subscriber -> {
             Map<String, Object> params = getCommonParams();
             if (!TextUtils.isEmpty(token)) {
                 params.put(TOKEN_KEY, token);
             }
+            params.put("msgGetType", msgGetType);
+            if (messageIds != null) {
+                params.put("messageIds", messageIds);
+            }
+            if (messageTypes != null) {
+                params.put("messageTypes", messageTypes);
+            }
             params.put("page", page);
-            initRetrofit().create(ApiMeInterface.class).inviteMsgs(params)
+            initRetrofit().create(ApiMeInterface.class).myMsgs(params)
                     .subscribe(new Subscriber<ApiResultBean<JsonObject>>() {
                         @Override
                         public void onCompleted() {

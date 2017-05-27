@@ -12,7 +12,7 @@ import rx.Observable;
 
 public interface MyMsgsContract {
     abstract class Model extends BaseModel {
-        public abstract Observable<List<UserMessage>> getInviteMsgs(String token, int page);
+        public abstract Observable<List<UserMessage>> getMsgs(String token, int msgGetType, String messageIds, String messageTypes, int page);
 
         public abstract Observable<Boolean> agreeInvite(String token, long messageId);
 
@@ -20,17 +20,17 @@ public interface MyMsgsContract {
     }
 
     interface View extends BaseView {
-        void onInviteMsgs(List<UserMessage> msgs);
+        void onMsgs(List<UserMessage> msgs);
 
-        void onAgreeInvite(long messageId, boolean success);
+        void onAgreeInvite(UserMessage userMessage);
 
         void onDeleteUserMessage(UserMessage userMessage, boolean success);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
-        public abstract void getInviteMsgs(int page);
+        public abstract void getMsgs(int msgGetType, String messageIds, String messageTypes, int page);
 
-        public abstract void agreeInvite(long messageId);
+        public abstract void agreeInvite(UserMessage userMessage);
 
         public abstract void deleteUserMessage(UserMessage userMessage);
     }

@@ -22,13 +22,13 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
     }
 
     @Override
-    public void getInviteMsgs(int page) {
+    public void getMsgs(int msgGetType, String messageIds, String messageTypes, int page) {
         if (!validateToken()) {
             return;
         }
 
         view.showLoadingView();
-        model.getInviteMsgs(BaseApp.getInstance().getUser().getToken(), page)
+        model.getMsgs(BaseApp.getInstance().getUser().getToken(), msgGetType, messageIds, messageTypes, page)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<List<UserMessage>>() {
                     @Override
@@ -45,7 +45,7 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
                         if (page == 0) {
                             //第一页.
                             view.showErrorView(errorMessage);
-                        } else  {
+                        } else {
                             view.onErrorTip(errorMessage);
                         }
                     }
@@ -58,20 +58,20 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
                             view.showNoDataView("暂时没有消息");
                         }
                         if (msgs != null && !msgs.isEmpty()) {
-                            view.onInviteMsgs(msgs);
+                            view.onMsgs(msgs);
                         }
                     }
                 });
     }
 
     @Override
-    public void agreeInvite(long messageId) {
+    public void agreeInvite(UserMessage userMessage) {
         if (!validateToken()) {
             return;
         }
 
         view.showLoadingView(true);
-        model.agreeInvite(BaseApp.getInstance().getUser().getToken(), messageId)
+        model.agreeInvite(BaseApp.getInstance().getUser().getToken(), userMessage.getMessageId())
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<Boolean>() {
                     @Override
@@ -92,7 +92,8 @@ public class MyMsgsPresenter extends MyMsgsContract.Presenter {
                     @Override
                     public void onNext(Boolean aBoolean) {
                         view.hiddenNoDataView();
-                        view.onAgreeInvite(messageId, aBoolean);
+                        if (aBoolean)
+                            view.onAgreeInvite(userMessage);
                     }
                 });
     }

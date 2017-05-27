@@ -47,7 +47,6 @@ import com.culturebud.ui.front.BookDetailActivity;
 import com.culturebud.ui.front.BookSheetDetailActivity;
 import com.culturebud.ui.image.PreviewBigImgActivity;
 import com.culturebud.ui.me.FriendsActivity;
-import com.culturebud.ui.search.SelectUserActivity;
 import com.culturebud.util.ClassUtil;
 import com.culturebud.util.SystemParameterUtil;
 import com.culturebud.util.WidgetUtil;
@@ -308,7 +307,8 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
                 break;
             }
             case R.id.iv_at_friend: {
-                Intent intent = new Intent(this, SelectUserActivity.class);
+                Intent intent = new Intent(this, FriendsActivity.class);
+                intent.putExtra("opt_type", 1);
                 startActivityForResult(intent, REQUEST_CODE_SELECT_USER);
                 break;
             }
@@ -628,7 +628,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         Intent intent = new Intent(this, FriendsActivity.class);
         intent.putExtra("is_concern", true);
         intent.putExtra("user_Id", BaseApp.getInstance().getUser().getUserId());
-        intent.putExtra("title",getString(R.string.my_concern_pagetitle));
+        intent.putExtra("title", getString(R.string.my_concern_pagetitle));
         startActivity(intent);
     }
 
@@ -638,7 +638,7 @@ public class BookCircleActivity extends BaseActivity<BookCircleContract.Presente
         Intent intent = new Intent(this, FriendsActivity.class);
         intent.putExtra("is_concern", false);
         intent.putExtra("user_Id", BaseApp.getInstance().getUser().getUserId());
-        intent.putExtra("title",getString(R.string.my_concerned_pagetitle));
+        intent.putExtra("title", getString(R.string.my_concerned_pagetitle));
         startActivity(intent);
     }
 }

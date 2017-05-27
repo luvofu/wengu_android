@@ -22,8 +22,8 @@ import com.culturebud.annotation.PresenterInject;
 import com.culturebud.bean.User;
 import com.culturebud.contract.PublishDynamicContract;
 import com.culturebud.presenter.PublishDynamicPresenter;
+import com.culturebud.ui.me.FriendsActivity;
 import com.culturebud.ui.search.SelectBookActivity;
-import com.culturebud.ui.search.SelectUserActivity;
 import com.culturebud.widget.SettingItemView;
 import com.facebook.drawee.view.SimpleDraweeView;
 import com.google.gson.Gson;
@@ -124,7 +124,8 @@ public class PublishDynamicActivity extends BaseActivity<PublishDynamicContract.
             case R.id.iv_at_friend: {
                 InputMethodManager imm = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(etContent.getWindowToken(), 0);
-                Intent intent = new Intent(this, SelectUserActivity.class);
+                Intent intent = new Intent(this, FriendsActivity.class);
+                intent.putExtra("opt_type", 1);
                 startActivityForResult(intent, REQUEST_CODE_SELECT_USER);
                 break;
             }

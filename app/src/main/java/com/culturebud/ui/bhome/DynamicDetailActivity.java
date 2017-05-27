@@ -29,7 +29,7 @@ import com.culturebud.bean.DynamicReply;
 import com.culturebud.bean.User;
 import com.culturebud.contract.DynamicDetailContract;
 import com.culturebud.presenter.DynamicDetailPresenter;
-import com.culturebud.ui.search.SelectUserActivity;
+import com.culturebud.ui.me.FriendsActivity;
 import com.culturebud.util.WidgetUtil;
 import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
@@ -172,7 +172,8 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
         super.onClick(v);
         switch (v.getId()) {
             case R.id.iv_at_friend: {
-                Intent intent = new Intent(this, SelectUserActivity.class);
+                Intent intent = new Intent(this, FriendsActivity.class);
+                intent.putExtra("opt_type", 1);
                 startActivityForResult(intent, REQUEST_CODE_SELECT_USER);
                 break;
             }

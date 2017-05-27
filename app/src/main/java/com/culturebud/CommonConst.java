@@ -181,7 +181,7 @@ public final class CommonConst {
 
     public static final String PATH_COLLECT_DELETE = "api/userCollection/delete";
 
-    public static final String PATH_MSG_INVITE = "api/userMessage/invite";
+    public static final String PATH_MSGS_EX = "api/userMessage/personalEx";
 
     public static final String PATH_MSG_DELETE = "api/userMessage/delete";
 
@@ -281,12 +281,47 @@ public final class CommonConst {
     }
 
     public final class UserMsgType {
-        //好友邀请FriendInvite(0),书桌邀请DeskInvite(1),
-        // 社区回复CommunityReply(2),书圈回复BookCircleReply(3);
-        public static final int TYPE_FRIEND_INVITE = 0;
-        public static final int TYPE_DESK_INVITE = 1;
+        /**
+         * FriendInvite(0, "邀请你为好友", false),
+         * AgreeFriendInvite(11, "同意了你的好友邀请", false),
+         * FriendConcern(15, "关注了你", false),
+         * //回复消息
+         * CommunityReply(2, "回复了你", true),
+         * BookCircleReply(3, "回复了你", true),
+         * //点赞消息
+         * Good_Comment(5, "赞了你的评论", false),
+         * Good_Dynamic(6, "赞了你的动态", false),
+         * Good_BookSheet(7, "赞了你的书单", false),
+         * Good_Picword(14, "赞了你的图文", false),
+         * //收藏消息
+         * Collect_BookSheet(8, "收藏了你的书单", false),
+         * Collect_Picword(13, "收藏了你的图文", false),
+         * //书籍审核
+         * BookCheck(9, "你有新书审核消息", true),
+         * //通知消息
+         * Notify(10, "您有一条短消息", true),
+         */
+
+        public static final int TYPE_FRIEND_CONCERN = 15;
+
         public static final int TYPE_COMMUNITY_REPLY = 2;
         public static final int TYPE_CIRCLE_REPLY = 3;
+
+        public static final int TYPE_GOOD_COMMENT = 5;
+        public static final int TYPE_GOOD_DYNAMIC = 6;
+
+        public static final int TYPE_COLLECT_BOOKSHEET = 8;
+
+        public static final int TYPE_BOOK_CHECK = 9;
+
+        public static final int TYPE_Notify = 10;
+    }
+
+    public final class UserMsgGetType {
+        // ByIds(0, “消息ID”), ByTypes(1, “消息类型”), ByTypeRange(2, “消息类型范围”);
+        public static final int ByIds = 0;
+        public static final int ByTypes = 1;
+        public static final int ByTypeRange = 2;
     }
 
     public final class SucrityCodeType {

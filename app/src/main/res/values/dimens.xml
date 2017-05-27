@@ -12,8 +12,8 @@
     <dimen name="setting_item_default_height">64dp</dimen>
     <dimen name="setting_item_middle_height">48dp</dimen>
     <dimen name="setting_icon_default_big">54dp</dimen>
-    <dimen name="setting_icon_default_small">24dp</dimen>
     <dimen name="setting_icon_default_middle">36dp</dimen>
+    <dimen name="setting_icon_default_small">24dp</dimen>
     <dimen name="setting_icon_default_size">32dp</dimen>
     <dimen name="setting_icon_default_margin">10dp</dimen>
     <dimen name="setting_item_name_font">14sp</dimen>

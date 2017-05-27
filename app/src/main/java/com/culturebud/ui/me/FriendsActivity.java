@@ -20,6 +20,7 @@ import com.culturebud.presenter.FriendsPresenter;
 import com.culturebud.ui.bhome.UserBookHomeActivity;
 import com.culturebud.ui.search.SearchUserActivity;
 import com.culturebud.widget.RecyclerViewDivider;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,12 @@ public class FriendsActivity extends BaseActivity<FriendsContract.Presenter> imp
     private RecyclerView rvFriends;
     private List<Friend> friends = new ArrayList<>();
     private boolean isConcern = false;
+    private boolean hasItemOpt = false;
+    private int optType = 0;
     private long userId = -1;
+
+    public final int OPT_TYPE_USER_FRIEND = 0;//用户关注、粉丝
+    public final int OPT_TYPE_SELECT_FRIEND = 1;//选择关注
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +47,35 @@ public class FriendsActivity extends BaseActivity<FriendsContract.Presenter> imp
         setContentView(R.layout.my_friends);
         presenter.setView(this);
         showTitlebar();
-
-        setOperasDrawable(R.drawable.btn_add_friend_selector);
-
         setNoDataView(R.id.main_multiplestatusview);
 
         Intent intent = getIntent();
-        isConcern = intent.getBooleanExtra("is_concern", false);
+
         User user = BaseApp.getInstance().getUser();
         long defUserId = user != null ? user.getUserId() : -1;
         userId = intent.getLongExtra("user_Id", defUserId);
-        String title = intent.getStringExtra("title");
-        setTitle(title != null ? title : "");
 
+        optType = intent.getIntExtra("opt_type", 0);
+
+        if (optType == 0) {
+            String title = intent.getStringExtra("title");
+            setTitle(title != null ? title : "");
+            setOperasDrawable(R.drawable.btn_add_friend_selector);
+            isConcern = intent.getBooleanExtra("is_concern", false);
+            hasItemOpt = true;
+        } else {
+            setBackText(R.string.cancel);
+            setTitle(R.string.select_friend);
+            isConcern = true;
+            hasItemOpt = false;
+        }
 
         rvFriends = obtainViewById(R.id.rv_friends);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvFriends.setLayoutManager(llm);
         RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
         rvFriends.addItemDecoration(divider);
-        FriendsAdapter adapter = new FriendsAdapter(true);
+        FriendsAdapter adapter = new FriendsAdapter(hasItemOpt);
         rvFriends.setAdapter(adapter);
         adapter.setOnItemClickListener(this);
 
@@ -122,9 +137,16 @@ public class FriendsActivity extends BaseActivity<FriendsContract.Presenter> imp
     public void onItemClick(View v, Friend friend, int opt) {
         switch (opt) {
             case 0: {
-                Intent intent = new Intent(this, UserBookHomeActivity.class);
-                intent.putExtra("user_id", friend.getUserId());
-                startActivity(intent);
+                if (optType == 0) {
+                    Intent intent = new Intent(this, UserBookHomeActivity.class);
+                    intent.putExtra("user_id", friend.getUserId());
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent();
+                    intent.putExtra("user", new Gson().toJson(friend));
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
                 break;
             }
             case 1: {

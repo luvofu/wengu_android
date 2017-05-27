@@ -40,6 +40,18 @@ public class UserMessage {
     @SerializedName("nickname")
     private String nickname;//昵称
 
+    @SerializedName("msgLinkType")
+    private Integer msgLinkType;
+
+    @SerializedName("msgLinkId")
+    private Long msgLinkId;
+
+    @SerializedName("msgLinkContent")
+    private String msgLinkContent;
+
+    @SerializedName("msgLinkImage")
+    private String msgLinkImage;
+
     public long getMessageId() {
         return messageId;
     }
@@ -120,19 +132,35 @@ public class UserMessage {
         this.nickname = nickname;
     }
 
-    @Override
-    public String toString() {
-        return "UserMessage{" +
-                "messageId=" + messageId +
-                ", messageType=" + messageType +
-                ", messageObjId=" + messageObjId +
-                ", content='" + content + '\'' +
-                ", readStatus=" + readStatus +
-                ", dealStatus=" + dealStatus +
-                ", createdTime=" + createdTime +
-                ", sendUserId=" + sendUserId +
-                ", avatar='" + avatar + '\'' +
-                ", nickname='" + nickname + '\'' +
-                '}';
+    public Integer getMsgLinkType() {
+        return msgLinkType;
+    }
+
+    public void setMsgLinkType(Integer msgLinkType) {
+        this.msgLinkType = msgLinkType;
+    }
+
+    public Long getMsgLinkId() {
+        return msgLinkId;
+    }
+
+    public void setMsgLinkId(Long msgLinkId) {
+        this.msgLinkId = msgLinkId;
+    }
+
+    public String getMsgLinkContent() {
+        return msgLinkContent;
+    }
+
+    public void setMsgLinkContent(String msgLinkContent) {
+        this.msgLinkContent = msgLinkContent;
+    }
+
+    public String getMsgLinkImage() {
+        return msgLinkImage;
+    }
+
+    public void setMsgLinkImage(String msgLinkImage) {
+        this.msgLinkImage = msgLinkImage;
     }
 }

@@ -4,8 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="#fff"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:padding="5dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_book_sheet_cover"
@@ -21,8 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:background="@drawable/circle_bg"
-        android:paddingLeft="6dp"
-        android:paddingRight="6dp"
+        android:layout_marginLeft="5dp"
         android:scaleType="centerInside"
         android:src="@mipmap/more_operas" />
 
@@ -100,21 +100,29 @@
             android:textSize="12sp" />
     </FrameLayout>
 
-    <TextView
-        android:id="@+id/tv_recommend_reason"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@id/tv_book_name"
+        android:layout_alignRight="@id/fl_rating"
         android:layout_below="@id/fl_rating"
-        android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
-        android:background="@color/light_gray"
-        android:gravity="center_vertical"
-        android:lineSpacingMultiplier="1.2"
-        android:padding="16dp"
-        android:textColor="@color/font_black_light"
-        android:textSize="12sp"
-        android:visibility="gone"
-        tools:text="推荐语：快睡觉去" />
+        android:background="@color/green">
 
+        <TextView
+            android:id="@+id/tv_recommend_reason"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
+            android:background="@color/light_gray"
+            android:gravity="center_vertical"
+            android:lineSpacingMultiplier="1.2"
+            android:paddingBottom="10dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:textColor="@color/font_black_light"
+            android:textSize="12sp"
+            tools:text="推荐语：快睡觉去" />
+    </LinearLayout>
 </RelativeLayout>

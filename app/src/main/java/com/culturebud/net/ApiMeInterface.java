@@ -139,15 +139,16 @@ public interface ApiMeInterface {
     Observable<ApiResultBean<JsonObject>> feedback(@FieldMap Map<String, Object> params);
 
     /**
-     * String token;令牌
-     * int page;页
-     *
-     * @param params
+     * @param params token	是	string	令牌
+     *               msgGetType	是	int	消息读方式：ByIds(0, “消息ID”), ByTypes(1, “消息类型”), ByTypeRange(2, “消息类型范围”);
+     *               messageIds	是	string	消息id串，多个“|”链接
+     *               messageTypes	是	string	消息类型串，多个“|”链接，ByTypeRange范围时如：1000|1100
+     *               page	是	int	页码
      * @return
      */
-    @POST(CommonConst.PATH_MSG_INVITE)
+    @POST(CommonConst.PATH_MSGS_EX)
     @FormUrlEncoded
-    Observable<ApiResultBean<JsonObject>> inviteMsgs(@FieldMap Map<String, Object> params);
+    Observable<ApiResultBean<JsonObject>> myMsgs(@FieldMap Map<String, Object> params);
 
     /**
      * String token;令牌

@@ -38,7 +38,6 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
         if (!validateToken()) {
             return;
         }
-        view.showProDialog();
         model.dynamicDetail(BaseApp.getInstance().getUser().getToken(), dynamicId)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<BookCircleDynamic>() {
@@ -49,7 +48,6 @@ public class DynamicDetailPresenter extends DynamicDetailContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
-                        view.hideProDialog();
                         e.printStackTrace();
                         if (e instanceof ApiException) {
                             view.onErrorTip(e.getMessage());
