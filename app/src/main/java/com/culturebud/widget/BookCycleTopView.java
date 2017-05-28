@@ -31,11 +31,17 @@ public class BookCycleTopView extends ScaleRelativeLayout implements View.OnClic
 
         backgroundImage.setImageURI(user.getBackground());
 
-        String concernNumDescString = getContext().getString(R.string.concern_title) + "  " + String.valueOf(user.getConcernNum());
+        String concernNumDescString = getContext().getString(R.string.concern_title) + " " + String.valueOf(user.getConcernNum());
         myFollowedTV.setText(concernNumDescString);
 
-        String fansNumDescString = getContext().getString(R.string.beconcerned_title) + "  " + String.valueOf(user.getFanNum());
+        String fansNumDescString = getContext().getString(R.string.beconcerned_title) + " " + String.valueOf(user.getFanNum());
         followedTV.setText(fansNumDescString);
+
+        int len = concernNumDescString.length() > fansNumDescString.length() ? concernNumDescString.length() : fansNumDescString.length();
+        int width = (int) (len * myFollowedTV.getTextSize());
+
+        myFollowedTV.setWidth(width);
+        followedTV.setWidth(width);
 
         int resid = -1;
         if (user.getSex() == 0) {

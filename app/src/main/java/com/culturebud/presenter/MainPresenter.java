@@ -1,13 +1,9 @@
 package com.culturebud.presenter;
 
-import android.text.TextUtils;
-import android.util.Log;
-
 import com.culturebud.BaseApp;
 import com.culturebud.BaseFragment;
 import com.culturebud.bean.User;
 import com.culturebud.contract.MainContract;
-import com.culturebud.model.LoginModel;
 import com.culturebud.ui.bhome.BookHomeFragment;
 import com.culturebud.ui.front.FrontPageFragment;
 import com.culturebud.ui.me.MeFragment;
@@ -30,7 +26,8 @@ public class MainPresenter extends MainContract.Presenter {
     public MainPresenter() {
         pages = new BaseFragment[3];
 
-        setModel(new MainContract.Model(){});
+        setModel(new MainContract.Model() {
+        });
     }
 
     @Override
@@ -56,7 +53,7 @@ public class MainPresenter extends MainContract.Presenter {
 
     @Override
     public void hidePop() {
-        ((BookHomeFragment)pages[1]).hidePop();
+        ((BookHomeFragment) pages[1]).hidePop();
     }
 
     @Override
@@ -64,7 +61,8 @@ public class MainPresenter extends MainContract.Presenter {
         if (!validateToken(false)) {
             return;
         }
-        model.autoLogin(BaseApp.getInstance().getUser().getToken())
+        String token = BaseApp.getInstance().getUser().getToken();
+        model.autoLogin(token)
                 .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<User>() {
                                @Override
@@ -75,13 +73,31 @@ public class MainPresenter extends MainContract.Presenter {
                                @Override
                                public void onError(Throwable e) {
                                    if (e instanceof ApiException) {
-                                        //发生错误，本地登出.
+                                       //发生错误，本地登出.
                                        switch (((ApiException) e).getCode()) {
                                            case EXPIRETIME_TOKEN:
                                            case EXCEPT_ACC: {
-                                               //账号异常或Token过期
-                                               //第一步本地登出
-                                               model.autoLogin(BaseApp.getInstance().getUser().getToken());
+                                               //账号异常或Token过期:远程已自动登出
+                                               //第一步登出本地
+                                               model.logout(BaseApp.getInstance().getUser()).subscribeOn(Schedulers.io())
+                                                       .observeOn(AndroidSchedulers.mainThread())
+                                                       .subscribe(new Subscriber<Boolean>() {
+                                                           @Override
+                                                           public void onCompleted() {
+
+                                                           }
+
+                                                           @Override
+                                                           public void onError(Throwable e) {
+                                                               e.printStackTrace();
+
+                                                           }
+
+                                                           @Override
+                                                           public void onNext(Boolean res) {
+                                                               view.onToLogin();
+                                                           }
+                                                       });
 
                                                //第二步，清除shereSDK授权.此处待实现.
 
@@ -104,14 +120,13 @@ public class MainPresenter extends MainContract.Presenter {
                                        BaseApp.getInstance().setUser(user);
 
                                        //第二步更新数据库中的用户实体信息.
-                                        updateLocalUser();
+                                       updateLocalUser();
                                    }
                                }
                            }
 
                 );
     }
-
 
 
     private void updateLocalUser() {

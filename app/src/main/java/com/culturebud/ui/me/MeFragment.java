@@ -40,12 +40,11 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     private TextView tvNick, tvDesc;
     private SimpleDraweeView sdvFace;
     private LinearLayout llConcer;
-    private TextView tvConcer;
+    private TextView tvConcern;
     private LinearLayout llFan;
     private TextView tvFan;
     private SettingItemView sivCollect, sivMsg, sivFeedback, sivAbout, sivSetting, sivinviteFriend;
     private RelativeLayout rlMe;
-    private User mUser;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,7 +62,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
 
         llConcer = (LinearLayout) view.findViewById(R.id.ll_concer);
         llFan = (LinearLayout) view.findViewById(R.id.ll_fan);
-        tvConcer = (TextView) view.findViewById(R.id.tv_concerNum);
+        tvConcern = (TextView) view.findViewById(R.id.tv_concernNum);
         tvFan = (TextView) view.findViewById(R.id.tv_fanNum);
 
         sivCollect = (SettingItemView) view.findViewById(R.id.siv_my_favorite);
@@ -79,17 +78,8 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
         tvDesc = (TextView) view.findViewById(R.id.tv_desc);
         sdvFace = (SimpleDraweeView) view.findViewById(R.id.sdv_face);
 
-        User user = BaseApp.getInstance().getUser();
-        if (user != null) {
-            try {
-                mUser = user.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            showUser(user);
-        }
-
         setListeners();
+
         return view;
     }
 
@@ -118,19 +108,12 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     public void onResume() {
         super.onResume();
         showTitle(getString(R.string.me));
-        User user = BaseApp.getInstance().getUser();
-        if (user == null || (user != null && !user.equals(mUser))) {
-            showUser(user);
-        }
-        if (user != null) {
-            sdvFace.setImageURI(user.getAvatar());
-        }
+        presenter.processUser(BaseApp.getInstance().getUser());
     }
 
 
     public void onClick(View v) {
         int viewId = v.getId();
-        //关于文芽和邀请好友，目前不需要登录
         if (viewId != R.id.siv_about && viewId != R.id.invitefriend) {
             if (BaseApp.getInstance().getUser() == null) {
                 onToLogin();
@@ -193,49 +176,44 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     }
 
     @Override
-    public void showLoginPage() {
-        Intent intent = new Intent(getActivity(), LoginActivity.class);
-        startActivityForResult(intent, REQUEST_LOGIN);
+    public void showLoginUser(User user) {
+        btnLogin.setVisibility(View.GONE);
+        userInfoView.setVisibility(View.VISIBLE);
+
+        tvNick.setText(user.getNickname());
+        tvDesc.setText(user.getAutograph());
+        sdvFace.setImageURI(user.getAvatar());
+
+        tvConcern.setText(String.valueOf(user.getConcernNum()));
+        tvFan.setText(String.valueOf(user.getFanNum()));
+
+        if (user.getSex() == 1) {
+            Drawable drawable = getResources().getDrawable(R.mipmap.setting_me_female_icon);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            tvNick.setCompoundDrawables(null, null, drawable, null);
+        } else {
+            Drawable drawable = getResources().getDrawable(R.mipmap.setting_me_male_icon);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+            tvNick.setCompoundDrawables(null, null, drawable, null);
+        }
     }
 
     @Override
     public void showLoginOut() {
-        userInfoView.setVisibility(View.GONE);
         btnLogin.setVisibility(View.VISIBLE);
-        tvConcer.setText("0");
+        userInfoView.setVisibility(View.GONE);
+        tvNick.setText("");
+        tvDesc.setText("");
+        Uri defaultUri = Uri.parse("res:///" + R.mipmap.me_default_icon);
+        sdvFace.setImageURI(defaultUri);
+        tvConcern.setText("0");
         tvFan.setText("0");
     }
 
     @Override
-    public void showUser(User user) {
-        if (user != null) {
-            btnLogin.setVisibility(View.GONE);
-            userInfoView.setVisibility(View.VISIBLE);
-            tvNick.setText(user.getNickname());
-            tvDesc.setText(user.getAutograph());
-            sdvFace.setImageURI(user.getAvatar());
-
-            tvConcer.setText(String.valueOf(user.getConcernNum()));
-            tvFan.setText(String.valueOf(user.getFanNum()));
-
-            if (user.getSex() == 1) {
-                Drawable drawable = getResources().getDrawable(R.mipmap.setting_me_female_icon);
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                tvNick.setCompoundDrawables(null, null, drawable, null);
-            } else {
-                Drawable drawable = getResources().getDrawable(R.mipmap.setting_me_male_icon);
-                drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                tvNick.setCompoundDrawables(null, null, drawable, null);
-            }
-        } else {
-            btnLogin.setVisibility(View.VISIBLE);
-            userInfoView.setVisibility(View.GONE);
-            tvNick.setText("");
-            tvDesc.setText("");
-            //直接使用本地的图标，不用去服务器下载默认图标
-            Uri defaultUri = Uri.parse("res:///" + R.mipmap.me_default_icon);
-            sdvFace.setImageURI(defaultUri);
-        }
+    public void showLoginPage() {
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivityForResult(intent, REQUEST_LOGIN);
     }
 
     @Override
@@ -245,12 +223,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
             case REQUEST_LOGIN:
                 if (resultCode == Activity.RESULT_OK) {
                     if (data.getBooleanExtra("res", false)) {
-                        try {
-                            mUser = BaseApp.getInstance().getUser().clone();
-                        } catch (CloneNotSupportedException e) {
-                            e.printStackTrace();
-                        }
-                        presenter.processLoginResult(BaseApp.getInstance().getUser());
+                        presenter.processUser(BaseApp.getInstance().getUser());
                     }
                 }
                 break;
@@ -260,10 +233,7 @@ public class MeFragment extends BaseFragment<MeContract.Presenter> implements Me
     @Override
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
-        User user = BaseApp.getInstance().getUser();
-        if (user == null || (user != null && !user.equals(mUser))) {
-            showUser(user);
-        }
+        presenter.processUser(BaseApp.getInstance().getUser());
     }
 
     @Override

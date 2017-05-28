@@ -40,36 +40,36 @@
 
         <TextView
             android:id="@+id/myfollow"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:background="@drawable/circle_selected_bg"
             android:gravity="center"
-            android:minWidth="65dp"
-            android:padding="2dp"
+            android:padding="3dp"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            tools:text="关注1" />
+            tools:text="关注 0" />
 
-        <View
-            android:layout_width="1dp"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@android:color/white" />
+        <!--<View-->
+        <!--android:layout_width="1dp"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:background="@android:color/white" />-->
 
         <TextView
             android:id="@+id/followed"
-            android:layout_width="60dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:background="@drawable/circle_selected_bg"
             android:gravity="center"
-            android:minWidth="65dp"
-            android:padding="2dp"
+            android:padding="3dp"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            tools:text="被关注1" />
+            tools:text="被关注 0" />
 
     </LinearLayout>
 

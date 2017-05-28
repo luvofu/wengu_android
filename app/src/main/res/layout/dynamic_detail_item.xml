@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="15dp"
-    android:paddingLeft="20dp"
+    android:background="@color/bg_white"
     android:paddingTop="15dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_face"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="@dimen/setting_icon_default_big"
+        android:layout_height="@dimen/setting_icon_default_big"
+        android:layout_marginLeft="10dp"
         fresco:actualImageScaleType="centerInside"
         fresco:placeholderImage="@mipmap/me_default_icon"
         fresco:placeholderImageScaleType="centerInside"
@@ -115,4 +115,12 @@
             android:textSize="@dimen/front_item_small_font"
             tools:text="15" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@id/ll_operas"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/bg_color" />
 </RelativeLayout>

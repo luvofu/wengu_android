@@ -31,7 +31,6 @@ import com.culturebud.contract.DynamicDetailContract;
 import com.culturebud.presenter.DynamicDetailPresenter;
 import com.culturebud.ui.me.FriendsActivity;
 import com.culturebud.util.WidgetUtil;
-import com.culturebud.widget.RecyclerViewDivider;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -73,8 +72,8 @@ public class DynamicDetailActivity extends BaseActivity<DynamicDetailContract.Pr
         rvReplies = obtainViewById(R.id.rv_replies);
         LinearLayoutManager llm = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         rvReplies.setLayoutManager(llm);
-        RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
-        rvReplies.addItemDecoration(divider);
+//        RecyclerViewDivider divider = new RecyclerViewDivider(this, LinearLayoutManager.HORIZONTAL);
+//        rvReplies.addItemDecoration(divider);
         DynamicDetailCommentAdapter adapter = new DynamicDetailCommentAdapter();
         adapter.setOnItemClickListener(this);
         rvReplies.setAdapter(adapter);

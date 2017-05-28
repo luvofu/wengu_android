@@ -1,6 +1,5 @@
 package com.culturebud.presenter;
 
-import com.culturebud.BaseApp;
 import com.culturebud.bean.User;
 import com.culturebud.contract.MeContract;
 import com.culturebud.model.MeModel;
@@ -26,32 +25,31 @@ public class MePresenter extends MeContract.Presenter {
     @Override
     public void loadLastUser() {
         model.loadLastUser().subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Subscriber<User>() {
-            @Override
-            public void onCompleted() {
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<User>() {
+                    @Override
+                    public void onCompleted() {
 
-            }
+                    }
 
-            @Override
-            public void onError(Throwable e) {
+                    @Override
+                    public void onError(Throwable e) {
 
-            }
+                    }
 
-            @Override
-            public void onNext(User user) {
-                if (user != null) {
-                    BaseApp.getInstance().setUser(user);
-                    view.showUser(user);
-                } else {
-                    view.showLoginOut();
-                }
-            }
-        });
+                    @Override
+                    public void onNext(User user) {
+                        processUser(user);
+                    }
+                });
     }
 
 
-    public void processLoginResult(User user) {
-        view.showUser(user);
+    public void processUser(User user) {
+        if (user != null) {
+            view.showLoginUser(user);
+        } else {
+            view.showLoginOut();
+        }
     }
 }

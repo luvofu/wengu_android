@@ -15,7 +15,7 @@ public interface MeContract {
 
         void showLoginOut();
 
-        void showUser(User user);
+        void showLoginUser(User user);
     }
 
     abstract class Presenter extends BasePresenter<View, Model> {
@@ -23,7 +23,7 @@ public interface MeContract {
 
         public abstract void loadLastUser();
 
-        public abstract void processLoginResult(User user);
+        public abstract void processUser(User user);
     }
 
     abstract class Model extends BaseModel {

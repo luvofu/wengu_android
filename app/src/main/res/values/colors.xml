@@ -9,6 +9,7 @@
     <color name="common_bg">#F3ECE6</color>
     <color name="blur_scrim">#A8DDDDDD</color>
     <color name="primary_blue">#1791A9</color>
+    <color name="dark_blue">#264576</color>
     <color name="little_green">#96B8F2</color>
 
     <color name="title_bg_color">#26B8F2</color>
@@ -45,4 +46,5 @@
     <color name="light_font_black">#888888</color>
 
     <color name="tag_selected_color">#1592B7</color>
+    <color name="bg_white">#FFF</color>
 </resources>

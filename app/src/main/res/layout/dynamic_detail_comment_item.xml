@@ -3,7 +3,9 @@
     xmlns:fresco="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:background="@color/bg_white"
+    android:paddingLeft="32dp"
+    android:paddingTop="10dp">
 
     <com.facebook.drawee.view.SimpleDraweeView
         android:id="@+id/sdv_face"
@@ -20,15 +22,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
         android:gravity="center"
-        android:padding="8dp"
+        android:padding="5dp"
         android:text="@string/reply"
         android:textColor="@color/font_black_light"
         android:textSize="14sp" />
 
     <LinearLayout
+        android:id="@+id/ll_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:layout_toLeftOf="@id/tv_reply"
         android:layout_toRightOf="@id/sdv_face"
         android:orientation="vertical">
@@ -66,4 +71,12 @@
 
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignLeft="@id/sdv_face"
+        android:layout_below="@id/ll_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/bg_color" />
 </RelativeLayout>

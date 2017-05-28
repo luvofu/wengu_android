@@ -113,7 +113,7 @@
             android:id="@+id/tv_recommend_reason"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="2dp"
+            android:layout_marginRight="1dp"
             android:background="@color/light_gray"
             android:gravity="center_vertical"
             android:lineSpacingMultiplier="1.2"
