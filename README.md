@@ -1,0 +1,2 @@
+# wengu_android
+init
